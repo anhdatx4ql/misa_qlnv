@@ -1,0 +1,146 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\hoctap\\BTMiSa\\1_10\\back-end\\WebApplication\\WebApplication\\WebApplication.csproj": {}
+  },
+  "projects": {
+    "D:\\hoctap\\BTMiSa\\1_10\\back-end\\WebApplication\\WebApplication\\WebApplication.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\hoctap\\BTMiSa\\1_10\\back-end\\WebApplication\\WebApplication\\WebApplication.csproj",
+        "projectName": "WebApplication",
+        "projectPath": "D:\\hoctap\\BTMiSa\\1_10\\back-end\\WebApplication\\WebApplication\\WebApplication.csproj",
+        "packagesPath": "C:\\Users\\This MC\\.nuget\\packages\\",
+        "outputPath": "D:\\hoctap\\BTMiSa\\1_10\\back-end\\WebApplication\\WebApplication\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\This MC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "D:\\hoctap\\BTMiSa\\1_10\\back-end\\WebApplication\\WebCommon\\WebCommon.csproj": {
+                "projectPath": "D:\\hoctap\\BTMiSa\\1_10\\back-end\\WebApplication\\WebCommon\\WebCommon.csproj"
+              },
+              "D:\\hoctap\\BTMiSa\\1_10\\back-end\\WebApplication\\WebDomain\\WebDomain.csproj": {
+                "projectPath": "D:\\hoctap\\BTMiSa\\1_10\\back-end\\WebApplication\\WebDomain\\WebDomain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Mvc.Core": {
+              "target": "Package",
+              "version": "[2.2.5, )"
+            },
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[8.0.30, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[5.6.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.408\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\hoctap\\BTMiSa\\1_10\\back-end\\WebApplication\\WebCommon\\WebCommon.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\hoctap\\BTMiSa\\1_10\\back-end\\WebApplication\\WebCommon\\WebCommon.csproj",
+        "projectName": "WebCommon",
+        "projectPath": "D:\\hoctap\\BTMiSa\\1_10\\back-end\\WebApplication\\WebCommon\\WebCommon.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    },
+    "D:\\hoctap\\BTMiSa\\1_10\\back-end\\WebApplication\\WebDomain\\WebDomain.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\hoctap\\BTMiSa\\1_10\\back-end\\WebApplication\\WebDomain\\WebDomain.csproj",
+        "projectName": "WebDomain",
+        "projectPath": "D:\\hoctap\\BTMiSa\\1_10\\back-end\\WebApplication\\WebDomain\\WebDomain.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {
+              "D:\\hoctap\\BTMiSa\\1_10\\back-end\\WebApplication\\WebCommon\\WebCommon.csproj": {
+                "projectPath": "D:\\hoctap\\BTMiSa\\1_10\\back-end\\WebApplication\\WebCommon\\WebCommon.csproj"
+              },
+              "D:\\hoctap\\BTMiSa\\1_10\\back-end\\WebApplication\\WebInfrastructure\\WebInfrastructure.csproj": {
+                "projectPath": "D:\\hoctap\\BTMiSa\\1_10\\back-end\\WebApplication\\WebInfrastructure\\WebInfrastructure.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    },
+    "D:\\hoctap\\BTMiSa\\1_10\\back-end\\WebApplication\\WebInfrastructure\\WebInfrastructure.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\hoctap\\BTMiSa\\1_10\\back-end\\WebApplication\\WebInfrastructure\\WebInfrastructure.csproj",
+        "projectName": "WebInfrastructure",
+        "projectPath": "D:\\hoctap\\BTMiSa\\1_10\\back-end\\WebApplication\\WebInfrastructure\\WebInfrastructure.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {
+              "D:\\hoctap\\BTMiSa\\1_10\\back-end\\WebApplication\\WebCommon\\WebCommon.csproj": {
+                "projectPath": "D:\\hoctap\\BTMiSa\\1_10\\back-end\\WebApplication\\WebCommon\\WebCommon.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    }
+  }
+}

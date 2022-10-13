@@ -1,0 +1,44 @@
+.input-container-field-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1F1F1F;
+    margin-bottom: 8px;
+}
+
+input[type="text"] {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    margin: 0 12px;
+}
+
+.input-container-content {
+    display: flex;
+    border: 1px solid #EBEBEB;
+    height: 36px;
+    overflow: hidden;
+    border-radius: 4px;
+    box-sizing: border-box;
+    width: max-content;
+    align-items: center;
+}
+
+.input-container-content:hover {outline: 1px solid #e2e2e2;}
+
+.input-container-content:focus-within {
+    border: 1px solid #2ca01c;
+    outline: none;
+}
+
+.input-container-error {
+    font-size: 12px;
+    margin-top: 8px;
+    font-weight: 400;
+    color: #E61D1D;
+}
+
+.input-icon-search{
+    background: url(../../../assets/img/Sprites.64af8f61.svg) no-repeat -315px -146px;
+}

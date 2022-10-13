@@ -1,0 +1,61 @@
+.menu{
+    width: 178px;
+    background-color: #38393D;
+}
+
+.menu-top {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    justify-content: center;
+}
+
+.menu-top-icon{
+    background: url(../../../assets/img/Sprites.64af8f61.svg) no-repeat -424px -86px;
+}
+
+.menu-top-logo{
+    background: url(../../../assets/img/Logo_Module_TiengViet_White.66947422.svg) no-repeat;
+    width: 96px;
+    height: 32px;
+    background-size: cover;
+}
+
+.menu-content{
+    overflow-y: scroll;
+    height: calc(100vh - 48px);
+    padding-top: 14px;
+}
+
+.menu-content-item-text {
+    font-size: 13px;
+    color: #fff;
+    font-family:'notosan-regular';
+}
+
+.menu-content::-webkit-scrollbar {
+    width: 6px;
+    background-color: #F1F1F1;
+}
+
+.menu-content::-webkit-scrollbar-thumb{
+    background-color:#D4D7DC;
+}
+
+.menu-content::-webkit-scrollbar-thumb:hover{
+    background-color:#888888;
+}
+
+.menu-content-item {
+    display: flex;
+    align-items: center;
+    border-left: solid 6px #38393D;
+    padding: 0 14px 0 8px;
+    height: 42px;
+}
+
+.menu-content-item:hover{
+    background-color:#58595D;
+    cursor:pointer;
+    border-left:solid 6px #58595D;
+}
