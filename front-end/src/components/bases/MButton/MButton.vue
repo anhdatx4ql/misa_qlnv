@@ -8,6 +8,7 @@
 export default {
   name: 'MButton',
   props: {
+    text:String
   }
 }
 </script>

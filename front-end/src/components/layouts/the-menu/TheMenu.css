@@ -23,7 +23,7 @@
 
 .menu-content{
     overflow-y: scroll;
-    height: calc(100vh - 48px);
+    height: calc(100vh - 48px - 14px);
     padding-top: 14px;
 }
 
@@ -50,7 +50,7 @@
     display: flex;
     align-items: center;
     border-left: solid 6px #38393D;
-    padding: 0 14px 0 8px;
+    padding: 0 0 0 8px;
     height: 42px;
 }
 

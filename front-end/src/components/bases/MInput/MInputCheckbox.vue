@@ -31,6 +31,8 @@ export default {
 <style scoped>
   .checkbox {
       display: inline-block;
+      background: white;
+      width: 18px !important;
   }
   .checkbox-container-text{
     padding-left:10px;

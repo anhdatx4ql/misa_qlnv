@@ -12,6 +12,7 @@ import MNotify from '/src/components/bases/MNotify/MNotify.vue'
 import MToastMessage from '/src/components/bases/MToastMessage/MToastMessage.vue'
 import MToolTip from '/src/components/bases/MToolTip/MToolTip.vue'
 import MTable from '/src/components/bases/MTable/MTable.vue'
+import MPaging from '/src/components/bases/MPaging/MPaging.vue' 
 
 const app = createApp(App);
 
@@ -131,6 +132,7 @@ app.component('MNotify',MNotify);
 app.component('MToastMessage',MToastMessage);
 app.component('MToolTip',MToolTip);
 app.component('MTable',MTable);
+app.component('MPaging',MPaging);
 
 app.use(router);
 app.mount("#app");

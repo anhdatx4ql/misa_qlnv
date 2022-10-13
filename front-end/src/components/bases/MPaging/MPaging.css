@@ -1,0 +1,34 @@
+.paging{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height:32px;
+    padding: 18px 32px 18px 18px;
+}
+
+.paging-right,.paging-right-index,.paging-right-button {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.paging-right-combobox{
+    margin: 0 16px;
+}
+
+.paging button {
+    border: none;
+    background: none;
+    outline: none;
+}
+
+button.active {
+    font-weight: 600;
+    border: 1px solid #e0e0e0;
+    box-sizing: border-box;
+}
+
+.paging-disable{
+    cursor: default !important;
+    color: #9e9e9e;
+}

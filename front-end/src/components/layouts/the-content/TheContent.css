@@ -1,0 +1,5 @@
+.content {
+    padding: 24px 24px 0 24px;
+    height: calc(100vh - 48px - 24px);
+    background-color:#ECEEF1;
+}

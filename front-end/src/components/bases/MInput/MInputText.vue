@@ -1,10 +1,10 @@
 <template>
  <div class="input-container">
-  <div class="input-container-field-label">
+  <div class="input-container-field-label" v-if="(fieldLabel!=null)?true:false">
     <span>{{fieldLabel}}</span>
   </div>
-  <div class="input-container-content" :style="'height: '+height">
-    <input :type="type" :value="value" :style="'height: '+height">
+  <div class="input-container-content" :style="'height: '+height+';width: '+width+'px'">
+    <input :type="type" :value="value" :style="'height: '+height" :placeholder="placeholder">
     <button class="input-container-content-icon icon-20 icon-mr-10" :class="classIcon"
      v-if="(classIcon == null)?false:true">
   </button>
@@ -32,6 +32,11 @@ export default {
     height:{
       Type:String,
       default:"32px"
+    },
+    placeholder:String,
+    width:{
+      Type:Number,
+      default:240
     }
   },
   data(){

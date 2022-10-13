@@ -14,6 +14,10 @@ input[type="text"] {
     margin: 0 12px;
 }
 
+input {
+    padding-left: 10px;
+}
+
 .input-container-content {
     display: flex;
     border: 1px solid #EBEBEB;
@@ -23,6 +27,7 @@ input[type="text"] {
     box-sizing: border-box;
     width: max-content;
     align-items: center;
+    justify-content: space-between;
 }
 
 .input-container-content:hover {outline: 1px solid #e2e2e2;}
@@ -41,4 +46,13 @@ input[type="text"] {
 
 .input-icon-search{
     background: url(../../../assets/img/Sprites.64af8f61.svg) no-repeat -315px -146px;
+}
+
+.content-center {
+    background-color: #fff;
+}
+
+input::placeholder {
+    font-size: 12px;
+    font-style: italic;
 }

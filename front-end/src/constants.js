@@ -8,7 +8,7 @@ export const MENU_ITEMS=[
         title: "Tổng quan",
 
         // vị trí icon
-        iconPosition: [-33,-1630],
+        iconPosition: [-30,-1629],
 
         // class nếu active vào item
         activeClass: "",
@@ -17,19 +17,19 @@ export const MENU_ITEMS=[
     },
     {
         title: "Tiền mặt",
-        iconPosition: [-78,-1631],
+        iconPosition: [-73,-1628],
         activeClass: "",
         route: "tien-mat"
     },
     {
         title: "Tiền gửi",
-        iconPosition: [-121,-1633],
+        iconPosition: [-117,-1630],
         activeClass: "",
         route: "tien-gui"
     },
     {
         title: "Mua hàng",
-        iconPosition: [-165,-1632],
+        iconPosition: [-161,-1630],
         activeClass: "",
         route: "mua-hang"
     },
@@ -41,61 +41,61 @@ export const MENU_ITEMS=[
     },
     {
         title: "Quản lý hóa đơn",
-        iconPosition: [-254,-1632],
+        iconPosition: [-250,-1629],
         activeClass: "",
         route: "quan-ly-hoa-don"
     },
     {
         title: "Kho",
-        iconPosition: [-294,-1632],
+        iconPosition: [-291,-1630],
         activeClass: "",
         route: "kho"
     },
     {
         title: "Công cụ dụng cụ",
-        iconPosition: [-339,-1633],
+        iconPosition: [-336,-1630],
         activeClass: "",
         route: "cong-cu-dung-cu"
     },
     {
         title: "Tài sản cố định",
-        iconPosition: [-382,-1632],
+        iconPosition: [-379,-1630],
         activeClass: "",
         route: "tai-san-co-dinh"
     },
     {
         title: "Thuế",
-        iconPosition: [-427,-1634],
+        iconPosition: [-423,-1631],
         activeClass: "",
         route: "thue"
     },
     {
         title: "Giá thành",
-        iconPosition: [-471,-1633],
+        iconPosition: [-468,-1630],
         activeClass: "",
         route: "gia-thanh"
     },
     {
         title: "Tổng hợp",
-        iconPosition: [-514,-1632],
+        iconPosition: [-511,-1630],
         activeClass: "",
         route: "tong-hop"
     },
     {
         title: "Ngân sách",
-        iconPosition: [-382,-1664],
+        iconPosition: [-378,-1661],
         activeClass: "",
         route: "ngan-sach"
     },
     {
         title: "Báo cáo",
-        iconPosition: [-552,-1636],
+        iconPosition: [-547,-1632],
         activeClass: "",
         route: "bao-cao"
     },
     {
         title: "Phân tích tài chính",
-        iconPosition: [-207,-1667],
+        iconPosition: [-204,-1662],
         activeClass: "",
         route: "phan-tich-tai-chinh"
     },
@@ -208,7 +208,7 @@ export const TABLE_FIELDS=[
     {
         name: 'LÀ NHÀ CUNG CẤP',
         fieldName: 'IsSuppiler',
-        width: 130,
+        width: 180,
     },
     {
         name: 'ĐỊA CHỈ',
