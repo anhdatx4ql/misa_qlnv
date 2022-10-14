@@ -4,7 +4,11 @@
       <p class="paging-left-text">Tổng số <b>32</b> bản ghi</p>
     </div>
     <div class="paging-right">
-      <div class="paging-right-combobox"> combobox nè</div>
+      <div class="paging-right-combobox">
+        <m-combobox :value="{id:10,name:'10 bản ghi trên trang'}" 
+        :listValues="pagingItems" disabled="disabled" position="bottom">
+        </m-combobox>
+      </div>
       <div class="paging-right-button">
         <button class="paging-right-pre paging-disable" style="margin-right:13px;">Trước</button>
         <div class="paging-right-index">
@@ -19,10 +23,20 @@
 </template>
 
 <script>
+import {PAGING_ITEMS} from '../../../constants.js'
 export default {
   name: 'MPaging',
   props: {
     text:String
+  },
+  data(){
+    return{
+      pagingItems:[]
+    }
+  },
+  created(){
+    console.log(PAGING_ITEMS)
+    this.pagingItems= PAGING_ITEMS;
   }
 }
 </script>

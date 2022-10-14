@@ -218,3 +218,26 @@ export const TABLE_FIELDS=[
 
 ]
 
+/**
+ * Author: Phạm Văn Đạt
+ * Function: các trường phân trang
+ */
+export const PAGING_ITEMS=[
+    {
+        id: 10,
+        name:"10 bản ghi trên trang"
+    },
+    {
+        id: 20,
+        name:"20 bản ghi trên trang"
+    },
+    {
+        id: 50,
+        name:"50 bản ghi trên trang"
+    },
+    {
+        id: 100,
+        name:"100 bản ghi trên trang"
+    },
+]
+

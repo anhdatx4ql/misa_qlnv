@@ -18,13 +18,35 @@
       </div>
       <div class="table-body">
         <div class="tbody" ref="tbody" @scroll="hanclerScroll">
-          <div class="tr" v-for="employee in employees" :key="employee">
-
+         <div class="tr">
             <div class="td" style="width:40px">
-              <m-input-checkbox style="width:40px" :id="employee"></m-input-checkbox>
+                <m-input-checkbox style="width:40px" :id="employee"></m-input-checkbox>
             </div>
             <div class="td" v-for="field in fields" :key="field.name" :style="'width:'+field.width+'px'">{{field.name}}</div>
-          
+          </div>
+          <div class="tr">
+            <div class="td" style="width:40px">
+                <m-input-checkbox style="width:40px" :id="employee"></m-input-checkbox>
+            </div>
+            <div class="td" v-for="field in fields" :key="field.name" :style="'width:'+field.width+'px'">{{field.name}}</div>
+          </div>
+          <div class="tr">
+            <div class="td" style="width:40px">
+                <m-input-checkbox style="width:40px" :id="employee"></m-input-checkbox>
+            </div>
+            <div class="td" v-for="field in fields" :key="field.name" :style="'width:'+field.width+'px'">{{field.name}}</div>
+          </div>
+          <div class="tr">
+            <div class="td" style="width:40px">
+                <m-input-checkbox style="width:40px" :id="employee"></m-input-checkbox>
+            </div>
+            <div class="td" v-for="field in fields" :key="field.name" :style="'width:'+field.width+'px'">{{field.name}}</div>
+          </div>
+          <div class="tr">
+            <div class="td" style="width:40px">
+                <m-input-checkbox style="width:40px" :id="employee"></m-input-checkbox>
+            </div>
+            <div class="td" v-for="field in fields" :key="field.name" :style="'width:'+field.width+'px'">{{field.name}}</div>
           </div>
          
         </div>
@@ -52,8 +74,7 @@ export default {
   },
   methods: {
     hanclerScroll(e){
-      this.$refs.trThead.style.transform = "translateX(-"+e.target.scrollLeft+"px)"
-
+      this.$refs.trThead.style.transform = "translateX(-"+e.target.scrollLeft+"px)";
     }
   },
   mounted(){

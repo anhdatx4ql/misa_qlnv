@@ -123,7 +123,7 @@ namespace WebDomain
 
         /// <summary>
         /// Author: Phạm Văn Đạt
-        /// Function: Update 1 bản ghi
+        /// Function: Update 1 bản ghi (chưa test)
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
@@ -134,7 +134,7 @@ namespace WebDomain
             {
                 // validate dữ liệu
                 var validateErrors = this.Validate(entity);
-                if(validateErrors == null)
+                if (validateErrors == null)
                 {
                     return new ReponsitoryModel(null, CodeErrors.Code400, validateErrors);
                 }
@@ -162,18 +162,16 @@ namespace WebDomain
                 return new ReponsitoryModel(oldEntity, CodeSuccess.Code200, message);
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 message.Add(ex.Message);
                 return new ReponsitoryModel(null, CodeErrors.Code500, message);
             }
         }
 
-
-
         /// <summary>
         /// Author: Phạm Văn Đạt
-        /// Function: Xóa 1 hoặc nhiều bản ghi
+        /// Function: Xóa 1 hoặc nhiều bản ghi (chưa test)
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
@@ -183,11 +181,28 @@ namespace WebDomain
             try
             {
                 // kiểm tra xem mảng id truyền vào có tồn tại không
-                if(ids.Count == 0)
+                if (ids.Count == 0)
                 {
                     messages.Add(MessageErrors.DuplicateExists);
                     return new ReponsitoryModel(null, CodeErrors.Code400, messages);
                 }
+
+                var tableName = TableName.GetTableName<T>();
+
+                var sql = $"DELETE FROM {tableName} WHERE Id IN @ids;";
+                var parameter = new DynamicParameters();
+                parameter.Add("ids", ids);
+
+                var result = await _baseRepository.DeleteRecord(query: sql, parameter);
+
+                if (result == 0)
+                {
+                    messages.Add(MessageErrors.DeleteFail);
+                    return new ReponsitoryModel(null, CodeErrors.Code400, messages);
+                }
+
+                messages.Add(MessageSuccess.DeletedSuccess);
+                return new ReponsitoryModel(result, CodeSuccess.Code200, messages);
 
                 // Thực hiện viết câu lệnh xóa
             }
@@ -302,6 +317,7 @@ namespace WebDomain
             }
             else if (attributeExists != null)
             {
+                // truyền tên table, tên trường cần check, id khách hàng cần check
                 messageError.Add($"Xử lý check trùng {propertyName}");
             }
 

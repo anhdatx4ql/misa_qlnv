@@ -1,5 +1,5 @@
 <template>
- <button class="button">
+ <button class="button" :value="valuw">
   <slot></slot>
  </button>
 </template>
@@ -8,7 +8,11 @@
 export default {
   name: 'MButton',
   props: {
-    text:String
+    text:String,
+    value:{
+      Type:String,
+      default:null
+    }
   }
 }
 </script>

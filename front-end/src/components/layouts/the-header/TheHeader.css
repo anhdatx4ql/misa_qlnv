@@ -60,3 +60,7 @@ select {
 .header-right-info-icon{
     background: url(../../../assets/img/Sprites.64af8f61.svg) no-repeat -465px -409px;
 }
+
+.header-left-text {
+    font-size: 14px;
+}

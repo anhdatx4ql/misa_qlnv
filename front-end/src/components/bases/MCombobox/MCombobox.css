@@ -1,0 +1,110 @@
+.combobox-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #babec5;
+    height: 32px;
+    overflow: hidden;
+    border-radius: 2px;
+    justify-content: space-between;
+    box-sizing: border-box;
+    background: white;
+}
+
+.combobox-actions>button {
+    background: none;
+    height: 32px;
+    width: 32px;
+}
+
+.combobox-actions>button>span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.combobox-actions {
+    width: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.combobox-actions>button:hover {
+    background: #E0E0E0;
+}
+
+.combobox-actions {
+    width: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.combobox-actions>button:hover {
+    background: #E0E0E0;
+}
+
+input[type="text"] {
+    margin: 0 !important;
+}
+
+.combobox-container-input {
+    padding-left: 10px;
+}
+
+input[type="text"]:disabled {
+    background: none;
+    color: #000000;
+}
+
+.combobox {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    position: relative;
+}
+
+.dropdown-container button {
+    width: 100%;
+}
+
+.dropdown-items {
+    padding: 2px 0;
+    border: 1px solid #babec5;
+    background: white;
+}
+
+button.button:hover {
+    color: #35bf22;
+    background-color: #EBEDF0;
+}
+
+.dropdown-item .button {
+    background: none;
+    color: #000000;
+    padding: 10px 14px;
+    text-align: start;
+    font-size: 13px;
+}
+
+.button.button-active {
+    background-color: #2CA01C!important;
+    color: #fff!important;
+}
+
+button.button {
+    border-radius: 0;
+}
+
+.dropdown-container {
+    position: absolute;
+    width: 100%;
+}
+
+.dropdown-container {
+    bottom: 34px;
+}
+
+.background-icon-arrow-bottom-active{
+    background-position: -563px -359px;
+}

@@ -41,7 +41,12 @@ a {
     text-decoration: none;
 }
 
-input,textarea,select{
+input,textarea{
+    font-family: 'notosan-regular';
+    font-size: 13px;
+}
+
+select{
     font-family: 'notosan-regular';
     font-size: 14px;
 }
@@ -53,6 +58,11 @@ div#app {
 .icon-14{
     width: 14px;
     height:14px;
+}
+
+.icon-16{
+    width: 16px;
+    height:16px;
 }
 
 .icon-20{
@@ -88,4 +98,9 @@ div#app {
 
 .main {
     width: calc(100% - 178px);
+}
+
+.background-icon-arrow-bottom{
+    transition:all 0.2s ease;
+    background: url(assets/img/Sprites.64af8f61.svg) no-repeat -558px -359px;
 }

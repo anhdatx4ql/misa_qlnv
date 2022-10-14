@@ -14,6 +14,8 @@ import MToolTip from '/src/components/bases/MToolTip/MToolTip.vue'
 import MTable from '/src/components/bases/MTable/MTable.vue'
 import MPaging from '/src/components/bases/MPaging/MPaging.vue' 
 
+import VueClickAway from "vue3-click-away";
+
 const app = createApp(App);
 
 /**
@@ -135,4 +137,5 @@ app.component('MTable',MTable);
 app.component('MPaging',MPaging);
 
 app.use(router);
+app.use(VueClickAway);
 app.mount("#app");

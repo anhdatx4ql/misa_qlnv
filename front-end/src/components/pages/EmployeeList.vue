@@ -26,9 +26,18 @@
 </template>
    
 <script>
+import {PAGING_ITEMS} from '../../constants.js'
 export default {
     name: 'EmployeeList',
     props: {
+    },
+    data(){
+        return{
+            pagingItems:[]
+        }
+    },
+    created(){
+        this.pagingItems = PAGING_ITEMS;
     }
 }
 </script>
