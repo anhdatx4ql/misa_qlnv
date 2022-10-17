@@ -2,9 +2,13 @@
  <div class="input-container">
   <div class="input-container-field-label" v-if="(fieldLabel!=null)?true:false">
     <span>{{fieldLabel}}</span>
+    <span v-show="iconRed" style="color:red"> *</span>
   </div>
   <div class="input-container-content" :style="'height: '+height+';width: '+width+'px'">
-    <input :type="type" :value="value" :style="'height: '+height" :placeholder="placeholder">
+    <input :type="type" :value="value" 
+    :style="'height: '+height" :placeholder="placeholder"
+    :name="name">
+
     <button class="input-container-content-icon icon-20 icon-mr-10" :class="classIcon"
      v-if="(classIcon == null)?false:true">
   </button>
@@ -19,24 +23,49 @@
 export default {
   name: 'MInput',
   props: {
+    // field hiển thị
     fieldLabel:String,
+
+    // kiểu input
     type: String,
+
+    // giá trị truyền vào
     value:{
       Type: String,
       default: ""
     },
+
+    // icon nếu có
     classIcon:{
       Type:String,
       default:null
     },
+
+    // chiều cao
     height:{
       Type:String,
       default:"32px"
     },
+
+    // nhắc nhở nhập
     placeholder:String,
+
+    // kích thước
     width:{
       Type:Number,
       default:240
+    },
+
+    // tên input
+    name:{
+      Type:String,
+      default:null
+    },
+
+    // icon sao nếu required
+    iconRed:{
+      Type:Boolean,
+      default:false
     }
   },
   data(){
@@ -45,7 +74,6 @@ export default {
     }
   },
   created() {
-    console.log(this.height)
   }
 }
 </script>

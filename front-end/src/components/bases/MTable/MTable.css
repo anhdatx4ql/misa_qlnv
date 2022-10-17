@@ -66,3 +66,86 @@
 .table-container {
   overflow: hidden;
 }
+
+.table-container .button {
+  font-weight: 600;
+  display: inline-block;
+  transition: all .25s ease;
+  padding: inherit;
+  min-width: fit-content;
+  color: #0075c0;
+}
+
+.table-container .combobox .combobox-container {
+  min-width: fit-content;
+  width: fit-content !important;
+  border: none;
+}
+
+.table-container .combobox .dropdown-container {
+  width:120px !important;
+  right:-10px;
+  height: max-content;
+} 
+
+.table-container .combobox .dropdown-container .dropdown-item {
+  height: 28px;
+  padding: 5px 0;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+.table-container .combobox .dropdown-container .dropdown-item .button {
+  padding: 0 10px !important;
+  font-weight: 500;
+  color: #111111;
+  height: 28px;
+  width:100%;
+}
+
+.table-container .combobox .dropdown-container .dropdown-item .button:hover {
+  color: #35bf22;
+  background: #E0E0E0;
+}
+
+.tbody button {
+  background: none;
+  height: auto;
+  width: fit-content;
+}
+
+.tbody button:hover {
+  background: none;
+}
+
+.tbody.combobox-actions-button:focus, 
+.table-function>button:focus {
+  border: 1px solid #0075c0;
+  border-radius: 0;
+}
+
+.td.table-function {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tbody .combobox {
+    padding-left: 5px;
+    border-left: 1px solid white;
+    margin-left: 5px;
+}
+
+.tbody .tr:hover {
+  background: #F2F9FF;
+}
+
+.tbody .tr .combobox-container {
+  background: none;
+}
+
+.table.checkbox {
+  width: 18px!important;
+}

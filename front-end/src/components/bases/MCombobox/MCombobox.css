@@ -50,6 +50,7 @@ input[type="text"] {
 
 .combobox-container-input {
     padding-left: 10px;
+    width:100%;
 }
 
 input[type="text"]:disabled {
@@ -74,7 +75,7 @@ input[type="text"]:disabled {
     background: white;
 }
 
-button.button:hover {
+button.button-combobox:hover {
     color: #35bf22;
     background-color: #EBEDF0;
 }
@@ -92,7 +93,7 @@ button.button:hover {
     color: #fff!important;
 }
 
-button.button {
+.combobox .button-combobox {
     border-radius: 0;
 }
 
@@ -107,4 +108,26 @@ button.button {
 
 .background-icon-arrow-bottom-active{
     background-position: -563px -359px;
+}
+
+.dropdown-container {
+    z-index: 999;
+}
+
+.combobox-field {
+    color: #111;
+    padding-bottom: 4px !important;
+    font-weight: 700;
+    font-size: 12px;
+}
+.combobox-container {
+    border: 1px solid #EBEBEB;
+}
+
+.combobox-container:focus-within {
+        border: 1px solid #2ca01c;
+}
+
+.combobox-container-input>input {
+    width: 100% !important;
 }

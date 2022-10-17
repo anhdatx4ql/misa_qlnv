@@ -129,11 +129,13 @@ export const TABLE_FIELDS=[
         name: 'TÊN NHÂN VIÊN',
         fieldName: 'Name',
         width: 120,
+        isRequired:true
     },
     {
         name: 'MÃ NHÂN VIÊN',
         fieldName: 'EmployeeId',
         width: 230,
+        isRequired:true
     },
     {
         name: 'GIỚI TÍNH',
@@ -169,6 +171,7 @@ export const TABLE_FIELDS=[
         name: 'TÊN ĐƠN VỊ',
         fieldName: 'DepartmentId',
         width: 230,
+        isRequired:true
     },
     {
         name: 'SỐ TÀI KHOẢN',
@@ -215,7 +218,6 @@ export const TABLE_FIELDS=[
         fieldName: 'Address',
         width: 230,
     },
-
 ]
 
 /**
@@ -241,3 +243,39 @@ export const PAGING_ITEMS=[
     },
 ]
 
+/**
+ * Author: Phạm Văn Đạt
+ * Function: dữ liệu mẫu position
+ */
+export const POSITIONS_LIST=[
+    {
+        id:"12312",
+        name:"Công nghệ"
+    },
+    {
+        id:"123",
+        name:"Công nghệ"
+    },
+    {
+        id:"12",
+        name:"Công nghệ"
+    },
+    {
+        id:"1",
+        name:"Công nghệ"
+    },
+    {
+        id:"12311",
+        name:"Công nghệ"
+    }
+]
+
+/**
+ * Author: Phạm Văn Đạt
+ * Function: enum gender (0-nam, 1-nữ, 2-khác)
+ */
+export const GENDERS = {
+   Male: 0,
+   Female: 1,
+   Other: 2
+}

@@ -4,7 +4,7 @@
             <span class="content-top-left-title">Nhân viên</span>
         </div>
         <div class="content-top-right">
-            <m-button><span>Thêm mới nhân viên</span></m-button>
+            <m-button @click="checkShowForm = true"><span>Thêm mới nhân viên</span></m-button>
         </div>
     </div>
     <div class=content-center>
@@ -23,17 +23,27 @@
         <m-paging></m-paging>
     </div>
     <div class="content-bottom"></div>
+    <!-- <m-combobox
+        :listValues="pagingItems" :disabled="false" position="top">
+    </m-combobox> -->
+
+    <the-form v-if="checkShowForm" @closeForm="checkShowForm = $event"></the-form>
 </template>
    
 <script>
 import {PAGING_ITEMS} from '../../constants.js'
+import TheForm from '../layouts/the-form/TheForm'
 export default {
     name: 'EmployeeList',
+    components:{
+        TheForm
+    },
     props: {
     },
     data(){
         return{
-            pagingItems:[]
+            pagingItems:[],
+            checkShowForm:false
         }
     },
     created(){

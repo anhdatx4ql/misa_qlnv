@@ -8,11 +8,14 @@
           <div class="tr" ref="trThead">
 
             <div class="th" style="width:40px">
-              <m-input-checkbox style="width:40px" id="1"></m-input-checkbox>
+              <m-input-checkbox id="1"></m-input-checkbox>
             </div>
 
             <div class="th" v-for="field in fields" :key="field.name" :style="'width:'+field.width+'px'">{{field.name}}</div>
           
+            <div class="th" style="width:120px">
+              CHỨC NĂNG
+            </div>
           </div>
         </div>
       </div>
@@ -23,7 +26,13 @@
                 <m-input-checkbox style="width:40px" :id="employee"></m-input-checkbox>
             </div>
             <div class="td" v-for="field in fields" :key="field.name" :style="'width:'+field.width+'px'">{{field.name}}</div>
+
+            <div class="td table-function" style="width:120px">
+              <m-button ><span>Sửa</span></m-button>
+             <m-combobox :listValues="fieldFunction" :icon="false" position="top" :width="120"></m-combobox>
+            </div>
           </div>
+
           <div class="tr">
             <div class="td" style="width:40px">
                 <m-input-checkbox style="width:40px" :id="employee"></m-input-checkbox>
@@ -66,11 +75,25 @@ export default {
     return {
       // các trường hiển thị dữ liệu
       fields: [],
-      employees:15
+      fieldFunction:[
+        {
+          id:1,
+          name:"Nhân bản"
+        },
+        {
+          id:2,
+          name:"Xóa"
+        },
+        {
+          id:3,
+          name:"Ngưng sử dụng"
+        }
+      ]
     }
   },
   created(){
     this.fields = TABLE_FIELDS;
+    console.log(TABLE_FIELDS)
   },
   methods: {
     hanclerScroll(e){

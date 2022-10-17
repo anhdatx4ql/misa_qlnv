@@ -104,3 +104,40 @@ div#app {
     transition:all 0.2s ease;
     background: url(assets/img/Sprites.64af8f61.svg) no-repeat -558px -359px;
 }
+
+.w-40{
+    width:40%!important;
+    box-sizing: border-box;
+}
+
+.w-60{
+    box-sizing: border-box;
+    width:60% !important;
+}
+
+.w-25{
+    box-sizing: border-box;
+    width:25% !important;
+}
+
+.w-100{
+    box-sizing: border-box;
+    width:100% !important;
+}
+
+.p-r-6{
+    padding-right:6px!important;
+}
+.m-l-10{
+    margin-left: 10px;
+}
+
+.flex{
+    display:flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.flex-grow-1{
+    flex-grow: 1;
+}

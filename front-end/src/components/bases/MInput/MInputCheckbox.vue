@@ -19,9 +19,7 @@ export default {
     },
     id:String
   },
-  emits:['update:value'],
   created() {
-
   },
   methods: {
   }
@@ -32,7 +30,7 @@ export default {
   .checkbox {
       display: inline-block;
       background: white;
-      width: 18px !important;
+      width: max-content;
   }
   .checkbox-container-text{
     padding-left:10px;

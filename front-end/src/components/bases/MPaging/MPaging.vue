@@ -6,7 +6,7 @@
     <div class="paging-right">
       <div class="paging-right-combobox">
         <m-combobox :value="{id:10,name:'10 bản ghi trên trang'}" 
-        :listValues="pagingItems" disabled="disabled" position="bottom">
+        :listValues="pagingItems" :disabled="true" position="bottom">
         </m-combobox>
       </div>
       <div class="paging-right-button">
