@@ -151,13 +151,23 @@
       </div>
       <!-- end content -->
 
+
+      <!-- start thông báo -->
+      <m-notify
+       @closeForm="($event == false)?$emit('closeForm',false):''" 
+       @checkShowNotify="checkNotify.isShow=$event" 
+       v-if="checkNotify.isShow" 
+       :type="checkNotify.type" 
+       :text="checkNotify.text"
+      ></m-notify>
+      <!-- end thông báo -->
      
   </div>
 </template>
 
 <script>
 import MInputCheckbox from '@/components/bases/MInput/MInputCheckbox.vue'
-import {POSITIONS_LIST,GENDERS} from '../../../constants'
+import {POSITIONS_LIST,GENDERS,NOTIFY_LIST,NOTIFY_TEXT} from '../../../constants'
 import MInputRadio from '@/components/bases/MInput/MInputRadio.vue';
 export default {
   components: { MInputCheckbox, MInputRadio },
@@ -166,17 +176,52 @@ export default {
   },
   data(){
     return{
+      // danh sách chức vụ
       positions: [],
-      genders:{}
+
+      // các giá trị giới tính
+      genders:{},
+
+      // kiểm tra notify
+      checkNotify:{
+        isShow: false,
+        type: null,
+        text:null
+      },
+
+      // danh sách các kiểu thông báo
+      NOTIFY_LIST:{},
+
+      // text dùng trong thông báo
+      NOTIFY_TEXT:{}
     }
   },
   created(){
+    // lấy danh sách vị trí
     this.positions = POSITIONS_LIST;
+
+    // lấy danh sách giưới tính
     this.genders = GENDERS;
+
+    // lấy danh sách thông báo
+    this.NOTIFY_LIST = NOTIFY_LIST;
+
+    // các text có thể có trong thông báo
+    this.NOTIFY_TEXT = NOTIFY_TEXT;
   },
   methods:{
+    /**
+     * Author: Phạm Văn Đạt (18/10/2022)
+     * Function: Xử lý click ẩn form
+     */
     handlerCloseForm(){
-      this.$emit('closeForm',false);
+      // gán lại giá trị notifi
+      this.checkNotify = {
+        isShow: true,
+        type: this.NOTIFY_LIST.Question.type,
+        text: this.NOTIFY_LIST.Question.text(this.NOTIFY_TEXT.changeData),
+      };
+   
     }
   }
 }

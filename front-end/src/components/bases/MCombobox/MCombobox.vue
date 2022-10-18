@@ -1,6 +1,6 @@
 <template>
   <div class="combobox-field" v-show="(comboboxField !=null)">
-    {{comboboxField}} <span :iconRed="iconRed" style="color:red;"> *</span>
+    {{comboboxField}} <span v-show="iconRed" style="color:red;"> *</span>
   </div>
  <div class="combobox" v-click-away="handlerHideDropdown" ref="combobox">
   <div class="combobox-container" :style="'width: '+width+'px'">
@@ -95,7 +95,10 @@ export default {
     }
   },
   created(){
+    // khởi tạo giá trị danh sách dropdown
     this.cbxListValues = this.listValues;
+
+    // khởi tạo giá trị hiện tại
     this.cbxValue = this.value;
   },
   methods: {
@@ -147,8 +150,6 @@ export default {
           }
         }
 
-        // me.cbxListValues = newObjects;
-
         // những giá trị khác thì đưa về sau
         for(let i=0;i<me.listValues.length;i++){
           if(me.listValues[i].name.search(text) == -1){
@@ -156,6 +157,7 @@ export default {
           }
         }
 
+        // gán focus vào giá trị gần giá trị tìm kiếm nhất
         if(text){
           me.checkFocusItemSearch = me.cbxListValues[0].id;
         }

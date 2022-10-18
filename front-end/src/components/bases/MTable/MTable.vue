@@ -65,6 +65,10 @@
 </template>
 
 <script>
+/**
+ * Author: Phạm Văn Đạt(18/10/2022)
+ * Function: Lấy danh sách hiển thị các cột trong table
+ */
 import {TABLE_FIELDS} from "../../../constants"
 
 export default {
@@ -75,6 +79,8 @@ export default {
     return {
       // các trường hiển thị dữ liệu
       fields: [],
+
+      // các chức năng: nhân bản, xóa, nhưng sử dụng
       fieldFunction:[
         {
           id:1,
@@ -92,19 +98,23 @@ export default {
     }
   },
   created(){
+    /**
+   * Author: Phạm Văn Đạt(18/10/2022)
+   * Function: khởi tạo giá trị field
+   */
     this.fields = TABLE_FIELDS;
-    console.log(TABLE_FIELDS)
   },
   methods: {
+    /**
+     * Author: Phạm Văn Đạt(18/10/2022)
+     * Function: Xử lý scroll table
+     */
     hanclerScroll(e){
       this.$refs.trThead.style.transform = "translateX(-"+e.target.scrollLeft+"px)";
     }
   },
   mounted(){
     
-  },
-  computed: {
-  
   }
   
 }

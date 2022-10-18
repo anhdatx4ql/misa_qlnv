@@ -15,10 +15,19 @@
 export default {
   name: 'MInputRadio',
   props: {
+    // name của radio
     name: String,
+
+    // giá trị 
     value:String,
+
+    // text hiển thị
     text:String,
+
+    // khởi tạo checked ô radio nếu có
     checked:String,
+
+    // id radio
     id:String
   },
   methods:{

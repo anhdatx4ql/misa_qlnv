@@ -1,0 +1,44 @@
+.checkbox {
+    display: inline-block;
+    background: white;
+    width: max-content;
+}
+.checkbox-container-text{
+  padding-left:10px;
+  height:18px;
+}
+span.checkbox-container-icon {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #afafaf;
+  display: flex;
+  cursor: pointer;
+}
+
+label.checkbox-container {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    cursor: pointer;
+}
+
+input[type="checkbox"]:checked + .checkbox-container-icon {
+  animation-name: input-checked;
+  animation-duration: 0.2s;
+  background: url(../../../assets/img/Sprites.64af8f61.svg) no-repeat -1224px -361px;
+}
+
+input[type="checkbox"]:not(:checked) + .checkbox-container-icon{
+  animation-name: input-unchecked;
+  animation-duration: 0.2s;
+}
+
+@keyframes input-checked {
+  from {transform: rotate(-90deg);}
+  to {transform: rotate(0);}
+}
+
+@keyframes input-unchecked {
+  from {transform: rotate(0);}
+  to {transform: rotate(-90deg);}
+}

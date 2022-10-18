@@ -1,5 +1,5 @@
 /**
- * Author: Phạm Văn Đạt
+ * Author: Phạm Văn Đạt(18/10/2022)
  * Function: danh sách item menu
  */
 export const MENU_ITEMS=[
@@ -102,7 +102,7 @@ export const MENU_ITEMS=[
 ]
 
 /**
- * Author: Phạm Văn Đạt
+ * Author: Phạm Văn Đạt(18/10/2022)
  * Function: danh sách tên công ty
  */
 export const COMPANIES=[
@@ -121,7 +121,7 @@ export const COMPANIES=[
 ]
 
 /**
- * Author: Phạm Văn Đạt
+ * Author: Phạm Văn Đạt(18/10/2022)
  * Function: các trường trong table
  */
 export const TABLE_FIELDS=[
@@ -221,7 +221,7 @@ export const TABLE_FIELDS=[
 ]
 
 /**
- * Author: Phạm Văn Đạt
+ * Author: Phạm Văn Đạt(18/10/2022)
  * Function: các trường phân trang
  */
 export const PAGING_ITEMS=[
@@ -244,7 +244,7 @@ export const PAGING_ITEMS=[
 ]
 
 /**
- * Author: Phạm Văn Đạt
+ * Author: Phạm Văn Đạt(18/10/2022)
  * Function: dữ liệu mẫu position
  */
 export const POSITIONS_LIST=[
@@ -271,11 +271,61 @@ export const POSITIONS_LIST=[
 ]
 
 /**
- * Author: Phạm Văn Đạt
+ * Author: Phạm Văn Đạt(18/10/2022)
  * Function: enum gender (0-nam, 1-nữ, 2-khác)
  */
 export const GENDERS = {
    Male: 0,
    Female: 1,
    Other: 2
+}
+
+/**
+ * Author: Phạm Văn Đạt(18/10/2022)
+ * Function: danh sách loại thông báo có thể có
+ */
+export const NOTIFY_LIST={
+    Question:{
+        type: "question",
+        text: function(text){
+            return text;
+        }
+    }, 
+    ErrorValidate:{
+        type: "error",
+        text: function(text){
+            return text;
+        }
+    },
+    Warning: {
+        type: "warning",
+        text: function(text){
+            return text;
+        }
+    },
+    Info: {
+        type: "info",
+        text: function(text){
+            return text;
+        }
+    },
+    Success: {
+        type: "success",
+        text: function(text){
+            return text;
+        }
+    }
+};
+
+/**
+ * Author: Phạm Văn Đạt(18/10/2022)
+ * Function: chuỗi hiển thị thông báo
+ */
+export const NOTIFY_TEXT= {
+    changeData: "Dữ liệu đã bị thay đổi. Bạn có muốn cất không?",
+    requiredField: function(text){
+        return text +" không được để trống."
+    },
+    duplicateField: (text)=>{ return text + " đã tồn tại."}  
+
 }

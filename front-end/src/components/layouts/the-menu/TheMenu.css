@@ -59,3 +59,15 @@
     cursor:pointer;
     border-left:solid 6px #58595D;
 }
+
+.mini-menu {
+    width: 56px!important;
+}
+
+.mini-menu .menu-content-item-text {
+    display: none;
+}
+
+.menu-top-icon-mini{
+    background: url(../../../assets/img/Sprites.64af8f61.svg) no-repeat -316px -37px;
+}

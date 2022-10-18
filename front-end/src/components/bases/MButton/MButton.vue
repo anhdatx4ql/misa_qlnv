@@ -12,7 +12,9 @@ export default {
     value:{
       Type:String,
       default:null
-    }
+    },
+  },
+  mounted(){
   }
 }
 </script>

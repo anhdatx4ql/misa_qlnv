@@ -59,3 +59,11 @@ button:hover>.background-icon-reload{
 .button-white:active {
     background-color: #bbbcbc;
 }
+
+.button:focus {
+    outline: 2px solid #e2e2e2;
+}
+
+.notify-question-button button {
+    min-width: auto;
+}

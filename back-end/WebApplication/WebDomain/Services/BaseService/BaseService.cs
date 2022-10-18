@@ -134,7 +134,7 @@ namespace WebDomain
             {
                 // validate dữ liệu
                 var validateErrors = this.Validate(entity);
-                if (validateErrors == null)
+                if (validateErrors != null)
                 {
                     return new ReponsitoryModel(null, CodeErrors.Code400, validateErrors);
                 }
@@ -145,7 +145,7 @@ namespace WebDomain
                 // lấy các thuộc tính public của entity
                 var properties = typeof(T).GetProperties();
 
-                var id = this.GetIdByRecord(entity, properties);
+                var id = (Guid)this.GetIdByRecord(entity, properties);
 
                 if (id == Guid.Empty)
                 {
@@ -157,7 +157,6 @@ namespace WebDomain
                 var oldEntity = await _baseRepository.GetById(id, tableName);
 
                 // những dữ liệu nào khác với dữ liệu cũ => cập nhật, nếu không khác thì không cập nhật
-
                 message.Add(MessageSuccess.UpdatedSuccess);
                 return new ReponsitoryModel(oldEntity, CodeSuccess.Code200, message);
 
@@ -281,16 +280,12 @@ namespace WebDomain
             // xử lý validate
             if (attributePrimarykey != null)
             {
-                Guid newId = Guid.Empty;
-                bool isValid = Guid.TryParse(propertyValue?.ToString(), out newId);
-                if( string.IsNullOrEmpty(propertyValue?.ToString()) || isValid)
-                if (isValid == false)
+                
+                if((Guid)propertyValue == Guid.Empty)
                 {
                     // nếu tồn tại attribute và giá trị của nó là null => thêm vào mảng lỗi lỗi
                     messageError.Add(attributePrimarykey.ErrorMessage);
                 }
-                
-
             }
             else if (attributeRequired != null && string.IsNullOrEmpty(propertyValue?.ToString()))
             {

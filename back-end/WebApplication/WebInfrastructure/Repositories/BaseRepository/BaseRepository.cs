@@ -28,15 +28,15 @@ namespace WebInfrastructure
             if(tableName == null)
                 tableName = TableName.GetTableName<T>();
 
-            var sql = $"SELECT * FROM {tableName} WHERE Id = @id LITMIT 1";
+            var sql = $"SELECT * FROM {tableName} WHERE Id IN (@id);";
             var parameters = new DynamicParameters();
-            parameters.Add("id", id);
+            parameters.Add("@id", id);
             using (IDbConnection db = GetDbConnection())
             {
                 db.Open();
-                var result = await db.QueryAsync<T>(sql,parameters);
+                var result = await db.QueryFirstOrDefaultAsync<T>(sql,parameters);
                 db.Close();
-                return (T)result;
+                return result;
             }
         }
 

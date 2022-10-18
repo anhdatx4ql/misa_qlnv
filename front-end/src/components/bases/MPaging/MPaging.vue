@@ -23,6 +23,10 @@
 </template>
 
 <script>
+/**
+ * Author: Phạm Văn Đạt(18/10/2022)
+ * Function: Lấy danh sách paging có thể có
+ */
 import {PAGING_ITEMS} from '../../../constants.js'
 export default {
   name: 'MPaging',
@@ -31,11 +35,12 @@ export default {
   },
   data(){
     return{
+      // khai báo mảng chứa các items paging
       pagingItems:[]
     }
   },
   created(){
-    console.log(PAGING_ITEMS)
+    // khởi tạo giá trị items paging
     this.pagingItems= PAGING_ITEMS;
   }
 }

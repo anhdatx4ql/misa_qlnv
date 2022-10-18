@@ -1,13 +1,16 @@
 <template>
     <div class="content-top">
+        <!-- start content top left -->
         <div class="content-top-left">
             <span class="content-top-left-title">Nhân viên</span>
         </div>
         <div class="content-top-right">
             <m-button @click="checkShowForm = true"><span>Thêm mới nhân viên</span></m-button>
         </div>
+        <!-- end content top left -->
     </div>
     <div class=content-center>
+        <!-- start  content center top -->
         <div class="content-center-top">
             <m-input-text placeholder="Tìm theo mã, tên nhân viên"
             classIcon="input-icon-search">
@@ -19,15 +22,20 @@
                 <span class="background-icon-excel icon-24 background-flex"></span>
             </m-button>
         </div>
-        <m-table></m-table>
-        <m-paging></m-paging>
-    </div>
-    <div class="content-bottom"></div>
-    <!-- <m-combobox
-        :listValues="pagingItems" :disabled="false" position="top">
-    </m-combobox> -->
+        <!-- end content center top -->
 
+        <!-- start table -->
+        <m-table></m-table>
+        <!-- end table -->
+
+        <!-- start paging -->
+        <m-paging></m-paging>
+        <!-- end paging -->
+    </div>
+
+    <!-- start form -->
     <the-form v-if="checkShowForm" @closeForm="checkShowForm = $event"></the-form>
+    <!-- end form -->
 </template>
    
 <script>
@@ -42,7 +50,10 @@ export default {
     },
     data(){
         return{
+            // các item của paging
             pagingItems:[],
+
+            // kiểm tra hiển thị form
             checkShowForm:false
         }
     },

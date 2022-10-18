@@ -19,7 +19,7 @@ import VueClickAway from "vue3-click-away";
 const app = createApp(App);
 
 /**
- * Author: Phạm Văn Đạt
+ * Author: Phạm Văn Đạt(18/10/2022)
  * Function: Các trường trong table
  */
 const routers = [
@@ -116,6 +116,11 @@ const routers = [
     }
 ];
 
+
+/**
+ * Author: Phạm Văn Đạt(18/10/2022)
+ * Function: khởi tạo router
+ */
 const router = createRouter({
     history: createWebHistory(),
     routes: routers,

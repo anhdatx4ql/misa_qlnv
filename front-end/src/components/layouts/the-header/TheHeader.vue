@@ -2,7 +2,8 @@
   <div class="header">
     <div class="header-left">
       <div class="header-left-icon">
-        <button class="header-left-background-icon icon-24 icon-ml-10 icon-mr-10"></button>
+        <button @click="currentHideTheMenu = true" v-show="!currentHideTheMenu" class="header-left-background-icon icon-24 icon-ml-10 icon-mr-10">
+        </button>
       </div>
       <div class="header-left-text">
         <select name="" id="">
@@ -24,18 +25,41 @@
 </template>
 
 <script>
+/**
+ * Author: Phạm Văn Đạt(18/10/2022)
+ * Function: Lấy danh sách các công ty
+ */
 import {COMPANIES} from "../../../constants.js"
 export default {
   name: 'TheHeader',
   props: {
+    hideTheMenu:{
+      Type:Boolean,
+      default:false
+    }
   },
   data(){
     return{
-      companies:[]
+      // khai báo danh sách công ty
+      companies:[],
+      currentHideTheMenu:false
     }
   },
   created(){
+    // khởi tạo danh sách công ty
     this.companies = COMPANIES;
+  },
+  watch:{
+    hideTheMenu(value){
+      this.currentHideTheMenu = value;
+     
+    },
+
+    currentHideTheMenu(value){
+      if(value == true){
+        this.$emit('hideTheMenu',true);
+      }
+    }
   }
 }
 </script>

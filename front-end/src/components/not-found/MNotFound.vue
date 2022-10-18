@@ -6,7 +6,6 @@
 export default {
   name: 'MNotFound',
   props: {
-    msg: String
   }
 }
 </script>

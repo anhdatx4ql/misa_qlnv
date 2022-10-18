@@ -48,11 +48,11 @@ namespace WebApplication
             return await _baseService.InsertRecord(entity);
         }
 
-        //[HttpPost]
-        //public async Task<ReponsitoryModel> UpdateRecord([FromBody] T entity)
-        //{
-        //    return await _baseService.UpdateRecord(entity);
-        //}
+        [HttpPost("UpdateRecord")]
+        public async Task<ReponsitoryModel> UpdateRecord([FromBody] T entity)
+        {
+            return await _baseService.UpdateRecord(entity);
+        }
         #endregion
     }
 }

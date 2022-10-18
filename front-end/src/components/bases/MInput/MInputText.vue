@@ -20,6 +20,9 @@
 </template>
 
 <script>
+/**
+ * Author: Phạm Văn Đạt(18/10/2022)
+ */
 export default {
   name: 'MInput',
   props: {
@@ -70,6 +73,7 @@ export default {
   },
   data(){
     return {
+      // khai báo biến chứa chuỗi lỗi
       errorText: null
     }
   },
