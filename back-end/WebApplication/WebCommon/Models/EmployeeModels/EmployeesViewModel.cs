@@ -1,32 +1,28 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace WebCommon
 {
     /// <summary>
-    /// Author: Phạm Văn Đạt
-    /// FUnction: Khách hàng
+    /// Author: Phạm Văn Đạt(19/10/2022)
+    /// Function: Hiển thị thông tin khách hàng
     /// </summary>
-    [Table("Employees")]
-    public class Employees:BaseEntity
+    public class EmployeesViewModel :BaseEntity
     {
         #region Field
         // Id khách hàng
-        [AttributePrimarykey("Id không được bỏ trống")]
         public Guid Id { set; get; }
 
         // mã khách hàng
-        [AttributeRequired("Mã khách hàng không được bỏ trống!")]
         public string EmployeeId { set; get; }
 
         // tên khách hàng
-        [AttributeRequired("Tên khách hàng không được bỏ trống!")]
         public string Name { set; get; }
 
         // Giới tính
-        [AttributeGender("Giới tính không hợp lệ!")]
         public int Gender { set; get; }
 
         // Ngày sinh
@@ -54,34 +50,38 @@ namespace WebCommon
         public string Address { set; get; }
 
         // số điện thoại di động
-        [AttributePhone("Số điện thoại cá nhân không hợp lệ!")]
         public string NumberPhone { set; get; }
 
         // số điện thoại bàn
-        [AttributePhone("Số điện thoại bàn không hợp lệ!")]
         public string DeskPhone { set; get; }
 
         // email
-        [AttributeEmail("Email không hợp lệ!")]
         public string Email { set; get; }
 
         // id phòng ban
-        [AttributeRequired("Mã phòng ban không được để trống!")]
-        public Guid? DepartmentId { set; get; }
+        public Guid DepartmentId { set; get; }
 
         // id chức danh
-        [AttributeRequired("Mã chức danh không được để trống!")]
-        public Guid? PositionId { set; get; }
+        public Guid PositionId { set; get; }
 
         // là khách hàng
         public bool IsEmployee { set; get; }
+
+        /// <summary>
+        /// tên phòng ban
+        /// </summary>
+        public string DepartmentName { set; get; }
+
+        /// <summary>
+        /// Tên vị trí
+        /// </summary>
+        public string PositionName { set; get; }
 
         // là khách hàng
         public bool IsSuppiler { set; get; }
 
         //Đã xóa hay chưa
         public bool IsDelete { set; get; }
-
         #endregion
     }
 }

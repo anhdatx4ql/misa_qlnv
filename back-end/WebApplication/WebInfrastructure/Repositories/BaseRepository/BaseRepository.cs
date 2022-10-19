@@ -99,7 +99,7 @@ namespace WebInfrastructure
         /// Function: Lấy hết dữ liệu trong bảng
         /// </summary>
         /// <returns>danh sách thông tin</returns>
-        public virtual async Task<List<T>> GetAllAsync()
+        public virtual async Task<List<T>> GetAllAsync<T>()
         {
            string tableName = TableName.GetTableName<T>();
 

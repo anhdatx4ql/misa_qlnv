@@ -26,3 +26,14 @@ D:\hoctap\BTMiSa\1_10\back-end\WebApplication\WebCommon\obj\Debug\WebCommon.cspr
 D:\hoctap\BTMiSa\1_10\back-end\WebApplication\WebCommon\obj\Debug\WebCommon.csproj.CoreCompileInputs.cache
 D:\hoctap\BTMiSa\1_10\back-end\WebApplication\WebCommon\obj\Debug\WebCommon.dll
 D:\hoctap\BTMiSa\1_10\back-end\WebApplication\WebCommon\obj\Debug\WebCommon.pdb
+D:\hoctap\BTMiSa\1_10\misa_qlnv\back-end\WebApplication\WebCommon\bin\Debug\WebCommon.dll
+D:\hoctap\BTMiSa\1_10\misa_qlnv\back-end\WebApplication\WebCommon\bin\Debug\WebCommon.pdb
+D:\hoctap\BTMiSa\1_10\misa_qlnv\back-end\WebApplication\WebCommon\obj\Debug\WebCommon.csproj.AssemblyReference.cache
+D:\hoctap\BTMiSa\1_10\misa_qlnv\back-end\WebApplication\WebCommon\obj\Debug\WebCommon.Resources.CodeErrors.resources
+D:\hoctap\BTMiSa\1_10\misa_qlnv\back-end\WebApplication\WebCommon\obj\Debug\WebCommon.Resources.CodeSuccess.resources
+D:\hoctap\BTMiSa\1_10\misa_qlnv\back-end\WebApplication\WebCommon\obj\Debug\WebCommon.Resources.MessageErrors.resources
+D:\hoctap\BTMiSa\1_10\misa_qlnv\back-end\WebApplication\WebCommon\obj\Debug\WebCommon.Resources.MessageSuccess.resources
+D:\hoctap\BTMiSa\1_10\misa_qlnv\back-end\WebApplication\WebCommon\obj\Debug\WebCommon.csproj.GenerateResource.cache
+D:\hoctap\BTMiSa\1_10\misa_qlnv\back-end\WebApplication\WebCommon\obj\Debug\WebCommon.csproj.CoreCompileInputs.cache
+D:\hoctap\BTMiSa\1_10\misa_qlnv\back-end\WebApplication\WebCommon\obj\Debug\WebCommon.dll
+D:\hoctap\BTMiSa\1_10\misa_qlnv\back-end\WebApplication\WebCommon\obj\Debug\WebCommon.pdb

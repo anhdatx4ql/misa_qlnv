@@ -27,19 +27,19 @@ namespace WebDomain
         }
         #endregion
 
-        #region Method
+        #region Methods
 
         /// <summary>
         /// Author: Phạm Văn Đạt
         /// Function: Lấy tất cả bản ghi trong bảng
         /// </summary>
         /// <returns>danh sách dữ liệu</returns>
-        public async Task<ReponsitoryModel> GetAll()
+        public virtual async Task<ReponsitoryModel> GetAll()
         {
             List<string> message = new List<string>();
             try
             {
-                var result = await _baseRepository.GetAllAsync();
+                var result = await _baseRepository.GetAllAsync<T>();
                 message.Add(MessageSuccess.GetSuccess);
                 return new ReponsitoryModel(result, CodeSuccess.Code200, message);
             }
@@ -60,7 +60,7 @@ namespace WebDomain
         /// </summary>
         /// <param name="entity">dữ liệu truyển vào T</param>
         /// <returns></returns>
-        public async Task<ReponsitoryModel> InsertRecord(T entity)
+        public virtual async Task<ReponsitoryModel> InsertRecord(T entity)
         {
             List<string> message = new List<string>();
 
@@ -127,17 +127,11 @@ namespace WebDomain
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public async Task<ReponsitoryModel> UpdateRecord(T entity)
+        public virtual async Task<ReponsitoryModel> UpdateRecord(T entity)
         {
             List<string> message = new List<string>();
             try
             {
-                // validate dữ liệu
-                var validateErrors = this.Validate(entity);
-                if (validateErrors != null)
-                {
-                    return new ReponsitoryModel(null, CodeErrors.Code400, validateErrors);
-                }
 
                 // lấy tên bảng
                 var tableName = TableName.GetTableName<T>();
@@ -146,6 +140,13 @@ namespace WebDomain
                 var properties = typeof(T).GetProperties();
 
                 var id = (Guid)this.GetIdByRecord(entity, properties);
+
+                // validate dữ liệu
+                var validateErrors = this.Validate(entity);
+                if (validateErrors != null)
+                {
+                    return new ReponsitoryModel(null, CodeErrors.Code400, validateErrors);
+                }
 
                 if (id == Guid.Empty)
                 {
@@ -156,9 +157,39 @@ namespace WebDomain
                 // lấy ra id, lấy dữ liệu cũ theo Id
                 var oldEntity = await _baseRepository.GetById(id, tableName);
 
-                // những dữ liệu nào khác với dữ liệu cũ => cập nhật, nếu không khác thì không cập nhật
-                message.Add(MessageSuccess.UpdatedSuccess);
-                return new ReponsitoryModel(oldEntity, CodeSuccess.Code200, message);
+                // nếu tồn tại bản ghi thì mới update
+                if (oldEntity != null)
+                {
+                    var parameters = new DynamicParameters();
+                    // truyền các giá trị mới vào parameters
+                    foreach(var property in properties)
+                    {
+                        if (property.Name != "UpdatedAt")
+                            parameters.Add($"@_{property.Name}", property.GetValue(entity));
+                    }
+
+                    // thêm thời gian hiện tại 
+                    parameters.Add($"@_UpdatedAt", DateTime.Now);
+
+                    // lấy tên proceduce update
+                    var sql = $"Proc_{tableName}_Update";
+
+                    // thao tác với csdl
+                    var result = await _baseRepository.UpdateRecord(sql, parameters);
+
+                    if(result > 0)
+                    {
+                        message.Add(MessageSuccess.UpdatedSuccess);
+                        return new ReponsitoryModel(result, CodeSuccess.Code200, message);
+                    }
+
+                    message.Add(MessageErrors.UpdatedFail);
+                    return new ReponsitoryModel(result, CodeErrors.Code400, message);
+                }
+
+                // nếu không tồn tại bản ghi trả về thông báo
+                message.Add(MessageErrors.DuplicateExists);
+                return new ReponsitoryModel(null, CodeErrors.Code400, message);
 
             }
             catch (Exception ex)
@@ -174,7 +205,7 @@ namespace WebDomain
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        public async Task<ReponsitoryModel> DeleteRecords(List<Guid> ids)
+        public virtual async Task<ReponsitoryModel> DeleteRecords(List<Guid> ids)
         {
             var messages = new List<string>();
             try
@@ -203,7 +234,6 @@ namespace WebDomain
                 messages.Add(MessageSuccess.DeletedSuccess);
                 return new ReponsitoryModel(result, CodeSuccess.Code200, messages);
 
-                // Thực hiện viết câu lệnh xóa
             }
             catch (Exception ex)
             {
@@ -257,7 +287,7 @@ namespace WebDomain
             var propertyName = property.Name;
 
             // lấy giá trị của thuộc tính theo tên từ entity truyền vào
-            var propertyValue = property.GetValue(entity);
+            var propertyValue = property.GetValue(entity,null);
 
             // nếu không có attribute required => trả về null
             var attributeRequired = (AttributeRequired)Attribute.GetCustomAttribute(property, typeof(AttributeRequired));
@@ -287,30 +317,35 @@ namespace WebDomain
                     messageError.Add(attributePrimarykey.ErrorMessage);
                 }
             }
-            else if (attributeRequired != null && string.IsNullOrEmpty(propertyValue?.ToString()))
+            
+            if (attributeRequired != null && string.IsNullOrEmpty(propertyValue?.ToString()))
             {
                 // nếu tồn tại attribute AttributeRequired và giá trị null => thêm vào mảng lỗi
                 messageError.Add(attributeRequired.ErrorMessage);
             }
-            else if (attributeGender != null && ((int?)propertyValue < (int?)Gender.Male || (int?)propertyValue > (int?)Gender.Other))
+
+            if (attributeGender != null && ((int?)propertyValue < (int?)Gender.Male || (int?)propertyValue > (int?)Gender.Other))
             {
                 // nếu tồn tại attribute AttributeRequired và giới tính nằm ngoài 3 giá trị 0,1,2
                 messageError.Add(attributeGender.ErrorMessage);
             }
-            else if (attributeEmail != null && this.CheckRegex(propertyValue?.ToString(),"email") == false)
+
+            if (attributeEmail != null && this.CheckRegex(propertyValue?.ToString(),"email") == false)
             {
 
                 // nếu không phải dạng biểu thức email => lỗi
                 messageError.Add(attributeEmail.ErrorMessage);
 
             }
-            else if (attributePhone != null && this.CheckRegex(propertyValue?.ToString(),"phone") == false)
+
+            if (attributePhone != null && this.CheckRegex(propertyValue?.ToString(),"phone") == false)
             {
 
                 // nếu không phải dạng biểu thức email => lỗi
                 messageError.Add(attributePhone.ErrorMessage);
             }
-            else if (attributeExists != null)
+
+            if (attributeExists != null)
             {
                 // truyền tên table, tên trường cần check, id khách hàng cần check
                 messageError.Add($"Xử lý check trùng {propertyName}");

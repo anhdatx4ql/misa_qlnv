@@ -31,7 +31,7 @@ namespace WebApplication
         /// </summary>
         /// <returns>danh sách các bản ghi</returns>
         [HttpGet]
-        public async Task<ReponsitoryModel> GettAll()
+        public virtual async Task<ReponsitoryModel> GettAll()
         {
             return await _baseService.GetAll();
         }
@@ -48,11 +48,18 @@ namespace WebApplication
             return await _baseService.InsertRecord(entity);
         }
 
+        /// <summary>
+        /// Author: Phạm Văn Đạt(19/10/2022)
+        /// Function: base update record
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         [HttpPost("UpdateRecord")]
         public async Task<ReponsitoryModel> UpdateRecord([FromBody] T entity)
         {
             return await _baseService.UpdateRecord(entity);
         }
+
         #endregion
     }
 }

@@ -57,7 +57,7 @@ namespace WebInfrastructure
         /// Author: Phạm Văn Đạt
         /// Function: Xử lý lấy dữ liệu trong bảng
         /// </summary>
-        /// <returns></returns>
-        Task<List<T>> GetAllAsync();
+        /// <returns></returns>s
+        Task<List<T>> GetAllAsync<T>();
     }
 }
