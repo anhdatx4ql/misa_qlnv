@@ -54,7 +54,7 @@ namespace WebApplication
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        [HttpPost("UpdateRecord")]
+        [HttpPut]
         public async Task<ReponsitoryModel> UpdateRecord([FromBody] T entity)
         {
             return await _baseService.UpdateRecord(entity);

@@ -25,12 +25,12 @@ const app = createApp(App);
 const routers = [
     {
         path: '/',
-        component: EmployeeList,
+        redirect: { path: 'tien-mat' },
         name:"/tien-mat"
     },
     {
         path: '',
-        component: EmployeeList,
+        redirect: { path: 'tien-mat' },
         name:""
     },
     {
@@ -124,6 +124,7 @@ const routers = [
 const router = createRouter({
     history: createWebHistory(),
     routes: routers,
+    linkActiveClass: 'active-item-menu'
 });
 
 /**

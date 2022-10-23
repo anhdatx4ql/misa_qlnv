@@ -18,10 +18,6 @@
               <span>Không</span>
             </m-button>
 
-            <!-- button  -->
-            <!-- <m-button tabindex="1" :focus="true" :id="firstFocus" :autofocus="true">
-              <span>Có</span>
-            </m-button> -->
             <button class="button" autofocus ref="firstFocus" tabindex="1">
               <span>Có</span>
             </button>

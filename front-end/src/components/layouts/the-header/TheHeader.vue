@@ -2,10 +2,10 @@
   <div class="header">
     <div class="header-left">
       <div class="header-left-icon">
-        <button @click="currentHideTheMenu = true" v-show="!currentHideTheMenu" class="header-left-background-icon icon-24 icon-ml-10 icon-mr-10">
+        <button @click="currentHideTheMenu = true" v-show="!currentHideTheMenu" class="header-left-background-icon icon-24 icon-ml-10">
         </button>
       </div>
-      <div class="header-left-text">
+      <div class="header-left-text" style="padding-left:10px;">
         <select name="" id="">
           <option v-for="company in companies" :key="company.name" :value="company.value">{{company.name}}</option>
         </select>

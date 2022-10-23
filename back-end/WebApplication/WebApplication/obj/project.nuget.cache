@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Qt3l4TSdzPFZjJ00NtOc+xDUHZPSyeglsrog/x1OKGpc17oY3Ujn4N0/sHlBebbPb5M5C/t0NVp9FSVB1ZoGkQ==",
+  "dgSpecHash": "dNkR5qJm409ymwUuPocVk70xld6qLrhDkA8e9jhEsApMUfp5h98R/XECwStjtgk/xw+Nvp1/QsW9zY70j/HZTg==",
   "success": true,
-  "projectFilePath": "D:\\hoctap\\BTMiSa\\1_10\\misa_qlnv\\back-end\\WebApplication\\WebApplication\\WebApplication.csproj",
+  "projectFilePath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebApplication\\WebApplication.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\This MC\\.nuget\\packages\\google.protobuf\\3.19.4\\google.protobuf.3.19.4.nupkg.sha512",
     "C:\\Users\\This MC\\.nuget\\packages\\k4os.compression.lz4\\1.2.6\\k4os.compression.lz4.1.2.6.nupkg.sha512",

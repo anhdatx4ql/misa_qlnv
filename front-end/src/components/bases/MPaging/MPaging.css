@@ -1,9 +1,10 @@
 .paging{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    height:32px;
-    padding: 18px 32px 18px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 32px;
+    padding: 18px 30px 18px 18px;
+    background: #ffffff;
 }
 
 .paging-right,.paging-right-index,.paging-right-button {
@@ -33,6 +34,7 @@
 
 .paging-right-button .active {
     border: 1px solid #e0e0e0;
+    font-weight: 700;
 }
 
 .paging-right-combobox .button {

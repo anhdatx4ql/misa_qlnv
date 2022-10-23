@@ -178,6 +178,15 @@ namespace WebCommon.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lấy dữ liệu thất bại.
+        /// </summary>
+        public static string GetFail {
+            get {
+                return ResourceManager.GetString("GetFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Không được bỏ trống!.
         /// </summary>
         public static string NotExists {

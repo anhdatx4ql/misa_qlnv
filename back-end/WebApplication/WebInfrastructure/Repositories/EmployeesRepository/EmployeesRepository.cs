@@ -11,10 +11,9 @@ namespace WebInfrastructure
     public class EmployeesRepository : BaseRepository<Employees>, IEmployeesRepository
     {
         #region Methods
-        public override async Task<List<EmployeesViewModel>> GetAllAsync<EmployeesViewModel>()
+        public override async Task<List<EmployeesViewModel>> GetAllAsync<EmployeesViewModel>(string sql)
         {
 
-            var sql = $"SELECT * FROM View_Employees";
             using (IDbConnection db = GetDbConnection())
             {
                 db.Open();
@@ -48,6 +47,23 @@ namespace WebInfrastructure
                 }
 
                 return new PagingModel<T>(0, null);
+            }
+        }
+
+        /// <summary>
+        /// Author: Phạm Văn Đạt(23/10/2022)
+        /// Function: lấy mã code mới nhất
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public async Task<EmployeeNewCodeViewModel> GetMaxCodeAsync(string sql)
+        {
+            using (IDbConnection db = GetDbConnection())
+            {
+                db.Open();
+                var result = await db.QueryFirstOrDefaultAsync<EmployeeNewCodeViewModel>(sql, commandType: CommandType.StoredProcedure);
+                db.Close();
+                return (EmployeeNewCodeViewModel)result;
             }
         }
         #endregion

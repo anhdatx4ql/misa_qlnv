@@ -71,3 +71,67 @@
 .menu-top-icon-mini{
     background: url(../../../assets/img/Sprites.64af8f61.svg) no-repeat -316px -37px;
 }
+
+a.active-item-menu.router-link-exact-active.menu-content-item {
+    border-left-color: #2CA01C;
+}
+
+.tien-mat-active{
+    background-position: -73px -1585px !important;
+}
+
+.tong-quan-active{
+    background-position: -30px -1586px !important;
+}
+
+.tien-gui-active{
+    background-position: -117px -1587px !important;
+}
+
+.mua-hang-active{
+    background-position: -161px -1586px !important;
+}
+
+.ban-hang-active{
+    background-position: -204px -1585px !important;
+}
+
+.quan-y-hoa-don-active{
+    background-position: -250px -1586px!important;
+}
+
+.kho-active{
+    background-position: -291px -1587px !important;
+}
+
+.cong-cu-dung-cu-active{
+    background-position: -336px -1587px !important;
+}
+
+.tai-san-co-dinh-active{
+    background-position:-379px -1587px !important;
+}
+
+.thue-active{
+    background-position: -423px -1588px !important;
+}
+
+.gia-thanh-active{
+    background-position: -468px -1587px !important;
+}
+
+.tong-hop-active{
+    background-position: -511px -1587px !important;
+}
+
+.ngan-sach-active{
+    background-position: -423px -1661px !important;
+}
+
+.bao-cao-active{
+    background-position: -547px -1589px !important;
+}
+
+.phan-tich-tai-chinh-active{
+    background-position: -248px -1662px !important;
+}

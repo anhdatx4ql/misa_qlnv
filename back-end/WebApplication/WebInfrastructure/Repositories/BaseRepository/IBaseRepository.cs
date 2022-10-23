@@ -58,6 +58,6 @@ namespace WebInfrastructure
         /// Function: Xử lý lấy dữ liệu trong bảng
         /// </summary>
         /// <returns></returns>s
-        Task<List<T>> GetAllAsync<T>();
+        Task<List<T>> GetAllAsync<T>(string sql);
     }
 }

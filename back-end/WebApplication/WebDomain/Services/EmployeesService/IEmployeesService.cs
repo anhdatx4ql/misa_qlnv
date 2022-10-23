@@ -20,6 +20,13 @@ namespace WebDomain
         /// <param name="pageSize">số bản ghi/trang</param>
         /// <returns></returns>
         Task<ReponsitoryModel> Paging(string keyword, int currentPageNumber, int pageSize);
+
+        /// <summary>
+        /// Author: Phạm Văn Đạt(23/10/2022)
+        /// Function: Lấy mã code lớn nhất
+        /// </summary>
+        /// <returns></returns>
+        Task<ReponsitoryModel> GetMaxCode();
         #endregion
     }
 }

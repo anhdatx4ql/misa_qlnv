@@ -73,6 +73,8 @@ input[type="text"]:disabled {
     padding: 2px 0;
     border: 1px solid #babec5;
     background: white;
+    overflow-y: scroll;
+    max-height: 232px;
 }
 
 button.button-combobox:hover {
@@ -130,4 +132,21 @@ button.button-combobox:hover {
 
 .combobox-container-input>input {
     width: 100% !important;
+}
+
+
+
+
+.dropdown-items::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: #F1F1F1;
+}
+  
+.dropdown-items::-webkit-scrollbar-thumb{
+    background-color:#B8BCC3;
+}
+  
+.dropdown-items::-webkit-scrollbar-thumb:hover{
+    background-color:#888888;
 }

@@ -5,7 +5,7 @@
     <span v-show="iconRed" style="color:red"> *</span>
   </div>
   <div class="input-container-content" :style="'height: '+height+';width: '+width+'px'">
-    <input :type="type" :value="value" 
+    <input :type="type" :value="value" :ref="nameRef"
     :style="'height: '+height" :placeholder="placeholder"
     :name="name">
 
@@ -23,6 +23,7 @@
 /**
  * Author: Phạm Văn Đạt(18/10/2022)
  */
+
 export default {
   name: 'MInput',
   props: {
@@ -69,7 +70,11 @@ export default {
     iconRed:{
       Type:Boolean,
       default:false
-    }
+    },
+    nameRef: {
+      Type:String,
+      default:null
+    },
   },
   data(){
     return {
@@ -78,6 +83,12 @@ export default {
     }
   },
   created() {
+
+  },
+  mounted(){
+    if(this.nameRef == "firstFocus"){
+      console.log(this.$refs[this.nameRef].focus())
+    }
   }
 }
 </script>

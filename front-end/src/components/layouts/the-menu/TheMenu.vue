@@ -7,8 +7,12 @@
         </button>
     </div>
     <div class="menu-content">
-      <router-link class="menu-content-item" v-for="item in menuItems" :key="item.title" :to="item.route">
+      <router-link class="menu-content-item"
+       v-for="item in menuItems" :key="item.title" :to="item.route"
+          v-slot="{ isActive }" 
+        >
           <div class="background-icon icon-24 icon-mr-8" 
+          :class="( isActive && item.activeClass)"
           :style="{'background-position': item.iconPosition[0] + 'px ' +item.iconPosition[1]+'px'}"></div>
           <div class="menu-content-item-text">{{item.title}}</div>
     </router-link>

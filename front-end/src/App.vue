@@ -2,7 +2,9 @@
   <the-menu :hideTheMenu="hideTheMenu" @hideTheMenu="hideTheMenu = $event"></the-menu>
   <div class="main">
     <the-header @hideTheMenu="hideTheMenu = $event" :hideTheMenu="hideTheMenu"></the-header>
-    <the-content></the-content>
+    <div class="main-container">
+      <the-content></the-content>
+    </div>
   </div>
 </template>
 

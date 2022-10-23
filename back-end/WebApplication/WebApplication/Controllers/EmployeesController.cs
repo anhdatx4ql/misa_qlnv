@@ -43,17 +43,35 @@ namespace WebApplication
         /// </summary>
         /// <param name="ids">danh sách id</param>
         /// <returns></returns>
-        [HttpDelete("DeleteRecords")]
+        [HttpDelete]
         public async Task<ReponsitoryModel> DeleteRecords([FromBody] List<Guid> ids)
         {
             return await _employeeService.DeleteRecords(ids);
         }
 
-
-        [HttpPost("Paging")]
+        /// <summary>
+        /// Author: Phạm Văn Đạt(23/10/2022)
+        /// Function: xử lý phân trang
+        /// </summary>
+        /// <param name="keyword"></param>
+        /// <param name="currentPageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [HttpGet("Paging")]
         public async Task<ReponsitoryModel> Paging(string keyword = null, int currentPageNumber = 1, int pageSize = 10)
         {
             return await _employeeService.Paging(keyword, currentPageNumber, pageSize);
+        }
+
+        /// <summary>
+        /// Author: Phạm Văn Đạt(23/10/2022)
+        /// Function: Lấy mã code mới nhất
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("GetMaxCode")]
+        public async Task<ReponsitoryModel> GetMaxCode()
+        {
+            return await _employeeService.GetMaxCode();
         }
         #endregion
     }

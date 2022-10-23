@@ -28,7 +28,7 @@ namespace WebInfrastructure
             if(tableName == null)
                 tableName = TableName.GetTableName<T>();
 
-            var sql = $"SELECT * FROM {tableName} WHERE Id IN (@id);";
+            var sql = $"SELECT * FROM {tableName} WHERE Id IN (@id) LIMIT 1;";
             var parameters = new DynamicParameters();
             parameters.Add("@id", id);
             using (IDbConnection db = GetDbConnection())
@@ -99,13 +99,9 @@ namespace WebInfrastructure
         /// Function: Lấy hết dữ liệu trong bảng
         /// </summary>
         /// <returns>danh sách thông tin</returns>
-        public virtual async Task<List<T>> GetAllAsync<T>()
+        public virtual async Task<List<T>> GetAllAsync<T>(string sql)
         {
-           string tableName = TableName.GetTableName<T>();
-
-            if (tableName == null)
-                return null;
-            var sql = $"SELECT * FROM View_{tableName} LIMIT 50";
+           
            using(IDbConnection db = GetDbConnection())
             {
                 db.Open();

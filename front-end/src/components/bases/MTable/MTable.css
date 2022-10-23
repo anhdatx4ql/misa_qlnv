@@ -1,151 +1,201 @@
-.table-header {
-  overflow: hidden;
-  position: relative;
-  border: 0px;
-  width: 100%;
-  display: flex;
-  align-items: center;
+
+
+.position-sticky{
+    position:sticky;
+    z-index:2;
+    background:#ffffff;
 }
 
-.table-content{
-  margin: 0 30px 0 20px;
-  box-sizing: border-box;
-  overflow: hidden;
-  height: calc(100vh - 68px - 82px - 45px - 24px - 48px);
+.left-60{
+    left:60px;
 }
 
-.tr {
-  display: flex;
-  width: fit-content;
+
+.table-content {
+    width: 100%;
+    position: relative;
 }
 
-.tbody {
-  overflow: scroll;
-  height: calc(100vh - 68px - 82px - 45px - 24px - 48px - 34px);
+td,th {
+    box-sizing: border-box;
+    border-right:1px solid #c7c7c7;
+    border-bottom:1px solid #c7c7c7;
+    padding:0 10px;
+    box-sizing: border-box;
 }
 
-.tbody::-webkit-scrollbar {
-  width: 6px;
-  height:6px;
-  background-color: #F1F1F1;
+.content-table {
+    background: #ffffff;
+    flex-grow: 1;
 }
 
-.tbody::-webkit-scrollbar-thumb{
-  background-color:#D4D7DC;
+table {
+    border-spacing: 0;
+    background: #ffffff;
+    width: max-content;
 }
 
-.tbody::-webkit-scrollbar-thumb:hover{
-  background-color:#888888;
+thead>tr>th {
+    background: #E5E8EC !important;
+    height: 34px;
 }
 
-.th {
-  height: 34px;
-  border-right: 1px solid #c7c7c7;
-  border-bottom: 1px solid #c7c7c7;
-  display: flex;
-  align-items: center;
-  padding: 0 10px;
-  box-sizing: border-box;
-  font-size: 12px;
-  font-weight: 600;
-  background-color: #e5e8ec;
+tbody>tr{
+    height: 44px;
+    box-sizing: border-box;
 }
 
-.td {
-  height: 44px;
-  border-right: 1px solid #c7c7c7;
-  border-bottom: 1px solid #c7c7c7;
-  padding: 0 10px;
-  line-height: 44px;
-  box-sizing: border-box;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
+
+.fake-cloumn{
+    z-index: 99 !important;
+    border:none;
+    background: #ffffff !important;
 }
 
-.table-container {
-  overflow: hidden;
+.r-30{
+    right:-30px;
 }
 
-.table-container .button {
-  font-weight: 600;
-  display: inline-block;
-  transition: all .25s ease;
-  padding: inherit;
-  min-width: fit-content;
-  color: #0075c0;
+tbody>tr>td {
+    height: 44px !important;
 }
 
-.table-container .combobox .combobox-container {
-  min-width: fit-content;
-  width: fit-content !important;
-  border: none;
+td.td.table-function {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
 
-.table-container .combobox .dropdown-container {
-  width:120px !important;
-  right:-10px;
-  height: max-content;
-} 
-
-.table-container .combobox .dropdown-container .dropdown-item {
-  height: 28px;
-  padding: 5px 0;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: start;
+td.td.table-function>button {
+    font-weight: 600;
+    position: relative;
+    color: inherit;
+    display: inline-block;
+    transition: all .25s ease;
+    white-space: nowrap;
+    font-size: 13px;
+    padding: 6px 0px 6px 16px;
+    min-width: auto;
 }
 
-.table-container .combobox .dropdown-container .dropdown-item .button {
-  padding: 0 10px !important;
-  font-weight: 500;
-  color: #111111;
-  height: 28px;
-  width:100%;
+td.td.table-function>.combobox>.combobox-container {
+    width: fit-content !important;
+    outline: none;
+    height: 24px;
+    border: none;
+    background:none;
 }
 
-.table-container .combobox .dropdown-container .dropdown-item .button:hover {
-  color: #35bf22;
-  background: #E0E0E0;
+td.td.table-function>.combobox>.combobox-container .combobox-actions-button {
+        padding: 8px 10px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 18px;
+        background: none;
 }
 
-.tbody button {
-  background: none;
-  height: auto;
-  width: fit-content;
+.td.td.table-function>.combobox>.combobox-container .combobox-actions-button .background-icon-arrow-bottom {
+    background-position: -898px -359px;
 }
 
-.tbody button:hover {
-  background: none;
-}
-
-.tbody.combobox-actions-button:focus, 
-.table-function>button:focus {
-  border: 1px solid #0075c0;
-  border-radius: 0;
-}
-
-.td.table-function {
+tbody .checkbox {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin:0 auto;
+    width:18px !important;
 }
 
-.tbody .combobox {
+td.td.table-function>button {
+    background: none;
+    height: 24px;
+    margin-right: 3px;
+}
+
+td.td.table-function>.combobox>.combobox-container .combobox-actions-button:focus-within {
+    border: 1px solid #0075c0;
+}
+
+td.td.table-function .combobox-actions {
     padding-left: 5px;
     border-left: 1px solid white;
-    margin-left: 5px;
 }
 
-.tbody .tr:hover {
-  background: #F2F9FF;
+td.td.table-function>button:focus-within>span {
+    border: 1px solid #0075c0;
 }
 
-.tbody .tr .combobox-container {
-  background: none;
+td.td.table-function button:focus-within {
+    outline: none;
 }
 
-.table.checkbox {
-  width: 18px!important;
+td.td.table-function {
+    color: #0075c0;
+}
+
+.table-function .dropdown-items {
+    width: max-content;
+}
+
+.table-function .dropdown-container {
+    right: 211%;
+    top: 23px !important;
+}
+
+.table-function .dropdown-container span {
+    font-weight: 400;
+}
+
+thead th {
+    font-size: 12px;
+}
+
+tbody tr:hover>td:not(:first-child) {
+    background: #E5F3FF;
+}
+
+tbody tr>td:nth-child(3) {
+    position: sticky;
+    left: 60px;
+    background: #ffffff;
+}
+
+.table-function {
+    position: sticky;
+    right: 30px;
+    background: #ffffff;
+    z-index: 5;
+    border-left: 1px solid #c7c7c7;
+}
+
+.border-right-none{
+    border-right:none;
+}
+
+.background-container{
+    background-color:#ECEEF1 !important;
+}
+
+thead>tr>th {
+    position: sticky;
+    top: -24px;
+    z-index: 15 !important;
+}
+
+thead>tr>th:nth-child(2),thead>tr>th:nth-child(3) {
+    z-index: 17 !important;
+}
+
+.table-function:focus-within {
+    z-index: 8;
+}
+
+td.td.table-function .button.button-active {
+    color: #111111 !important;
+    background: none !important;
+}
+
+td.td.table-function .button.button-active:hover {
+    background: #EBEDF0 !important;
 }

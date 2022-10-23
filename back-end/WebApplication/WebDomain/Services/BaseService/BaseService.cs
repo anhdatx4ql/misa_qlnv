@@ -39,7 +39,12 @@ namespace WebDomain
             List<string> message = new List<string>();
             try
             {
-                var result = await _baseRepository.GetAllAsync<T>();
+                string tableName = TableName.GetTableName<T>();
+
+                if (tableName == null)
+                    return null;
+                var sql = $"SELECT * FROM View_{tableName} LIMIT 100";
+                var result = await _baseRepository.GetAllAsync<T>(sql);
                 message.Add(MessageSuccess.GetSuccess);
                 return new ReponsitoryModel(result, CodeSuccess.Code200, message);
             }
@@ -363,7 +368,7 @@ namespace WebDomain
         private bool CheckRegex(string value, string type=null)
         {
             // check email
-            string valiPattenrn = "";
+            string valiPattenrn;
             if( type.ToLower() == "email")
             {
                 valiPattenrn = @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|"

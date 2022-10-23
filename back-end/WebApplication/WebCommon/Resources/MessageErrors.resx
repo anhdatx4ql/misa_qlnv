@@ -165,6 +165,9 @@
   <data name="GenderExists" xml:space="preserve">
     <value>Giới tính không tồn tại!</value>
   </data>
+  <data name="GetFail" xml:space="preserve">
+    <value>Lấy dữ liệu thất bại</value>
+  </data>
   <data name="NotExists" xml:space="preserve">
     <value>Không được bỏ trống!</value>
   </data>

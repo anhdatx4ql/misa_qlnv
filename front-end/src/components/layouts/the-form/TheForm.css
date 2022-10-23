@@ -155,3 +155,17 @@ input {
     justify-content: space-between;
     padding: 20px 32px;
 }
+
+.form .top .background-icon-arrow-bottom {
+    transform: rotate(180deg) !important;
+}
+
+.form .top .background-icon-arrow-bottom-active {transform: rotate(0deg) !important;}
+
+.form .top .background-icon-arrow-bottom {
+    background-position: -562px -359px !important;
+}
+
+.form .top .background-icon-arrow-bottom-active {
+    background-position: -558px -359px !important;
+}

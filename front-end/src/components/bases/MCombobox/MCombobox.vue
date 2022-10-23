@@ -1,14 +1,18 @@
 <template>
   <div class="combobox-field" v-show="(comboboxField !=null)">
-    {{comboboxField}} <span v-show="iconRed" style="color:red;"> *</span>
+    {{comboboxField}} 
+    <span v-show="iconRed" style="color:red;"> *</span>
   </div>
- <div class="combobox" v-click-away="handlerHideDropdown" ref="combobox">
+ <div class="combobox" @click="SelectListValueCombobox" v-click-away="HandlerHideDropdown">
   <div class="combobox-container" :style="'width: '+width+'px'">
     <div class="combobox-container-input" v-show="icon">
-      <input type="text" :disabled="disabled ? '' : disabled" @input.prevent="handlerInput"
+      <input type="text" 
+      @focus="HandlerFocusInput" 
+      @focusout="checkShowDropDown = false;"
+      :disabled="disabled ? '' : disabled" @input.prevent="HandlerInput"
       :value="cbxValue.name" style="width:156px;">
     </div>
-    <div class="combobox-actions">
+    <div class="combobox-actions" :class="position">
       <button class="combobox-actions-button" @click="checkShowDropDown = !checkShowDropDown">
         <span class="background-icon-arrow-bottom icon-16" :class="{'background-icon-arrow-bottom-active':checkShowDropDown}"
         :style="(checkShowDropDown==true)?'transform: rotate(180deg);':'transform: rotate(0)'">
@@ -19,7 +23,7 @@
   <div class="dropdown-container" v-show="checkShowDropDown" :style="position+': 34px'">
     <div class="dropdown-items">
       <div class="dropdown-item" v-for="(cbxListValue, index) in cbxListValues" :key="cbxListValue.id">
-        <m-button @click="selectValueCombobox(cbxListValue)" class="button-combobox"
+        <m-button @click="SelectValueCombobox(cbxListValue)" class="button-combobox"
         :tabindex="index"
         :value="cbxListValue.id" 
         :class="{'button-active':(checkFocusItemSearch == cbxListValue.id || cbxListValue.id == cbxValue.id)?true:false}">
@@ -37,7 +41,7 @@ export default {
   props: {
 
     // Các giá trị có thể có
-    listValues:Array(Object),
+    listValues:Array,
 
     // giá trị hiện tại
     value:{
@@ -74,7 +78,9 @@ export default {
     iconRed:{
       Type:String,
       default:false
-    }
+    },
+
+
   },
   data(){
     return{
@@ -91,7 +97,10 @@ export default {
       checkFocusItemSearch:{
         Type:Number,
         default:-1
-      }
+      },
+
+      // checkload dữ liệu
+      checkload: false
     }
   },
   created(){
@@ -107,7 +116,7 @@ export default {
      * Function: Xử lý lấy giá trị khi click item dropdown
      * @param {} el 
      */
-    selectValueCombobox(el){
+    SelectValueCombobox(el){
       this.checkFocusItemSearch =null;
       this.cbxValue = el;
       this.checkShowDropDown=false;
@@ -116,7 +125,7 @@ export default {
      * Author: Phạm Văn Đạt
      * Function: Xử lý ẩn DropDown
      */
-    handlerHideDropdown(){
+    HandlerHideDropdown(){
       this.checkShowDropDown = false;
     },
 
@@ -125,8 +134,9 @@ export default {
      * Function: Xử lý tìm kiếm dữ liệu trong combobox
      * @param {*} event 
      */
-    handlerInput(event){
-      let text = event.target.value;
+    HandlerInput(event){
+      try{
+        let text = event.target.value;
 
       this.cbxValue= {
         id:null,
@@ -164,9 +174,60 @@ export default {
         
       }, 300);
       }
+      }catch(e){
+        console.log(e)
+      }
       
+      
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(21/10/2022)
+     * Function: Xử lý click lấy dữ liệu
+     */
+    SelectListValueCombobox(){
+      try{
+        console.log(this.checkload)
+        if(this.checkload == false){
+          this.$emit('checkLoadDataCombobox');
+          this.checkload = true;
+        }
+      }catch(e){
+        console.log(e);
+      }
+      
+      
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(24/10/2022)
+     * Function: Xử lý hiển thị dropdown khi focus vào input
+     */
+    HandlerFocusInput(){
+      this.checkShowDropDown = true;
+      this.SelectListValueCombobox();
     }
   },
+  watch:{
+    /**
+     * Author: Phạm Văn Đạt(21/10/2022)
+     * Function: Xử lý load dữ liệu
+     */
+    listValues(value){
+      this.cbxListValues = value;
+    },
+
+     /**
+     * Author: Phạm Văn Đạt(21/10/2022)
+     * Function: Xử lý thay đổi giá trị khi chọn
+     */
+    cbxValue(newValue, oldValue){
+      if(oldValue != newValue){
+        this.$emit('newValue',newValue.id);
+      }
+     
+    }
+  }
 }
 </script>
 

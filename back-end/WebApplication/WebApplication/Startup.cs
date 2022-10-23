@@ -12,6 +12,7 @@ namespace WebApplication
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -22,6 +23,18 @@ namespace WebApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.WithOrigins(Configuration["AllowedHosts"])
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+
             // chuỗi kết nối
             DbContext.ConnectString = Configuration.GetConnectionString("DefaultConnection");
 
@@ -58,6 +71,9 @@ namespace WebApplication
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            // add core
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseAuthorization();
 
