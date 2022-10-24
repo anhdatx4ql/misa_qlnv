@@ -6,9 +6,13 @@
         </button>
       </div>
       <div class="header-left-text" style="padding-left:10px;">
-        <select name="" id="">
-          <option v-for="company in companies" :key="company.name" :value="company.value">{{company.name}}</option>
-        </select>
+        <m-combobox
+            :value="companies[0]" 
+            :listValues="companies"
+            position="top"
+            :disabled="true">
+        </m-combobox>
+
       </div>
     </div>
     <div class="header-right">

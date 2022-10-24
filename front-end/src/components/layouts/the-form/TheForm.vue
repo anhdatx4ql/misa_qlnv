@@ -29,12 +29,20 @@
             <!-- end Check box kiểm tra nhà cung cấp -->
         </div>
         <div class="form-header-right">
-            <m-button>
+
+
+          <div v-tooltip="{global: true,theme: {placement: 'bottom',},}">
+            <m-button v-tooltip.bottom="'Giúp (F1)'">
               <span class="background-icon-question icon-24"></span>
             </m-button>
-            <m-button @click="handlerCloseForm">
+          </div>
+
+          <div v-tooltip="{global: true,theme: {placement: 'bottom',},}">
+             <m-button @click="handlerCloseForm" v-tooltip="'Đóng (ESC)'">
               <span class="background-icon-close icon-24"></span>
             </m-button>
+          </div>
+          
           </div>
       </div>
       <!-- end header -->
@@ -110,11 +118,12 @@
             <!-- end giới tính -->
 
             <!-- Start Số chứng minh nhân dân -->
-            <m-input-text
-              class="w-60 p-r-6"
-              fieldLabel="Số CMND"
-              :value="currentEmployee.idNo"
-            ></m-input-text>
+              <m-input-text tooltip="Số chứng minh nhân dân"
+                class="w-60 p-r-6"
+                fieldLabel="Số CMND"
+                :value="currentEmployee.idNo"
+              ></m-input-text>
+            
             <!-- End Số chứng minh nhân dân  -->
 
             <!-- start ngày cấp -->
@@ -314,6 +323,7 @@ export default {
           type: this.NOTIFY_LIST.Question.type,
           text: this.NOTIFY_LIST.Question.text(this.NOTIFY_TEXT.changeData),
         };
+        console.log("click")
       }catch(e){
         console.log(e);
       }
@@ -362,6 +372,10 @@ export default {
     },
   },
   mounted(){
+    /**
+     * Author: Phạm Văn Đạt(24/10/2022)
+     * Function: focus form
+     */
     this.$refs.formContainer.focus();
 
   }

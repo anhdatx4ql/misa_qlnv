@@ -199,3 +199,16 @@ td.td.table-function .button.button-active {
 td.td.table-function .button.button-active:hover {
     background: #EBEDF0 !important;
 }
+
+th.text-align-center {
+    text-align: center;
+}
+
+td.text-align-center>div {
+    display: flex;
+    justify-content: center !important;
+}
+
+tr>td, tr>th {
+    text-align: left;
+}

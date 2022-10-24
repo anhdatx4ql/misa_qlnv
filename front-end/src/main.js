@@ -1,5 +1,15 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+
+/**
+ * Nhúng tooltip
+ */
+import tooltip from "./directives/tooltip.js";
+import "@/assets/tooltip.css";
+
 import { createRouter, createWebHistory } from "vue-router";
 import MNotFound from '/src/components/not-found/MNotFound.vue'
 import EmployeeList from '/src/components/pages/EmployeeList.vue'
@@ -128,7 +138,7 @@ const router = createRouter({
 });
 
 /**
- * Author: Phạm Văn Đạt
+ * Author: Phạm Văn Đạt(18/10/2022)
  * Function: nhúng các component dùng chung
  */
 app.component('MButton',MButton);
@@ -143,5 +153,10 @@ app.component('MTable',MTable);
 app.component('MPaging',MPaging);
 
 app.use(router);
+
 app.use(VueClickAway);
+
+app.use(ElementPlus);
+
+app.directive("tooltip", tooltip);
 app.mount("#app");

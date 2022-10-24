@@ -1,7 +1,9 @@
 <template>
- <button class="button" :value="value">
-  <slot></slot>
- </button>
+   <button class="button" :value="value" :disabled="disable">
+      <slot></slot>
+    </button>
+ 
+ 
 </template>
 
 <script>
@@ -13,6 +15,10 @@ export default {
       Type:String,
       default:null
     },
+    disable:{
+      Type:Boolean,
+      default: false
+    }
   },
   mounted(){
   }

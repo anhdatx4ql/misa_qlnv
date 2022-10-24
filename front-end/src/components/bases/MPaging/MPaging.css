@@ -40,3 +40,7 @@
 .paging-right-combobox .button {
     font-weight: 400;
 }
+
+.paging .dropdown-items {
+    overflow: unset;
+}

@@ -1,3 +1,8 @@
+/**
+ * Author: Phạm Văn Đạt(25/10/2022)
+ * Function: Các biến, hằng số dùng chung
+ */
+
 import {FormatDate} from '/src/js/FomatData'
 
 /**
@@ -111,15 +116,15 @@ export const MENU_ITEMS=[
 export const COMPANIES=[
     {
         name: "CÔNG TY A",
-        value: 1
+        id: 1
     },
     {
         name: "CÔNG TY B",
-        value: 2
+        id: 2
     },
     {
         name: "CÔNG TY C",
-        value: 3
+        id: 3
     },
 ]
 
@@ -175,6 +180,7 @@ export const TABLE_FIELDS=[
         name: 'NGÀY CẤP',
         fieldName: 'issuaOn',
         width: 120,
+        class: "text-align-center",
         formatDate: function(value){
             return FormatDate(value);
         }
@@ -214,11 +220,13 @@ export const TABLE_FIELDS=[
         name: 'ĐT DI ĐỘNG',
         fieldName: 'numberPhone',
         width: 150,
+        title: "Điện thoại di động"
     },
     {
         name: 'ĐT CỐ ĐỊNH',
         fieldName: 'deskPhone',
         width: 150,
+        title: "Điện thoại cố định"
     },
     {
         name: 'EMAIL',
@@ -235,7 +243,7 @@ export const TABLE_FIELDS=[
     {
         name: 'LÀ NHÀ CUNG CẤP',
         fieldName: 'isSuppiler',
-        width: 180,
+        width: 130,
         class: "text-align-center",
         checkBox: true
     },

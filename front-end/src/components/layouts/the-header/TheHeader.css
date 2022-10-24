@@ -64,3 +64,22 @@ select {
 .header-left-text {
     font-size: 14px;
 }
+
+.header-left-text button.combobox-actions-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-left-text span.background-icon-arrow-bottom.icon-16 {
+    background-position: -560px -359px;
+    transform: rotate(180deg) !important;
+}
+
+.header-left-text span.background-icon-arrow-bottom.icon-16.background-icon-arrow-bottom-active {
+    transform: rotate(0) !important;
+}
+
+.header-left-text .dropdown-items {
+    overflow: unset;
+}

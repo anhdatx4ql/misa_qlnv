@@ -1,15 +1,14 @@
 <template>
   <div class="radio-container">
-    <input
-     :id="id" type="radio" 
-     :checked="(valueGender == value || checked)?true:false" 
-     :name="name" :value="value">
-    <label :for="id" class="radio-content-label">
-      <span class="radio-content-label-box">
-        <div class="radio-content-label-point"></div>
-      </span>
+    <label :for="id">
+      <input
+      :id="id" type="radio" 
+      :checked="(valueGender == value || checked)?true:false" 
+      :name="name" :value="value">
+      <span class="radio-focus"></span>
       <span class="radio-text m-l-10">{{text}}</span>
     </label>
+   
   </div>
   
 </template>

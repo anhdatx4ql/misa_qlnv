@@ -1,14 +1,18 @@
 <template>
+
  <div class="input-container">
+
   <div class="input-container-field-label" v-if="(fieldLabel!=null)?true:false">
-    <span>{{fieldLabel}}</span>
+    <span v-if="tooltip == null">{{fieldLabel}}</span>
+    <span v-else v-tooltip="`${tooltip}`">{{fieldLabel}}</span>
     <span v-show="iconRed" style="color:red"> *</span>
   </div>
+
+
   <div class="input-container-content" :style="'height: '+height+';width: '+width+'px'">
     <input :type="type" :value="value" :ref="nameRef"
     :style="'height: '+height" :placeholder="placeholder"
     :name="name">
-
     <button class="input-container-content-icon icon-20 icon-mr-10" :class="classIcon"
      v-if="(classIcon == null)?false:true">
   </button>
@@ -75,6 +79,10 @@ export default {
       Type:String,
       default:null
     },
+    tooltip:{
+      Type:String,
+      default: null
+    }
   },
   data(){
     return {

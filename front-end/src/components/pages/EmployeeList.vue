@@ -5,22 +5,30 @@
             <span class="content-top-left-title">Nhân viên</span>
         </div>
         <div class="content-top-right">
-            <m-button @click="HandlerClickShowForm"><span>Thêm mới nhân viên</span></m-button>
+            <m-button @click="HandlerClickShowForm" :disable="disableButtonIndsert"><span>Thêm mới nhân viên</span></m-button>
         </div>
         <!-- end content top left -->
     </div>
 
      <!-- start  content center top -->
      <div class="content-center-top">
+
+        <!-- start custom tooltip -->
+        <div v-tooltip="{global: true,theme: {placement: 'bottom',},}"></div>
+        <!-- end custom tooltip -->
+
         <m-input-text placeholder="Tìm theo mã, tên nhân viên"
             classIcon="input-icon-search">
         </m-input-text>
-        <m-button class="content-center-button-left icon-ml-10">
+
+        <m-button v-tooltip="'Lấy lại dữ liệu'" class="content-center-button-left icon-ml-10">
             <span class="background-icon-reload icon-24 background-flex"></span>
         </m-button>
-        <m-button class="content-center-button-left">
+
+        <m-button v-tooltip="'Xuất ra Excel'" class="content-center-button-left">
             <span class="background-icon-excel icon-24 background-flex"></span>
         </m-button>
+        
     </div>
     <!-- end content center top -->
 
@@ -100,7 +108,10 @@ export default {
             currentPage:1,
 
             // khai báo thông tin chi tiết khách hàng
-            employeeDetail: employeeModel
+            employeeDetail: employeeModel,
+
+            // disable nút button khi click 1 lần
+            disableButtonIndsert: false
         }
     },
     created(){
@@ -186,6 +197,7 @@ export default {
          */
         async HandlerClickShowForm(){
             try{
+                this.disableButtonIndsert = true;
                 let newCode = await employees.GetMaxCode();
                 if(newCode){
                     this.employeeDetail.employeeId = newCode;
@@ -193,6 +205,7 @@ export default {
                 console.log(this.employeeDetail)
                 this.checkShowForm = true;
                 this.title='Thêm mới nhân viên';
+                this.disableButtonIndsert = false;
             }catch(e){
                 console.log(e);
             }

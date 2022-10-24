@@ -10,7 +10,12 @@
           <m-input-checkbox id="1"></m-input-checkbox>
         </th>
         <th v-for="field in fields" :key="field.name" :class="field.class" :style="'width:'+field.width+'px'">
-          {{field.name}}
+          <div v-if="!field.title">
+            {{field.name}}
+          </div>
+          <el-tooltip v-else :content="field.title" effect="light" placement="bottom">
+            {{field.name}}
+          </el-tooltip>
         </th>
         <th style="width:120px;" class="table-function">
           CHỨC NĂNG
@@ -23,7 +28,7 @@
 
     <!-- start body table -->
     <tbody>
-      <tr v-for="data in listData" :key="data.id">
+      <tr v-for="data in listData" :key="data.id" @dblclick="HandlerDetailEmployee(data)">
         <td class="position-sticky fake-cloumn" style="width:20px;left:0"></td>
         <td style="width:40px;left:20px" class="position-sticky">
           <m-input-checkbox style="width:40px" :id="data.id" :value="data.id"></m-input-checkbox>
@@ -53,7 +58,7 @@
 
         </td>
         <td class="td table-function" style="width:120px">
-          <m-button @click="handlerDetailEmployee(data)"><span>Sửa</span></m-button>
+          <m-button @click="HandlerDetailEmployee(data)"><span>Sửa</span></m-button>
           <m-combobox :listValues="fieldFunction" :icon="false" position="top" :width="120">
           </m-combobox>         
         </td>
@@ -126,7 +131,7 @@ export default {
      * Author: Phạm Văn Đạt(22/10/2022)
      * Function: Xử lý khi click nút sửa
      */
-    handlerDetailEmployee(data){
+    HandlerDetailEmployee(data){
       console.log(data)
       this.$emit('employeeDetail',data);
       this.$emit('checkShowForm',true);

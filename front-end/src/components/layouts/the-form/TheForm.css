@@ -30,7 +30,6 @@
 
 .form-header {
     display: flex;
-    align-items: center;
     justify-content: space-between;
 }
 
@@ -168,4 +167,14 @@ input {
 
 .form .top .background-icon-arrow-bottom-active {
     background-position: -558px -359px !important;
+}
+
+.form-header-right {
+    display: flex;
+    align-items: baseline;
+    padding-top: 12px;
+}
+
+.form-header-right>div:first-child>button {
+    margin-right: 6px;
 }
