@@ -1,0 +1,126 @@
+.input-container-field-label {
+    color: #111;
+    padding-bottom: 4px;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+input[type="text"] {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    margin: 0 12px;
+    font-family: 'notosan-regular';
+    font-size: 13px;
+}
+
+input {
+    padding-left: 10px;
+    flex-grow:1;
+    width:100%;
+    box-sizing: border-box;
+}
+
+.input-container-content {
+    display: flex;
+    border: 1px solid #EBEBEB;
+    height: 36px;
+    overflow: hidden;
+    border-radius: 2px;
+    box-sizing: border-box;
+    width: max-content;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.input-container-content:hover {outline: 1px solid #e2e2e2;}
+
+.input-container-content:focus-within {
+    border: 1px solid #2ca01c;
+    outline: none;
+}
+
+.input-container-error {
+    font-size: 12px;
+    margin-top: 8px;
+    font-weight: 400;
+    color: #E61D1D;
+}
+
+.input-icon-search{
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -315px -146px;
+}
+
+.content-center {
+    background-color: #fff;
+}
+
+input::placeholder {
+    font-size: 12px;
+    font-style: italic;
+}
+
+.input-container-content {
+    width: 100%!important;
+}
+
+.el-input__wrapper.is-focus {
+    box-shadow: none;
+    border: 1px solid #2ca01c;
+}
+
+.el-input__wrapper {
+    border-radius: 2px !important;
+    box-shadow: none;
+    border: 1px solid #EBEBEB;
+    flex-direction: row-reverse !important;
+    padding: 0 12px 0 10px;
+}
+
+.el-input__wrapper:hover {
+    box-shadow: none;
+    outline: 1px solid #e2e2e2;
+}
+
+span.el-input__suffix {
+    display: none;
+}
+
+.el-input__prefix-inner>:last-child {
+    margin-right: 0;
+}
+
+.el-date-table td.current:not(.disabled) .el-date-table-cell__text {
+    background: rgba(44,160,28,.2);
+    font-weight: 600;
+    color: #08bf1e;
+}
+
+.el-date-table td.today .el-date-table-cell__text{
+    font-weight: 600;
+    color: #08bf1e;
+}
+
+
+.el-date-table .el-date-table-cell__text{
+    cursor: pointer;
+    border: 1px solid #fff;
+    transition: .1s ease-in-out;
+    color:#757575;
+    width: 34px !important;
+    height: 34px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.el-date-table .el-date-table-cell__text:hover {
+    cursor: pointer;
+    border: 1px solid #2ca01c;
+    transition: .1s ease-in-out;
+    color:#757575;
+}
+

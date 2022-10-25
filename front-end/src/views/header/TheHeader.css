@@ -1,0 +1,103 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 48px;
+}
+
+.header-left-background-icon{
+    background: url(../../assets//img/Sprites.64af8f61.svg) no-repeat -843px -30px;
+}
+
+.header-right-background-icon{
+    background: url(../../assets//img/Sprites.64af8f61.svg) no-repeat -788px -30px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header button{
+    outline: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+select {
+    outline: none;
+    border: none;
+    line-height: 17px;
+    cursor: pointer;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-right: 24px;
+}
+
+.header-right-info-avatar{
+    background: url(../../assets//img/Sprites.64af8f61.svg) no-repeat -352px -894px;
+    border-radius: 50%;
+    margin-right: 6px;
+}
+
+.header-right-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+}
+
+.header-right-info {
+    display: flex;
+    align-items: center;
+}
+
+.header-right-info-icon{
+    background: url(../../assets//img/Sprites.64af8f61.svg) no-repeat -465px -409px;
+}
+
+.header-left-text {
+    font-size: 14px;
+}
+
+.header-left-text button.combobox-actions-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-left-text .dropdown-items {
+    overflow: unset;
+}
+
+.header-right-icon:hover {
+    background: #000000;
+    cursor:pointer;
+}
+
+.header-right-icon:hover button{
+    background-position: -257px -88px;
+}
+
+.header-right-info {
+    padding: 0 16px;
+}
+
+.header-right {
+    margin-right: 20px;
+}
+
+
+
+.header span.background-icon-arrow-bottom.icon-16 {
+    background-position: -561px -359px;
+}
+
+.header .background-icon-arrow-bottom-active {
+    background-position: -560px -359px !important;
+}

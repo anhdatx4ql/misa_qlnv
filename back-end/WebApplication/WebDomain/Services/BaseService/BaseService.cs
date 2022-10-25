@@ -352,8 +352,9 @@ namespace WebDomain
 
             if (attributeExists != null)
             {
-                // truyền tên table, tên trường cần check, id khách hàng cần check
+                // truyền tên table, tên trường cần check, giá trị của trường cần check, id khách hàng cần check
                 messageError.Add($"Xử lý check trùng {propertyName}");
+
             }
 
             return messageError;

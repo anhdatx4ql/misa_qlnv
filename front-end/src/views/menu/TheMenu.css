@@ -1,0 +1,138 @@
+.menu{
+    width: 178px;
+    background-color: #38393D;
+}
+
+.menu-top {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    justify-content: center;
+}
+
+.menu-top-icon{
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -424px -86px;
+}
+
+.menu-top-logo{
+    background: url(../../assets//img/Logo_Module_TiengViet_White.66947422.svg) no-repeat;
+    width: 96px;
+    height: 32px;
+    background-size: cover;
+}
+
+.menu-content{
+    overflow-y: scroll;
+    height: calc(100vh - 48px - 14px);
+    padding-top: 14px;
+}
+
+.menu-content-item-text {
+    font-size: 13px;
+    color: #fff;
+    font-family:'notosan-regular';
+}
+
+.menu-content::-webkit-scrollbar {
+    width: 6px;
+    background-color: #F1F1F1;
+}
+
+.menu-content::-webkit-scrollbar-thumb{
+    background-color:#D4D7DC;
+}
+
+.menu-content::-webkit-scrollbar-thumb:hover{
+    background-color:#888888;
+}
+
+.menu-content-item {
+    display: flex;
+    align-items: center;
+    border-left: solid 6px #38393D;
+    padding: 0 0 0 8px;
+    height: 42px;
+}
+
+.menu-content-item:hover{
+    background-color:#58595D;
+    cursor:pointer;
+    border-left:solid 6px #58595D;
+}
+
+.mini-menu {
+    width: 56px!important;
+}
+
+.mini-menu .menu-content-item-text {
+    display: none;
+}
+
+.menu-top-icon-mini{
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -316px -37px;
+}
+
+a.active-item-menu.router-link-exact-active.menu-content-item {
+    border-left-color: #2CA01C;
+    background: #58595D;
+}
+
+.tien-mat-active{
+    background-position: -73px -1585px !important;
+}
+
+.tong-quan-active{
+    background-position: -30px -1586px !important;
+}
+
+.tien-gui-active{
+    background-position: -117px -1587px !important;
+}
+
+.mua-hang-active{
+    background-position: -161px -1586px !important;
+}
+
+.ban-hang-active{
+    background-position: -204px -1585px !important;
+}
+
+.quan-y-hoa-don-active{
+    background-position: -250px -1586px!important;
+}
+
+.kho-active{
+    background-position: -291px -1587px !important;
+}
+
+.cong-cu-dung-cu-active{
+    background-position: -336px -1587px !important;
+}
+
+.tai-san-co-dinh-active{
+    background-position:-379px -1587px !important;
+}
+
+.thue-active{
+    background-position: -423px -1588px !important;
+}
+
+.gia-thanh-active{
+    background-position: -468px -1587px !important;
+}
+
+.tong-hop-active{
+    background-position: -511px -1587px !important;
+}
+
+.ngan-sach-active{
+    background-position: -423px -1661px !important;
+}
+
+.bao-cao-active{
+    background-position: -547px -1589px !important;
+}
+
+.phan-tich-tai-chinh-active{
+    background-position: -248px -1662px !important;
+}

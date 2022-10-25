@@ -11,18 +11,17 @@ import tooltip from "./directives/tooltip.js";
 import "@/assets/tooltip.css";
 
 import { createRouter, createWebHistory } from "vue-router";
-import MNotFound from '/src/components/not-found/MNotFound.vue'
-import EmployeeList from '/src/components/pages/EmployeeList.vue'
-import MButton from '/src/components/bases/MButton/MButton.vue'
-import MCombobox from '/src/components/bases/MCombobox/MCombobox.vue'
-import MInputText from '/src/components/bases/MInput/MInputText.vue'
-import MInputRadio from '/src/components/bases/MInput/MInputRadio.vue'
-import MInputCheckbox from '/src/components/bases/MInput/MInputCheckbox.vue'
-import MNotify from '/src/components/bases/MNotify/MNotify.vue'
-import MToastMessage from '/src/components/bases/MToastMessage/MToastMessage.vue'
-import MToolTip from '/src/components/bases/MToolTip/MToolTip.vue'
-import MTable from '/src/components/bases/MTable/MTable.vue'
-import MPaging from '/src/components/bases/MPaging/MPaging.vue' 
+import BaseNotFound from '/src/views/not-found/TheNotFound.vue'
+import EmployeeList from '/src/views/employees/employees-list/EmployeeList.vue';
+import BaseButton from '/src/components/button/BaseButton.vue'
+import BaseCombobox from '/src/components/combobox/BaseCombobox.vue'
+import BaseInputText from '/src/components/Input/BaseInputText.vue'
+import BaseInputRadio from '/src/components/Input/BaseInputRadio.vue'
+import BaseInputCheckbox from '/src/components/Input/BaseInputCheckbox.vue'
+import BaseNotify from '/src/components/notify/BaseNotify.vue'
+import BaseToastMessage from '/src/components/toastMessage/BaseToastMessage.vue'
+import BaseTable from '/src/components/table/BaseTable.vue'
+import BasePaging from '/src/components/paging/BasePaging.vue' 
 
 import VueClickAway from "vue3-click-away";
 
@@ -56,72 +55,72 @@ const routers = [
     },
     {
         path: '/tong-quan',
-        component: MNotFound,
+        component: BaseNotFound,
         name:"tong-quan"
     },
     {
         path: '/tien-gui',
-        component: MNotFound,
+        component: BaseNotFound,
         name:"tien-gui"
     },
     {
         path: '/mua-hang',
-        component: MNotFound,
+        component: BaseNotFound,
         name:"mua-hang"
     },
     {
         path: '/ban-hang',
-        component: MNotFound,
+        component: BaseNotFound,
         name:"ban-hang"
     },
     {
         path: '/quan-ly-hoa-don',
-        component: MNotFound,
+        component: BaseNotFound,
         name:"quan-ly-hoa-don"
     },
     {
         path: '/kho',
-        component: MNotFound,
+        component: BaseNotFound,
         name:"kho"
     },
     {
         path: '/cong-cu-dung-cu',
-        component: MNotFound,
+        component: BaseNotFound,
         name:"cong-cu-dung-cu"
     },
     {
         path: '/tai-san-co-dinh',
-        component: MNotFound,
+        component: BaseNotFound,
         name:"tai-san-co-dinh"
     },
     {
         path: '/thue',
-        component: MNotFound,
+        component: BaseNotFound,
         name:"thue"
     },
     {
         path: '/gia-thanh',
-        component: MNotFound,
+        component: BaseNotFound,
         name:"gia-thanh"
     },
     {
         path: '/tong-hop',
-        component: MNotFound,
+        component: BaseNotFound,
         name:"tong-hop"
     },
     {
         path: '/ngan-sach',
-        component: MNotFound,
+        component: BaseNotFound,
         name:"ngan-sach"
     },
     {
         path: '/bao-cao',
-        component: MNotFound,
+        component: BaseNotFound,
         name:"bao-cao"
     },
     {
         path: '/phan-tich-tai-chinh',
-        component: MNotFound,
+        component: BaseNotFound,
         name:"phan-tich-tai-chinh"
     }
 ];
@@ -141,16 +140,15 @@ const router = createRouter({
  * Author: Phạm Văn Đạt(18/10/2022)
  * Function: nhúng các component dùng chung
  */
-app.component('MButton',MButton);
-app.component('MCombobox',MCombobox);
-app.component('MInputText',MInputText);
-app.component('MInputRadio',MInputRadio);
-app.component('MInputCheckbox',MInputCheckbox);
-app.component('MNotify',MNotify);
-app.component('MToastMessage',MToastMessage);
-app.component('MToolTip',MToolTip);
-app.component('MTable',MTable);
-app.component('MPaging',MPaging);
+app.component('BaseButton',BaseButton);
+app.component('BaseCombobox',BaseCombobox);
+app.component('BaseInputText',BaseInputText);
+app.component('BaseInputRadio',BaseInputRadio);
+app.component('BaseInputCheckbox',BaseInputCheckbox);
+app.component('BaseNotify',BaseNotify);
+app.component('BaseToastMessage',BaseToastMessage);
+app.component('BaseTable',BaseTable);
+app.component('BasePaging',BasePaging);
 
 app.use(router);
 

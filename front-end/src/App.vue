@@ -13,9 +13,9 @@
  * Author: Phạm Văn Đạt(18/10/2022)
  * Function: nhúng các compontents cần dùng
  */
-import TheMenu from './components/layouts/the-menu/TheMenu.vue'
-import TheHeader from './components/layouts/the-header/TheHeader.vue'
-import TheContent from './components/layouts/the-content/TheContent.vue'
+import TheMenu from './views/menu/TheMenu.vue'
+import TheHeader from './views/header/TheHeader.vue'
+import TheContent from './views/content/TheContent.vue'
 
 
 export default {
