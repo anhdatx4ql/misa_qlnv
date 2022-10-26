@@ -1,3 +1,7 @@
+<!-- 
+  Author: Phạm Văn Đạt(26/10/2022)
+  Function: Trang chính hiển thị website
+ -->
 <template>
   <the-menu :hideTheMenu="hideTheMenu" @hideTheMenu="hideTheMenu = $event"></the-menu>
   <div class="main">

@@ -8,6 +8,10 @@ using WebInfrastructure;
 
 namespace WebDomain
 {
+    /// <summary>
+    /// Author: Phạm Văn Đạt(14/10/2022)
+    /// Function: xử lý nghiệp vụ khách hàng
+    /// </summary>
     public interface IEmployeesService:IBaseService<Employees>
     {
         #region Methods
@@ -27,6 +31,14 @@ namespace WebDomain
         /// </summary>
         /// <returns></returns>
         Task<ReponsitoryModel> GetMaxCode();
+
+        /// <summary>
+        /// Author: Phạm Văn Đạt(26/10/2022)
+        /// Function: Xử lý xuất excel
+        /// </summary>
+        /// <param name="ids"> danh sách id của khách hàng</param>
+        /// <returns></returns>
+        Task<byte[]> ExportExcel(List<Guid> ids = null);
         #endregion
     }
 }

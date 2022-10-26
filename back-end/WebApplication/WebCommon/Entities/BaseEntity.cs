@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 namespace WebCommon
 {
     /// <summary>
-    /// Author: Phạm Văn Đạt
+    /// Author: Phạm Văn Đạt(13/10/2022)
     /// Function: Base entity
     /// Base entity
     /// </summary>
     public class BaseEntity
     {
+        #region Fields
         // ngày tạo
         public DateTime CreatedAt { set; get; }
 
@@ -24,5 +25,6 @@ namespace WebCommon
 
         // người tạo
         public string CreatedBy { set; get; }
+        #endregion
     }
 }

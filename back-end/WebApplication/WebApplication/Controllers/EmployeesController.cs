@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace WebApplication
         private readonly IEmployeesService _employeeService;
         #endregion
 
-        #region contructors
+        #region constructors
         public EmployeesController(IEmployeesService employeeService) : base(employeeService)
         {
             _employeeService = employeeService;
@@ -72,6 +73,34 @@ namespace WebApplication
         public async Task<ReponsitoryModel> GetMaxCode()
         {
             return await _employeeService.GetMaxCode();
+        }
+
+        /// <summary>
+        /// Author: Phạm Văn Đạt(26/10/2022)
+        /// Function: Xử lý xuất excel
+        /// </summary>
+        /// <param name="models"></param>
+        /// <returns></returns>
+        [HttpPost("ExportExcel")]
+        public async Task<IActionResult> ExportExcel([FromBody] List<Guid> models)
+        {
+
+            var fileContents = await _employeeService.ExportExcel(models);
+
+            if (fileContents == null || fileContents.Length == 0)
+            {
+                return NotFound();
+            }
+
+            Response.Clear();
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+            return File(
+                fileContents: fileContents,
+                contentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                fileDownloadName: "ListCustomer-" + DateTime.Now.Ticks.ToString() + ".xlsx"
+            );
+
         }
         #endregion
     }

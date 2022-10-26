@@ -5,7 +5,8 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 
 /**
- * Nhúng tooltip
+ * Author: Phạm Văn Đạt(26/10/2022)
+ * Function: Nhúng tooltip
  */
 import tooltip from "./directives/tooltip.js";
 import "@/assets/tooltip.css";
@@ -150,11 +151,15 @@ app.component('BaseToastMessage',BaseToastMessage);
 app.component('BaseTable',BaseTable);
 app.component('BasePaging',BasePaging);
 
+// nhúng router
 app.use(router);
 
+// nhúng click ra ngoài
 app.use(VueClickAway);
 
+// nhúng element plus
 app.use(ElementPlus);
 
+// nhúng tooltip
 app.directive("tooltip", tooltip);
 app.mount("#app");

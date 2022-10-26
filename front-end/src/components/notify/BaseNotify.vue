@@ -49,7 +49,10 @@
 export default {
   name: 'BaseNotify',
   props: {
+    // kiểu thông báo
     type:String,
+
+    // text thông báo
     text:String
   },
   created(){
@@ -57,7 +60,7 @@ export default {
   mounted(){
     /**
      * Author: Phạm Văn Đạt
-     * Function: xử lý focus khi hiển thị notify
+     * Function: xử lý focus button khi hiển thị notify
      */
     this.$refs.firstFocus.focus();
   }

@@ -204,3 +204,9 @@ D:\hoctap\BTMiSa\misa_qlnv\back-end\WebApplication\WebDomain\bin\Debug\K4os.Comp
 D:\hoctap\BTMiSa\misa_qlnv\back-end\WebApplication\WebDomain\bin\Debug\K4os.Hash.xxHash.xml
 D:\hoctap\BTMiSa\misa_qlnv\back-end\WebApplication\WebDomain\bin\Debug\System.Numerics.Vectors.xml
 D:\hoctap\BTMiSa\misa_qlnv\back-end\WebApplication\WebDomain\obj\Debug\WebDomain.csproj.CopyComplete
+D:\hoctap\BTMiSa\misa_qlnv\back-end\WebApplication\WebDomain\bin\Debug\EPPlus.dll
+D:\hoctap\BTMiSa\misa_qlnv\back-end\WebApplication\WebDomain\bin\Debug\EPPlus.Interfaces.dll
+D:\hoctap\BTMiSa\misa_qlnv\back-end\WebApplication\WebDomain\bin\Debug\EPPlus.System.Drawing.dll
+D:\hoctap\BTMiSa\misa_qlnv\back-end\WebApplication\WebDomain\bin\Debug\Microsoft.IO.RecyclableMemoryStream.dll
+D:\hoctap\BTMiSa\misa_qlnv\back-end\WebApplication\WebDomain\bin\Debug\EPPlus.xml
+D:\hoctap\BTMiSa\misa_qlnv\back-end\WebApplication\WebDomain\bin\Debug\Microsoft.IO.RecyclableMemoryStream.xml

@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace WebCommon
 {
+    /// <summary>
+    /// Author: Phạm Văn Đạt(13/10/2022)
+    /// Function: Lấy chuỗi kết nối db
+    /// </summary>
     public class DbContext
     {
         public static string ConnectString;

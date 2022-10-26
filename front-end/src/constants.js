@@ -300,21 +300,6 @@ export const GENDERS =[
         field: "other"
     }
 ];
-// {
-//     // nam
-//   Male: {
- 
-//   },
-//   // nữ
-//   Female: {
-  
-//   }, 
-//    // khác
-//   Other:  {
-  
-//   }
-// }
-
 /**
  * Author: Phạm Văn Đạt(18/10/2022)
  * Function: danh sách loại thông báo có thể có
@@ -370,8 +355,8 @@ export const NOTIFY_TEXT= {
  * Function: Các statusCode so sánh với db trả về
  */
 export const STATUS_CODES = {
-    Code200: 200,
-    Code201: 201,
-    Code400: 400,
-    Code500: 500
+    Code200: 200, // lấy dữ liệu thành công
+    Code201: 201, // thêm thành công
+    Code400: 400, // lỗi dữ liệu không đúng
+    Code500: 500 // lỗi server
 }

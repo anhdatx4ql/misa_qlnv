@@ -8,8 +8,13 @@ using System.Threading.Tasks;
 
 namespace WebInfrastructure
 {
+    /// <summary>
+    /// Author: Phạm Văn Đạt(15/10/2022)
+    /// Function: base thao tác với DB
+    /// </summary>
     public interface IBaseRepository<T>
     {
+        #region Methods
         /// <summary>
         /// Hàm lấy chuổi kết nối 
         /// Author: Phạm Văn Đạt
@@ -23,6 +28,7 @@ namespace WebInfrastructure
         /// Function: Lấy bản ghi theo id
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="tableName"></param>
         /// <returns></returns>
         Task<T> GetById(Guid id, string tableName = null);
 
@@ -58,6 +64,16 @@ namespace WebInfrastructure
         /// Function: Xử lý lấy dữ liệu trong bảng
         /// </summary>
         /// <returns></returns>s
-        Task<List<T>> GetAllAsync<T>(string sql);
+        Task<List<T>> GetAllAsync<T>(string sql,DynamicParameters parameters= null);
+
+        /// <summary>
+        /// Author: Phạm Văn Đạt(25/10/2022)
+        /// Function: Xử lý kiểm tra dữ liệu đã tồn tại hay chưa
+        /// </summary>
+        /// <param name="sql">câu truy vấn</param>
+        /// <param name="parameters">tham số truyền vào</param>
+        /// <returns></returns>
+        Task<dynamic> CheckExists(string sql, DynamicParameters parameters);
+        #endregion
     }
 }

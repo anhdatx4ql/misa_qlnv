@@ -77,7 +77,7 @@ namespace WebCommon
         /// </summary>
         public string PositionName { set; get; }
 
-        // là khách hàng
+        // là nhà cung cấp
         public bool IsSuppiler { set; get; }
 
         //Đã xóa hay chưa

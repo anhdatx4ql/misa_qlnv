@@ -26,7 +26,7 @@ namespace WebApplication
 
         #region Method
         /// <summary>
-        /// Author: Phạm Văn Đạt
+        /// Author: Phạm Văn Đạt(21/10/2022)
         /// Function: Lấy tất cả dữ liệu trong bảng
         /// </summary>
         /// <returns>danh sách các bản ghi</returns>
@@ -37,7 +37,7 @@ namespace WebApplication
         }
 
         /// <summary>
-        /// Author: Phạm Văn Đạt
+        /// Author: Phạm Văn Đạt(13/10/2022)
         /// Function: Xử lý thêm mới bản ghi
         /// </summary>
         /// <param name="entity"></param>

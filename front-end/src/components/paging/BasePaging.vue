@@ -21,7 +21,7 @@
           v-for="(i) in totalPageSize" :key="i" :tabindex="Number(totalPageSize)-3"
           :style="((i<4 || i>totalPageSize-2))?'':'display:none'"
           :class="{'active':(i == currentPage)}"
-          @click="$emit('currentPage',i), currentPage = i"
+          @click="$emit('currentPage',i)"
           >
           {{i}}
         </button>
@@ -42,7 +42,14 @@ import {PAGING_ITEMS} from '../../constants.js'
 export default {
   name: 'BasePaging',
   props: {
+    // tổng số bản ghi thỏa mãn
     totalCount:Number,
+
+    // số trang hiện tại 
+    currentPage:{
+      Type:Number,
+      default:1
+    }
   },
   data(){
     return{
@@ -58,8 +65,6 @@ export default {
       // các trang có thể có
       totalPageSize: 0,
 
-      // trang đang đứng
-      currentPage: 1
     }
   },
   created(){
@@ -68,6 +73,7 @@ export default {
 
   },
   watch:{
+
     /**
      * Author: Phạm Văn Đạt(21/10/2022)
      * Function: Lấy tổng số bản ghi thỏa mãn điều kiện
@@ -82,7 +88,6 @@ export default {
     // theo doi số bản ghi trên trang
     pageSize(value){
       this.$emit('pageSize', value);
-      this.currentPage = 1;
       // tính toán lại số trang
       this.hanlderTotalPageZize();
     }

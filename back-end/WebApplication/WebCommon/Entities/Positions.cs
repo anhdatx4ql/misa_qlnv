@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations;
 namespace WebCommon
 {
     /// <summary>
-    /// Author: Phạm Văn Đạt
-    /// FUnction: Chức danh
+    /// Author: Phạm Văn Đạt(13/10/2022)
+    /// Function: Chức danh
     /// </summary>
     public class Positions:BaseEntity
     {

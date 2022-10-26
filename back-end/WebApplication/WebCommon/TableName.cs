@@ -6,9 +6,13 @@ using System.Security.Policy;
 
 namespace WebCommon
 {
+    /// <summary>
+    /// Author: Phạm Văn Đạt(13/10/2022)
+    /// Function: Lấy tên bảng
+    /// </summary>
     public class TableName
     {
-
+        #region Methods
         /// <summary>
         /// Lấy tên bảng ánh xạ tới db
         /// </summary>
@@ -29,5 +33,6 @@ namespace WebCommon
 
             return tableName;
         }
+        #endregion
     }
 }

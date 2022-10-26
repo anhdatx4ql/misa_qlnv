@@ -12,6 +12,10 @@ using WebCommon.Resources;
 using WebInfrastructure;
 namespace WebDomain
 {
+    /// <summary>
+    /// Author: Phạm Văn Đạt(14/10/2022)
+    /// Function: base xử lý nghiệp vụ
+    /// </summary>
     public class BaseService<T> : IBaseService<T>
     {
 
@@ -19,7 +23,7 @@ namespace WebDomain
         private readonly IBaseRepository<T> _baseRepository;
         #endregion
 
-        #region Contructor
+        #region Constructor
 
         public BaseService(IBaseRepository<T> baseRepository)
         {
@@ -78,7 +82,7 @@ namespace WebDomain
                 var properties = typeof(T).GetProperties();
 
                 // validate
-                var errValidate = this.Validate(entity,properties);
+                var errValidate = await this.Validate(entity,properties,Guid.Empty,tableName);
 
                 if(errValidate != null)
                 {
@@ -147,7 +151,7 @@ namespace WebDomain
                 var id = (Guid)this.GetIdByRecord(entity, properties);
 
                 // validate dữ liệu
-                var validateErrors = this.Validate(entity);
+                var validateErrors = await this.Validate(entity, properties,id, tableName);
                 if (validateErrors != null)
                 {
                     return new ReponsitoryModel(null, CodeErrors.Code400, validateErrors);
@@ -253,11 +257,8 @@ namespace WebDomain
         /// </summary>
         /// <param name="entity">table</param>
         /// <returns>lỗi validate nếu có</returns>
-        private List<string> Validate(T entity, PropertyInfo[] properties = null)
+        private async Task<List<string>> Validate(T entity, PropertyInfo[] properties, Guid id, string tableName)
         {
-            // lấy tên các thuộc tính public của lớp
-            if (properties == null)
-                properties = typeof(T).GetProperties();
 
             // khởi tạo message hứng lỗi
             var messageError = new List<string>();
@@ -265,7 +266,7 @@ namespace WebDomain
             foreach(var property in properties)
             {
 
-                messageError = this.HandlerValidate(property, entity, messageError);
+                messageError = await this.HandlerValidate(property, entity, messageError,id, tableName);
             }
 
             if(messageError.Count > 0)
@@ -285,7 +286,7 @@ namespace WebDomain
         /// <param name="entity">bảng</param>
         /// <param name="messageError">mảng chứa lỗi</param>
         /// <returns></returns>
-        private List<string> HandlerValidate(PropertyInfo property, T entity, List<string> messageError)
+        private async Task<List<string>> HandlerValidate(PropertyInfo property, T entity, List<string> messageError,Guid id, string tableName)
         {
 
             // lấy tên thuộc tính
@@ -321,29 +322,21 @@ namespace WebDomain
                     // nếu tồn tại attribute và giá trị của nó là null => thêm vào mảng lỗi lỗi
                     messageError.Add(attributePrimarykey.ErrorMessage);
                 }
-            }
-            
-            if (attributeRequired != null && string.IsNullOrEmpty(propertyValue?.ToString()))
+            }else if (attributeRequired != null && string.IsNullOrEmpty(propertyValue?.ToString()))
             {
                 // nếu tồn tại attribute AttributeRequired và giá trị null => thêm vào mảng lỗi
                 messageError.Add(attributeRequired.ErrorMessage);
-            }
-
-            if (attributeGender != null && ((int?)propertyValue < (int?)Gender.Male || (int?)propertyValue > (int?)Gender.Other))
+            }else if (attributeGender != null && ((int?)propertyValue < (int?)Gender.Male || (int?)propertyValue > (int?)Gender.Other))
             {
                 // nếu tồn tại attribute AttributeRequired và giới tính nằm ngoài 3 giá trị 0,1,2
                 messageError.Add(attributeGender.ErrorMessage);
-            }
-
-            if (attributeEmail != null && this.CheckRegex(propertyValue?.ToString(),"email") == false)
+            }else if (attributeEmail != null && this.CheckRegex(propertyValue?.ToString(),"email") == false)
             {
 
                 // nếu không phải dạng biểu thức email => lỗi
                 messageError.Add(attributeEmail.ErrorMessage);
 
-            }
-
-            if (attributePhone != null && this.CheckRegex(propertyValue?.ToString(),"phone") == false)
+            }else if (attributePhone != null && this.CheckRegex(propertyValue?.ToString(),"phone") == false)
             {
 
                 // nếu không phải dạng biểu thức email => lỗi
@@ -353,8 +346,17 @@ namespace WebDomain
             if (attributeExists != null)
             {
                 // truyền tên table, tên trường cần check, giá trị của trường cần check, id khách hàng cần check
-                messageError.Add($"Xử lý check trùng {propertyName}");
+                var sql = $"SELECT {propertyName} FROM {tableName} WHERE {propertyName} = @propertyValue and Id Not IN (@id) LIMIT 1";
+                var parameters = new DynamicParameters();
+                parameters.Add("@propertyValue", propertyValue);
+                parameters.Add("@id", id);
 
+                var result = await _baseRepository.CheckExists(sql, parameters);
+
+                if (result != null)
+                {
+                    messageError.Add(attributeExists.ErrorMessage);
+                }
             }
 
             return messageError;
@@ -385,16 +387,24 @@ namespace WebDomain
             return  rgx.IsMatch(value);
         }
 
+        /// <summary>
+        /// Author: Phạm Văn Đạt(26/10/2022)
+        /// Function: XỬ lý lấy id của bản ghi
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="properties"></param>
+        /// <returns></returns>
         private Guid GetIdByRecord(T entity,PropertyInfo[] properties = null)
         {
             if(properties == null)
             {
                 properties = typeof(T).GetProperties();
             }
-            Guid id = Guid.Empty;
+            // tạo mới guid
+            Guid id = Guid.NewGuid();
             foreach (var property in properties)
             {
-                if (property.Name == "Id")
+                if (property.Name == "Id" && (Guid)property.GetValue(entity) != Guid.Empty)
                 {
                     id = (Guid)property.GetValue(entity);
                 }

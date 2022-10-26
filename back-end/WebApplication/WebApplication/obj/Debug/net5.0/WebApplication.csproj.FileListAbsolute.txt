@@ -267,3 +267,7 @@ D:\hoctap\BTMiSa\misa_qlnv\back-end\WebApplication\WebApplication\obj\Debug\net5
 D:\hoctap\BTMiSa\misa_qlnv\back-end\WebApplication\WebApplication\obj\Debug\net5.0\ref\WebApplication.dll
 D:\hoctap\BTMiSa\misa_qlnv\back-end\WebApplication\WebApplication\obj\Debug\net5.0\WebApplication.pdb
 D:\hoctap\BTMiSa\misa_qlnv\back-end\WebApplication\WebApplication\obj\Debug\net5.0\WebApplication.genruntimeconfig.cache
+D:\hoctap\BTMiSa\misa_qlnv\back-end\WebApplication\WebApplication\bin\Debug\net5.0\EPPlus.dll
+D:\hoctap\BTMiSa\misa_qlnv\back-end\WebApplication\WebApplication\bin\Debug\net5.0\EPPlus.Interfaces.dll
+D:\hoctap\BTMiSa\misa_qlnv\back-end\WebApplication\WebApplication\bin\Debug\net5.0\EPPlus.System.Drawing.dll
+D:\hoctap\BTMiSa\misa_qlnv\back-end\WebApplication\WebApplication\bin\Debug\net5.0\Microsoft.IO.RecyclableMemoryStream.dll

@@ -14,6 +14,9 @@
 .table-content {
     width: 100%;
     position: relative;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .table-content td,.table-content th {
@@ -27,6 +30,8 @@
 .content-table {
     background: #ffffff;
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .table-content table {
@@ -96,7 +101,7 @@
 }
 
 .table-content .td.td.table-function>.combobox>.combobox-container .combobox-actions-button .background-icon-arrow-bottom {
-    background-position: -898px -359px;
+    background-position: -898px -359px !important;
 }
 
 .table-content tbody .checkbox {
@@ -212,3 +217,43 @@
 .table-content tr>td, tr>th {
     text-align: left;
 }
+
+.loading {
+    flex-grow: 1;
+    background: #00000073;
+    margin: 0 30px 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spiner {
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+    border: 10px solid white;
+    border-radius: 50%;
+    border-top: 10px solid #2CA01C;
+    animation: spiner 1.5s linear infinite;
+  }
+
+  .loading div {
+    text-align: center;
+    font-size: 16px;
+    color: white;
+}
+  
+  @keyframes spiner {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes dot {
+    0%, 80%, 100% {
+      transform: scale(0);
+    }
+    40% {
+      transform: scale(1);
+    }
+  }

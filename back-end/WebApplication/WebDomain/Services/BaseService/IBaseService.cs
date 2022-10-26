@@ -8,9 +8,13 @@ using WebCommon;
 
 namespace WebDomain
 {
+    /// <summary>
+    /// Author: Phạm Văn Đạt(14/10/2022)
+    /// Function: base xử lý nghiệp vụ
+    /// </summary>
     public interface IBaseService<T>
     {
-
+        #region Methods
         /// <summary>
         /// Author: Phạm Văn Đạt
         /// Function: Lấy tất cả bản ghi trong bảng
@@ -41,5 +45,6 @@ namespace WebDomain
         /// <param name="ids"></param>
         /// <returns></returns>
         Task<ReponsitoryModel> DeleteRecords(List<Guid> ids);
+        #endregion
     }
 }

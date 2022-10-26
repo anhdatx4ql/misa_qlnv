@@ -6,19 +6,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace WebCommon
 {
     /// <summary>
-    /// Author: Phạm Văn Đạt
+    /// Author: Phạm Văn Đạt(19/10/2022)
     /// FUnction: Khách hàng
     /// </summary>
     [Table("Employees")]
     public class Employees:BaseEntity
     {
-        #region Field
+        #region Fields
         // Id khách hàng
         [AttributePrimarykey("Id không được bỏ trống")]
+        [AttributeExists("Id đã tồn tại!")]
         public Guid Id { set; get; }
 
         // mã khách hàng
         [AttributeRequired("Mã khách hàng không được bỏ trống!")]
+        [AttributeExists("Mã khách hàng đã tồn tại!")]
         public string EmployeeId { set; get; }
 
         // tên khách hàng

@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace WebCommon
 {
+    /// <summary>
+    /// Author: Phạm Văn Đạt(21/10/2022)
+    /// Function: model dữ liệu phân trang
+    /// </summary>
     public class PagingData<T>
     {
         #region Fields

@@ -16,7 +16,7 @@
   <div class="input-container-content" :style="'height: '+height+';width: '+width+'px'">
     <input :type="type" :value="value" ref="input"
     :style="'height: '+height" :placeholder="placeholder"
-    :name="name">
+    :name="name" @input.prevent="HandlerInput">
     <button class="input-container-content-icon icon-20 icon-mr-10" :class="classIcon"
      v-if="(classIcon == null)?false:true">
   </button>
@@ -31,6 +31,11 @@
 /**
  * Author: Phạm Văn Đạt(18/10/2022)
  */
+
+ // import thư viện này dùng để nhóm nhiều hành động giống 
+ // nhau trong thời gian đang xử lý thành 1 hành động cuối cùng
+ import _ from 'lodash'
+
 export default {
   name: 'BaseInput',
  
@@ -121,6 +126,15 @@ export default {
     
   },
   methods:{
+    /**
+     * Author: Phạm Văn Đạt(26/10/2022)
+     * Function: Xử lý lấy dữ liệu khi input nhận thay đổi với debounce dùng để nhóm nhiều hành động thành 1 hành động 
+     * @param {} event 
+     */
+     HandlerInput: _.debounce(function (event) {
+        this.$emit('value',event.target.value);
+    }, 1000), 
+    
     /**
      * Author: Phạm Văn Đạt(25/10/2022)
      * Function: Focus vào input

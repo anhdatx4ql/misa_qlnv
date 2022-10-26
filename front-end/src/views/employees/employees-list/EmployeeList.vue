@@ -1,3 +1,7 @@
+<!-- 
+    Author: Phạm Văn Đạt(26/10/2022)
+    Function: Xử lý hiển thị trang thông tin khách hàng
+ -->
 <template>
     <div class="content-top">
         <!-- start content top left -->
@@ -18,10 +22,10 @@
         <!-- end custom tooltip -->
 
         <base-input-text placeholder="Tìm theo mã, tên nhân viên"
-            classIcon="input-icon-search">
+            classIcon="input-icon-search" @value="keyword = $event">
         </base-input-text>
 
-        <base-button v-tooltip="'Lấy lại dữ liệu'" class="content-center-button-left icon-ml-10">
+        <base-button v-tooltip="'Lấy lại dữ liệu'"  :disable="disableButtonResetData" @click.prevent="LoadData" class="content-center-button-left icon-ml-10">
             <span class="background-icon-reload icon-24 background-flex"></span>
         </base-button>
 
@@ -37,6 +41,7 @@
         <base-table 
         @employeeDetail="employeeDetail = $event, checkShowForm = true, title='Sửa nhân viên'"
         :listEmployees="listData"
+        :showFormLoad="checkFormLoad"
         >
         </base-table>
         <!-- end table -->
@@ -48,6 +53,7 @@
          :totalCount="totalCount"
           @pageSize="pageSize = $event"
           @currentPage="currentPage = $event"
+          :currentPage="currentPage"
           ></base-paging>
         <!-- end paging -->
     </div>
@@ -110,8 +116,17 @@ export default {
             // khai báo thông tin chi tiết khách hàng
             employeeDetail: employeeModel,
 
-            // disable nút button khi click 1 lần
-            disableButtonIndsert: false
+            // disable nút button thêm mới nhân viên khi click 1 lần
+            disableButtonIndsert: false,
+
+            // disable nút button lấy lại dữ liệu khi click và đang chờ
+            disableButtonResetData: false,
+
+            // key word dùng để tìm kiếm
+            keyword: null,
+
+            // hiển thị loading khi load lại dữ liệu
+            checkFormLoad: true
         }
     },
     created(){
@@ -126,6 +141,25 @@ export default {
         this.LoadData();
     },
     watch:{
+        /**
+         * Author: Phạm Văn Đạt(26/10/2022)
+         * Function: Xử lý tìm kiếm dữ liệu theo tên và mã khách hàng
+         */
+        async keyword(value){
+            // lấy giá trị keyword tìm kiếm lưu vào biến employee
+            employees.keyword = value;
+
+            // nếu như trang hiện tại không phải là trang đầu tiên thì chuyển currentPageNumber = 1
+            // => chạy watch currentPage() => xử lý load data ở đó
+            if(employees.currentPageNumber != 1){
+                this.currentPage = 1;
+            }else{
+                // nếu current pageNumber =1 thì thực hiện load lại dữ liệu với trang đầu và keyword mới
+                await this.LoadData();
+            }
+            
+            console.log(this.currentPage)
+        },
         /**
          * Author: Phạm Văn Đạt(21/10/2022)
          * Function: Xử lý xem chi tiết khách hàng
@@ -152,17 +186,23 @@ export default {
          * Author: Phạm Văn Đạt(21/10/2022)
          * Function: Xử lý thay đổi số trang => load lại dữ liệu
          */
-        async currentPage(value){
-            employees.currentPageNumber = value;
-            await this.LoadData();
+        async currentPage(newValue, oldValue){
+            if(newValue != oldValue){
+                employees.currentPageNumber = newValue;
+                await this.LoadData();
+            }
+            
         },
 
         /**
          * Author: Phạm Văn Đạt(23/10/2022)
-         * Function: Xử lý click hiển thị form thêm mới nhân viên
+         * Function: Xử lý click hiển thị form thêm mới nhân viên.
+         * Nếu không hiển thị hoặc tắt form thì lưu employeeDetail thành Object null. 
+         * Nếu hiển thị form thì format ngày tháng năm
          */
         checkShowForm(value){
             if(value == false){
+                // lưu giá trị object null
                 this.employeeDetail =  employeeModel;
             }else{
                 // nếu hiển thị form, format ngày tháng năm
@@ -179,12 +219,25 @@ export default {
         */
         async LoadData(){
             try{
-                 // gọi api phân trang
+
+                // hiển thị form loadding
+                this.checkFormLoad = true;
+
+                // disable nút reload dữ liệu khi chưa load dữ liệu xong
+                this.disableButtonResetData = true;
+
+                // gọi api phân trang
                 await employees.PagingEmployee();
 
                 // khởi tạo giá trị list dữ liệu
                 this.listData = employees.data;
                 this.totalCount = employees.totalCount;
+
+                // khi load dữ liệu xong thì trả về nút láy lại dữ liệu ở trang thái bình thường
+                this.disableButtonResetData = false;
+
+                //ẩn form loading
+                this.checkFormLoad = false;
                 console.log(employees);
             }catch(e){
                 console.log(e);

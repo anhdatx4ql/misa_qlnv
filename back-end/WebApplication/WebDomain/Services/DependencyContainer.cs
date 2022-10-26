@@ -8,8 +8,13 @@ using WebInfrastructure;
 
 namespace WebDomain
 {
+    /// <summary>
+    /// Author: Phạm Văn Đạt(14/10/2022)
+    /// Function: đăng ký các Dependency injection
+    /// </summary>
     public class DependencyContainer
     {
+        #region Methods
         /// <summary>
         /// Author: Phạm Văn Đạt
         /// Function: Xử lý tiêm service, static ở bên ngoài vẫn gọi được
@@ -27,5 +32,6 @@ namespace WebDomain
             service.AddScoped<IDepartmentsService, DepartmentsService>();
             service.AddScoped<IPositionsService, IPositionsService>();
         }
+        #endregion
     }
 }

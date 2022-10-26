@@ -8,16 +8,20 @@ using WebCommon;
 
 namespace WebInfrastructure
 {
+    /// <summary>
+    /// Author: Phạm Văn Đạt(15/10/2022)
+    /// Function: thao tác với DB của bảng khách hàng
+    /// </summary>
     public class EmployeesRepository : BaseRepository<Employees>, IEmployeesRepository
     {
         #region Methods
-        public override async Task<List<EmployeesViewModel>> GetAllAsync<EmployeesViewModel>(string sql)
+        public override async Task<List<EmployeesViewModel>> GetAllAsync<EmployeesViewModel>(string sql, DynamicParameters parameters = null)
         {
 
             using (IDbConnection db = GetDbConnection())
             {
                 db.Open();
-                var result = await db.QueryAsync<EmployeesViewModel>(sql);
+                var result = await db.QueryAsync<EmployeesViewModel>(sql,parameters);
                 db.Close();
                 return result.ToList();
             }

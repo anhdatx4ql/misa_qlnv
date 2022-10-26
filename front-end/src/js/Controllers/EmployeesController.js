@@ -95,7 +95,7 @@ export let employeeModel={
  */
 export class Employees{
 
-   //khởi tạo biến data
+  // khởi tạo giá trị
   constructor(data, keyword = null, currentPageNumber = 1, pageSize = 10,totalCount){
     this.data = data;
     this.keyword = keyword;
@@ -122,6 +122,7 @@ export class Employees{
    * @param {*} pageSize : số bản ghi trên trang
    */
   async PagingEmployee(){
+
     let res = await Paging(END_POINTS.PagingEmployee,this.keyword,this.currentPageNumber,this.pageSize);
     if(res.statusCode == STATUS_CODES.Code200){
       this.data = res.data.data;
@@ -149,5 +150,5 @@ export class Employees{
 /**
  * Author: Phạm Văn Đạt(19/10/2022)
  * Function: Khởi tạo đối tượng để xử lý xuyên suốt
- */
+*/
 export let employees = new Employees();

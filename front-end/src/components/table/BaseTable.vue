@@ -3,8 +3,8 @@
   Function: base table hiển thị thông tin
   -->
 <template>
- <div class="table-content">
 
+ <div class="table-content">
   <table>
     <!-- start header table -->
     <thead>
@@ -31,7 +31,7 @@
     <!-- end header table -->
 
     <!-- start body table -->
-    <tbody>
+    <tbody v-show="!currentShowFormLoad">
       <tr v-for="data in listData" :key="data.id" @dblclick="HandlerDetailEmployee(data)">
         <td class="position-sticky fake-cloumn" style="width:20px;left:0"></td>
         <td style="width:40px;left:20px" class="position-sticky">
@@ -73,6 +73,16 @@
     <!-- end body table -->
 
   </table>
+
+  <div v-show="currentShowFormLoad" class="loading">
+    <div>
+      <div class="spiner"></div>
+      <div>
+        Đang lấy dữ liệu
+      </div>
+    </div>
+  </div>
+
 </div>
 </template>
 
@@ -87,7 +97,11 @@ import {TABLE_FIELDS} from "../../constants"
 export default {
   name: 'BaseTable',
   props: {
-    listEmployees: Array[Object]
+    listEmployees: Array[Object],
+    showFormLoad:{
+      Type:Boolean,
+      default:true
+    }
   },
   data(){
     return {
@@ -111,7 +125,10 @@ export default {
       ],
 
       // danh sách các bản ghi hiện tại
-      listData:[]
+      listData:[],
+
+      // kiểm tra đang 
+      currentShowFormLoad: true
     }
   },
   created(){
@@ -159,6 +176,10 @@ export default {
       if(!value){
         console.log("không có dữ liệu!");
       }
+    },
+
+    showFormLoad(value){
+      this.currentShowFormLoad = value;
     }
   }
 

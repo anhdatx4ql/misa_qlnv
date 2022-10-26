@@ -13,10 +13,15 @@ namespace WebApplication
     [ApiController]
     public class PositionsController : BaseController<Positions>
     {
+        #region Fields
         private readonly IPositionsService _positions;
+        #endregion
+
+        #region Constructor
         public PositionsController(IPositionsService positions):base(positions)
         {
             _positions = positions;
         }
+        #endregion
     }
 }

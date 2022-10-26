@@ -13,7 +13,6 @@
         :id="id" 
         style="display:none" 
         @input="$emit('value',!currentChecked), currentChecked=!currentChecked">
-        <span></span>
       <span class="checkbox-container-icon"></span>
       <span class="checkbox-container-text" v-show="(text != null)?true:false">{{text}}</span>
     </label>
@@ -57,6 +56,10 @@ export default {
     this.currentChecked = this.checked;
   },
   watch:{
+    /**
+     * Author: Phạm Văn Đạt(26/10/2022)
+     * Function: Xử lý theo dõi checked của checkbox
+     */
     checked(value){
       this.currentChecked = value;
     }

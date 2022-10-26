@@ -10,9 +10,13 @@ using WebCommon;
 
 namespace WebInfrastructure
 {
+    /// <summary>
+    /// Author: Phạm Văn Đạt(15/10/2022)
+    /// Function: base thao tác với DB
+    /// </summary>
     public class BaseRepository<T> : IBaseRepository<T>
     {
-
+        #region Constructor
         /// <summary>
         /// Author: Phạm Văn Đạt
         /// Function: lấy chuỗi kết nối db
@@ -22,7 +26,16 @@ namespace WebInfrastructure
         {
             return new MySqlConnection(DbContext.ConnectString);
         }
+        #endregion
 
+        #region Methods
+        /// <summary>
+        /// Author: Phạm Văn Đạt(26/10/2022)
+        /// Function: Xử lý lấy dữ liệu theo Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
         public async Task<T> GetById(Guid id,string tableName = null)
         {
             if(tableName == null)
@@ -99,18 +112,36 @@ namespace WebInfrastructure
         /// Function: Lấy hết dữ liệu trong bảng
         /// </summary>
         /// <returns>danh sách thông tin</returns>
-        public virtual async Task<List<T>> GetAllAsync<T>(string sql)
+        public virtual async Task<List<T>> GetAllAsync<T>(string sql,DynamicParameters parameters=null)
         {
            
            using(IDbConnection db = GetDbConnection())
             {
                 db.Open();
-                var result = await db.QueryAsync<T>(sql);
+                var result = await db.QueryAsync<T>(sql, parameters);
                 db.Close();
                 return result.ToList();
             }
         }
 
-      
+        /// <summary>
+        /// Author: Phạm Văn Đạt(25/10/2022)
+        /// Function: Xử lý kiểm tra dữ liệu đã tồn tại hay chưa
+        /// </summary>
+        /// <param name="sql">câu truy vấn</param>
+        /// <param name="parameters">tham số truyền vào</param>
+        /// <returns></returns>
+        public async Task<dynamic> CheckExists(string sql, DynamicParameters parameters)
+        {
+            using (IDbConnection db = GetDbConnection())
+            {
+                db.Open();
+                var result = await db.QueryFirstOrDefaultAsync(sql,parameters);
+                db.Close();
+                return result;
+            }
+        }
+        #endregion
+
     }
 }
