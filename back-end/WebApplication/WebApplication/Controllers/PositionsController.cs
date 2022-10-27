@@ -18,7 +18,7 @@ namespace WebApplication
         #endregion
 
         #region Constructor
-        public PositionsController(IPositionsService positions):base(positions)
+        public PositionsController(IPositionsService positions) : base(positions)
         {
             _positions = positions;
         }

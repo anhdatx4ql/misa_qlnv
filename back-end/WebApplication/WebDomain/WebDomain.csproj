@@ -77,7 +77,6 @@
     <Compile Include="Services\BaseService\IBaseService.cs" />
     <Compile Include="Services\DepartmentsService\DepartmentsService.cs" />
     <Compile Include="Services\DepartmentsService\IDepartmentsService.cs" />
-    <Compile Include="Services\DependencyContainer.cs" />
     <Compile Include="Services\EmployeesService\EmployeesService.cs" />
     <Compile Include="Services\EmployeesService\IEmployeesService.cs" />
     <Compile Include="Services\PositionsService\IPositionsService.cs" />

@@ -37,13 +37,6 @@
         </div>
         <div class="form-header-right">
 
-
-          <div v-tooltip="{global: true,theme: {placement: 'bottom',},}">
-            <base-button v-tooltip.bottom="'Giúp (F1)'">
-              <span class="background-icon-question icon-24"></span>
-            </base-button>
-          </div>
-
           <div v-tooltip="{global: true,theme: {placement: 'bottom',},}">
              <base-button @click="handlerCloseForm" v-tooltip="'Đóng (ESC)'">
               <span class="background-icon-close icon-24"></span>
@@ -66,13 +59,20 @@
               :value="currentEmployee.employeeId"
               fieldLabel="Mã"
               :iconRed="true"
+              :isRequired="true"
               :checkFocus="checkFocus"
               @checkFocus="checkFocus = false"
               ></base-input-text>
             <!-- end mã -->
 
             <!-- start Tên -->
-            <base-input-text class="w-60" :value="currentEmployee.name" fieldLabel="Tên" :iconRed="true"></base-input-text>
+            <base-input-text
+              class="w-60"
+              :value="currentEmployee.name"
+              fieldLabel="Tên"
+              :iconRed="true"
+              :isRequired="true"
+            ></base-input-text>
             <!-- end tên-->
 
             <!-- start đơn vị -->
@@ -180,6 +180,7 @@
           <base-input-text 
             :value="currentEmployee.numberPhone"
             fieldLabel="ĐT di động" 
+            tooltip="Điện thoại di động"
             class="w-25 p-r-6"
           ></base-input-text>
           <!-- End điện thoại di động -->
@@ -188,6 +189,7 @@
           <base-input-text 
             :value="currentEmployee.deskPhone"
             fieldLabel="ĐT cố định" 
+            tooltip="Điện thoại cố định"
             class="w-25 p-r-6"
           ></base-input-text>
           <!-- End điện cố định -->
@@ -233,10 +235,10 @@
         <div class="form-bottom">
           
           <div class=form-bottom-right>
-            <base-button>
+            <base-button v-tooltip="'Cất và thêm(Ctrl + Shift +S)'">
               <span>Cất và thêm</span>
             </base-button>
-            <base-button class="button-white" style="margin:0 0.75rem;">
+            <base-button class="button-white" v-tooltip="'Cất(Ctrl + S)'" style="margin:0 0.75rem;">
               <span>Cất</span>
             </base-button>
           </div>
@@ -252,10 +254,11 @@
 
       </div>
       <!-- end content -->
+     
+  </div>
 
-
-      <!-- start thông báo -->
-      <base-notify
+    <!-- start thông báo -->
+    <base-notify
        @closeForm="($event == false)?$emit('closeForm',false):''" 
        @checkShowNotify="checkNotify.isShow=$event" 
        v-if="checkNotify.isShow" 
@@ -263,8 +266,6 @@
        :text="checkNotify.text"
       ></base-notify>
       <!-- end thông báo -->
-     
-  </div>
 </template>
 
 <script>
@@ -351,7 +352,7 @@ export default {
         this.checkNotify = {
           isShow: true,
           type: this.NOTIFY_LIST.Question.type,
-          text: this.NOTIFY_LIST.Question.text(this.NOTIFY_TEXT.changeData),
+          text: this.NOTIFY_LIST.Question.text(this.NOTIFY_TEXT?.changeData),
         };
       }catch(e){
         console.log(e);
@@ -389,6 +390,25 @@ export default {
 
       console.log(this.positions);
     },
+
+    /**
+     * Author: Phạm Văn Đạt(27/10/2022)
+     * Function: Xử lý các nút phím tắt
+     */
+    HandlerKeyDown(event){
+      if(event.code == "Escape"){
+        this.handlerCloseForm();
+      }else if(event.code == "KeyS"){
+        console.log("Xử lý nút cất")
+      }
+      // xuwr lys caats vaf theem
+      // if(event.code == "KeyS"){
+      //   console.log("Xử lý nút cất")
+      // }
+
+      
+      console.log(event)
+    }
   },
   watch:{
     /**

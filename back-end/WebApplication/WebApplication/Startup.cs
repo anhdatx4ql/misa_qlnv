@@ -41,7 +41,6 @@ namespace WebApplication
             services.AddControllers();
 
             // tiêm DI
-            //DependencyContainer.RegisterServices(services);
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
 

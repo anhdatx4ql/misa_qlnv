@@ -188,8 +188,13 @@ export default {
          */
         async currentPage(newValue, oldValue){
             if(newValue != oldValue){
+
+                // cập nhật lại giá trị hiện tại của current page
                 employees.currentPageNumber = newValue;
+
+                //  load lại dưx liệu
                 await this.LoadData();
+
             }
             
         },

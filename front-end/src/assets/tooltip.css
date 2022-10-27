@@ -9,7 +9,7 @@
     --v-tooltip-color: #E2E2E2;
     --v-tooltip-border-radius: 3px;
     --v-tooltip-padding: 6px 12px;
-    --v-tooltip-font-size: 12px;
+    --v-tooltip-font-size: 13px;
     --v-tooltip-border: none;
     --v-tooltip-box-shadow: none;
     --v-tooltip-transition-duration: 0.25s;
@@ -41,6 +41,7 @@
     border-radius: var(--v-tooltip-border-radius);
     padding: var(--v-tooltip-padding);
     font-size: var(--v-tooltip-font-size);
+    font-weight: 400;
     border: var(--v-tooltip-border);
     box-shadow: var(--v-tooltip-box-shadow);
     transition-property: all;

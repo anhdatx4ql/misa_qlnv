@@ -43,10 +43,18 @@ input {
 }
 
 .input-container-error {
-    font-size: 12px;
-    margin-top: 8px;
+    font-size: 13px;
     font-weight: 400;
-    color: #E61D1D;
+    position: absolute;
+    width: max-content;
+    text-align: center;
+    background: #FF7777;
+    top: 94%;
+    z-index: 99;
+    padding: 3px 12px;
+    border-radius: 3px;
+    color: #FFF0F0;
+    display:none;
 }
 
 .input-icon-search{
@@ -64,6 +72,9 @@ input::placeholder {
 
 .input-container-content {
     width: 100%!important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .el-input__wrapper.is-focus {
@@ -124,3 +135,22 @@ span.el-input__suffix {
     color:#757575;
 }
 
+
+.input-container-error>div:first-child {
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    top: -4px;
+    background: #FF7777;
+    transform: translateX(-50%) rotate(45deg);
+    left: 50%;
+    border-radius: 3px;
+}
+
+.input-container-content-error {
+    border-color: red !important;
+}
+
+.input-container-content.input-container-content-error:hover>.input-container-error {
+    display: inline-block;
+}

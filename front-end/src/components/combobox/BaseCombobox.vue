@@ -26,7 +26,15 @@
   </div>
   <div class="dropdown-container" v-show="checkShowDropDown" :style="position+': 34px'">
     <div class="dropdown-items">
-      <div class="dropdown-item" v-for="(cbxListValue, index) in cbxListValues" :key="cbxListValue.id">
+      <div class="dropdown-item loading" v-if="this.cbxListValues.length == 0">
+        <div>
+          <div class="spiner"></div>
+            <div>
+              Đang lấy dữ liệu
+            </div>
+          </div>
+      </div>
+      <div class="dropdown-item" v-else v-for="(cbxListValue, index) in cbxListValues" :key="cbxListValue.id">
         <base-button @click="SelectValueCombobox(cbxListValue)" class="button-combobox"
         :tabindex="index"
         :value="cbxListValue.id" 
@@ -113,6 +121,7 @@ export default {
 
     // khởi tạo giá trị hiện tại
     this.cbxValue = this.value;
+    console.log()
   },
   methods: {
     /**
@@ -121,9 +130,14 @@ export default {
      * @param {} el 
      */
     SelectValueCombobox(el){
-      this.checkFocusItemSearch =null;
-      this.cbxValue = el;
-      this.checkShowDropDown=false;
+      try{
+        this.checkFocusItemSearch =null;
+        this.cbxValue = el;
+        this.checkShowDropDown=false;
+      }catch(e){
+        console.log(e);
+      }
+      
     },
     /**
      * Author: Phạm Văn Đạt
@@ -142,42 +156,42 @@ export default {
       try{
         let text = event.target.value;
 
-      this.cbxValue= {
-        id:null,
-        name:text
-      };
-      let me = this;
+        this.cbxValue= {
+          id:null,
+          name:text
+        };
+        let me = this;
 
-      // xét giá trị null cho text focus
-      me.checkFocusItemSearch = -1;
-      console.log(me.checkFocusItemSearch );
+        // xét giá trị null cho text focus
+        me.checkFocusItemSearch = -1;
+        console.log(me.checkFocusItemSearch );
 
-      if(text){
-        setTimeout(() => {
-        me.cbxListValues = [];
-
-        // tìm kiếm những giá trị giống giá trị tìm kiếm đưa lên đầu
-        for(let i=0;i<me.listValues.length;i++){
-          console.log(me.listValues[i].name.search(text))
-          if(me.listValues[i].name.search(text) != -1){
-            me.cbxListValues.push(me.listValues[i])
-          }
-        }
-
-        // những giá trị khác thì đưa về sau
-        for(let i=0;i<me.listValues.length;i++){
-          if(me.listValues[i].name.search(text) == -1){
-            me.cbxListValues.push(me.listValues[i])
-          }
-        }
-
-        // gán focus vào giá trị gần giá trị tìm kiếm nhất
         if(text){
-          me.checkFocusItemSearch = me.cbxListValues[0].id;
+          setTimeout(() => {
+          me.cbxListValues = [];
+
+          // tìm kiếm những giá trị giống giá trị tìm kiếm đưa lên đầu
+          for(let i=0;i<me.listValues.length;i++){
+            console.log(me.listValues[i].name.search(text))
+            if(me.listValues[i].name.search(text) != -1){
+              me.cbxListValues.push(me.listValues[i])
+            }
+          }
+
+          // những giá trị khác thì đưa về sau
+          for(let i=0;i<me.listValues.length;i++){
+            if(me.listValues[i].name.search(text) == -1){
+              me.cbxListValues.push(me.listValues[i])
+            }
+          }
+
+          // gán focus vào giá trị gần giá trị tìm kiếm nhất
+          if(text){
+            me.checkFocusItemSearch = me.cbxListValues[0].id;
+          }
+          
+        }, 300);
         }
-        
-      }, 300);
-      }
       }catch(e){
         console.log(e)
       }
@@ -208,8 +222,13 @@ export default {
      * Function: Xử lý hiển thị dropdown khi focus vào input
      */
     HandlerFocusInput(){
-      this.checkShowDropDown = true;
-      this.SelectListValueCombobox();
+      try{
+        this.checkShowDropDown = true;
+        this.SelectListValueCombobox();
+      }catch(e){
+        console.log(e);
+      }
+      
     }
   },
   watch:{

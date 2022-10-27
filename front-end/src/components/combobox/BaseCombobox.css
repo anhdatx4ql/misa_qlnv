@@ -75,6 +75,7 @@ input[type="text"]:disabled {
     background: white;
     overflow-y: scroll;
     max-height: 232px;
+    box-sizing: border-box;
 }
 
 button.button-combobox:hover {
@@ -179,4 +180,11 @@ button.button-combobox:hover {
 .bottom .background-icon-arrow-bottom-active {
     background-position: -562px -359px;
     transform: rotate(180deg);
+}
+
+.dropdown-item .loading {flex-grow: 1;height: 232px;}
+
+.dropdown-items .dropdown-item.loading {
+    margin: 0;
+    height: 225px;
 }

@@ -174,6 +174,7 @@ export const TABLE_FIELDS=[
     {
         name: 'SỐ CMND',
         fieldName: 'idNo',
+        title: "Số chứng minh nhân dân",
         width: 130,
     },
     {

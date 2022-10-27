@@ -41,7 +41,6 @@
           <!-- start hiển thị ô checkbox -->
           <div v-if="field.checkBox == true">
             <base-input-checkbox 
-              :id="data.id"
               :value="data.id"
               :checked="data[field.fieldName]"
               :disabled="true">

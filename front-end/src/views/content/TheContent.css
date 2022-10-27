@@ -53,11 +53,6 @@
 }
 
 .content-center-top button {
-    background: none;
     min-width: 0px !important;
     padding: 0 6px;
-}
-
-.content-center-top button:hover {
-    background: none;
 }

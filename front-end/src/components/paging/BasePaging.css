@@ -44,3 +44,22 @@
 .paging .dropdown-items {
     overflow: unset;
 }
+
+ul.el-pager.is-first.is-last>li:hover {
+    color: #111111;
+}
+
+ul.el-pager.is-first.is-last>li {
+    font-size: 13px;
+    min-width: 24px;
+    height: 24px !important;
+    padding: 0 !important;
+    margin: 0;
+    border: 1px solid white;
+}
+
+li.is-active.number {
+    border: 1px solid #e0e0e0 !important;
+    color: #111111;
+    font-weight: 600;
+}

@@ -15,18 +15,26 @@
         </base-combobox>
       </div>
       <div class="paging-right-button">
-        <button class="paging-right-pre paging-disable" style="margin-right:13px;">Trước</button>
+        <button class="paging-right-pre" 
+        :class="{'paging-disable':(currentPage==1)}"
+        :disabled="hasPre"
+        @click.prevent="$emit('currentPage',currentPage-1), hasPre = true"
+        style="margin-right:13px;">Trước</button>
         <div class="paging-right-index">
-          <button class="paging-right-index-child" 
-          v-for="(i) in totalPageSize" :key="i" :tabindex="Number(totalPageSize)-3"
-          :style="((i<4 || i>totalPageSize-2))?'':'display:none'"
-          :class="{'active':(i == currentPage)}"
-          @click="$emit('currentPage',i)"
-          >
-          {{i}}
-        </button>
+          <el-pagination
+            v-model:currentPage="currentPagePaging"
+            v-model:page-size="pageSize"
+            :pager-count="5"
+            layout="pager"
+            :total="total"
+          />
+         
         </div>
-        <button class="paging-right-next"  style="margin-left:13px;">Sau</button>
+        <button class="paging-right-next"
+         :class="{'paging-disable':(currentPage==totalPageSize)}"
+         @click.prevent="$emit('currentPage',currentPage+1)"
+         :disabled="hasNext"
+          style="margin-left:13px;">Sau</button>
       </div>
     </div>
  </div>
@@ -65,14 +73,53 @@ export default {
       // các trang có thể có
       totalPageSize: 0,
 
+      // được click next trang
+      hasNext: false,
+
+      // click lấy dữ liệu trang sau
+      hasPre: true,
+
+      // giá trị hiện tại của current page
+      currentPagePaging:1
+
     }
   },
   created(){
     // khởi tạo giá trị items paging
     this.pagingItems= PAGING_ITEMS;
-
+    this.currentPagePaging = this.currentPage;
   },
   watch:{
+
+     /**
+     * Author: Phạm Văn Đạt(27/10/2022)
+     * Function: lấy giá trị trang hiện tại
+     */
+    currentPage(value){
+      this.currentPagePaging = value;
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(27/10/2022)
+     * Function: theo dõi giá trị hiện trang hiện tại
+     */
+    currentPagePaging(value){
+      if(value ==1){
+        // nếu đứng ở trang đầu => được lấy dữ liệu trang sau
+        this.hasPre = true;
+        this.hasNext = false;
+      }else if(value == this.totalPageSize){
+        // nếu đứng ở trang cuối => được lấy dữ liệu trang trước
+        this.hasPre = false;
+        this.hasNext = true;
+      }else{
+        // nếu đứng ở giữa => được lấy cả 2 bên
+        this.hasPre = false;
+        this.hasNext = false;
+      }
+      // gửi dữ liệu trang mới về cho component cha
+      this.$emit('currentPage',value);
+    },
 
     /**
      * Author: Phạm Văn Đạt(21/10/2022)
