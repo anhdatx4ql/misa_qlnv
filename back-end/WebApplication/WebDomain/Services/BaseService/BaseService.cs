@@ -81,12 +81,14 @@ namespace WebDomain
                 // lấy các thuộc tính của entity
                 var properties = typeof(T).GetProperties();
 
+                var id = (Guid)this.GetIdByRecord(entity, properties);
+
                 // validate
-                var errValidate = await this.Validate(entity,properties,Guid.Empty,tableName);
+                var errValidate = await this.Validate(entity,properties, id, tableName);
 
                 if(errValidate != null)
                 {
-                    return new ReponsitoryModel(null, CodeErrors.Code400, errValidate);
+                    return new ReponsitoryModel(errValidate.FieldsDupcaty, CodeErrors.Code400, errValidate.Message);
                 }
 
                 // nếu validate thành công
@@ -152,9 +154,10 @@ namespace WebDomain
 
                 // validate dữ liệu
                 var validateErrors = await this.Validate(entity, properties,id, tableName);
+
                 if (validateErrors != null)
                 {
-                    return new ReponsitoryModel(null, CodeErrors.Code400, validateErrors);
+                    return new ReponsitoryModel(validateErrors.FieldsDupcaty, CodeErrors.Code400, validateErrors.Message);
                 }
 
                 if (id == Guid.Empty)
@@ -257,24 +260,20 @@ namespace WebDomain
         /// </summary>
         /// <param name="entity">table</param>
         /// <returns>lỗi validate nếu có</returns>
-        private async Task<List<string>> Validate(T entity, PropertyInfo[] properties, Guid id, string tableName)
+        private async Task<CheckDupcatyModel> Validate(T entity, PropertyInfo[] properties, Guid id, string tableName)
         {
 
             // khởi tạo message hứng lỗi
-            var messageError = new List<string>();
+            var fieldsDupcaty = new List<string>();
+            var message = new List<string>();
 
-            foreach(var property in properties)
+            foreach (var property in properties)
             {
-
-                messageError = await this.HandlerValidate(property, entity, messageError,id, tableName);
+                
+                await this.HandlerValidate(property, entity, id, tableName,  fieldsDupcaty,  message);
             }
 
-            if(messageError.Count > 0)
-            {
-                return messageError;
-            }
-
-            return null;
+            return new CheckDupcatyModel(message, fieldsDupcaty);
 
         }
 
@@ -286,9 +285,8 @@ namespace WebDomain
         /// <param name="entity">bảng</param>
         /// <param name="messageError">mảng chứa lỗi</param>
         /// <returns></returns>
-        private async Task<List<string>> HandlerValidate(PropertyInfo property, T entity, List<string> messageError,Guid id, string tableName)
+        private async Task HandlerValidate(PropertyInfo property, T entity,Guid id, string tableName, List<string> checkValidateFields, List<string> messageValidateFields)
         {
-
             // lấy tên thuộc tính
             var propertyName = property.Name;
 
@@ -313,34 +311,53 @@ namespace WebDomain
             // nếu không có thuộc tính attribute Exists => trả về null
             var attributePrimarykey = (AttributePrimarykey)Attribute.GetCustomAttribute(property, typeof(AttributePrimarykey));
 
+            // kiểm tra nếu có add message thì thêm field vào list trong trường hợp field đó chưa có trong list
+            var checkSelectMessage = false;
+
             // xử lý validate
             if (attributePrimarykey != null)
             {
-                
-                if((Guid)propertyValue == Guid.Empty)
+
+                // nếu id rỗng thì hiển thị thông báo lỗi
+                if ((Guid)propertyValue == Guid.Empty)
                 {
                     // nếu tồn tại attribute và giá trị của nó là null => thêm vào mảng lỗi lỗi
-                    messageError.Add(attributePrimarykey.ErrorMessage);
+                    messageValidateFields.Add(attributePrimarykey.ErrorMessage);
+                    checkSelectMessage = true;
                 }
+
+
             }else if (attributeRequired != null && string.IsNullOrEmpty(propertyValue?.ToString()))
             {
                 // nếu tồn tại attribute AttributeRequired và giá trị null => thêm vào mảng lỗi
-                messageError.Add(attributeRequired.ErrorMessage);
-            }else if (attributeGender != null && ((int?)propertyValue < (int?)Gender.Male || (int?)propertyValue > (int?)Gender.Other))
+                messageValidateFields.Add(attributeRequired.ErrorMessage);
+                checkSelectMessage = true;
+            }
+            else if (attributeGender != null && ((int?)propertyValue < (int?)Gender.Male || (int?)propertyValue > (int?)Gender.Other))
             {
                 // nếu tồn tại attribute AttributeRequired và giới tính nằm ngoài 3 giá trị 0,1,2
-                messageError.Add(attributeGender.ErrorMessage);
-            }else if (attributeEmail != null && this.CheckRegex(propertyValue?.ToString(),"email") == false)
+                messageValidateFields.Add(attributeGender.ErrorMessage);
+
+                checkSelectMessage = true;
+
+            }
+            else if (attributeEmail != null && this.CheckRegex(propertyValue?.ToString(),"email") == false)
             {
 
                 // nếu không phải dạng biểu thức email => lỗi
-                messageError.Add(attributeEmail.ErrorMessage);
+                messageValidateFields.Add(attributeEmail.ErrorMessage);
 
-            }else if (attributePhone != null && this.CheckRegex(propertyValue?.ToString(),"phone") == false)
+                checkSelectMessage = true;
+
+            }
+            else if (attributePhone != null && this.CheckRegex(propertyValue?.ToString(),"phone") == false)
             {
 
                 // nếu không phải dạng biểu thức email => lỗi
-                messageError.Add(attributePhone.ErrorMessage);
+                messageValidateFields.Add(attributePhone.ErrorMessage);
+
+                checkSelectMessage = true;
+
             }
 
             if (attributeExists != null)
@@ -355,11 +372,20 @@ namespace WebDomain
 
                 if (result != null)
                 {
-                    messageError.Add(attributeExists.ErrorMessage);
+                    
+                    messageValidateFields.Add(attributeExists.ErrorMessage + " <" + propertyValue + "> đã tồn tại!");
+
+                    checkSelectMessage = true;
+
                 }
             }
 
-            return messageError;
+            if (!checkValidateFields.Contains(propertyName) && checkSelectMessage == true)
+            {
+                checkValidateFields.Add(propertyName);
+            }
+
+
         }
 
         /// <summary>

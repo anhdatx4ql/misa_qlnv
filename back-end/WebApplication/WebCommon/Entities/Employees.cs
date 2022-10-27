@@ -15,12 +15,12 @@ namespace WebCommon
         #region Fields
         // Id khách hàng
         [AttributePrimarykey("Id không được bỏ trống")]
-        [AttributeExists("Id đã tồn tại!")]
+        [AttributeExists("Id")]
         public Guid Id { set; get; }
 
         // mã khách hàng
         [AttributeRequired("Mã khách hàng không được bỏ trống!")]
-        [AttributeExists("Mã khách hàng đã tồn tại!")]
+        [AttributeExists("Mã nhân viên")]
         public string EmployeeId { set; get; }
 
         // tên khách hàng

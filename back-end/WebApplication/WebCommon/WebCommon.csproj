@@ -49,6 +49,7 @@
     <Compile Include="Entities\Employees.cs" />
     <Compile Include="Entities\Positions.cs" />
     <Compile Include="Enums\Gender.cs" />
+    <Compile Include="Models\CheckDupcatyModel.cs" />
     <Compile Include="Models\EmployeeModels\EmployeeNewCodeViewModel.cs" />
     <Compile Include="Models\EmployeeModels\EmployeesViewModel.cs" />
     <Compile Include="Models\PagingData.cs" />
