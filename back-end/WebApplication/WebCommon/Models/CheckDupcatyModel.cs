@@ -14,12 +14,12 @@ namespace WebCommon
     {
         public List<string> Message { set; get; }
 
-        public List<string> FieldsDupcaty { set; get; }
+        public List<Dictionary<string,string>> FieldsDupcaty { set; get; }
 
-        public CheckDupcatyModel(List<string> Message, List<string> FieldsDupcaty)
+        public CheckDupcatyModel(List<string> message, List<Dictionary<string, string>> fieldsDupcaty)
         {
-            this.Message = Message;
-            this.FieldsDupcaty = FieldsDupcaty;
+            this.Message = message;
+            this.FieldsDupcaty = fieldsDupcaty;
         }
 
         public CheckDupcatyModel()

@@ -146,19 +146,24 @@ export default {
          * Function: Xử lý tìm kiếm dữ liệu theo tên và mã khách hàng
          */
         async keyword(value){
-            // lấy giá trị keyword tìm kiếm lưu vào biến employee
-            employees.keyword = value;
+            try{
+                // lấy giá trị keyword tìm kiếm lưu vào biến employee
+                employees.keyword = value;
 
-            // nếu như trang hiện tại không phải là trang đầu tiên thì chuyển currentPageNumber = 1
-            // => chạy watch currentPage() => xử lý load data ở đó
-            if(employees.currentPageNumber != 1){
-                this.currentPage = 1;
-            }else{
-                // nếu current pageNumber =1 thì thực hiện load lại dữ liệu với trang đầu và keyword mới
-                await this.LoadData();
+                // nếu như trang hiện tại không phải là trang đầu tiên thì chuyển currentPageNumber = 1
+                // => chạy watch currentPage() => xử lý load data ở đó
+                if(employees.currentPageNumber != 1){
+                    this.currentPage = 1;
+                }else{
+                    // nếu current pageNumber =1 thì thực hiện load lại dữ liệu với trang đầu và keyword mới
+                    await this.LoadData();
+                }
+
+                console.log(this.currentPage)
+            }catch(e){
+                console.log(e);
             }
-            
-            console.log(this.currentPage)
+           
         },
         /**
          * Author: Phạm Văn Đạt(21/10/2022)
@@ -173,13 +178,18 @@ export default {
          * Function: Xử lý thay đổi số bản ghi/ trang => load lại dữ liệu
          */
         async pageSize(value){
-            employees.pageSize= value;
+            try{
+                employees.pageSize= value;
 
-            // khi thay đổi số bản ghi trên trang thì load lại về trang đầu tiên
-            employees.currentPageNumber =1;
+                // khi thay đổi số bản ghi trên trang thì load lại về trang đầu tiên
+                employees.currentPageNumber =1;
 
-            // gọi hàm load dữ liệu
-            await this.LoadData();
+                // gọi hàm load dữ liệu
+                await this.LoadData();
+            }catch(e){
+                console.log(e);
+            }
+            
         },
 
          /**
@@ -187,15 +197,20 @@ export default {
          * Function: Xử lý thay đổi số trang => load lại dữ liệu
          */
         async currentPage(newValue, oldValue){
-            if(newValue != oldValue){
+            try{
+                if(newValue != oldValue){
 
-                // cập nhật lại giá trị hiện tại của current page
-                employees.currentPageNumber = newValue;
+                    // cập nhật lại giá trị hiện tại của current page
+                    employees.currentPageNumber = newValue;
 
-                //  load lại dưx liệu
-                await this.LoadData();
+                    //  load lại dưx liệu
+                    await this.LoadData();
 
+                }
+            }catch(e){
+                console.log(e);
             }
+            
             
         },
 
@@ -206,14 +221,19 @@ export default {
          * Nếu hiển thị form thì format ngày tháng năm
          */
         checkShowForm(value){
-            if(value == false){
-                // lưu giá trị object null
-                this.employeeDetail =  employeeModel;
-            }else{
-                // nếu hiển thị form, format ngày tháng năm
-                this.employeeDetail.birthDay = FormatDate(this.employeeDetail.birthDay,"YYYY-MM-DD")
-                this.employeeDetail.birthDay = FormatDate(this.employeeDetail.issuaOn,"YYYY-MM-DD")
+            try{
+                if(value == false){
+                    // lưu giá trị object null
+                    this.employeeDetail =  employeeModel;
+                }else{
+                    // nếu hiển thị form, format ngày tháng năm
+                    this.employeeDetail.birthDay = FormatDate(this.employeeDetail.birthDay,"YYYY-MM-DD")
+                    this.employeeDetail.birthDay = FormatDate(this.employeeDetail.issuaOn,"YYYY-MM-DD")
+                }
+            }catch(e){
+                console.log(e);
             }
+            
         }
     },
     methods:{

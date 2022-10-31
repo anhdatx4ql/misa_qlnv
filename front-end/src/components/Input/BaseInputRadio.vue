@@ -5,7 +5,7 @@
 
 <template>
   <div class="radio-container">
-    <label :for="id">
+    <label :for="id" @click="$emit('value',value)">
       <input
       :id="id" type="radio" 
       :checked="(valueGender == value || checked)?true:false" 

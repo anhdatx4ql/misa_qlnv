@@ -3,6 +3,7 @@
   Function: Menu của web
  -->
 <template>
+  
  <div class="menu" :class="{'mini-menu':currentHideTheMenu}">
     <div class="menu-top">
       <div class="menu-top-icon icon-24 icon-mr-10" v-show="!currentHideTheMenu"></div>
@@ -11,9 +12,10 @@
         </button>
     </div>
     <div class="menu-content">
+      
       <router-link class="menu-content-item"
        v-for="item in menuItems" :key="item.title" :to="item.route"
-          v-slot="{ isActive }" 
+          v-slot="{ isActive }" :title="item.title"
         >
           <div class="background-icon icon-24 icon-mr-8" 
           :class="( isActive && item.activeClass)"

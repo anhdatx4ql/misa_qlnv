@@ -52,14 +52,14 @@ namespace WebDomain
                 message.Add(MessageSuccess.GetSuccess);
                 return new ReponsitoryModel(result, CodeSuccess.Code200, message);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 message.Add(ex.Message);
                 return new ReponsitoryModel(null, CodeErrors.Code500, message);
-              
+
             }
 
-            
+
         }
 
 
@@ -84,33 +84,36 @@ namespace WebDomain
                 var id = (Guid)this.GetIdByRecord(entity, properties);
 
                 // validate
-                var errValidate = await this.Validate(entity,properties, id, tableName);
+                var errValidate = await this.Validate(entity, properties, id, tableName);
 
-                if(errValidate != null)
+                if (errValidate.FieldsDupcaty.Count >0)
                 {
                     return new ReponsitoryModel(errValidate.FieldsDupcaty, CodeErrors.Code400, errValidate.Message);
                 }
-
-                // nếu validate thành công
-                var storeName = $"Proc_{tableName}_Insert";
 
                 var parameters = new DynamicParameters();
 
                 // lấy giá trị thuộc tính
                 foreach (PropertyInfo property in properties)
                 {
-                    if(property.Name != "CreatedAt" || property.Name != "UpdatedAt")
-                        parameters.Add($"@_{property.Name}", property.GetValue(entity));
+                    var propertyValue = property.GetValue(entity);
+                    if (property.Name != "CreatedAt" || property.Name != "UpdatedAt")
+                    {
+                        parameters.Add($"@_{property.Name}", propertyValue);
+                    }
+                        
                 }
 
                 parameters.Add($"@_CreatedAt", DateTime.Now);
+                parameters.Add($"@_UpdatedAt", DateTime.Now);
 
-                parameters.Add($"@_UpdateaAt", null);
+                // nếu validate thành công
+                var storeName = $"Proc_{tableName}_Insert";
 
                 // gọi hàm thêm dữ liệu vào db
                 var result = await _baseRepository.InsertRecord(storeName, parameters);
 
-                if(result == 0)
+                if (result == 0)
                 {
                     message.Add(MessageErrors.CreatedFail);
 
@@ -120,16 +123,16 @@ namespace WebDomain
                 message.Add(MessageSuccess.CreatedSuccess);
 
                 return new ReponsitoryModel(result, CodeSuccess.Code201, message);
- 
-                
+
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 message.Add(ex.Message);
                 return new ReponsitoryModel(null, CodeErrors.Code500, message);
             }
 
-            
+
         }
 
         /// <summary>
@@ -153,7 +156,7 @@ namespace WebDomain
                 var id = (Guid)this.GetIdByRecord(entity, properties);
 
                 // validate dữ liệu
-                var validateErrors = await this.Validate(entity, properties,id, tableName);
+                var validateErrors = await this.Validate(entity, properties, id, tableName);
 
                 if (validateErrors != null)
                 {
@@ -174,10 +177,11 @@ namespace WebDomain
                 {
                     var parameters = new DynamicParameters();
                     // truyền các giá trị mới vào parameters
-                    foreach(var property in properties)
+                    foreach (var property in properties)
                     {
-                        if (property.Name != "UpdatedAt")
-                            parameters.Add($"@_{property.Name}", property.GetValue(entity));
+                        var propertyValue = property.GetValue(entity);
+                        if (property.Name != "UpdatedAt" && propertyValue != null)
+                            parameters.Add($"@_{property.Name}", propertyValue);
                     }
 
                     // thêm thời gian hiện tại 
@@ -189,7 +193,7 @@ namespace WebDomain
                     // thao tác với csdl
                     var result = await _baseRepository.UpdateRecord(sql, parameters);
 
-                    if(result > 0)
+                    if (result > 0)
                     {
                         message.Add(MessageSuccess.UpdatedSuccess);
                         return new ReponsitoryModel(result, CodeSuccess.Code200, message);
@@ -264,13 +268,13 @@ namespace WebDomain
         {
 
             // khởi tạo message hứng lỗi
-            var fieldsDupcaty = new List<string>();
+            var fieldsDupcaty = new List<Dictionary<String, String>>();
             var message = new List<string>();
 
             foreach (var property in properties)
             {
-                
-                await this.HandlerValidate(property, entity, id, tableName,  fieldsDupcaty,  message);
+
+                await this.HandlerValidate(property, entity, id, tableName, fieldsDupcaty, message);
             }
 
             return new CheckDupcatyModel(message, fieldsDupcaty);
@@ -285,13 +289,13 @@ namespace WebDomain
         /// <param name="entity">bảng</param>
         /// <param name="messageError">mảng chứa lỗi</param>
         /// <returns></returns>
-        private async Task HandlerValidate(PropertyInfo property, T entity,Guid id, string tableName, List<string> checkValidateFields, List<string> messageValidateFields)
+        private async Task HandlerValidate(PropertyInfo property, T entity, Guid id, string tableName, List<Dictionary<string, string>> checkValidateFields, List<string> messageValidateFields)
         {
             // lấy tên thuộc tính
             var propertyName = property.Name;
 
             // lấy giá trị của thuộc tính theo tên từ entity truyền vào
-            var propertyValue = property.GetValue(entity,null);
+            var propertyValue = property.GetValue(entity, null);
 
             // nếu không có attribute required => trả về null
             var attributeRequired = (AttributeRequired)Attribute.GetCustomAttribute(property, typeof(AttributeRequired));
@@ -311,6 +315,9 @@ namespace WebDomain
             // nếu không có thuộc tính attribute Exists => trả về null
             var attributePrimarykey = (AttributePrimarykey)Attribute.GetCustomAttribute(property, typeof(AttributePrimarykey));
 
+            // nếu không có thuộc tính attribute Exists => trả về null
+            var attributeDateTime = (AttributeDateTime)Attribute.GetCustomAttribute(property, typeof(AttributeDateTime));
+
             // kiểm tra nếu có add message thì thêm field vào list trong trường hợp field đó chưa có trong list
             var checkSelectMessage = false;
 
@@ -327,13 +334,14 @@ namespace WebDomain
                 }
 
 
-            }else if (attributeRequired != null && string.IsNullOrEmpty(propertyValue?.ToString()))
+            }
+            else if (attributeRequired != null && string.IsNullOrEmpty(propertyValue?.ToString()))
             {
                 // nếu tồn tại attribute AttributeRequired và giá trị null => thêm vào mảng lỗi
                 messageValidateFields.Add(attributeRequired.ErrorMessage);
                 checkSelectMessage = true;
             }
-            else if (attributeGender != null && ((int?)propertyValue < (int?)Gender.Male || (int?)propertyValue > (int?)Gender.Other))
+            else if (attributeGender != null && propertyValue != null && ((int?)propertyValue < (int?)Gender.Male || (int?)propertyValue > (int?)Gender.Other))
             {
                 // nếu tồn tại attribute AttributeRequired và giới tính nằm ngoài 3 giá trị 0,1,2
                 messageValidateFields.Add(attributeGender.ErrorMessage);
@@ -341,7 +349,7 @@ namespace WebDomain
                 checkSelectMessage = true;
 
             }
-            else if (attributeEmail != null && this.CheckRegex(propertyValue?.ToString(),"email") == false)
+            else if (attributeEmail != null && propertyValue != null && this.CheckRegex(propertyValue?.ToString(), "email") == false)
             {
 
                 // nếu không phải dạng biểu thức email => lỗi
@@ -350,7 +358,7 @@ namespace WebDomain
                 checkSelectMessage = true;
 
             }
-            else if (attributePhone != null && this.CheckRegex(propertyValue?.ToString(),"phone") == false)
+            else if (attributePhone != null && propertyValue != null && this.CheckRegex(propertyValue?.ToString(), "phone") == false)
             {
 
                 // nếu không phải dạng biểu thức email => lỗi
@@ -359,8 +367,15 @@ namespace WebDomain
                 checkSelectMessage = true;
 
             }
+            else if (attributeDateTime != null && propertyValue != null && DateTime.Compare((DateTime)propertyValue, DateTime.Now) > 0)
+            {
+                // nếu không phải dạng biểu thức email => lỗi
+                messageValidateFields.Add(attributeDateTime.ErrorMessage);
 
-            if (attributeExists != null)
+                checkSelectMessage = true;
+            }
+
+            if (attributeExists != null && propertyValue != null)
             {
                 // truyền tên table, tên trường cần check, giá trị của trường cần check, id khách hàng cần check
                 var sql = $"SELECT {propertyName} FROM {tableName} WHERE {propertyName} = @propertyValue and Id Not IN (@id) LIMIT 1";
@@ -372,17 +387,23 @@ namespace WebDomain
 
                 if (result != null)
                 {
-                    
+
                     messageValidateFields.Add(attributeExists.ErrorMessage + " <" + propertyValue + "> đã tồn tại!");
 
                     checkSelectMessage = true;
 
                 }
+
             }
 
-            if (!checkValidateFields.Contains(propertyName) && checkSelectMessage == true)
+            if (checkSelectMessage == true)
             {
-                checkValidateFields.Add(propertyName);
+                // khởi tạo giá trị mới để add vào
+                var newValue = new Dictionary<string, string>();
+
+                // lấy field name và message cuối cùng vừa được add vào
+                newValue.Add(propertyName, messageValidateFields.Last());
+                checkValidateFields.Add(newValue);
             }
 
 
@@ -394,11 +415,11 @@ namespace WebDomain
         /// </summary>
         /// <param name="value">chuỗi cần kiểm tra</param>
         /// <returns>true- đúng, false- sai</returns>
-        private bool CheckRegex(string value, string type=null)
+        private bool CheckRegex(string value, string type = null)
         {
             // check email
             string valiPattenrn;
-            if( type.ToLower() == "email")
+            if (type.ToLower() == "email")
             {
                 valiPattenrn = @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|"
                    + @"([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<!\.)"
@@ -408,9 +429,9 @@ namespace WebDomain
             {
                 valiPattenrn = @"(09|03|07|08|05)+([0-9]{8})";
             }
-           
+
             var rgx = new Regex(valiPattenrn, RegexOptions.IgnoreCase);
-            return  rgx.IsMatch(value);
+            return rgx.IsMatch(value);
         }
 
         /// <summary>
@@ -420,9 +441,9 @@ namespace WebDomain
         /// <param name="entity"></param>
         /// <param name="properties"></param>
         /// <returns></returns>
-        private Guid GetIdByRecord(T entity,PropertyInfo[] properties = null)
+        private Guid GetIdByRecord(T entity, PropertyInfo[] properties = null)
         {
-            if(properties == null)
+            if (properties == null)
             {
                 properties = typeof(T).GetProperties();
             }
@@ -433,6 +454,7 @@ namespace WebDomain
                 if (property.Name == "Id" && (Guid)property.GetValue(entity) != Guid.Empty)
                 {
                     id = (Guid)property.GetValue(entity);
+                    break;
                 }
             }
             return id;

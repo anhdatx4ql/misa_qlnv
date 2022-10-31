@@ -33,11 +33,11 @@
     <!-- start body table -->
     <tbody v-show="!currentShowFormLoad">
       <tr v-for="data in listData" :key="data.id" @dblclick="HandlerDetailEmployee(data)">
-        <td class="position-sticky fake-cloumn" style="width:20px;left:0"></td>
-        <td style="width:40px;left:20px" class="position-sticky">
+        <td class="position-sticky fake-cloumn" @hover="HandlerHoverTd" style="width:20px;left:0"></td>
+        <td class="table-hover position-sticky" style="width:40px;left:20px">
           <base-input-checkbox style="width:40px" :id="data.id" :value="data.id"></base-input-checkbox>
         </td>
-        <td v-for="field in fields" :key="field.fieldName" :style="'width:'+field.width+'px'" :class="field.class">
+        <td class="table-hover" v-for="field in fields" :key="field.fieldName" :style="'width:'+field.width+'px'" :class="field.class">
           <!-- start hiển thị ô checkbox -->
           <div v-if="field.checkBox == true">
             <base-input-checkbox 
@@ -60,7 +60,7 @@
           <!-- end hiển thị các dữ liệu còn lại -->
 
         </td>
-        <td class="td table-function" style="width:120px">
+        <td class="table-hover td table-function" style="width:120px">
           <base-button @click="HandlerDetailEmployee(data)"><span>Sửa</span></base-button>
           <base-combobox :listValues="fieldFunction" :icon="false" position="top" :width="120">
           </base-combobox>         
@@ -155,7 +155,7 @@ export default {
       console.log(data)
       this.$emit('employeeDetail',data);
       this.$emit('checkShowForm',true);
-    }
+    },
   },
   watch:{
     /**
@@ -177,6 +177,10 @@ export default {
       }
     },
 
+    /**
+     * Author: Phạm Văn Đạt(28/10/2022)
+     * Function: Xử lý hiển thị load dữ liệu
+     */
     showFormLoad(value){
       this.currentShowFormLoad = value;
     }

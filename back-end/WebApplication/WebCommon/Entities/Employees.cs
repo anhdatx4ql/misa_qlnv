@@ -15,7 +15,6 @@ namespace WebCommon
         #region Fields
         // Id khách hàng
         [AttributePrimarykey("Id không được bỏ trống")]
-        [AttributeExists("Id")]
         public Guid Id { set; get; }
 
         // mã khách hàng
@@ -32,12 +31,14 @@ namespace WebCommon
         public int Gender { set; get; }
 
         // Ngày sinh
+        [AttributeDateTime("Thời gian không vượt quá thời gian hiện tại!")]
         public DateTime BirthDay { set; get; }
 
         // Số chứng minh nhân dân
         public string IdNo { set; get; }
 
         // Ngày cấp
+        [AttributeDateTime("Thời gian không vượt quá thời gian hiện tại!")]
         public DateTime IssuaOn { set; get; }
 
         // Nơi cấp
@@ -72,7 +73,6 @@ namespace WebCommon
         public Guid? DepartmentId { set; get; }
 
         // id chức danh
-        [AttributeRequired("Mã chức danh không được để trống!")]
         public Guid? PositionId { set; get; }
 
         // là khách hàng

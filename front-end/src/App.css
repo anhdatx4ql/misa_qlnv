@@ -157,3 +157,7 @@ div#app {
     box-sizing: border-box;
     background-color: #ECEEF1;
 }
+
+.input-error .el-input__wrapper, .input-error{
+    border-color:red !important;
+}

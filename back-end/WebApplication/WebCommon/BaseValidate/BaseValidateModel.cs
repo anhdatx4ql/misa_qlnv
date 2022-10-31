@@ -122,4 +122,23 @@ namespace WebCommon
         }
         #endregion
     }
+
+    /// <summary>
+    /// Author: Phạm Văn Đạt(29/10/2022)
+    /// Function: kiểm tra ngày tháng không vượt quá ngày tháng hiện tại
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Property)]
+    public class AttributeDateTime : Attribute
+    {
+        #region Fields
+        public string ErrorMessage { get; }
+        #endregion
+
+        #region Constructor
+        public AttributeDateTime(string message)
+        {
+            ErrorMessage = message;
+        }
+        #endregion
+    }
 }

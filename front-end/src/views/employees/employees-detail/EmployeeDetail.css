@@ -186,3 +186,13 @@ input {
     display: flex;
     flex-direction: row-reverse;
 }
+
+.input-date-container:hover .input-container-error {
+    display: flex;
+}
+
+.input-date-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

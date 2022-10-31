@@ -1,9 +1,9 @@
 import {END_POINTS} from '../axios/endPoint';
-import { GetAll, Paging,GetMaxCode } from '../Controllers/BaseController'
+import {InsertRecord, Paging,GetMaxCode } from '../Controllers/BaseController'
 import {STATUS_CODES} from '../../constants'
 
 // end point của employees
-const endPoint = END_POINTS.Employees;
+// const endPoint = END_POINTS.Employees;
 
 /**
  * Author: Phạm Văn Đạt(22/10/2022)
@@ -23,13 +23,10 @@ export let employeeModel={
   bankName: null,
 
   // ngày sinh
-  birthDay: null,
-
-  // ngày tạo
-  createdAt: null,
+  birthDay: new Date('0001-01-01'),
 
   // người tạo
-  createdBy: "Phạm Văn Đạt",
+  createdBy: null,
 
   // id phòng ban
   departmentId: null,
@@ -56,7 +53,7 @@ export let employeeModel={
   idNo: null,
 
   // kiểm tra xóa hay chưa
-  isDelete: true,
+  isDelete: false,
 
   // là khách hàng
   isEmployee: false,
@@ -82,11 +79,8 @@ export let employeeModel={
   // tên chức danh
   positionName: null,
 
-  // ngày cập nhật
-  updatedAt: null,
-
   // người cập nhật
-  updatedBy: "Phạm Văn Đạt"
+  updatedBy: null
 };
 
 /**
@@ -102,16 +96,6 @@ export class Employees{
     this.currentPageNumber = currentPageNumber;
     this.pageSize= pageSize;
     this.totalCount = totalCount;
-  }
-  
-  /**
-    * Lấy dữ liệu khách hàng hiện tại
-    * @returns 
-    */
-  async GetRecords(){
-    let res =  await GetAll(endPoint);
-    // kiểm tra res trả về
-    this.data = res;
   }
 
   /**
@@ -135,6 +119,7 @@ export class Employees{
   /**
    * Author: Phạm Văn Đạt(23/10/2022)
    * Function: Lấy mã code mới nhất
+   * @returns trả về dữ liệu nếu thành công.
    */
   async GetMaxCode(){
     let res = await GetMaxCode(END_POINTS.EmployeesMaxCode);
@@ -142,6 +127,21 @@ export class Employees{
       return res.data;
     }else{
       console.log(res)
+    }
+  }
+
+  /**
+   * Author: Phạm Văn Đạt(28/10/2022)
+   * Function: Thêm mới nhân viên
+   * @param {*} data : Dữ liệu truyền vào
+   */
+  async InsertEmployee(data){
+    let res = await InsertRecord(END_POINTS.Employees,data);
+
+    if(res.statusCode == STATUS_CODES.Code201){
+      console.log(res)
+    }else{
+      console.log("fail: ",res);
     }
   }
 

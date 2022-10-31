@@ -343,11 +343,27 @@ export const NOTIFY_LIST={
  * Function: chuỗi hiển thị thông báo
  */
 export const NOTIFY_TEXT= {
+
+    // dữ liệu đã thay đổi
     changeData: "Dữ liệu đã bị thay đổi. Bạn có muốn cất không?",
+
+    // hiển thị lỗi dữ liệu để trống
     requiredField: function(text){
         return text +" không được để trống."
     },
-    duplicateField: (text)=>{ return text + " đã tồn tại."}  
+
+    // hiển thị lỗi trùng dữ liệu
+    duplicateField: (text)=>{ return text + " đã tồn tại."},
+
+    // lưu lỗi ngày tháng vượt quá ngày tháng hiện tại
+    dateTimeError: function(text){
+        return text + " vượt quá ngày thành hiện tại!";
+    },
+    
+    // lưu lỗi format dữ liệu
+    formatError: function(text){
+        return text +" không đúng định dạng";
+    } 
 
 }
 
@@ -361,3 +377,22 @@ export const STATUS_CODES = {
     Code400: 400, // lỗi dữ liệu không đúng
     Code500: 500 // lỗi server
 }
+
+/**
+ * Author: Phạm Văn Đạt(30/10/2022)
+ * Function: Các trường xử lý required
+ */
+export const FIELDS_REQUIRED = [
+    {
+        fielName:"employeeId",
+        fieldText: "Mã",
+    },
+    {
+        fielName:"name",
+        fieldText: "Tên",
+    },
+    {
+        fielName:"departmentId",
+        fieldText: "Đơn vị",
+    }
+];

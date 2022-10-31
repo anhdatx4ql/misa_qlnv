@@ -188,3 +188,17 @@ button.button-combobox:hover {
     margin: 0;
     height: 225px;
 }
+
+
+.combobox .input-container-error {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.combobox:hover .input-container-error {
+    display: flex;
+}
+
+.combobox-error {
+    border-color: red !important;
+}
