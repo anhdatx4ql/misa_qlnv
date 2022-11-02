@@ -309,6 +309,10 @@ var NOTIFY_TEXT = {
   duplicateField: function duplicateField(text) {
     return text + " đã tồn tại.";
   },
+  // hiển thị lỗi trùng dữ liệu
+  dataFail: function dataFail(text) {
+    return "Dữ liệu <" + text + "> không có trong danh mục.";
+  },
   // lưu lỗi ngày tháng vượt quá ngày tháng hiện tại
   dateTimeError: function dateTimeError(text) {
     return text + " vượt quá ngày thành hiện tại!";

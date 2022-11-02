@@ -31,7 +31,7 @@
       
         <div class="notify-question-button" v-if="(type=='error')?true:false">
           <!-- button  -->
-         <button v-if="(type=='error')?true:false" class="button" autofocus ref="firstFocus" tabindex="1">
+         <button v-if="(type=='error')?true:false" class="button" autofocus ref="firstFocus" tabindex="1"  @click="$emit('checkShowNotify',false);$emit('checkFocusCloseNotify',fieldNameFocus)">
             <span>Đóng</span>
           </button>
         </div>
@@ -53,7 +53,10 @@ export default {
     type:String,
 
     // text thông báo
-    text:String
+    text:String,
+
+    // lưu lại focus sau khi tắt form
+    fieldNameFocus: String
   },
   created(){
   },
@@ -63,6 +66,11 @@ export default {
      * Function: xử lý focus button khi hiển thị notify
      */
     this.$refs.firstFocus.focus();
+  },
+  watch:{
+    firstFocus(value){
+      console.log(value);
+    }
   }
 }
 </script>

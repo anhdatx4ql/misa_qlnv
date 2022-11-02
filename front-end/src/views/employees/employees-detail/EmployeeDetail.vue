@@ -102,11 +102,12 @@
               :checkFocus="fieldFocusValidate.departmentId"
               @checkFocus="fieldFocusValidate.departmentId = false"
               :isRequired="true"
+              :isValidate="true"
               :value="{
                 id: currentEmployee.departmentId,
                 name: currentEmployee.departmentName,
               }"
-              @value="currentEmployee.departmentId = $event"
+              @newValue="currentEmployee.departmentId = $event"
               :errorText="
                 listErrors.has('departmentId')
                   ? listErrors.get('departmentId')
@@ -114,9 +115,7 @@
               "
               @errorText="
                 $event
-                  ? !listErrors.has('departmentId')
-                    ? listErrors.set('departmentId', $event)
-                    : ''
+                  ? listErrors.set('departmentId', $event)
                   : listErrors.delete('departmentId')
               "
               @checkLoadDataCombobox="loadDepartments"
@@ -134,6 +133,19 @@
                 id: currentEmployee.positionId,
                 name: currentEmployee.positionName,
               }"
+
+              :errorText="
+                listErrors.has('positionId')
+                  ? listErrors.get('positionId')
+                  : null
+              "
+              @errorText="
+                $event
+                  ? listErrors.set('positionId', $event)
+                  : listErrors.delete('positionId')
+              "
+              :isValidate="true"
+              @newValue="currentEmployee.positionId = $event"
               @checkLoadDataCombobox="loadPositions"
               comboboxField="Chức vụ"
               :listValues="positions"
@@ -388,6 +400,8 @@
     v-if="checkNotify.isShow"
     :type="checkNotify.type"
     :text="checkNotify.text"
+    :fieldNameFocus="firstFocus"
+    @checkFocusCloseNotify="checkFocusCloseNotify = $event"
   ></base-notify>
   <!-- end thông báo -->
 </template>
@@ -429,6 +443,8 @@ export default {
   },
   data() {
     return {
+      // kiểm tra focus sau khi ẩn thông báo
+      checkFocusCloseNotify: null,
       // danh sách chức vụ
       positions: [],
 
@@ -455,12 +471,14 @@ export default {
       firstFocus: null,
 
       // các trường check focus
-      fieldFocusValidate:{
+      fieldFocusValidate: {
         employeeId: true,
         name: false,
-        departmentId: false
-      }
+        departmentId: false,
+      },
 
+      // thứ tự hiển thị lỗi
+      numericalOrder:["employeeId","name","departmentId","positionId"]
     };
   },
   created() {
@@ -469,6 +487,8 @@ export default {
 
     // khởi tạo giá trị employee
     this.currentEmployee = this.employeeDetail;
+
+    console.log("khoi tao")
   },
 
   methods: {
@@ -571,13 +591,10 @@ export default {
      */
     async HandlerUploadData() {
       try {
-
         // xóa tên trường focus lỗi đầu tiên đã có trước đó
         this.firstFocus = null;
 
         this.ValiDateRequired();
-
-        console.log(this.firstFocus == 'name');
 
         if (this.listErrors.size == 0) {
           if (this.title == "Thêm mới nhân viên") {
@@ -587,15 +604,34 @@ export default {
             console.log(this.currentEmployee);
 
             // gọi đến db thêm dữ liệu
-            await employees.InsertEmployee(this.currentEmployee);
+            let result = await employees.InsertEmployee(this.currentEmployee);
+            console.log(result);
           } else {
             console.log("xử lý cập nhật");
             console.log(this.currentEmployee);
           }
         } else {
-          console.log("Hiển thị lỗi lên toast message");
-        }
+          // chuyển map về dạng value, lấy phân tử đầu tiên hiển thị lên thông báo
+          let valueText = null;
 
+          // lấy lỗi theo thứ tự: mã, tên, phòng ban
+          for(let i=0;i<this.numericalOrder.length; i++){
+            if(this.listErrors.has(this.numericalOrder[i])){
+              valueText = this.listErrors.get(this.numericalOrder[i]);
+              break;
+            }
+          }
+
+          // hiển thị lỗi đầu tiên lên thông báo lỗi
+          // gán lại giá trị notifi
+          this.checkNotify = {
+            isShow: true,
+            type: NOTIFY_LIST.ErrorValidate.type,
+            text: NOTIFY_LIST.ErrorValidate.text(valueText),
+          };
+
+          console.log(this.firstFocus )
+        }
       } catch (e) {
         console.log(e);
       }
@@ -611,46 +647,66 @@ export default {
         FormatDate(this.currentEmployee.birthDay, "YYYY-MM-DD") ==
         "Invalid date"
           ? delete this.currentEmployee.birthDay
-          : (this.currentEmployee.birthDay)?(this.currentEmployee.birthDay = FormatDate(
+          : this.currentEmployee.birthDay
+          ? (this.currentEmployee.birthDay = FormatDate(
               this.currentEmployee.birthDay,
               "YYYY-MM-DD"
-            )):'';
+            ))
+          : "";
 
         // nếu giá trị là invalid date thì xóa khỏi object
-        FormatDate(this.currentEmployee.issuaOn, "YYYY-MM-DD") ==
-        "Invalid date"
+        FormatDate(this.currentEmployee.issuaOn, "YYYY-MM-DD") == "Invalid date"
           ? delete this.currentEmployee.issuaOn
-          : (this.currentEmployee.issuaOn)?(this.currentEmployee.issuaOn = FormatDate(
+          : this.currentEmployee.issuaOn
+          ? (this.currentEmployee.issuaOn = FormatDate(
               this.currentEmployee.issuaOn,
               "YYYY-MM-DD"
-            )):'';
+            ))
+          : "";
 
         // xử lý bấm nút cất, cất và thêm validate các lỗi required
         FIELDS_REQUIRED.forEach((value) => {
+
           // kiểm tra giá trị có null không
           if (!this.currentEmployee[value.fielName]) {
 
-            // thêm tên trường và message lỗi vào danh sách lỗi
-            this.listErrors.set(
-              value.fielName,
-              NOTIFY_TEXT.requiredField(value.fieldText)
-            );
+              // thêm tên trường và message lỗi vào danh sách lỗi nếu chưa có lỗi đó
+              if(!this.listErrors.has(value.fielName)){
+
+                this.listErrors.set(
+                value.fielName,
+                NOTIFY_TEXT.requiredField(value.fieldText)
+
+              );
+            }
 
             // nếu chưa lấy trường nào thì mới nhận dữ liệu
-            if(this.firstFocus == null){
+            if (this.firstFocus == null) {
               this.firstFocus = value.fielName;
-              this.fieldFocusValidate[value.fielName] = true;
             }
 
           }
         });
-
       } catch (e) {
         console.log(e);
       }
     },
   },
   watch: {
+    /**
+     * Author: Phạm Văn Đạt(02/11/2022)
+     * Function: XỬ lý focus vào lỗi đầu tiên nếu như có lỗi
+     */
+    checkFocusCloseNotify(value){
+      console.log(value);
+
+      // chuyển trạng thái focus true ở lỗi đầu tiên
+      this.fieldFocusValidate[value] = true;
+
+      // set lại giá trị null cho check focus sau khi ẩn form thông tbaos
+      this.checkFocusCloseNotify = null;
+    },
+
     /**
      * Author: Phạm Văn Đạt(22/10/2022)
      * Function: THeo dõi thay đổi thông tin khách hàng

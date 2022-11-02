@@ -186,13 +186,17 @@ function () {
             case 2:
               res = _context3.sent;
 
-              if (res.statusCode == _constants.STATUS_CODES.Code201) {
-                console.log(res);
-              } else {
-                console.log("fail: ", res);
+              if (!(res.status == _constants.STATUS_CODES.Code200)) {
+                _context3.next = 7;
+                break;
               }
 
-            case 4:
+              return _context3.abrupt("return", res);
+
+            case 7:
+              console.log("thêm mới thất bại");
+
+            case 8:
             case "end":
               return _context3.stop();
           }

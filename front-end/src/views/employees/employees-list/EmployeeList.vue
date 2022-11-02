@@ -64,8 +64,17 @@
       :title="title"
        @closeForm="checkShowForm = $event"
        :employeeDetail="employeeDetail"
-       ></employee-detail>
+       @textToastMessage="textToastMessage = $event"
+    ></employee-detail>
     <!-- end form -->
+
+    <!-- start toast message -->
+    <base-toast-message
+        :text="textToastMessage"
+        @textToastMessage="textToastMessage"
+    ></base-toast-message>
+    <!-- end toast message -->
+
 </template>
    
 <script>
@@ -126,7 +135,10 @@ export default {
             keyword: null,
 
             // hiển thị loading khi load lại dữ liệu
-            checkFormLoad: true
+            checkFormLoad: true,
+
+            // text hiển thị toast message
+            textToastMessage: null
         }
     },
     created(){
@@ -141,6 +153,9 @@ export default {
         this.LoadData();
     },
     watch:{
+        textToastMessage(value){
+            console.log(value);
+        },
         /**
          * Author: Phạm Văn Đạt(26/10/2022)
          * Function: Xử lý tìm kiếm dữ liệu theo tên và mã khách hàng

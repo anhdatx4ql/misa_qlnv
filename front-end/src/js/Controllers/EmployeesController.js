@@ -137,11 +137,11 @@ export class Employees{
    */
   async InsertEmployee(data){
     let res = await InsertRecord(END_POINTS.Employees,data);
-
-    if(res.statusCode == STATUS_CODES.Code201){
-      console.log(res)
+    
+    if(res.status == STATUS_CODES.Code200){
+      return res;
     }else{
-      console.log("fail: ",res);
+      console.log("thêm mới thất bại");
     }
   }
 

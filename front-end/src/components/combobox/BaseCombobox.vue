@@ -151,8 +151,10 @@ export default {
     // kiểm tra check required
     isRequired: Boolean,
 
+    isValidate: Boolean,
+
     // kiểm tra có focus hay không
-    checkFocus: Boolean
+    checkFocus: Boolean,
   },
   data() {
     return {
@@ -189,23 +191,22 @@ export default {
      */
     if (this.checkFocus == true) {
       this.HandlerFocus();
-      
     }
   },
   methods: {
-     /**
+    /**
      * Author: Phạm Văn Đạt(31/10/2022)
      * Function: focus input
      */
-     HandlerFocus() {
-      try{
+    HandlerFocus() {
+      try {
         this.$refs.input?.focus();
         this.$emit("checkFocus", false);
-      }catch(e){
+      } catch (e) {
         console.log(e);
       }
     },
-      
+
     /**
      * Author: Phạm Văn Đạt(20/10/2022)
      * Function: Xử lý lấy giá trị khi click item dropdown
@@ -213,6 +214,8 @@ export default {
      */
     SelectValueCombobox(el) {
       try {
+        this.CheckRequiredValue();
+
         this.cbxValue = el;
         // cập nhật lại item tìm kiếm
         this.checkFocusItemSearch = el.id;
@@ -347,41 +350,52 @@ export default {
      */
     CheckRequiredValue() {
       try {
-        if(this.isRequired == true){
-          // kiểm tra xem item có trong list item
-        let check = false;
+        if (this.isValidate == true) {
+          let check = true;
 
-        this.listValues.forEach((value) => {
-          if (value?.id == this.cbxValue.id) {
-            check = true;
+           // nếu tên không = null, kiểm tra nếu id không trùng giá trị => báo lỗi
+           this.listValues.forEach((value) => {
+              if ((value?.id == this.cbxValue.id && value?.name == this.cbxValue.name) || ( !this.cbxValue.name && !this.cbxValue.id)) {
+                this.currentErrorText = null;
+                this.$emit("errorText", null);
+                check = false;
+                console.log("chạy1");
+              }
+            });
+          if (check == true) {
+              console.log("chạy2");
+
+              // nếu không có lỗi thì lấy lỗi dữ liệu không thỏa mãn
+              this.currentErrorText = NOTIFY_TEXT.dataFail(this.comboboxField);
+              this.$emit("errorText", this.currentErrorText);
+            }
+        }
+
+        if (this.isRequired == true) {
+            // nếu id và name rỗng thì hiển thị lỗi không được bỏ trống
+            if (!this.cbxValue.id && !this.cbxValue.name) {
+              this.currentErrorText = NOTIFY_TEXT.requiredField(
+                this.comboboxField
+              );
+
+              this.$emit("errorText", this.currentErrorText);
+            }
           }
-        });
 
-        if (check == false) {
-          this.currentErrorText = NOTIFY_TEXT.requiredField(this.comboboxField);
-          this.$emit("errorText", this.currentErrorText);
-        } else {
-          this.currentErrorText = null;
-          this.$emit("errorText", null);
-        }
-        }
-        
       } catch (e) {
         console.log(e);
       }
     },
   },
   watch: {
-    
     /**
      * Author: Phạm Văn Đạt(31/10/2022)
      * Function: Xử lý focus input
      */
-     checkFocus(value) {
+    checkFocus(value) {
       if (value == true) {
         this.HandlerFocus();
       }
-
     },
 
     /**

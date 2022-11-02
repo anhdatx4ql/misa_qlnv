@@ -355,6 +355,9 @@ export const NOTIFY_TEXT= {
     // hiển thị lỗi trùng dữ liệu
     duplicateField: (text)=>{ return text + " đã tồn tại."},
 
+    // hiển thị lỗi trùng dữ liệu
+    dataFail: (text)=>{ return "Dữ liệu <"+text + "> không có trong danh mục."},
+
     // lưu lỗi ngày tháng vượt quá ngày tháng hiện tại
     dateTimeError: function(text){
         return text + " vượt quá ngày thành hiện tại!";
