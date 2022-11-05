@@ -24,8 +24,8 @@
         <th style="width:120px;" class="table-function">
           CHỨC NĂNG
         </th>
-        <th class="position-sticky fake-cloumn" style="width:30px;right:0"></th>
-        <th class="position-sticky fake-cloumn r-30 background-container" style="width:30px;right:-30px"></th>
+        <th class="position-sticky fake-cloumn" style="width:24px;right:0"></th>
+        <th class="position-sticky fake-cloumn r-30 background-container" style="width:24px;right:-24px"></th>
       </tr>
     </thead>
     <!-- end header table -->
@@ -62,11 +62,16 @@
         </td>
         <td class="table-hover td table-function" style="width:120px">
           <base-button @click="HandlerDetailEmployee(data)"><span>Sửa</span></base-button>
-          <base-combobox :listValues="fieldFunction" :icon="false" position="top" :width="120">
+          <base-combobox
+           :listValues="fieldFunction" 
+           :icon="false" position="top" 
+           :width="120"
+           @newValueId="HandlerFunctionTable($event,data)"
+           >
           </base-combobox>         
         </td>
-        <th class="position-sticky fake-cloumn" style="width:30px;right:0"></th>
-        <td class="position-sticky fake-cloumn r-30 background-container" style="width:30px;right:-30px;"></td>
+        <th class="position-sticky fake-cloumn" style="width:24px;right:0"></th>
+        <td class="position-sticky fake-cloumn r-30 background-container" style="width:24px;right:-24px;"></td>
       </tr>
     </tbody>
     <!-- end body table -->
@@ -91,7 +96,6 @@
  * Function: Lấy danh sách hiển thị các cột trong table
  */
 import {TABLE_FIELDS} from "../../constants"
-
 
 export default {
   name: 'BaseTable',
@@ -127,7 +131,7 @@ export default {
       listData:[],
 
       // kiểm tra đang 
-      currentShowFormLoad: true
+      currentShowFormLoad: false
     }
   },
   created(){
@@ -137,8 +141,28 @@ export default {
    */
     this.fields = TABLE_FIELDS;
 
+    this.currentShowFormLoad = this.showFormLoad;
+
   },
   methods: {
+
+    /**
+     * Author: Phạm Văn Đạt(03/11/2022)
+     * Function: Xuywr lý xóa, nhân bản, ngưng sử dụng
+     * @param {} value : giá trị xử lý nhân bản, xóa, ngưng sử dụng
+     */
+    async HandlerFunctionTable(value,data){
+      try{
+        if(data.id != null){
+          // đưa ra chức năng cần xử lý của table: Nhân bản, Xóa, Sửa
+          this.$emit('functionTable',{value:value, data: data});
+        }
+       
+      }catch(e){
+        console.log(e);
+      }
+    },
+
     /**
      * Author: Phạm Văn Đạt(18/10/2022)
      * Function: Xử lý scroll table
@@ -152,7 +176,6 @@ export default {
      * Function: Xử lý khi click nút sửa
      */
     HandlerDetailEmployee(data){
-      console.log(data)
       this.$emit('employeeDetail',data);
       this.$emit('checkShowForm',true);
     },
@@ -168,21 +191,13 @@ export default {
     },
 
     /**
-     * Author: Phạm Văn Đạt(21/10/2022)
-     * FUnction: Xử lý theo dõi dữ liệu
-     */
-     listData(value){
-      if(!value){
-        console.log("không có dữ liệu!");
-      }
-    },
-
-    /**
      * Author: Phạm Văn Đạt(28/10/2022)
      * Function: Xử lý hiển thị load dữ liệu
      */
     showFormLoad(value){
+    
       this.currentShowFormLoad = value;
+
     }
   }
 

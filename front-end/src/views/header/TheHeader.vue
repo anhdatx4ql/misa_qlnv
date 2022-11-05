@@ -14,7 +14,9 @@
             :value="companies[0]" 
             :listValues="companies"
             position="top"
-            :disabled="true">
+            :disabled="true"
+            :returnData="false"
+            >
         </base-combobox>
 
       </div>
@@ -25,7 +27,7 @@
       </div>
       <div class="header-right-info">
         <div class="header-right-info-avatar icon-32"></div>
-        <div class="header-right-info-name" style="margin-right:8px;">Phạm Văn Đạt</div>
+        <div class="header-right-info-name">Phạm Văn Đạt</div>
       </div>
     </div>
  </div>

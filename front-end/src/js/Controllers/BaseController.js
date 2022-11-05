@@ -69,7 +69,7 @@ export const Paging = async function(endPoint, keyword, currentPageNumber, pageS
  */
 export const DeleteRecords = async function(endPoint, ids){
   let result = {};
-  await axios.delete(ROOT_API+endPoint, ids)
+  await axios.post(ROOT_API+endPoint, ids)
     .then(response =>{
       result= response;
     })

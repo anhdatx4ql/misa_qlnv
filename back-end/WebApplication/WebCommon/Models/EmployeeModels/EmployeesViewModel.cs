@@ -26,13 +26,13 @@ namespace WebCommon
         public int Gender { set; get; }
 
         // Ngày sinh
-        public DateTime BirthDay { set; get; }
+        public string BirthDay { set; get; }
 
         // Số chứng minh nhân dân
         public string IdNo { set; get; }
 
         // Ngày cấp
-        public DateTime IssuaOn { set; get; }
+        public string IssuaOn { set; get; }
 
         // Nơi cấp
         public string PlaceOfIssue { set; get; }

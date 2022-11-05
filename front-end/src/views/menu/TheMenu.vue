@@ -6,7 +6,7 @@
   
  <div class="menu" :class="{'mini-menu':currentHideTheMenu}">
     <div class="menu-top">
-      <div class="menu-top-icon icon-24 icon-mr-10" v-show="!currentHideTheMenu"></div>
+      <div class="menu-top-icon icon-24" style="width:36px;" v-show="!currentHideTheMenu"></div>
       <div class="menu-top-logo" v-show="!currentHideTheMenu"></div>
       <button @click="currentHideTheMenu = false" v-show="currentHideTheMenu" class="menu-top-icon-mini icon-16 icon-ml-10 icon-mr-10">
         </button>
@@ -17,7 +17,7 @@
        v-for="item in menuItems" :key="item.title" :to="item.route"
           v-slot="{ isActive }" :title="item.title"
         >
-          <div class="background-icon icon-24 icon-mr-8" 
+          <div class="background-icon icon-24 icon-mr-12" 
           :class="( isActive && item.activeClass)"
           :style="{'background-position': item.iconPosition[0] + 'px ' +item.iconPosition[1]+'px'}"></div>
           <div class="menu-content-item-text">{{item.title}}</div>

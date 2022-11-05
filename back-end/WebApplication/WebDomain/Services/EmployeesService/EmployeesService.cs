@@ -199,12 +199,19 @@ namespace WebDomain
             });
 
             System.Drawing.Color colFromHex = System.Drawing.ColorTranslator.FromHtml("#D8D8D8");
-            workSheet.Cells["A1:K1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-            workSheet.Cells["A1:K1"].Style.Fill.BackgroundColor.SetColor(colFromHex);
+            workSheet.Cells["A1:R1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            workSheet.Cells["A1:R1"].Style.Fill.BackgroundColor.SetColor(colFromHex);
 
-            var sqlQuery = @"SELECT * FROM view_employees WHERE view_employees.Id IN (@ids)";
             var parameters = new DynamicParameters();
-            parameters.Add("@ids", ids);
+
+            var sqlQuery = @"SELECT * FROM view_employees";
+
+            // nếu mảng ids = null => lấy hết 
+            if (ids.Count > 0)
+            {
+                sqlQuery += @"WHERE view_employees.Id IN (@ids)";
+                parameters.Add("@ids", ids);
+            }
             var result = await _employee.GetAllAsync<EmployeesViewModel>(sqlQuery, parameters);
 
             if (result.Count > 0)

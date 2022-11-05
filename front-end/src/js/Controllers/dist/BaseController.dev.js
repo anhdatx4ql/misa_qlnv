@@ -115,7 +115,7 @@ var DeleteRecords = function DeleteRecords(endPoint, ids) {
         case 0:
           result = {};
           _context3.next = 3;
-          return regeneratorRuntime.awrap(_axios["default"]["delete"](_endPoint.ROOT_API + endPoint, ids).then(function (response) {
+          return regeneratorRuntime.awrap(_axios["default"].post(_endPoint.ROOT_API + endPoint, ids).then(function (response) {
             result = response;
           })["catch"](function (e) {
             result = e;

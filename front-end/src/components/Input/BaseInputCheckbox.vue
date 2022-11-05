@@ -12,7 +12,7 @@
         :value="value" 
         :id="id" 
         style="display:none" 
-        @input="$emit('value',!currentChecked), currentChecked=!currentChecked">
+        @input="$emit('checked',!currentChecked), currentChecked=!currentChecked">
       <span class="checkbox-container-icon"></span>
       <span class="checkbox-container-text" v-show="(text != null)?true:false">{{text}}</span>
     </label>
@@ -22,6 +22,10 @@
 <script>
 export default {
   name: 'BaseInputCheckbox',
+  emits:{
+    // giá trị của check box
+    value: Boolean
+  },
   props: {
     // giá trị hiện tại
     value: String,

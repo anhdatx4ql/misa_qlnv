@@ -168,7 +168,7 @@ export const TABLE_FIELDS=[
         width: 140,
         class: "text-align-center",
         formatDate: function(value){
-            return FormatDate(value);
+            return FormatDate(value,"DD/MM/YYYY");
         }
     },
     {
@@ -183,7 +183,7 @@ export const TABLE_FIELDS=[
         width: 120,
         class: "text-align-center",
         formatDate: function(value){
-            return FormatDate(value);
+            return FormatDate(value,"DD/MM/YYYY");
         }
     },
     {
@@ -358,15 +358,13 @@ export const NOTIFY_TEXT= {
     // hiển thị lỗi trùng dữ liệu
     dataFail: (text)=>{ return "Dữ liệu <"+text + "> không có trong danh mục."},
 
+    // hiển thị sai định dạng
+    formatError: (text) => { return text+" sai định dạng."},
+
     // lưu lỗi ngày tháng vượt quá ngày tháng hiện tại
     dateTimeError: function(text){
         return text + " vượt quá ngày thành hiện tại!";
     },
-    
-    // lưu lỗi format dữ liệu
-    formatError: function(text){
-        return text +" không đúng định dạng";
-    } 
 
 }
 
@@ -399,3 +397,31 @@ export const FIELDS_REQUIRED = [
         fieldText: "Đơn vị",
     }
 ];
+
+/**
+ * Author: Phạm Văn Đạt(03/11/2022)
+ * Function: Xử lý kiểm tra cất hoặc cất và thêm
+ */
+export const FUNCTION_UPLOAD = {
+    Save: 1,
+    SaveAndInsert: 2
+}
+
+/**
+ * Author: Phạm Văn Đạt(03/11/2022)
+ * Function: Nhân bản, xóa, ngưng sử dụng ở table
+ */
+export const FUNCTION_TABLE = {
+    Replication: 1,
+    Delete: 2,
+    StopUsing:3
+}
+
+/**
+ * Author: Phạm Văn Đạt(04/11/2022)
+ * Function: Các cột check dữ liệu
+ */
+export const RULE_FORMAT_DATA = {
+    PhoneNumber: 1,
+    Email:2
+}

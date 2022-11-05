@@ -1,15 +1,12 @@
-
-
-.position-sticky{
-    position:sticky;
-    z-index:2;
-    background:#ffffff;
+.position-sticky {
+    position: sticky;
+    z-index: 2;
+    background: #ffffff;
 }
 
-.left-60{
-    left:60px;
+.left-60 {
+    left: 60px;
 }
-
 
 .table-content {
     width: 100%;
@@ -19,11 +16,12 @@
     flex-direction: column;
 }
 
-.table-content td,.table-content th {
+.table-content td,
+.table-content th {
     box-sizing: border-box;
-    border-right:1px solid #c7c7c7;
-    border-bottom:1px solid #c7c7c7;
-    padding:0 10px;
+    border-right: 1px solid #c7c7c7;
+    border-bottom: 1px solid #c7c7c7;
+    padding: 0 10px;
     box-sizing: border-box;
 }
 
@@ -42,27 +40,28 @@
 
 .table-content thead>tr>th {
     background: #E5E8EC !important;
-    height: 34px;
+    height: 49px;
 }
 
-.table-content tbody>tr{
+.table-content tbody>tr {
     height: 44px;
     box-sizing: border-box;
 }
 
 
-.table-content .fake-cloumn{
+.table-content .fake-cloumn {
     z-index: 99 !important;
-    border:none;
+    border: none;
     background: #ffffff !important;
 }
 
-.r-30{
-    right:-30px;
+.r-30 {
+    right: -30px;
 }
 
 .table-content tbody>tr>td {
     height: 44px !important;
+    font-size: 13px !important;
 }
 
 .table-content td.td.table-function {
@@ -88,16 +87,16 @@
     outline: none;
     height: 24px;
     border: none;
-    background:none;
+    background: none;
 }
 
 .table-content td.td.table-function>.combobox>.combobox-container .combobox-actions-button {
-        padding: 8px 10px !important;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 18px;
-        background: none;
+    padding: 8px 10px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 18px;
+    background: none;
 }
 
 .table-content .td.td.table-function>.combobox>.combobox-container .combobox-actions-button .background-icon-arrow-bottom {
@@ -108,8 +107,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin:0 auto;
-    width:18px !important;
+    margin: 0 auto;
+    width: 18px !important;
 }
 
 .table-content td.td.table-function>button {
@@ -168,18 +167,18 @@
 
 .table-content .table-function {
     position: sticky;
-    right: 30px;
+    right: 24px;
     background: #ffffff;
     z-index: 5;
     border-left: 1px solid #c7c7c7;
 }
 
-.table-content .border-right-none{
-    border-right:none;
+.table-content .border-right-none {
+    border-right: none;
 }
 
-.table-content .background-container{
-    background-color:#ECEEF1 !important;
+.table-content .background-container {
+    background-color: #ECEEF1 !important;
 }
 
 .table-content thead>tr>th {
@@ -188,7 +187,8 @@
     z-index: 15 !important;
 }
 
-.table-content thead>tr>th:nth-child(2),thead>tr>th:nth-child(3) {
+.table-content thead>tr>th:nth-child(2),
+thead>tr>th:nth-child(3) {
     z-index: 17 !important;
 }
 
@@ -214,14 +214,15 @@
     justify-content: center !important;
 }
 
-.table-content tr>td, tr>th {
+.table-content tr>td,
+tr>th {
     text-align: left;
 }
 
 .loading {
     flex-grow: 1;
-    background: #00000026;
-    margin: 0 30px 0 20px;
+    background: rgba(0,0,0,.4);
+    margin: 0 24px 0 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -235,25 +236,33 @@
     border-radius: 50%;
     border-top: 3px solid #2CA01C;
     animation: spiner 1.5s linear infinite;
-  }
+}
 
-  .loading div {
+.loading div {
     text-align: center;
     font-size: 16px;
     color: white;
 }
-  
-  @keyframes spiner {
+
+@keyframes spiner {
     to {
-      transform: rotate(360deg);
+        transform: rotate(360deg);
     }
-  }
-  
-  @keyframes dot {
-    0%, 80%, 100% {
-      transform: scale(0);
+}
+
+@keyframes dot {
+
+    0%,
+    80%,
+    100% {
+        transform: scale(0);
     }
+
     40% {
-      transform: scale(1);
+        transform: scale(1);
     }
-  }
+}
+
+.table-content .table-function .dropdown-items {
+    overflow: hidden;
+}

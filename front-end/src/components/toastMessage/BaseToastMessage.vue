@@ -28,6 +28,11 @@
 <script>
 export default {
   name: "BaseToastMessage",
+  emits:{
+    // văn bản hiển thị toast message
+    textToastMessage: String,
+
+  },
   props: {
     // kiểu hiển thị
     type: {
@@ -64,8 +69,8 @@ export default {
       try {
         if (value != null) {
           this.listValue.push({ type: this.text, text: value });
-          this.$emit("textToastMessage", null);
           this.HandlerRemove();
+          this.$emit("textToastMessage", null);
         }
       } catch (e) {
         console.log(e);
@@ -87,7 +92,7 @@ export default {
             } else {
               me.listValue.pop();  
             }
-          }, 5000);
+          }, 3000);
         }
       } catch (e) {
         console.log(e);

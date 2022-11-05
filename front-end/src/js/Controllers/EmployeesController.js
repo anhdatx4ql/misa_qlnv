@@ -1,5 +1,5 @@
 import {END_POINTS} from '../axios/endPoint';
-import {InsertRecord, Paging,GetMaxCode } from '../Controllers/BaseController'
+import {InsertRecord,UpdateRecord, Paging,GetMaxCode,DeleteRecords } from '../Controllers/BaseController'
 import {STATUS_CODES} from '../../constants'
 
 // end point của employees
@@ -9,7 +9,7 @@ import {STATUS_CODES} from '../../constants'
  * Author: Phạm Văn Đạt(22/10/2022)
  * Function: Model view khách hàng
  */
-export let employeeModel={
+export const employeeModel={
   // Địa chỉ
   address: null,
 
@@ -23,7 +23,7 @@ export let employeeModel={
   bankName: null,
 
   // ngày sinh
-  birthDay: new Date('0001-01-01'),
+  birthDay: null,
 
   // người tạo
   createdBy: null,
@@ -139,10 +139,49 @@ export class Employees{
     let res = await InsertRecord(END_POINTS.Employees,data);
     
     if(res.status == STATUS_CODES.Code200){
-      return res;
+      return res.data;
+    }else{
+      console.log(res);
+      console.log("thêm mới thất bại");
+    }
+
+  }
+
+  /**
+   * Author: Phạm Văn Đạt(03/11/2022)
+   * Function: Xử lý update nhân viên
+   * @param {*} data : Dữ liệu truyền vào
+   */
+  async UpdateEmployee(data){
+    
+    let res = await UpdateRecord(END_POINTS.Employees,data);
+    
+    if(res.status == STATUS_CODES.Code200){
+      return res.data;
     }else{
       console.log("thêm mới thất bại");
     }
+  }
+
+  /**
+   * Author: Phạm Văn Đạt(03/11/2022)
+   * Function: Xử lý xóa nhân viên
+   * @param {*} data : id nhân viên muốn xóa
+   * @returns : response
+   */
+  async DeleteEmployee(data){
+
+    if(data){
+      let res = await DeleteRecords(END_POINTS.EmployeesDelete,data);
+    
+      if(res.status == STATUS_CODES.Code200){
+        return res.data;
+      }else{
+        console.log(res);
+        console.log("Xóa thất bại!");
+      }
+    }
+    
   }
 
 }
@@ -152,3 +191,42 @@ export class Employees{
  * Function: Khởi tạo đối tượng để xử lý xuyên suốt
 */
 export let employees = new Employees();
+
+/**
+ * Author: Phạm Văn Đạt(23/10/2022)
+ * Function: Reset dữ liệu
+ */
+export async function resetEmployeeDetail(object,employees) {
+  try {
+
+    let newCode = await employees.GetMaxCode();
+    if (newCode) {
+      object.employeeId = newCode;
+    }
+
+    // lưu giá trị object null
+    Object.keys(object).forEach(key => {
+
+        // nếu key khác id thì xóa giá trị cũ đi
+        if(key != "id" && key != "employeeId"){
+
+          // giới tính mặc định là nam
+          if(key == "gender"){
+            // 0 là nam
+            object[key] = 0;
+          }else if(key == "isDelete" || key == "isEmployee" || key == "isSuppiler"){
+            // các giá trị boolean trả về false
+            object[key] = false;
+          }else{
+            // các thuộc tính khác trả về null
+            object[key] = null;
+          }
+        }
+      });
+
+      return object;
+
+  } catch (e) {
+    console.log(e);
+  }
+}

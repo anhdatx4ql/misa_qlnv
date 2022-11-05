@@ -44,7 +44,7 @@ namespace WebApplication
         /// </summary>
         /// <param name="ids">danh sách id</param>
         /// <returns></returns>
-        [HttpDelete]
+        [HttpPost("Delete")]
         public async Task<ReponsitoryModel> DeleteRecords([FromBody] List<Guid> ids)
         {
             return await _employeeService.DeleteRecords(ids);

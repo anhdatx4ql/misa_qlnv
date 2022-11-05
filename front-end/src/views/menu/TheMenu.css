@@ -6,7 +6,7 @@
 .menu-top {
     display: flex;
     align-items: center;
-    height: 48px;
+    height: 56px;
     justify-content: center;
 }
 
@@ -23,7 +23,7 @@
 
 .menu-content{
     overflow-y: scroll;
-    height: calc(100vh - 48px - 14px);
+    height: calc(100vh - 56px - 14px);
     padding-top: 14px;
 }
 

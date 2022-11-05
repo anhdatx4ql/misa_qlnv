@@ -4,7 +4,6 @@
  -->
 <template>
   <div class="form">
-    <el-color-picker v-model="color" show-alpha />
     <div class="form-container" ref="formContainer">
       <!-- start header -->
       <div class="form-header">
@@ -16,9 +15,9 @@
           <base-input-checkbox
             :value="currentEmployee.isEmployee"
             :checked="currentEmployee.isEmployee"
+            @checked="currentEmployee.isEmployee = $event"
             text="Là khách hàng"
             id="khach-hang"
-            @value="currentEmployee.isEmployee = $event"
           >
           </base-input-checkbox>
           <!-- end Check box kiểm tra khách hàng -->
@@ -27,9 +26,9 @@
           <base-input-checkbox
             :value="currentEmployee.isSuppiler"
             :checked="currentEmployee.isSuppiler"
+            @checked="currentEmployee.isSuppiler = $event"
             text="Là nhà cung cấp"
             id="nha-cung-cap"
-            @value="currentEmployee.isSuppiler = $event"
           ></base-input-checkbox>
           <!-- end Check box kiểm tra nhà cung cấp -->
         </div>
@@ -52,8 +51,8 @@
             <!-- start mã -->
             <base-input-text
               class="w-40 p-r-6"
-              :value="currentEmployee.employeeId"
-              @value="currentEmployee.employeeId = $event"
+              :isFormatText="false"
+              v-model="currentEmployee.employeeId"
               :errorText="
                 listErrors.has('employeeId')
                   ? listErrors.get('employeeId')
@@ -77,8 +76,7 @@
             <!-- start Tên -->
             <base-input-text
               class="w-60"
-              :value="currentEmployee.name"
-              @value="currentEmployee.name = $event"
+              v-model="currentEmployee.name"
               :errorText="
                 listErrors.has('name') ? listErrors.get('name') : null
               "
@@ -107,7 +105,8 @@
                 id: currentEmployee.departmentId,
                 name: currentEmployee.departmentName,
               }"
-              @newValue="currentEmployee.departmentId = $event"
+              @newValueId="currentEmployee.departmentId = $event"
+              @newValueName="currentEmployee.departmentName = $event"
               :errorText="
                 listErrors.has('departmentId')
                   ? listErrors.get('departmentId')
@@ -129,11 +128,12 @@
 
             <!-- start chức vụ -->
             <base-combobox
+              :checkFocus="fieldFocusValidate.positionId"
+              @checkFocus="fieldFocusValidate.positionId = false"
               :value="{
                 id: currentEmployee.positionId,
                 name: currentEmployee.positionName,
               }"
-
               :errorText="
                 listErrors.has('positionId')
                   ? listErrors.get('positionId')
@@ -145,7 +145,8 @@
                   : listErrors.delete('positionId')
               "
               :isValidate="true"
-              @newValue="currentEmployee.positionId = $event"
+              @newValueId="currentEmployee.positionId = $event"
+              @newValueName="currentEmployee.positionName = $event"
               @checkLoadDataCombobox="loadPositions"
               comboboxField="Chức vụ"
               :listValues="positions"
@@ -195,9 +196,9 @@
                 <base-input-radio
                   v-for="(gender, index) in genders"
                   :key="gender.id"
-                  :valueGender="currentEmployee.gender"
+                  :valueModel="currentEmployee.gender"
+                  @valueModel="currentEmployee.gender = $event"
                   :value="gender.id"
-                  @value="currentEmployee.gender = $event"
                   :checked="index == 0 ? true : false"
                   :text="gender.name"
                   name="gender"
@@ -214,8 +215,7 @@
               tooltip="Số chứng minh nhân dân"
               class="w-60 p-r-6"
               fieldLabel="Số CMND"
-              :value="currentEmployee.idNo"
-              @value="currentEmployee.idNo = $event"
+              v-model="currentEmployee.idNo"
             ></base-input-text>
 
             <!-- End Số chứng minh nhân dân  -->
@@ -251,8 +251,7 @@
 
             <!-- Start Số chứng minh nhân dân -->
             <base-input-text
-              :value="currentEmployee.placeOfIssue"
-              @value="currentEmployee.placeOfIssue = $event"
+              v-model="currentEmployee.placeOfIssue"
               fieldLabel="Nơi cấp"
               class="w-100"
             ></base-input-text>
@@ -266,8 +265,7 @@
       <div class="form-content-cennter">
         <!-- Start địa chỉ -->
         <base-input-text
-          :value="currentEmployee.address"
-          @value="currentEmployee.address = $event"
+          v-model="currentEmployee.address"
           fieldLabel="Địa chỉ"
           class="w-100"
         ></base-input-text>
@@ -275,8 +273,10 @@
 
         <!-- Start điện thoại di động -->
         <base-input-text
-          :value="currentEmployee.numberPhone"
-          @value="currentEmployee.numberPhone = $event"
+          :checkFocus="fieldFocusValidate.numberPhone"
+          @checkFocus="fieldFocusValidate.numberPhone = false"
+          :isPhoneNumber="true"
+          v-model="currentEmployee.numberPhone"
           :errorText="
             listErrors.has('numberPhone') ? listErrors.get('numberPhone') : null
           "
@@ -295,8 +295,10 @@
 
         <!-- Start điện cố định -->
         <base-input-text
-          :value="currentEmployee.deskPhone"
-          @value="currentEmployee.deskPhone = $event"
+          :checkFocus="fieldFocusValidate.deskPhone"
+          @checkFocus="fieldFocusValidate.deskPhone = false"
+          :isPhoneNumber="true"
+          v-model="currentEmployee.deskPhone"
           :errorText="
             listErrors.has('deskPhone') ? listErrors.get('deskPhone') : null
           "
@@ -315,7 +317,10 @@
 
         <!-- Start email -->
         <base-input-text
-          :value="currentEmployee.email"
+          :checkFocus="fieldFocusValidate.email"
+          @checkFocus="fieldFocusValidate.email = false"
+          :isEmail="true"
+          v-model="currentEmployee.email"
           @value="currentEmployee.email = $event"
           :errorText="listErrors.has('email') ? listErrors.get('email') : null"
           @errorText="
@@ -326,6 +331,7 @@
               : listErrors.delete('email')
           "
           fieldLabel="Email"
+          :isFormatText="false"
           class="w-25 p-r-6"
           style="margin-right: 20%"
         ></base-input-text>
@@ -333,8 +339,7 @@
 
         <!-- Start tài khoản ngân hàng -->
         <base-input-text
-          :value="currentEmployee.bankAccountNumber"
-          @value="currentEmployee.bankAccountNumber = $event"
+          v-model="currentEmployee.bankAccountNumber"
           fieldLabel="Tài khoản ngân hàng"
           class="w-25 p-r-6"
         ></base-input-text>
@@ -342,8 +347,7 @@
 
         <!-- Start tên ngân hàng -->
         <base-input-text
-          :value="currentEmployee.bankName"
-          @value="currentEmployee.bankName = $event"
+          v-model="currentEmployee.bankName"
           fieldLabel="Tên ngân hàng"
           class="w-25 p-r-6"
         >
@@ -352,8 +356,7 @@
 
         <!-- Start chi nhánh -->
         <base-input-text
-          :value="currentEmployee.bankAccountBrand"
-          @value="currentEmployee.bankAccountBrand = $event"
+          v-model="currentEmployee.bankAccountBrand"
           fieldLabel="Chi nhánh"
           class="w-25 p-r-6"
         ></base-input-text>
@@ -364,15 +367,17 @@
       <!-- start bottom -->
       <div class="form-bottom">
         <div class="form-bottom-right">
-          <base-button v-tooltip="'Cất và thêm(Ctrl + Shift +S)'">
+          <base-button
+            v-tooltip="'Cất và thêm(Ctrl + Shift +S)'"
+            @click="HandlerUploadData(functionUpload.SaveAndInsert)"
+          >
             <span>Cất và thêm</span>
           </base-button>
           <base-button
             class="button-white"
             v-tooltip="'Cất(Ctrl + S)'"
-            @click="HandlerUploadData"
+            @click="HandlerUploadData(functionUpload.Save)"
             style="margin: 0 0.75rem"
-            :valueCheck="1"
           >
             <span>Cất</span>
           </base-button>
@@ -395,7 +400,7 @@
 
   <!-- start thông báo -->
   <base-notify
-    @closeForm="$event == false ? $emit('closeForm', false) : ''"
+    @closeForm="handlerCloseNotifi"
     @checkShowNotify="checkNotify.isShow = $event"
     v-if="checkNotify.isShow"
     :type="checkNotify.type"
@@ -416,11 +421,13 @@ import {
   GENDERS,
   NOTIFY_LIST,
   NOTIFY_TEXT,
+  STATUS_CODES,
+  FUNCTION_UPLOAD,
 } from "../../../constants";
 
 import { CreateGuid } from "../../../js/GuidId.js";
 
-import { FormatDate } from "../../../js/FomatData.js";
+import { FormatDate, LowerCaseFirst } from "../../../js/FomatData.js";
 
 import { departments } from "../../../js/Controllers/DepartmentsController";
 
@@ -428,7 +435,8 @@ import { positions } from "../../../js/Controllers/PositionsController.js";
 
 import vi from "../../../../node_modules/element-plus/es/locale/lang/vi";
 
-import { employees } from "../../../js/Controllers/EmployeesController";
+import { employees,resetEmployeeDetail,employeeModel } from "../../../js/Controllers/EmployeesController";
+
 export default {
   name: "EmployeeDetail",
 
@@ -437,12 +445,29 @@ export default {
       locale: vi,
     };
   },
+  emits: {
+    // ẩn form
+    closeForm: Boolean,
+
+    // text toast message
+    textToastMessage: String,
+
+    // kiểu toast message
+    typeToastMessage: String,
+
+    // kiểm tra load dữ liệu
+    loadData: Boolean,
+  },
   props: {
     title: String,
     employeeDetail: Object,
   },
   data() {
     return {
+
+      //  kiểm tra xem có reload lại dữ liệu sau khi ẩn form không
+      checkLoadData: false,
+
       // kiểm tra focus sau khi ẩn thông báo
       checkFocusCloseNotify: null,
       // danh sách chức vụ
@@ -472,13 +497,48 @@ export default {
 
       // các trường check focus
       fieldFocusValidate: {
+        // mã nhân viên
         employeeId: true,
+
+        // tên nhân viên
         name: false,
+
+        // mã đơn vị
         departmentId: false,
+
+        //mã chức vụ
+        positionId: false,
+
+        // ngày sinh
+        birthDay: false,
+
+        // ngày cấp
+        issuaOn: false,
+
+        // số điện thoại
+        numberPhone: false,
+
+        // điện thoại cố định
+        deskPhone: false,
+
+        // email
+        email: false,
       },
 
       // thứ tự hiển thị lỗi
-      numericalOrder:["employeeId","name","departmentId","positionId"]
+      numericalOrder: [
+        "employeeId",
+        "name",
+        "departmentId",
+        "positionId",
+        "birthDay",
+        "issuaOn",
+        "numberPhone",
+        "deskPhone",
+        "email",
+      ],
+
+      functionUpload: FUNCTION_UPLOAD,
     };
   },
   created() {
@@ -488,10 +548,33 @@ export default {
     // khởi tạo giá trị employee
     this.currentEmployee = this.employeeDetail;
 
-    console.log("khoi tao")
+    console.log(this.currentEmployee);
+
   },
 
   methods: {
+
+    /**
+     * Author: Phạm Văn Đạt(05/11/2022)
+     * Function: Xử lý ẩn form
+     * @param {*} value : bắt sự kiện form
+     */
+    handlerCloseNotifi(value){
+      if(value == true){
+
+        this.$emit('closeForm',false);
+
+        if(this.checkLoadData == true){
+          
+          this.$emit('loadData');
+
+          this.checkLoadData = false;
+        }
+      }
+      
+      
+    },
+
     /**
      * Author: Phạm Văn Đạt(29/10/2022)
      * Function: Xử lý ngày tháng vượt quá ngày tháng hiện tại
@@ -589,13 +672,15 @@ export default {
      * Author: Phạm Văn Đạt(28/10/2022)
      * Function: Xử lý upload dữ liệu
      */
-    async HandlerUploadData() {
+    async HandlerUploadData(functionUpload) {
       try {
+
         // xóa tên trường focus lỗi đầu tiên đã có trước đó
         this.firstFocus = null;
 
         this.ValiDateRequired();
 
+        // nếu không có lỗi => thực hiện thêm hoặc update
         if (this.listErrors.size == 0) {
           if (this.title == "Thêm mới nhân viên") {
             // lấy id mới
@@ -606,31 +691,131 @@ export default {
             // gọi đến db thêm dữ liệu
             let result = await employees.InsertEmployee(this.currentEmployee);
             console.log(result);
+            if (result?.statusCode == STATUS_CODES.Code400) {
+              if (result?.data) {
+                this.HandlerErrorUploadForm(result.data);
+              }
+            } else if (result?.statusCode == STATUS_CODES.Code201) {
+              // nếu thêm mới thành công
+              this.HandlerFunctionForm(functionUpload, "Thêm mới thành công.");
+
+              console.log("thêm mới thành công!");
+            } else {
+              console.log("Thêm mới thất bại");
+            }
           } else {
             console.log("xử lý cập nhật");
             console.log(this.currentEmployee);
-          }
-        } else {
-          // chuyển map về dạng value, lấy phân tử đầu tiên hiển thị lên thông báo
-          let valueText = null;
+            // gọi đến db thêm dữ liệu
+            let result = await employees.UpdateEmployee(this.currentEmployee);
 
-          // lấy lỗi theo thứ tự: mã, tên, phòng ban
-          for(let i=0;i<this.numericalOrder.length; i++){
-            if(this.listErrors.has(this.numericalOrder[i])){
-              valueText = this.listErrors.get(this.numericalOrder[i]);
-              break;
+            console.log(result);
+            if (result?.statusCode == STATUS_CODES.Code400) {
+              if (result?.data) {
+                this.HandlerErrorUploadForm(result.data);
+              }
+            } else if (result?.statusCode == STATUS_CODES.Code200) {
+              this.HandlerFunctionForm(functionUpload, "Cập nhật thành công.");
+              console.log("cập nhật thành công!");
+            } else {
+              console.log("Cập nhật thất bại");
             }
           }
+        } else {
+          // xử lý hiển thị lỗi
 
+          // chuyển map về dạng value, lấy phân tử đầu tiên hiển thị lên thông báo
+          let valueText = this.SelectErrorTextFirst();
+          console.log(valueText);
           // hiển thị lỗi đầu tiên lên thông báo lỗi
           // gán lại giá trị notifi
-          this.checkNotify = {
-            isShow: true,
-            type: NOTIFY_LIST.ErrorValidate.type,
-            text: NOTIFY_LIST.ErrorValidate.text(valueText),
-          };
+          if (valueText != null) {
+            this.checkNotify = {
+              isShow: true,
+              type: NOTIFY_LIST.ErrorValidate.type,
+              text: NOTIFY_LIST.ErrorValidate.text(valueText),
+            };
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
 
-          console.log(this.firstFocus )
+    /**
+     * Author: Phạm Văn Đạt(03/11/2022)
+     * Function: Xử lý chức năng form cất hoặc cất và thêm
+     */
+    async HandlerFunctionForm(functionUpload, message) {
+
+       // hiển thị thông báo thêm/upload thành công
+      this.$emit("textToastMessage", message);
+      this.$emit("typeToastMessage", "success");
+
+      if (functionUpload == this.functionUpload.Save) {
+        // Nếu click "Cất" => ẩn form, load lại dữ liệu
+
+        // ẩn form nếu thành công
+        this.$emit("closeForm", false);
+
+        // load lại dữ liệu
+        this.$emit("loadData", true);
+
+        console.log("Xử lý cất");
+      } else {
+
+        this.currentEmployee = await resetEmployeeDetail(employeeModel,employees);
+
+        console.log(this.currentEmployee)
+
+        //focus vào mã nhân viên
+        this.fieldFocusValidate.employeeId =  true;
+
+        this.checkLoadData = true;
+
+        console.log("Xử lý cất và thêm");
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(03/11/2022)
+     * Function: Xử lý lấy lỗi đầu tiên trong mảng lỗi
+     */
+    SelectErrorTextFirst() {
+      // lấy lỗi theo thứ tự: mã, tên, phòng ban
+      for (let i = 0; i < this.numericalOrder.length; i++) {
+        if (this.listErrors.has(this.numericalOrder[i])) {
+          // lấy tên trường đầu tiên có lỗi
+          this.firstFocus = this.numericalOrder[i];
+
+          return this.listErrors.get(this.numericalOrder[i]);
+        }
+      }
+      return null;
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(03/11/2022)
+     * Function: Xử lý lỗi khi click upload form
+     */
+    HandlerErrorUploadForm(data) {
+      try {
+        for (const keyResult in data) {
+          for (let key in data[keyResult]) {
+            let fieldName = LowerCaseFirst(key);
+            // xử lý focus lỗi đầu tiên
+            if (keyResult == 0) {
+              this.fieldFocusValidate[fieldName] = true;
+              console.log(this.fieldFocusValidate[fieldName]);
+            }
+
+            // lấy lỗi đưa vào list lỗi
+            this.listErrors.set(fieldName, data[keyResult][key]);
+
+            // emit lỗi ra cho employeelist nhận
+            this.$emit("textToastMessage", data[keyResult][key]);
+            this.$emit("typeToastMessage", "error");
+          }
         }
       } catch (e) {
         console.log(e);
@@ -666,17 +851,13 @@ export default {
 
         // xử lý bấm nút cất, cất và thêm validate các lỗi required
         FIELDS_REQUIRED.forEach((value) => {
-
           // kiểm tra giá trị có null không
           if (!this.currentEmployee[value.fielName]) {
-
-              // thêm tên trường và message lỗi vào danh sách lỗi nếu chưa có lỗi đó
-              if(!this.listErrors.has(value.fielName)){
-
-                this.listErrors.set(
+            // thêm tên trường và message lỗi vào danh sách lỗi nếu chưa có lỗi đó
+            if (!this.listErrors.has(value.fielName)) {
+              this.listErrors.set(
                 value.fielName,
                 NOTIFY_TEXT.requiredField(value.fieldText)
-
               );
             }
 
@@ -684,7 +865,6 @@ export default {
             if (this.firstFocus == null) {
               this.firstFocus = value.fielName;
             }
-
           }
         });
       } catch (e) {
@@ -697,9 +877,7 @@ export default {
      * Author: Phạm Văn Đạt(02/11/2022)
      * Function: XỬ lý focus vào lỗi đầu tiên nếu như có lỗi
      */
-    checkFocusCloseNotify(value){
-      console.log(value);
-
+    checkFocusCloseNotify(value) {
       // chuyển trạng thái focus true ở lỗi đầu tiên
       this.fieldFocusValidate[value] = true;
 

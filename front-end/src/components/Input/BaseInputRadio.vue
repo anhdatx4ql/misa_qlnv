@@ -5,10 +5,10 @@
 
 <template>
   <div class="radio-container">
-    <label :for="id" @click="$emit('value',value)">
+    <label :for="id" @click="$emit('valueModel',value)">
       <input
       :id="id" type="radio" 
-      :checked="(valueGender == value || checked)?true:false" 
+      :checked="(valueModel == value || checked)?true:false" 
       :name="name" :value="value">
       <span class="radio-focus"></span>
       <span class="radio-text m-l-10">{{text}}</span>
@@ -33,13 +33,13 @@ export default {
     text:String,
 
     // khởi tạo checked ô radio nếu có
-    checked:String,
+    checked:Boolean,
 
     // id radio
     id:String,
 
     // giới tính của khách hàng
-    valueGender:Number
+    valueModel:Number
   },
   methods:{
   }

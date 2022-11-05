@@ -12,6 +12,7 @@ export const END_POINTS= {
     Employees: "Employees",
     PagingEmployee: "Employees/Paging?",
     EmployeesMaxCode: "Employees/GetMaxCode",
+    EmployeesDelete: "Employees/Delete",
     Departments:"Departments",
     Positions: "Positions",
 };

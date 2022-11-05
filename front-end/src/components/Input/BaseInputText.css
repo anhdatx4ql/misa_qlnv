@@ -26,7 +26,7 @@ input {
 .input-container-content {
     display: flex;
     border: 1px solid #EBEBEB;
-    height: 36px;
+    height: 34px;
     overflow: hidden;
     border-radius: 2px;
     box-sizing: border-box;
@@ -153,4 +153,9 @@ span.el-input__suffix {
 
 .input-container-content.input-container-content-error:hover>.input-container-error {
     display: inline-block;
+}
+
+.input-container {
+    padding-bottom: 12px;
+    position: relative !important;
 }

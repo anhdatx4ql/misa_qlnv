@@ -26,7 +26,7 @@
         :placeholder="placeholder"
         :name="name"
         @focusout="HandlerValidate"
-        @input.prevent="HandlerInput"
+        @input="HandlerInput"
       />
       <button
         class="input-container-content-icon icon-20 icon-mr-10"
@@ -57,22 +57,21 @@
 // nhau trong thời gian đang xử lý thành 1 hành động cuối cùng
 import _ from "lodash";
 
-import { NOTIFY_TEXT } from "../../constants";
+import { NOTIFY_TEXT, RULE_FORMAT_DATA } from "../../constants";
+
+import { TitleCase } from "../../js/FomatData";
+
 export default {
   name: "BaseInput",
 
   props: {
+
+    modelValue:String,
     // field hiển thị
     fieldLabel: String,
 
     // kiểu input
     type: String,
-
-    // giá trị truyền vào
-    value: {
-      Type: String,
-      default: "",
-    },
 
     // icon nếu có
     classIcon: {
@@ -125,20 +124,31 @@ export default {
       default: false,
     },
 
-    errorText: String
+    // text lỗi
+    errorText: String,
 
+    // kiểm tra là số điện thoại
+    isPhoneNumber: Boolean,
+
+    // kiểm tra là email
+    isEmail: Boolean,
+
+    isFormatText: {
+      Type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
       // khai báo biến chứa chuỗi lỗi
       currentErrorText: null,
 
-      // giá trị input hiện tại
-      currentValue: null,
+      // giá trị hiện tại
+      currentValue:null
     };
   },
   created() {
-    this.currentValue = this.value;
+    this.currentValue = this.modelValue;
   },
   mounted() {
     /**
@@ -150,11 +160,21 @@ export default {
     }
   },
   watch: {
-     /**
+
+    /**
+     * Author: Phạm Văn Đạt(05/11/2022)
+     * Function: Xử lý lấy giá trị truyền vào
+     * @param {*} value : giá trị truyền vào
+     */
+    modelValue(value){
+      this.currentValue = value;
+    },
+
+    /**
      * Author: Phạm Văn Đạt(30/10/2022)
      * Function: Xử lý lấy text validate
      */
-    errorText(value){
+    errorText(value) {
       this.currentErrorText = value;
     },
     /**
@@ -165,7 +185,6 @@ export default {
       if (value == true) {
         this.HandlerFocus();
       }
-
     },
   },
   methods: {
@@ -175,35 +194,36 @@ export default {
      * @param {} event
      */
     HandlerInput(event) {
-      try{
-         // validate dữ liệu khi thay đổi giá trị input
-          this.currentValue = event.target.value;
+      try {
+        // validate dữ liệu khi thay đổi giá trị input
+        this.currentValue = event.target.value;
 
-          // gọi đến hàm xử lý validate
-          this.HandlerValidate(event);
+        if (this.isFormatText == true) {
+          this.currentValue = TitleCase(this.currentValue);
+        }
 
-          // nhóm 1 nhiều hành động giống nhau thành 1 hành dodojngj cụ thể. Xử lý trả về dữ liệu sau 1s.
-          //Ứng dụng cụ thể vào input tìm kiếm khách hàng
-          this.HandlerChangeValueInput(event);
-      }catch(e){
+        // gọi đến hàm xử lý validate
+        this.HandlerValidate(event);
+
+        // nhóm 1 nhiều hành động giống nhau thành 1 hành dodojngj cụ thể. Xử lý trả về dữ liệu sau 1s.
+        //Ứng dụng cụ thể vào input tìm kiếm khách hàng
+        this.HandlerChangeValueInput(event);
+      } catch (e) {
         console.log(e);
       }
-     
     },
 
     /**
      * Author: Phạm Văn Đạt(27/10/2022)
-     * Function: Xử lý trả về dữ liệu sau 1s
+     * Function: Xử lý trả về dữ liệu sau 500ms
      */
     HandlerChangeValueInput: _.debounce(function (event) {
-      try{
+      try {
         // truyền lại dữ liệu cho cha gọi đến nó
-        this.$emit("value", event.target.value);
-
-      }catch(e){
+        this.$emit('update:modelValue', event.target?.value?.trim());
+      } catch (e) {
         console.log(e);
       }
-      
     }, 500),
 
     /**
@@ -211,13 +231,12 @@ export default {
      * Function: Focus vào input
      */
     HandlerFocus() {
-      try{
+      try {
         this.$refs.input?.focus();
         this.$emit("checkFocus", false);
-      }catch(e){
+      } catch (e) {
         console.log(e);
       }
-      
     },
 
     /**
@@ -229,20 +248,86 @@ export default {
         // nếu tồn tại isRequired thì xử lý validate required
         if (this.isRequired == true) {
           if (!event.target.value) {
-            this.currentErrorText = NOTIFY_TEXT.requiredField(this.fieldLabel); 
+            this.currentErrorText = NOTIFY_TEXT.requiredField(this.fieldLabel);
             this.$emit("errorText", this.currentErrorText);
-
-
           } else {
             this.currentErrorText = null;
             this.$emit("errorText", this.currentErrorText);
-
           }
+        }
 
+        if (this.isPhoneNumber == true) {
+          this.HandlerFormatData(
+            event.target.value,
+            this.tooltip,
+            RULE_FORMAT_DATA.PhoneNumber
+          );
+        }
+
+        if (this.isEmail == true && event.target.value) {
+          this.HandlerFormatData(
+            event.target.value,
+            this.fieldLabel,
+            RULE_FORMAT_DATA.Email
+          );
         }
       } catch (e) {
         console.log(e);
       }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(04/11/2022)
+     * Function: Xử lý lỗi format dữ liệu
+     */
+    HandlerFormatData(value, textError, typeCheck) {
+      if (value) {
+        let check;
+        if (typeCheck == RULE_FORMAT_DATA.PhoneNumber) {
+          check = this.CheckPhoneNumber(value);
+        }
+
+        if (typeCheck == RULE_FORMAT_DATA.Email) {
+          check = this.CheckEmail(value);
+        }
+        if (check == false) {
+          this.currentErrorText = NOTIFY_TEXT.formatError(textError);
+          this.$emit("errorText", this.currentErrorText);
+        } else {
+          this.currentErrorText = null;
+          this.$emit("errorText", this.currentErrorText);
+        }
+      } else {
+        this.currentErrorText = null;
+        this.$emit("errorText", this.currentErrorText);
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(04/11/2022)
+     * Function: Xử lý kiểm tra sđt
+     */
+    CheckPhoneNumber(phoneNumber) {
+      let regExp = /(09|03|07|08|05)+([0-9]{8})/;
+      let phone = phoneNumber.match(regExp);
+      if (phone) {
+        return true;
+      }
+      return false;
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(04/11/2022)
+     * Function: Xử lý kiểm tra sđt
+     */
+    CheckEmail(email) {
+      let regExp =
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      let _email = email.match(regExp);
+      if (_email) {
+        return true;
+      }
+      return false;
     },
   },
 };

@@ -11,7 +11,7 @@
       <div class="paging-right-combobox">
         <base-combobox :value="pagingItems[0]" 
         :listValues="pagingItems" :disabled="true" position="bottom"
-        @newValue="pageSize = $event">
+        @newValueId="pageSize = $event">
         </base-combobox>
       </div>
       <div class="paging-right-button">

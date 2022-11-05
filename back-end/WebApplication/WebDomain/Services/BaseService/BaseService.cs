@@ -97,6 +97,7 @@ namespace WebDomain
                 foreach (PropertyInfo property in properties)
                 {
                     var propertyValue = property.GetValue(entity);
+
                     if (property.Name != "CreatedAt" || property.Name != "UpdatedAt")
                     {
                         parameters.Add($"@_{property.Name}", propertyValue);
@@ -158,7 +159,7 @@ namespace WebDomain
                 // validate dữ liệu
                 var validateErrors = await this.Validate(entity, properties, id, tableName);
 
-                if (validateErrors != null)
+                if (validateErrors.FieldsDupcaty.Count > 0)
                 {
                     return new ReponsitoryModel(validateErrors.FieldsDupcaty, CodeErrors.Code400, validateErrors.Message);
                 }
@@ -180,7 +181,7 @@ namespace WebDomain
                     foreach (var property in properties)
                     {
                         var propertyValue = property.GetValue(entity);
-                        if (property.Name != "UpdatedAt" && propertyValue != null)
+                        if (property.Name != "UpdatedAt")
                             parameters.Add($"@_{property.Name}", propertyValue);
                     }
 
@@ -380,7 +381,7 @@ namespace WebDomain
                 // truyền tên table, tên trường cần check, giá trị của trường cần check, id khách hàng cần check
                 var sql = $"SELECT {propertyName} FROM {tableName} WHERE {propertyName} = @propertyValue and Id Not IN (@id) LIMIT 1";
                 var parameters = new DynamicParameters();
-                parameters.Add("@propertyValue", propertyValue);
+                parameters.Add("@propertyValue", propertyValue.ToString().Trim());
                 parameters.Add("@id", id);
 
                 var result = await _baseRepository.CheckExists(sql, parameters);

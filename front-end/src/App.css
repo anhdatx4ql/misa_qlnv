@@ -53,6 +53,10 @@ input,textarea{
     margin-right:8px;
 }
 
+.icon-mr-12{
+    margin-right:12px;
+}
+
 div#app {
     display: flex;
 }

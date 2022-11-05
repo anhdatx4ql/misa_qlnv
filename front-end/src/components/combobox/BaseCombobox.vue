@@ -104,9 +104,25 @@
 import { NOTIFY_TEXT } from "../../constants";
 export default {
   name: "BaseCombobox",
+  emits:{
+    // kiểm tra focus
+    checkFocus: Boolean,
+
+    // kiểm tra load dữ liệu
+    checkLoadDataCombobox: Boolean,
+
+    // lỗi trả về
+    errorText: String,
+
+    // giá trị id mới
+    newValueId: String,
+
+    // giá trị tên mới
+    newValueName: String
+  },
   props: {
     // Các giá trị có thể có
-    listValues: Array,
+    listValues: Array[Object],
 
     // giá trị hiện tại
     value: {
@@ -128,6 +144,7 @@ export default {
 
     // top | bottom
     position: String,
+
     icon: {
       Type: Boolean,
       default: true,
@@ -162,7 +179,10 @@ export default {
       cbxListValues: [],
 
       // giá trị hiện tại
-      cbxValue: {},
+      cbxValue: {
+        id: null,
+        name: null
+      },
 
       // kiểm tra xem drop down có hiển thị hay không
       checkShowDropDown: false,
@@ -220,6 +240,10 @@ export default {
         // cập nhật lại item tìm kiếm
         this.checkFocusItemSearch = el.id;
         this.checkShowDropDown = false;
+
+        this.$emit("newValueId", el.id);
+        this.$emit("newValueName", el.name);
+
       } catch (e) {
         console.log(e);
       }
@@ -241,7 +265,7 @@ export default {
       try {
         // lấy giá trị text trong input
         let text = event.target.value;
-
+        this.$emit("newValueName", text);
         // khi tìm kiếm thì xóa dữ liệu cũ đi
         this.cbxValue = {
           id: null,
@@ -271,6 +295,8 @@ export default {
         if (!text) {
           me.checkFocusItemSearch = -1;
         } else {
+
+          //tìm kiếm giá trị gần nhất
           me.listValues.forEach((value) => {
             if (value) {
               // lấy vị trí xuất hiện đầu tiên của chuỗi con trong chuỗi cha
@@ -353,41 +379,50 @@ export default {
         if (this.isValidate == true) {
           let check = true;
 
-           // nếu tên không = null, kiểm tra nếu id không trùng giá trị => báo lỗi
-           this.listValues.forEach((value) => {
-              if ((value?.id == this.cbxValue.id && value?.name == this.cbxValue.name) || ( !this.cbxValue.name && !this.cbxValue.id)) {
-                this.currentErrorText = null;
-                this.$emit("errorText", null);
-                check = false;
-                console.log("chạy1");
-              }
-            });
-          if (check == true) {
-              console.log("chạy2");
-
-              // nếu không có lỗi thì lấy lỗi dữ liệu không thỏa mãn
-              this.currentErrorText = NOTIFY_TEXT.dataFail(this.comboboxField);
-              this.$emit("errorText", this.currentErrorText);
+          // nếu tên không = null, kiểm tra nếu id không trùng giá trị => báo lỗi
+          this.listValues.forEach((value) => {
+            if (
+              (value?.id == this.cbxValue.id &&
+                value?.name == this.cbxValue.name) ||
+              (!this.cbxValue.name && !this.cbxValue.id)
+            ) {
+              this.currentErrorText = null;
+              this.$emit("errorText", null);
+              check = false;
             }
+          });
+          if (check == true) {
+            // nếu không có lỗi thì lấy lỗi dữ liệu không thỏa mãn
+            this.currentErrorText = NOTIFY_TEXT.dataFail(this.comboboxField);
+            this.$emit("errorText", this.currentErrorText);
+          }
         }
 
         if (this.isRequired == true) {
-            // nếu id và name rỗng thì hiển thị lỗi không được bỏ trống
-            if (!this.cbxValue.id && !this.cbxValue.name) {
-              this.currentErrorText = NOTIFY_TEXT.requiredField(
-                this.comboboxField
-              );
+          // nếu id và name rỗng thì hiển thị lỗi không được bỏ trống
+          if (!this.cbxValue.id && !this.cbxValue.name) {
+            this.currentErrorText = NOTIFY_TEXT.requiredField(
+              this.comboboxField
+            );
 
-              this.$emit("errorText", this.currentErrorText);
-            }
+            this.$emit("errorText", this.currentErrorText);
           }
-
+        }
       } catch (e) {
         console.log(e);
       }
     },
   },
   watch: {
+
+    /**
+     * Author:  Phạm Văn Đạt(05/11/2022)
+     * Function: Theo dõi thay đổi giá trị id combobox
+     */
+    value(value){
+      this.cbxValue.id = value.id;
+      this.cbxValue.name = value.name;
+    },
     /**
      * Author: Phạm Văn Đạt(31/10/2022)
      * Function: Xử lý focus input
@@ -411,16 +446,6 @@ export default {
      */
     listValues(value) {
       this.cbxListValues = value;
-    },
-
-    /**
-     * Author: Phạm Văn Đạt(21/10/2022)
-     * Function: Xử lý thay đổi giá trị khi chọn
-     */
-    cbxValue(newValue, oldValue) {
-      if (oldValue != newValue) {
-        this.$emit("newValue", newValue.id);
-      }
     },
   },
 };

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.FIELDS_REQUIRED = exports.STATUS_CODES = exports.NOTIFY_TEXT = exports.NOTIFY_LIST = exports.GENDERS = exports.PAGING_ITEMS = exports.TABLE_FIELDS = exports.COMPANIES = exports.MENU_ITEMS = void 0;
+exports.RULE_FORMAT_DATA = exports.FUNCTION_TABLE = exports.FUNCTION_UPLOAD = exports.FIELDS_REQUIRED = exports.STATUS_CODES = exports.NOTIFY_TEXT = exports.NOTIFY_LIST = exports.GENDERS = exports.PAGING_ITEMS = exports.TABLE_FIELDS = exports.COMPANIES = exports.MENU_ITEMS = void 0;
 
 var _FomatData = require("/src/js/FomatData");
 
@@ -144,7 +144,7 @@ var TABLE_FIELDS = [{
   width: 140,
   "class": "text-align-center",
   formatDate: function formatDate(value) {
-    return (0, _FomatData.FormatDate)(value);
+    return (0, _FomatData.FormatDate)(value, "DD/MM/YYYY");
   }
 }, {
   name: 'SỐ CMND',
@@ -157,7 +157,7 @@ var TABLE_FIELDS = [{
   width: 120,
   "class": "text-align-center",
   formatDate: function formatDate(value) {
-    return (0, _FomatData.FormatDate)(value);
+    return (0, _FomatData.FormatDate)(value, "DD/MM/YYYY");
   }
 }, {
   name: 'NƠI CẤP',
@@ -313,13 +313,13 @@ var NOTIFY_TEXT = {
   dataFail: function dataFail(text) {
     return "Dữ liệu <" + text + "> không có trong danh mục.";
   },
+  // hiển thị sai định dạng
+  formatError: function formatError(text) {
+    return text + " sai định dạng.";
+  },
   // lưu lỗi ngày tháng vượt quá ngày tháng hiện tại
   dateTimeError: function dateTimeError(text) {
     return text + " vượt quá ngày thành hiện tại!";
-  },
-  // lưu lỗi format dữ liệu
-  formatError: function formatError(text) {
-    return text + " không đúng định dạng";
   }
 };
 /**
@@ -354,4 +354,35 @@ var FIELDS_REQUIRED = [{
   fielName: "departmentId",
   fieldText: "Đơn vị"
 }];
+/**
+ * Author: Phạm Văn Đạt(03/11/2022)
+ * Function: Xử lý kiểm tra cất hoặc cất và thêm
+ */
+
 exports.FIELDS_REQUIRED = FIELDS_REQUIRED;
+var FUNCTION_UPLOAD = {
+  Save: 1,
+  SaveAndInsert: 2
+};
+/**
+ * Author: Phạm Văn Đạt(03/11/2022)
+ * Function: Nhân bản, xóa, ngưng sử dụng ở table
+ */
+
+exports.FUNCTION_UPLOAD = FUNCTION_UPLOAD;
+var FUNCTION_TABLE = {
+  Replication: 1,
+  Delete: 2,
+  StopUsing: 3
+};
+/**
+ * Author: Phạm Văn Đạt(04/11/2022)
+ * Function: Các cột check dữ liệu
+ */
+
+exports.FUNCTION_TABLE = FUNCTION_TABLE;
+var RULE_FORMAT_DATA = {
+  PhoneNumber: 1,
+  Email: 2
+};
+exports.RULE_FORMAT_DATA = RULE_FORMAT_DATA;

@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.resetEmployeeDetail = resetEmployeeDetail;
 exports.employees = exports.Employees = exports.employeeModel = void 0;
 
 var _endPoint = require("../axios/endPoint");
@@ -27,7 +28,7 @@ var employeeModel = {
   // Tên ngân hàng
   bankName: null,
   // ngày sinh
-  birthDay: new Date('0001-01-01'),
+  birthDay: null,
   // người tạo
   createdBy: null,
   // id phòng ban
@@ -191,14 +192,96 @@ function () {
                 break;
               }
 
-              return _context3.abrupt("return", res);
+              return _context3.abrupt("return", res.data);
+
+            case 7:
+              console.log(res);
+              console.log("thêm mới thất bại");
+
+            case 9:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      });
+    }
+    /**
+     * Author: Phạm Văn Đạt(03/11/2022)
+     * Function: Xử lý update nhân viên
+     * @param {*} data : Dữ liệu truyền vào
+     */
+
+  }, {
+    key: "UpdateEmployee",
+    value: function UpdateEmployee(data) {
+      var res;
+      return regeneratorRuntime.async(function UpdateEmployee$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.next = 2;
+              return regeneratorRuntime.awrap((0, _BaseController.UpdateRecord)(_endPoint.END_POINTS.Employees, data));
+
+            case 2:
+              res = _context4.sent;
+
+              if (!(res.status == _constants.STATUS_CODES.Code200)) {
+                _context4.next = 7;
+                break;
+              }
+
+              return _context4.abrupt("return", res.data);
 
             case 7:
               console.log("thêm mới thất bại");
 
             case 8:
             case "end":
-              return _context3.stop();
+              return _context4.stop();
+          }
+        }
+      });
+    }
+    /**
+     * Author: Phạm Văn Đạt(03/11/2022)
+     * Function: Xử lý xóa nhân viên
+     * @param {*} data : id nhân viên muốn xóa
+     * @returns : response
+     */
+
+  }, {
+    key: "DeleteEmployee",
+    value: function DeleteEmployee(data) {
+      var res;
+      return regeneratorRuntime.async(function DeleteEmployee$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              if (!data) {
+                _context5.next = 10;
+                break;
+              }
+
+              _context5.next = 3;
+              return regeneratorRuntime.awrap((0, _BaseController.DeleteRecords)(_endPoint.END_POINTS.EmployeesDelete, data));
+
+            case 3:
+              res = _context5.sent;
+
+              if (!(res.status == _constants.STATUS_CODES.Code200)) {
+                _context5.next = 8;
+                break;
+              }
+
+              return _context5.abrupt("return", res.data);
+
+            case 8:
+              console.log(res);
+              console.log("Xóa thất bại!");
+
+            case 10:
+            case "end":
+              return _context5.stop();
           }
         }
       });
@@ -215,4 +298,58 @@ function () {
 
 exports.Employees = Employees;
 var employees = new Employees();
+/**
+ * Author: Phạm Văn Đạt(23/10/2022)
+ * Function: Reset dữ liệu
+ */
+
 exports.employees = employees;
+
+function resetEmployeeDetail(object, employees) {
+  var newCode;
+  return regeneratorRuntime.async(function resetEmployeeDetail$(_context6) {
+    while (1) {
+      switch (_context6.prev = _context6.next) {
+        case 0:
+          _context6.prev = 0;
+          _context6.next = 3;
+          return regeneratorRuntime.awrap(employees.GetMaxCode());
+
+        case 3:
+          newCode = _context6.sent;
+
+          if (newCode) {
+            object.employeeId = newCode;
+          } // lưu giá trị object null
+
+
+          Object.keys(object).forEach(function (key) {
+            // nếu key khác id thì xóa giá trị cũ đi
+            if (key != "id" && key != "employeeId") {
+              // giới tính mặc định là nam
+              if (key == "gender") {
+                // 0 là nam
+                object[key] = 0;
+              } else if (key == "isDelete" || key == "isEmployee" || key == "isSuppiler") {
+                // các giá trị boolean trả về false
+                object[key] = false;
+              } else {
+                // các thuộc tính khác trả về null
+                object[key] = null;
+              }
+            }
+          });
+          return _context6.abrupt("return", object);
+
+        case 9:
+          _context6.prev = 9;
+          _context6.t0 = _context6["catch"](0);
+          console.log(_context6.t0);
+
+        case 12:
+        case "end":
+          return _context6.stop();
+      }
+    }
+  }, null, null, [[0, 9]]);
+}

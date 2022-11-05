@@ -89,6 +89,7 @@ button.button-combobox:hover {
     padding: 10px 14px;
     text-align: start;
     font-size: 13px;
+    font-weight: 400;
 }
 
 .button.button-active {
