@@ -168,7 +168,7 @@
                   <el-date-picker
                     :class="{ 'input-error': listErrors.has('birthDay') }"
                     v-model="currentEmployee.birthDay"
-                    @change="HandlerDateTime('birthDay', 'Ngày sinh', $event)"
+                    @change="handlerDateTime('birthDay', 'Ngày sinh', $event)"
                     type="date"
                     placeholder="DD/MM/YYY"
                     format="DD/MM/YYYY"
@@ -228,7 +228,7 @@
                   <el-date-picker
                     :class="{ 'input-error': listErrors.has('issuaOn') }"
                     v-model="currentEmployee.issuaOn"
-                    @change="HandlerDateTime('issuaOn', 'Ngày cấp', $event)"
+                    @change="handlerDateTime('issuaOn', 'Ngày cấp', $event)"
                     type="date"
                     placeholder="DD/MM/YYY"
                     format="DD/MM/YYYY"
@@ -369,14 +369,14 @@
         <div class="form-bottom-right">
           <base-button
             v-tooltip="'Cất và thêm(Ctrl + Shift +S)'"
-            @click="HandlerUploadData(functionUpload.SaveAndInsert)"
+            @click="handlerUploadData(functionUpload.SaveAndInsert)"
           >
             <span>Cất và thêm</span>
           </base-button>
           <base-button
             class="button-white"
             v-tooltip="'Cất(Ctrl + S)'"
-            @click="HandlerUploadData(functionUpload.Save)"
+            @click="handlerUploadData(functionUpload.Save)"
             style="margin: 0 0.75rem"
           >
             <span>Cất</span>
@@ -425,9 +425,9 @@ import {
   FUNCTION_UPLOAD,
 } from "../../../constants";
 
-import { CreateGuid } from "../../../js/GuidId.js";
+import { createGuid } from "../../../js/GuidId.js";
 
-import { FormatDate, LowerCaseFirst } from "../../../js/FomatData.js";
+import { formatDate, lowerCaseFirst } from "../../../js/FomatData.js";
 
 import { departments } from "../../../js/Controllers/DepartmentsController";
 
@@ -579,7 +579,7 @@ export default {
      * Author: Phạm Văn Đạt(29/10/2022)
      * Function: Xử lý ngày tháng vượt quá ngày tháng hiện tại
      */
-    HandlerDateTime(fieldName, textFieldName, event) {
+    handlerDateTime(fieldName, textFieldName, event) {
       try {
         let today = new Date();
 
@@ -626,7 +626,7 @@ export default {
      */
     async loadDepartments() {
       try {
-        await departments.GetRecords();
+        await departments.getRecords();
         this.departments = departments.data;
       } catch (e) {
         console.log(e);
@@ -639,7 +639,7 @@ export default {
      */
     async loadPositions() {
       try {
-        await positions.GetRecords();
+        await positions.getRecords();
         this.positions = positions.data;
       } catch (e) {
         console.log(e);
@@ -650,7 +650,7 @@ export default {
      * Author: Phạm Văn Đạt(27/10/2022)
      * Function: Xử lý các nút phím tắt
      */
-    HandlerKeyDown(event) {
+    handlerKeyDown(event) {
       try {
         if (event.code == "Escape") {
           this.handlerCloseForm();
@@ -672,32 +672,32 @@ export default {
      * Author: Phạm Văn Đạt(28/10/2022)
      * Function: Xử lý upload dữ liệu
      */
-    async HandlerUploadData(functionUpload) {
+    async handlerUploadData(functionUpload) {
       try {
 
         // xóa tên trường focus lỗi đầu tiên đã có trước đó
         this.firstFocus = null;
 
-        this.ValiDateRequired();
+        this.valiDateRequired();
 
         // nếu không có lỗi => thực hiện thêm hoặc update
         if (this.listErrors.size == 0) {
           if (this.title == "Thêm mới nhân viên") {
             // lấy id mới
-            this.currentEmployee.id = CreateGuid();
+            this.currentEmployee.id = createGuid();
 
             console.log(this.currentEmployee);
 
             // gọi đến db thêm dữ liệu
-            let result = await employees.InsertEmployee(this.currentEmployee);
+            let result = await employees.insertEmployee(this.currentEmployee);
             console.log(result);
             if (result?.statusCode == STATUS_CODES.Code400) {
               if (result?.data) {
-                this.HandlerErrorUploadForm(result.data);
+                this.handlerErrorUploadForm(result.data);
               }
             } else if (result?.statusCode == STATUS_CODES.Code201) {
               // nếu thêm mới thành công
-              this.HandlerFunctionForm(functionUpload, "Thêm mới thành công.");
+              this.handlerFunctionForm(functionUpload, "Thêm mới thành công.");
 
               console.log("thêm mới thành công!");
             } else {
@@ -707,15 +707,15 @@ export default {
             console.log("xử lý cập nhật");
             console.log(this.currentEmployee);
             // gọi đến db thêm dữ liệu
-            let result = await employees.UpdateEmployee(this.currentEmployee);
+            let result = await employees.updateEmployee(this.currentEmployee);
 
             console.log(result);
             if (result?.statusCode == STATUS_CODES.Code400) {
               if (result?.data) {
-                this.HandlerErrorUploadForm(result.data);
+                this.handlerErrorUploadForm(result.data);
               }
             } else if (result?.statusCode == STATUS_CODES.Code200) {
-              this.HandlerFunctionForm(functionUpload, "Cập nhật thành công.");
+              this.handlerFunctionForm(functionUpload, "Cập nhật thành công.");
               console.log("cập nhật thành công!");
             } else {
               console.log("Cập nhật thất bại");
@@ -725,7 +725,7 @@ export default {
           // xử lý hiển thị lỗi
 
           // chuyển map về dạng value, lấy phân tử đầu tiên hiển thị lên thông báo
-          let valueText = this.SelectErrorTextFirst();
+          let valueText = this.selectErrorTextFirst();
           console.log(valueText);
           // hiển thị lỗi đầu tiên lên thông báo lỗi
           // gán lại giá trị notifi
@@ -746,7 +746,7 @@ export default {
      * Author: Phạm Văn Đạt(03/11/2022)
      * Function: Xử lý chức năng form cất hoặc cất và thêm
      */
-    async HandlerFunctionForm(functionUpload, message) {
+    async handlerFunctionForm(functionUpload, message) {
 
        // hiển thị thông báo thêm/upload thành công
       this.$emit("textToastMessage", message);
@@ -781,7 +781,7 @@ export default {
      * Author: Phạm Văn Đạt(03/11/2022)
      * Function: Xử lý lấy lỗi đầu tiên trong mảng lỗi
      */
-    SelectErrorTextFirst() {
+    selectErrorTextFirst() {
       // lấy lỗi theo thứ tự: mã, tên, phòng ban
       for (let i = 0; i < this.numericalOrder.length; i++) {
         if (this.listErrors.has(this.numericalOrder[i])) {
@@ -798,11 +798,11 @@ export default {
      * Author: Phạm Văn Đạt(03/11/2022)
      * Function: Xử lý lỗi khi click upload form
      */
-    HandlerErrorUploadForm(data) {
+    handlerErrorUploadForm(data) {
       try {
         for (const keyResult in data) {
           for (let key in data[keyResult]) {
-            let fieldName = LowerCaseFirst(key);
+            let fieldName = lowerCaseFirst(key);
             // xử lý focus lỗi đầu tiên
             if (keyResult == 0) {
               this.fieldFocusValidate[fieldName] = true;
@@ -826,24 +826,24 @@ export default {
      * Author: Phạm Văn Đạt(30/10/2022)
      * Function: Xử lý validate dữ liệu khi click nút cất, cất và thêm
      */
-    ValiDateRequired() {
+    valiDateRequired() {
       try {
         // nếu giá trị là invalid date thì xóa khỏi object
-        FormatDate(this.currentEmployee.birthDay, "YYYY-MM-DD") ==
+        formatDate(this.currentEmployee.birthDay, "YYYY-MM-DD") ==
         "Invalid date"
           ? delete this.currentEmployee.birthDay
           : this.currentEmployee.birthDay
-          ? (this.currentEmployee.birthDay = FormatDate(
+          ? (this.currentEmployee.birthDay = formatDate(
               this.currentEmployee.birthDay,
               "YYYY-MM-DD"
             ))
           : "";
 
         // nếu giá trị là invalid date thì xóa khỏi object
-        FormatDate(this.currentEmployee.issuaOn, "YYYY-MM-DD") == "Invalid date"
+        formatDate(this.currentEmployee.issuaOn, "YYYY-MM-DD") == "Invalid date"
           ? delete this.currentEmployee.issuaOn
           : this.currentEmployee.issuaOn
-          ? (this.currentEmployee.issuaOn = FormatDate(
+          ? (this.currentEmployee.issuaOn = formatDate(
               this.currentEmployee.issuaOn,
               "YYYY-MM-DD"
             ))

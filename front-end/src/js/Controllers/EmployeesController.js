@@ -1,5 +1,5 @@
 import {END_POINTS} from '../axios/endPoint';
-import {InsertRecord,UpdateRecord, Paging,GetMaxCode,DeleteRecords } from '../Controllers/BaseController'
+import {insertRecord,updateRecord, paging,getMaxCode,deleteRecords } from '../Controllers/BaseController'
 import {STATUS_CODES} from '../../constants'
 
 // end point của employees
@@ -105,9 +105,9 @@ export class Employees{
    * @param {*} currentPageNumber : số trang hiện tại: mặc định là 1
    * @param {*} pageSize : số bản ghi trên trang
    */
-  async PagingEmployee(){
+  async pagingEmployee(){
 
-    let res = await Paging(END_POINTS.PagingEmployee,this.keyword,this.currentPageNumber,this.pageSize);
+    let res = await paging(END_POINTS.PagingEmployee,this.keyword,this.currentPageNumber,this.pageSize);
     if(res.statusCode == STATUS_CODES.Code200){
       this.data = res.data.data;
       this.totalCount = res.data.totalCount;
@@ -121,8 +121,8 @@ export class Employees{
    * Function: Lấy mã code mới nhất
    * @returns trả về dữ liệu nếu thành công.
    */
-  async GetMaxCode(){
-    let res = await GetMaxCode(END_POINTS.EmployeesMaxCode);
+  async getMaxCode(){
+    let res = await getMaxCode(END_POINTS.EmployeesMaxCode);
     if(res.statusCode == STATUS_CODES.Code200){
       return res.data;
     }else{
@@ -135,8 +135,8 @@ export class Employees{
    * Function: Thêm mới nhân viên
    * @param {*} data : Dữ liệu truyền vào
    */
-  async InsertEmployee(data){
-    let res = await InsertRecord(END_POINTS.Employees,data);
+  async insertEmployee(data){
+    let res = await insertRecord(END_POINTS.Employees,data);
     
     if(res.status == STATUS_CODES.Code200){
       return res.data;
@@ -152,9 +152,9 @@ export class Employees{
    * Function: Xử lý update nhân viên
    * @param {*} data : Dữ liệu truyền vào
    */
-  async UpdateEmployee(data){
+  async updateEmployee(data){
     
-    let res = await UpdateRecord(END_POINTS.Employees,data);
+    let res = await updateRecord(END_POINTS.Employees,data);
     
     if(res.status == STATUS_CODES.Code200){
       return res.data;
@@ -169,10 +169,10 @@ export class Employees{
    * @param {*} data : id nhân viên muốn xóa
    * @returns : response
    */
-  async DeleteEmployee(data){
+  async deleteEmployee(data){
 
     if(data){
-      let res = await DeleteRecords(END_POINTS.EmployeesDelete,data);
+      let res = await deleteRecords(END_POINTS.EmployeesDelete,data);
     
       if(res.status == STATUS_CODES.Code200){
         return res.data;
@@ -199,7 +199,7 @@ export let employees = new Employees();
 export async function resetEmployeeDetail(object,employees) {
   try {
 
-    let newCode = await employees.GetMaxCode();
+    let newCode = await employees.getMaxCode();
     if (newCode) {
       object.employeeId = newCode;
     }

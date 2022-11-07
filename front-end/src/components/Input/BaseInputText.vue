@@ -25,8 +25,8 @@
         :style="'height: ' + height"
         :placeholder="placeholder"
         :name="name"
-        @focusout="HandlerValidate"
-        @input="HandlerInput"
+        @focusout="handlerValidate"
+        @input="handlerInput"
       />
       <button
         class="input-container-content-icon icon-20 icon-mr-10"
@@ -59,7 +59,7 @@ import _ from "lodash";
 
 import { NOTIFY_TEXT, RULE_FORMAT_DATA } from "../../constants";
 
-import { TitleCase } from "../../js/FomatData";
+import { titleCase } from "../../js/FomatData";
 
 export default {
   name: "BaseInput",
@@ -156,7 +156,7 @@ export default {
      * Function: Focus nếu nameRef là first Focus
      */
     if (this.checkFocus == true) {
-      this.HandlerFocus();
+      this.handlerFocus();
     }
   },
   watch: {
@@ -183,7 +183,7 @@ export default {
      */
     checkFocus(value) {
       if (value == true) {
-        this.HandlerFocus();
+        this.handlerFocus();
       }
     },
   },
@@ -193,21 +193,21 @@ export default {
      * Function: Xử lý lấy dữ liệu khi input nhận thay đổi với debounce dùng để nhóm nhiều hành động thành 1 hành động
      * @param {} event
      */
-    HandlerInput(event) {
+    handlerInput(event) {
       try {
         // validate dữ liệu khi thay đổi giá trị input
         this.currentValue = event.target.value;
 
         if (this.isFormatText == true) {
-          this.currentValue = TitleCase(this.currentValue);
+          this.currentValue = titleCase(this.currentValue);
         }
 
         // gọi đến hàm xử lý validate
-        this.HandlerValidate(event);
+        this.handlerValidate(event);
 
         // nhóm 1 nhiều hành động giống nhau thành 1 hành dodojngj cụ thể. Xử lý trả về dữ liệu sau 1s.
         //Ứng dụng cụ thể vào input tìm kiếm khách hàng
-        this.HandlerChangeValueInput(event);
+        this.handlerChangeValueInput(event);
       } catch (e) {
         console.log(e);
       }
@@ -217,7 +217,7 @@ export default {
      * Author: Phạm Văn Đạt(27/10/2022)
      * Function: Xử lý trả về dữ liệu sau 500ms
      */
-    HandlerChangeValueInput: _.debounce(function (event) {
+    handlerChangeValueInput: _.debounce(function (event) {
       try {
         // truyền lại dữ liệu cho cha gọi đến nó
         this.$emit('update:modelValue', event.target?.value?.trim());
@@ -230,7 +230,7 @@ export default {
      * Author: Phạm Văn Đạt(25/10/2022)
      * Function: Focus vào input
      */
-    HandlerFocus() {
+    handlerFocus() {
       try {
         this.$refs.input?.focus();
         this.$emit("checkFocus", false);
@@ -243,7 +243,7 @@ export default {
      * Author: Phạm Văn Đạt(27/10/2022)
      * Function: Focus out input kiểm tra check null
      */
-    HandlerValidate(event) {
+    handlerValidate(event) {
       try {
         // nếu tồn tại isRequired thì xử lý validate required
         if (this.isRequired == true) {
@@ -257,7 +257,7 @@ export default {
         }
 
         if (this.isPhoneNumber == true) {
-          this.HandlerFormatData(
+          this.handlerFormatData(
             event.target.value,
             this.tooltip,
             RULE_FORMAT_DATA.PhoneNumber
@@ -265,7 +265,7 @@ export default {
         }
 
         if (this.isEmail == true && event.target.value) {
-          this.HandlerFormatData(
+          this.handlerFormatData(
             event.target.value,
             this.fieldLabel,
             RULE_FORMAT_DATA.Email
@@ -280,15 +280,15 @@ export default {
      * Author: Phạm Văn Đạt(04/11/2022)
      * Function: Xử lý lỗi format dữ liệu
      */
-    HandlerFormatData(value, textError, typeCheck) {
+    handlerFormatData(value, textError, typeCheck) {
       if (value) {
         let check;
         if (typeCheck == RULE_FORMAT_DATA.PhoneNumber) {
-          check = this.CheckPhoneNumber(value);
+          check = this.checkPhoneNumber(value);
         }
 
         if (typeCheck == RULE_FORMAT_DATA.Email) {
-          check = this.CheckEmail(value);
+          check = this.checkEmail(value);
         }
         if (check == false) {
           this.currentErrorText = NOTIFY_TEXT.formatError(textError);
@@ -307,7 +307,7 @@ export default {
      * Author: Phạm Văn Đạt(04/11/2022)
      * Function: Xử lý kiểm tra sđt
      */
-    CheckPhoneNumber(phoneNumber) {
+    checkPhoneNumber(phoneNumber) {
       let regExp = /(09|03|07|08|05)+([0-9]{8})/;
       let phone = phoneNumber.match(regExp);
       if (phone) {
@@ -320,7 +320,7 @@ export default {
      * Author: Phạm Văn Đạt(04/11/2022)
      * Function: Xử lý kiểm tra sđt
      */
-    CheckEmail(email) {
+    checkEmail(email) {
       let regExp =
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       let _email = email.match(regExp);

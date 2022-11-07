@@ -9,7 +9,7 @@
       <span class="content-top-left-title">Nhân viên</span>
     </div>
     <div class="content-top-right">
-      <base-button @click="HandlerClickShowForm" :disable="disableButtonIndsert"
+      <base-button @click="handlerClickShowForm" :disable="disableButtonIndsert"
         ><span>Thêm mới nhân viên</span></base-button
       >
     </div>
@@ -33,7 +33,7 @@
     <base-button
       v-tooltip="'Lấy lại dữ liệu'"
       :disable="disableButtonResetData"
-      @click.prevent="LoadData"
+      @click.prevent="loadData"
       class="content-center-button-left icon-ml-10"
     >
       <span class="background-icon-reload icon-24 background-flex"></span>
@@ -58,7 +58,7 @@
       @showFormLoad="checkFormLoad = $event"
       @functionTable="
         $event.data.id != null && $event.value
-          ? HandlerFunctionTable($event.value, $event.data)
+          ? handlerFunctionTable($event.value, $event.data)
           : ''
       "
     >
@@ -82,7 +82,7 @@
     v-if="checkShowForm"
     :title="title"
     @closeForm="checkShowForm = $event"
-    @loadData="LoadData"
+    @loadData="loadData"
     :employeeDetail="employeeDetail"
     @textToastMessage="textToastMessage = $event"
     @typeToastMessage="typeToastMessage = $event"
@@ -106,7 +106,7 @@ import { PAGING_ITEMS, FUNCTION_TABLE, STATUS_CODES } from "../../../constants";
 
 import EmployeeDetail from "../employees-detail/EmployeeDetail.vue";
 
-import { CreateGuid } from "../../../js/GuidId.js";
+import { createGuid } from "../../../js/GuidId.js";
 
 import {
   employees,
@@ -175,7 +175,7 @@ export default {
      * Author: Phạm Văn Đạt(21/10/2022)
      * Function: load dữ liệu
      */
-    this.LoadData();
+    this.loadData();
   },
   watch: {
     /**
@@ -193,7 +193,7 @@ export default {
           this.currentPage = 1;
         } else {
           // nếu current pageNumber =1 thì thực hiện load lại dữ liệu với trang đầu và keyword mới
-          await this.LoadData();
+          await this.loadData();
         }
 
       } catch (e) {
@@ -213,7 +213,7 @@ export default {
         employees.currentPageNumber = 1;
 
         // gọi hàm load dữ liệu
-        await this.LoadData();
+        await this.loadData();
       } catch (e) {
         console.log(e);
       }
@@ -230,7 +230,7 @@ export default {
           employees.currentPageNumber = newValue;
 
           //  load lại dưx liệu
-          await this.LoadData();
+          await this.loadData();
         }
       } catch (e) {
         console.log(e);
@@ -242,7 +242,7 @@ export default {
      * Author: Phạm Văn Đạt(04/11/2022)
      * Function: Xử lý các chức năng: Nhân bản, xóa, ngưng sử dụng
      */
-    async HandlerFunctionTable(value, data) {
+    async handlerFunctionTable(value, data) {
       try {
         if (value != null && data.id != null) {
           if (value == FUNCTION_TABLE.Replication) {
@@ -254,7 +254,7 @@ export default {
             this.employeeDetail = data;
 
             // tạo guid id mới cho data
-            this.employeeDetail.id = CreateGuid();
+            this.employeeDetail.id = createGuid();
 
             // hiển thị form
             this.checkShowForm = true;
@@ -262,7 +262,7 @@ export default {
             console.log("Nhân bản");
           } else if (value == FUNCTION_TABLE.Delete) {
             console.log(value, data.id);
-            let result = await employees.DeleteEmployee([data.id]);
+            let result = await employees.deleteEmployee([data.id]);
 
             if (result.statusCode == STATUS_CODES.Code200) {
               // hiển thị toast message xóa thành công
@@ -270,7 +270,7 @@ export default {
               this.typeToastMessage = "success";
 
               // load lại dữ liệu
-              await this.LoadData();
+              await this.loadData();
             } else {
               // hiển thị toast message xóa thất bại
               this.textToastMessage = result.message[0];
@@ -289,7 +289,7 @@ export default {
      * Author: Phạm Văn Đạt(19/10/2022)
      * Function: Load dữ liệu
      */
-    async LoadData() {
+    async loadData() {
       try {
         // hiển thị form loadding
         this.checkFormLoad = true;
@@ -298,7 +298,7 @@ export default {
         this.disableButtonResetData = true;
 
         // gọi api phân trang
-        await employees.PagingEmployee();
+        await employees.pagingEmployee();
 
         // khởi tạo giá trị list dữ liệu
         this.listData = employees.data;
@@ -320,7 +320,7 @@ export default {
      * Author: Phạm Văn Đạt(23/10/2022)
      * Function: Xử lý click hiển thị form thêm mới nhân viên
      */
-    async HandlerClickShowForm() {
+    async handlerClickShowForm() {
       try {
         this.disableButtonIndsert = true;
        

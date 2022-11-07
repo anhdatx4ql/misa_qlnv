@@ -10,7 +10,7 @@ import moment from "moment";
  * @param {*} value ngày tháng năm đưa vào
  * @returns ngày tháng sau khi format
  */
-export function FormatDate(value, type = "YYYY-MM-DD") {
+export function formatDate(value, type = "YYYY-MM-DD") {
   return moment(value).format(type);
 }
 
@@ -20,7 +20,7 @@ export function FormatDate(value, type = "YYYY-MM-DD") {
  * @param {*} string Chuỗi string đưa vào
  * @returns Chuỗi sau khi bỏ in hoa chữ đầu
  */
-export function LowerCaseFirst(string) {
+export function lowerCaseFirst(string) {
   return string.charAt(0).toLowerCase() + string.slice(1);
 }
 
@@ -28,7 +28,7 @@ export function LowerCaseFirst(string) {
  * Author: Phạm Văn Đạt(04/11/2022)
  * Function: Xử lý in hoa chữ cái đầu tiên
  */
-export function TitleCase(string) {
+export function titleCase(string) {
   if (string != null) {
     //1. Tách các từ, cụm từ trong chuỗi ban đầu
     let sentence = string.toLowerCase().split(" ");

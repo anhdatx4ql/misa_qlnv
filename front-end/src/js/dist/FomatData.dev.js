@@ -3,9 +3,9 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.FormatDate = FormatDate;
-exports.LowerCaseFirst = LowerCaseFirst;
-exports.TitleCase = TitleCase;
+exports.formatDate = formatDate;
+exports.lowerCaseFirst = lowerCaseFirst;
+exports.titleCase = titleCase;
 
 var _moment = _interopRequireDefault(require("moment"));
 
@@ -22,7 +22,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
  * @param {*} value ngày tháng năm đưa vào
  * @returns ngày tháng sau khi format
  */
-function FormatDate(value) {
+function formatDate(value) {
   var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "YYYY-MM-DD";
   return (0, _moment["default"])(value).format(type);
 }
@@ -34,7 +34,7 @@ function FormatDate(value) {
  */
 
 
-function LowerCaseFirst(string) {
+function lowerCaseFirst(string) {
   return string.charAt(0).toLowerCase() + string.slice(1);
 }
 /**
@@ -43,7 +43,7 @@ function LowerCaseFirst(string) {
  */
 
 
-function TitleCase(string) {
+function titleCase(string) {
   if (string != null) {
     //1. Tách các từ, cụm từ trong chuỗi ban đầu
     var sentence = string.toLowerCase().split(" "); //2. Tạo vòng lặp và viết hoa chữ cái đầu tiên của các từ, cụm từ trên

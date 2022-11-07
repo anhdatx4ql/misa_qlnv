@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.GetMaxCode = exports.InsertRecord = exports.UpdateRecord = exports.DeleteRecords = exports.Paging = exports.GetAll = void 0;
+exports.getMaxCode = exports.insertRecord = exports.updateRecord = exports.deleteRecords = exports.paging = exports.getAll = void 0;
 
 var _endPoint = require("../axios/endPoint");
 
@@ -22,9 +22,9 @@ var headers = {
  * @returns : respose hoặc lỗi nếu có
  */
 
-var GetAll = function GetAll(endPoint) {
+var getAll = function getAll(endPoint) {
   var result;
-  return regeneratorRuntime.async(function GetAll$(_context) {
+  return regeneratorRuntime.async(function getAll$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
@@ -57,11 +57,11 @@ var GetAll = function GetAll(endPoint) {
  */
 
 
-exports.GetAll = GetAll;
+exports.getAll = getAll;
 
-var Paging = function Paging(endPoint, keyword, currentPageNumber, pageSize) {
+var paging = function paging(endPoint, keyword, currentPageNumber, pageSize) {
   var result, endPointLast;
-  return regeneratorRuntime.async(function Paging$(_context2) {
+  return regeneratorRuntime.async(function paging$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
@@ -105,11 +105,11 @@ var Paging = function Paging(endPoint, keyword, currentPageNumber, pageSize) {
  */
 
 
-exports.Paging = Paging;
+exports.paging = paging;
 
-var DeleteRecords = function DeleteRecords(endPoint, ids) {
+var deleteRecords = function deleteRecords(endPoint, ids) {
   var result;
-  return regeneratorRuntime.async(function DeleteRecords$(_context3) {
+  return regeneratorRuntime.async(function deleteRecords$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
@@ -140,11 +140,11 @@ var DeleteRecords = function DeleteRecords(endPoint, ids) {
  */
 
 
-exports.DeleteRecords = DeleteRecords;
+exports.deleteRecords = deleteRecords;
 
-var UpdateRecord = function UpdateRecord(endPoint, data) {
+var updateRecord = function updateRecord(endPoint, data) {
   var result;
-  return regeneratorRuntime.async(function UpdateRecord$(_context4) {
+  return regeneratorRuntime.async(function updateRecord$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
@@ -176,11 +176,11 @@ var UpdateRecord = function UpdateRecord(endPoint, data) {
  */
 
 
-exports.UpdateRecord = UpdateRecord;
+exports.updateRecord = updateRecord;
 
-var InsertRecord = function InsertRecord(endPoint, data) {
+var insertRecord = function insertRecord(endPoint, data) {
   var result;
-  return regeneratorRuntime.async(function InsertRecord$(_context5) {
+  return regeneratorRuntime.async(function insertRecord$(_context5) {
     while (1) {
       switch (_context5.prev = _context5.next) {
         case 0:
@@ -211,11 +211,11 @@ var InsertRecord = function InsertRecord(endPoint, data) {
  */
 
 
-exports.InsertRecord = InsertRecord;
+exports.insertRecord = insertRecord;
 
-var GetMaxCode = function GetMaxCode(endPoint) {
+var getMaxCode = function getMaxCode(endPoint) {
   var result;
-  return regeneratorRuntime.async(function GetMaxCode$(_context6) {
+  return regeneratorRuntime.async(function getMaxCode$(_context6) {
     while (1) {
       switch (_context6.prev = _context6.next) {
         case 0:
@@ -238,4 +238,4 @@ var GetMaxCode = function GetMaxCode(endPoint) {
   });
 };
 
-exports.GetMaxCode = GetMaxCode;
+exports.getMaxCode = getMaxCode;

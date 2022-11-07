@@ -144,7 +144,7 @@ var TABLE_FIELDS = [{
   width: 140,
   "class": "text-align-center",
   formatDate: function formatDate(value) {
-    return (0, _FomatData.FormatDate)(value, "DD/MM/YYYY");
+    return (0, _FomatData.formatDate)(value, "DD/MM/YYYY");
   }
 }, {
   name: 'SỐ CMND',
@@ -157,7 +157,7 @@ var TABLE_FIELDS = [{
   width: 120,
   "class": "text-align-center",
   formatDate: function formatDate(value) {
-    return (0, _FomatData.FormatDate)(value, "DD/MM/YYYY");
+    return (0, _FomatData.formatDate)(value, "DD/MM/YYYY");
   }
 }, {
   name: 'NƠI CẤP',

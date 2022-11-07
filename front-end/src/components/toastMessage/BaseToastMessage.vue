@@ -58,7 +58,7 @@ export default {
       this.listValue.push({ type: this.text, text: this.text });
     }
 
-    this.HandlerRemove();
+    this.handlerRemove();
   },
   watch: {
     /**
@@ -69,7 +69,7 @@ export default {
       try {
         if (value != null) {
           this.listValue.push({ type: this.text, text: value });
-          this.HandlerRemove();
+          this.handlerRemove();
           this.$emit("textToastMessage", null);
         }
       } catch (e) {
@@ -82,7 +82,7 @@ export default {
      * Author: Phạm Văn Đạt(1/11/2022)
      * Function: Xử lý xóa dữ liệu của toast message
      */
-    HandlerRemove() {
+    handlerRemove() {
       try {
         let me = this;
         if (this.listValue.length > 0) {

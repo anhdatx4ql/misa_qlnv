@@ -12,7 +12,7 @@ const headers = {
  * @param {*} endPoint: điểm cuối truyền vào 
  * @returns : respose hoặc lỗi nếu có
  */
-export const GetAll = async function(endPoint){
+export const getAll = async function(endPoint){
   let result = {};
     await axios.get(ROOT_API+endPoint)
     .then(response => {
@@ -35,7 +35,7 @@ export const GetAll = async function(endPoint){
  * @param {*} pageSize : số bản ghi trên 1 trang
  * @returns : respose hoặc lỗi nếu có
  */
-export const Paging = async function(endPoint, keyword, currentPageNumber, pageSize) {
+export const paging = async function(endPoint, keyword, currentPageNumber, pageSize) {
   let result = {};
 
   // khai báo chuỗi nối để phân trang
@@ -67,7 +67,7 @@ export const Paging = async function(endPoint, keyword, currentPageNumber, pageS
  * @param {*} ids : danh sách id khách hàng muốn xóa
  * @returns : response hoặc lỗi nếu có
  */
-export const DeleteRecords = async function(endPoint, ids){
+export const deleteRecords = async function(endPoint, ids){
   let result = {};
   await axios.post(ROOT_API+endPoint, ids)
     .then(response =>{
@@ -86,7 +86,7 @@ export const DeleteRecords = async function(endPoint, ids){
  * @param {*} data: dữ liệu update 
  * @returns:  trả về response hoặc lỗi 
  */
-export const UpdateRecord = async function(endPoint, data){
+export const updateRecord = async function(endPoint, data){
   let result = {};
   await axios.put(ROOT_API+endPoint, data, {header: headers})
     .then(response=>{
@@ -104,7 +104,7 @@ export const UpdateRecord = async function(endPoint, data){
  * @param {*} data : dữ liệu truyền vào
  * @returns : trả về response hoặc lỗi 
  */
-export const InsertRecord = async function(endPoint, data){
+export const insertRecord = async function(endPoint, data){
   let result = {};
   await axios.post(ROOT_API+endPoint, data,{header: headers})
     .then(response=>{
@@ -121,7 +121,7 @@ export const InsertRecord = async function(endPoint, data){
  * Function: Lấy tất cả dữ liệu nằm trong bảng
  * @param {*} endPoint: điểm cuối truyền vào 
  */
- export const GetMaxCode = async function(endPoint){
+ export const getMaxCode = async function(endPoint){
   let result = {};
     await axios.get(ROOT_API+endPoint)
     .then(response => {

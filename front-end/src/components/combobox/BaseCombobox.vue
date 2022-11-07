@@ -10,9 +10,9 @@
   </div>
   <div
     class="combobox"
-    @click="SelectListValueCombobox"
-    v-click-away="HandlerHideDropdown"
-    @focusout="CheckRequiredValue"
+    @click="selectListValueCombobox"
+    v-click-away="handlerHideDropdown"
+    @focusout="checkRequiredValue"
   >
     <div
       class="combobox-container"
@@ -24,7 +24,7 @@
           type="text"
           @focusout="checkShowDropDown = false"
           :disabled="disabled ? '' : disabled"
-          @input="HandlerInput"
+          @input="handlerInput"
           ref="input"
           :value="cbxValue.name"
           style="width: 156px"
@@ -79,7 +79,7 @@
           :key="cbxListValue.id"
         >
           <base-button
-            @click.prevent="SelectValueCombobox(cbxListValue)"
+            @click.prevent="selectValueCombobox(cbxListValue)"
             class="button-combobox"
             :tabindex="index"
             :value="cbxListValue.id"
@@ -210,7 +210,7 @@ export default {
      * Function: kiểm tra focus
      */
     if (this.checkFocus == true) {
-      this.HandlerFocus();
+      this.handlerFocus();
     }
   },
   methods: {
@@ -218,7 +218,7 @@ export default {
      * Author: Phạm Văn Đạt(31/10/2022)
      * Function: focus input
      */
-    HandlerFocus() {
+    handlerFocus() {
       try {
         this.$refs.input?.focus();
         this.$emit("checkFocus", false);
@@ -232,9 +232,9 @@ export default {
      * Function: Xử lý lấy giá trị khi click item dropdown
      * @param {} el : element button
      */
-    SelectValueCombobox(el) {
+    selectValueCombobox(el) {
       try {
-        this.CheckRequiredValue();
+        this.checkRequiredValue();
 
         this.cbxValue = el;
         // cập nhật lại item tìm kiếm
@@ -252,7 +252,7 @@ export default {
      * Author: Phạm Văn Đạt(20/10/2022)
      * Function: Xử lý ẩn DropDown
      */
-    HandlerHideDropdown() {
+    handlerHideDropdown() {
       this.checkShowDropDown = false;
     },
 
@@ -261,7 +261,7 @@ export default {
      * Function: Xử lý tìm kiếm dữ liệu trong combobox
      * @param {*} event : lấy event khi bắt sự kiện
      */
-    async HandlerInput(event) {
+    async handlerInput(event) {
       try {
         // lấy giá trị text trong input
         let text = event.target.value;
@@ -273,11 +273,11 @@ export default {
         };
 
         // xử lý lấy dữ liệu
-        this.HandlerFocusInput();
+        this.handlerFocusInput();
 
-        this.HanlderSelectItemSearch(this, text);
+        this.hanlderSelectItemSearch(this, text);
 
-        this.CheckRequiredValue();
+        this.checkRequiredValue();
       } catch (e) {
         console.log(e);
       }
@@ -287,7 +287,7 @@ export default {
      * Author: Phạm Văn Đat(30/10/2022)
      * Funtction: Xử lý tìm kiếm dữ liệu khi nhập giá trị vào ô input
      */
-    HanlderSelectItemSearch(me, text) {
+    hanlderSelectItemSearch(me, text) {
       try {
         let currentIndexItem = -1;
         let numberCheck = -1;
@@ -329,7 +329,7 @@ export default {
      * Author: Phạm Văn Đạt(21/10/2022)
      * Function: Xử lý click lấy dữ liệu
      */
-    SelectListValueCombobox() {
+    selectListValueCombobox() {
       try {
         if (this.checkload == false) {
           this.$emit("checkLoadDataCombobox");
@@ -344,10 +344,10 @@ export default {
      * Author: Phạm Văn Đạt(24/10/2022)
      * Function: Xử lý hiển thị dropdown khi focus vào input
      */
-    HandlerFocusInput() {
+    handlerFocusInput() {
       try {
         this.checkShowDropDown = true;
-        this.SelectListValueCombobox();
+        this.selectListValueCombobox();
       } catch (e) {
         console.log(e);
       }
@@ -357,7 +357,7 @@ export default {
      * Author: Phạm Văn Đạt(30/10/2022)
      * Function: Xử lý lấy item dựa trên id truyền vào
      */
-    SelectItemById(id) {
+    selectItemById(id) {
       try {
         this.listValues.forEach((value) => {
           if (value?.id == id) {
@@ -374,7 +374,7 @@ export default {
      * Author: Phạm Văn Đạt(30/10/2022)
      * Function: Xử lý validate dữ liệu
      */
-    CheckRequiredValue() {
+    checkRequiredValue() {
       try {
         if (this.isValidate == true) {
           let check = true;
@@ -429,7 +429,7 @@ export default {
      */
     checkFocus(value) {
       if (value == true) {
-        this.HandlerFocus();
+        this.handlerFocus();
       }
     },
 

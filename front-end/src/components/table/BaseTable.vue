@@ -32,7 +32,7 @@
 
     <!-- start body table -->
     <tbody v-show="!currentShowFormLoad">
-      <tr v-for="data in listData" :key="data.id" @dblclick="HandlerDetailEmployee(data)">
+      <tr v-for="data in listData" :key="data.id" @dblclick="handlerDetailEmployee(data)">
         <td class="position-sticky fake-cloumn" @hover="HandlerHoverTd" style="width:20px;left:0"></td>
         <td class="table-hover position-sticky" style="width:40px;left:20px">
           <base-input-checkbox style="width:40px" :id="data.id" :value="data.id"></base-input-checkbox>
@@ -61,12 +61,12 @@
 
         </td>
         <td class="table-hover td table-function" style="width:120px">
-          <base-button @click="HandlerDetailEmployee(data)"><span>Sửa</span></base-button>
+          <base-button @click="handlerDetailEmployee(data)"><span>Sửa</span></base-button>
           <base-combobox
            :listValues="fieldFunction" 
            :icon="false" position="top" 
            :width="120"
-           @newValueId="HandlerFunctionTable($event,data)"
+           @newValueId="handlerFunctionTable($event,data)"
            >
           </base-combobox>         
         </td>
@@ -151,11 +151,14 @@ export default {
      * Function: Xuywr lý xóa, nhân bản, ngưng sử dụng
      * @param {} value : giá trị xử lý nhân bản, xóa, ngưng sử dụng
      */
-    async HandlerFunctionTable(value,data){
+    async handlerFunctionTable(value,data){
       try{
         if(data.id != null){
           // đưa ra chức năng cần xử lý của table: Nhân bản, Xóa, Sửa
           this.$emit('functionTable',{value:value, data: data});
+
+          // nếu là xóa thì hiển thị thông báo xem có được xóa không
+
         }
        
       }catch(e){
@@ -175,7 +178,7 @@ export default {
      * Author: Phạm Văn Đạt(22/10/2022)
      * Function: Xử lý khi click nút sửa
      */
-    HandlerDetailEmployee(data){
+    handlerDetailEmployee(data){
       this.$emit('employeeDetail',data);
       this.$emit('checkShowForm',true);
     },

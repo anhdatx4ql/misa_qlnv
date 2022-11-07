@@ -103,15 +103,15 @@ function () {
 
 
   _createClass(Employees, [{
-    key: "PagingEmployee",
-    value: function PagingEmployee() {
+    key: "pagingEmployee",
+    value: function pagingEmployee() {
       var res;
-      return regeneratorRuntime.async(function PagingEmployee$(_context) {
+      return regeneratorRuntime.async(function pagingEmployee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return regeneratorRuntime.awrap((0, _BaseController.Paging)(_endPoint.END_POINTS.PagingEmployee, this.keyword, this.currentPageNumber, this.pageSize));
+              return regeneratorRuntime.awrap((0, _BaseController.paging)(_endPoint.END_POINTS.PagingEmployee, this.keyword, this.currentPageNumber, this.pageSize));
 
             case 2:
               res = _context.sent;
@@ -137,15 +137,15 @@ function () {
      */
 
   }, {
-    key: "GetMaxCode",
-    value: function GetMaxCode() {
+    key: "getMaxCode",
+    value: function getMaxCode() {
       var res;
-      return regeneratorRuntime.async(function GetMaxCode$(_context2) {
+      return regeneratorRuntime.async(function getMaxCode$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
               _context2.next = 2;
-              return regeneratorRuntime.awrap((0, _BaseController.GetMaxCode)(_endPoint.END_POINTS.EmployeesMaxCode));
+              return regeneratorRuntime.awrap((0, _BaseController.getMaxCode)(_endPoint.END_POINTS.EmployeesMaxCode));
 
             case 2:
               res = _context2.sent;
@@ -174,15 +174,15 @@ function () {
      */
 
   }, {
-    key: "InsertEmployee",
-    value: function InsertEmployee(data) {
+    key: "insertEmployee",
+    value: function insertEmployee(data) {
       var res;
-      return regeneratorRuntime.async(function InsertEmployee$(_context3) {
+      return regeneratorRuntime.async(function insertEmployee$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
               _context3.next = 2;
-              return regeneratorRuntime.awrap((0, _BaseController.InsertRecord)(_endPoint.END_POINTS.Employees, data));
+              return regeneratorRuntime.awrap((0, _BaseController.insertRecord)(_endPoint.END_POINTS.Employees, data));
 
             case 2:
               res = _context3.sent;
@@ -212,15 +212,15 @@ function () {
      */
 
   }, {
-    key: "UpdateEmployee",
-    value: function UpdateEmployee(data) {
+    key: "updateEmployee",
+    value: function updateEmployee(data) {
       var res;
-      return regeneratorRuntime.async(function UpdateEmployee$(_context4) {
+      return regeneratorRuntime.async(function updateEmployee$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
               _context4.next = 2;
-              return regeneratorRuntime.awrap((0, _BaseController.UpdateRecord)(_endPoint.END_POINTS.Employees, data));
+              return regeneratorRuntime.awrap((0, _BaseController.updateRecord)(_endPoint.END_POINTS.Employees, data));
 
             case 2:
               res = _context4.sent;
@@ -250,10 +250,10 @@ function () {
      */
 
   }, {
-    key: "DeleteEmployee",
-    value: function DeleteEmployee(data) {
+    key: "deleteEmployee",
+    value: function deleteEmployee(data) {
       var res;
-      return regeneratorRuntime.async(function DeleteEmployee$(_context5) {
+      return regeneratorRuntime.async(function deleteEmployee$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
@@ -263,7 +263,7 @@ function () {
               }
 
               _context5.next = 3;
-              return regeneratorRuntime.awrap((0, _BaseController.DeleteRecords)(_endPoint.END_POINTS.EmployeesDelete, data));
+              return regeneratorRuntime.awrap((0, _BaseController.deleteRecords)(_endPoint.END_POINTS.EmployeesDelete, data));
 
             case 3:
               res = _context5.sent;
@@ -313,7 +313,7 @@ function resetEmployeeDetail(object, employees) {
         case 0:
           _context6.prev = 0;
           _context6.next = 3;
-          return regeneratorRuntime.awrap(employees.GetMaxCode());
+          return regeneratorRuntime.awrap(employees.getMaxCode());
 
         case 3:
           newCode = _context6.sent;

@@ -3,7 +3,7 @@
  * Function: Các biến, hằng số dùng chung
  */
 
-import {FormatDate} from '/src/js/FomatData'
+import {formatDate} from '/src/js/FomatData'
 
 /**
  * Author: Phạm Văn Đạt(18/10/2022)
@@ -168,7 +168,7 @@ export const TABLE_FIELDS=[
         width: 140,
         class: "text-align-center",
         formatDate: function(value){
-            return FormatDate(value,"DD/MM/YYYY");
+            return formatDate(value,"DD/MM/YYYY");
         }
     },
     {
@@ -183,7 +183,7 @@ export const TABLE_FIELDS=[
         width: 120,
         class: "text-align-center",
         formatDate: function(value){
-            return FormatDate(value,"DD/MM/YYYY");
+            return formatDate(value,"DD/MM/YYYY");
         }
     },
     {

@@ -1,5 +1,5 @@
 import {END_POINTS} from '../axios/endPoint';
-import { GetAll } from '../Controllers/BaseController'
+import { getAll } from '../Controllers/BaseController'
 import {STATUS_CODES} from '../../constants'
 
 // end point của employees
@@ -22,8 +22,8 @@ class Departments{
      * Author: Phạm Văn Đạt(21/10/2022)
      * Function: Xử lý lấy các bản ghi đầu tiên trong bảng phòng ban
      */
-    async GetRecords(){
-        let res =  await GetAll(endPoint);
+    async getRecords(){
+        let res =  await getAll(endPoint);
         if(res.statusCode == STATUS_CODES.Code200){
             this.data = res.data;
         }else{
