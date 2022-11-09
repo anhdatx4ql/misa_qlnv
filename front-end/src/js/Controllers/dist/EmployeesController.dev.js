@@ -168,6 +168,37 @@ function () {
       });
     }
     /**
+     * Author: Phạm Văn Đạt(09/11/2022)
+     * Function: Xử lý xuất excel
+     * @param {*} data : keyword
+     * @returns: file excel nếu có
+     */
+
+  }, {
+    key: "exportExcel",
+    value: function exportExcel(data) {
+      var endString;
+      return regeneratorRuntime.async(function exportExcel$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              endString = '';
+
+              if (data) {
+                endString = '?keyword=' + data;
+              }
+
+              _context3.next = 4;
+              return regeneratorRuntime.awrap((0, _BaseController.exportExcel)(_endPoint.END_POINTS.EmployeesExportExcel + endString));
+
+            case 4:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      });
+    }
+    /**
      * Author: Phạm Văn Đạt(28/10/2022)
      * Function: Thêm mới nhân viên
      * @param {*} data : Dữ liệu truyền vào
@@ -177,22 +208,22 @@ function () {
     key: "insertEmployee",
     value: function insertEmployee(data) {
       var res;
-      return regeneratorRuntime.async(function insertEmployee$(_context3) {
+      return regeneratorRuntime.async(function insertEmployee$(_context4) {
         while (1) {
-          switch (_context3.prev = _context3.next) {
+          switch (_context4.prev = _context4.next) {
             case 0:
-              _context3.next = 2;
+              _context4.next = 2;
               return regeneratorRuntime.awrap((0, _BaseController.insertRecord)(_endPoint.END_POINTS.Employees, data));
 
             case 2:
-              res = _context3.sent;
+              res = _context4.sent;
 
               if (!(res.status == _constants.STATUS_CODES.Code200)) {
-                _context3.next = 7;
+                _context4.next = 7;
                 break;
               }
 
-              return _context3.abrupt("return", res.data);
+              return _context4.abrupt("return", res.data);
 
             case 7:
               console.log(res);
@@ -200,7 +231,7 @@ function () {
 
             case 9:
             case "end":
-              return _context3.stop();
+              return _context4.stop();
           }
         }
       });
@@ -215,29 +246,29 @@ function () {
     key: "updateEmployee",
     value: function updateEmployee(data) {
       var res;
-      return regeneratorRuntime.async(function updateEmployee$(_context4) {
+      return regeneratorRuntime.async(function updateEmployee$(_context5) {
         while (1) {
-          switch (_context4.prev = _context4.next) {
+          switch (_context5.prev = _context5.next) {
             case 0:
-              _context4.next = 2;
+              _context5.next = 2;
               return regeneratorRuntime.awrap((0, _BaseController.updateRecord)(_endPoint.END_POINTS.Employees, data));
 
             case 2:
-              res = _context4.sent;
+              res = _context5.sent;
 
               if (!(res.status == _constants.STATUS_CODES.Code200)) {
-                _context4.next = 7;
+                _context5.next = 7;
                 break;
               }
 
-              return _context4.abrupt("return", res.data);
+              return _context5.abrupt("return", res.data);
 
             case 7:
               console.log("thêm mới thất bại");
 
             case 8:
             case "end":
-              return _context4.stop();
+              return _context5.stop();
           }
         }
       });
@@ -253,27 +284,27 @@ function () {
     key: "deleteEmployee",
     value: function deleteEmployee(data) {
       var res;
-      return regeneratorRuntime.async(function deleteEmployee$(_context5) {
+      return regeneratorRuntime.async(function deleteEmployee$(_context6) {
         while (1) {
-          switch (_context5.prev = _context5.next) {
+          switch (_context6.prev = _context6.next) {
             case 0:
               if (!data) {
-                _context5.next = 10;
+                _context6.next = 10;
                 break;
               }
 
-              _context5.next = 3;
+              _context6.next = 3;
               return regeneratorRuntime.awrap((0, _BaseController.deleteRecords)(_endPoint.END_POINTS.EmployeesDelete, data));
 
             case 3:
-              res = _context5.sent;
+              res = _context6.sent;
 
               if (!(res.status == _constants.STATUS_CODES.Code200)) {
-                _context5.next = 8;
+                _context6.next = 8;
                 break;
               }
 
-              return _context5.abrupt("return", res.data);
+              return _context6.abrupt("return", res.data);
 
             case 8:
               console.log(res);
@@ -281,7 +312,7 @@ function () {
 
             case 10:
             case "end":
-              return _context5.stop();
+              return _context6.stop();
           }
         }
       });
@@ -307,16 +338,16 @@ exports.employees = employees;
 
 function resetEmployeeDetail(object, employees) {
   var newCode;
-  return regeneratorRuntime.async(function resetEmployeeDetail$(_context6) {
+  return regeneratorRuntime.async(function resetEmployeeDetail$(_context7) {
     while (1) {
-      switch (_context6.prev = _context6.next) {
+      switch (_context7.prev = _context7.next) {
         case 0:
-          _context6.prev = 0;
-          _context6.next = 3;
+          _context7.prev = 0;
+          _context7.next = 3;
           return regeneratorRuntime.awrap(employees.getMaxCode());
 
         case 3:
-          newCode = _context6.sent;
+          newCode = _context7.sent;
 
           if (newCode) {
             object.employeeId = newCode;
@@ -339,16 +370,16 @@ function resetEmployeeDetail(object, employees) {
               }
             }
           });
-          return _context6.abrupt("return", object);
+          return _context7.abrupt("return", object);
 
         case 9:
-          _context6.prev = 9;
-          _context6.t0 = _context6["catch"](0);
-          console.log(_context6.t0);
+          _context7.prev = 9;
+          _context7.t0 = _context7["catch"](0);
+          console.log(_context7.t0);
 
         case 12:
         case "end":
-          return _context6.stop();
+          return _context7.stop();
       }
     }
   }, null, null, [[0, 9]]);

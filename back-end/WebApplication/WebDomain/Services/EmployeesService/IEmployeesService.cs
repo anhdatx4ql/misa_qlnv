@@ -38,7 +38,7 @@ namespace WebDomain
         /// </summary>
         /// <param name="ids"> danh sách id của khách hàng</param>
         /// <returns></returns>
-        Task<byte[]> ExportExcel(List<Guid> ids = null);
+        Task<byte[]> ExportExcel(string keyword = null);
         #endregion
     }
 }

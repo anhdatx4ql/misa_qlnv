@@ -139,7 +139,7 @@ namespace WebDomain
         /// </summary>
         /// <param name="ids">danh sách id các khách hàng cần xuất</param>
         /// <returns></returns>
-        public async Task<byte[]> ExportExcel(List<Guid> ids = null)
+        public async Task<byte[]> ExportExcel(string keyword = null)
         {
             byte[] fileContents;
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -204,13 +204,14 @@ namespace WebDomain
 
             var parameters = new DynamicParameters();
 
-            var sqlQuery = @"SELECT * FROM view_employees";
+            var sqlQuery = @"SELECT * FROM view_employees ve";
 
             // nếu mảng ids = null => lấy hết 
-            if (ids.Count > 0)
+            if (keyword != null)
             {
-                sqlQuery += @"WHERE view_employees.Id IN (@ids)";
-                parameters.Add("@ids", ids);
+                sqlQuery += @" WHERE ve.EmployeeId LIKE @keyword OR ve.Name LIKE @keyword;";
+                keyword = '%' + keyword + '%';
+                parameters.Add("@keyword", keyword);
             }
             var result = await _employee.GetAllAsync<EmployeesViewModel>(sqlQuery, parameters);
 
@@ -224,9 +225,9 @@ namespace WebDomain
                     workSheet.Cells[string.Format("A{0}", row)].Value = (item.EmployeeId != null) ? item.EmployeeId : "";
                     workSheet.Cells[string.Format("B{0}", row)].Value = (item.Name != null) ? item.Name : "";
                     workSheet.Cells[string.Format("C{0}", row)].Value = ((int)item.Gender == (int)Gender.Male) ? "Nam" : ((int)item.Gender == (int)Gender.Female) ? "Nữ" : ((int)item.Gender == (int)Gender.Other) ? "Khác" : "-";
-                    workSheet.Cells[string.Format("D{0}", row)].Value = (item.BirthDay != null) ? item.BirthDay.ToString() : "";
+                    workSheet.Cells[string.Format("D{0}", row)].Value = (item.BirthDay != null) ? item.BirthDay : "";
                     workSheet.Cells[string.Format("E{0}", row)].Value = (item.IdNo != null) ? item.IdNo : "";
-                    workSheet.Cells[string.Format("F{0}", row)].Value = (item.IssuaOn != null) ? item.IssuaOn.ToString() : "";
+                    workSheet.Cells[string.Format("F{0}", row)].Value = (item.IssuaOn != null) ? item.IssuaOn : "";
                     workSheet.Cells[string.Format("G{0}", row)].Value = (item.PlaceOfIssue != null) ? item.PlaceOfIssue : "";
                     workSheet.Cells[string.Format("H{0}", row)].Value = (item.BankAccountNumber != null) ? item.BankAccountNumber : "";
                     workSheet.Cells[string.Format("I{0}", row)].Value = (item.BankName != null) ? item.BankName : "";

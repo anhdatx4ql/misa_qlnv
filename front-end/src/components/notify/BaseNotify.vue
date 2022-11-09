@@ -19,6 +19,7 @@
           <base-button
             class="button-white"
             tabindex="3"
+            @keydown.tab.prevent="handlerFocus"
             @click="$emit('checkShowNotify', false)"
           >
             <span>Hủy</span>
@@ -33,7 +34,13 @@
               <span>Không</span>
             </base-button>
 
-            <button class="button" autofocus ref="firstFocus" tabindex="1">
+            <button
+              class="button"
+              @click="$emit('sayYes', true)"
+              autofocus
+              ref="firstFocus"
+              tabindex="1"
+            >
               <span>Có</span>
             </button>
           </div>
@@ -41,11 +48,10 @@
 
         <div
           class="notify-question-button"
-          v-if="type == 'error' ? true : false"
+          v-else-if="type == 'error' ? true : false"
         >
           <!-- button  -->
           <button
-            v-if="type == 'error' ? true : false"
             class="button"
             autofocus
             ref="firstFocus"
@@ -58,6 +64,40 @@
             <span>Đóng</span>
           </button>
         </div>
+
+        <!-- start type = warning -->
+        <div
+          class="notify-warning-button"
+          v-else-if="type == 'warning' ? true : false"
+        >
+          <!-- button  -->
+          <button
+            autofocus
+            class="button-white"
+            ref="firstFocus"
+            tabindex="1"
+            @click="
+              $emit('checkShowNotify', false);
+              $emit('checkFocusCloseNotify', fieldNameFocus);
+            "
+          >
+            <span>Không</span>
+          </button>
+
+          <!-- button  -->
+          <button
+            class="button"
+            tabindex="2"
+            @keydown.tab.prevent="handlerFocus"
+            @click="
+              $emit('checkShowNotify', false);
+              $emit('sayYes', true);
+            "
+          >
+            <span>Có</span>
+          </button>
+        </div>
+        <!-- end type = warning -->
       </div>
     </div>
   </div>
@@ -81,15 +121,16 @@ export default {
   },
   created() {},
   mounted() {
+    this.handlerFocus();
+  },
+  watch: {},
+  methods: {
     /**
      * Author: Phạm Văn Đạt
      * Function: xử lý focus button khi hiển thị notify
      */
-    this.$refs.firstFocus.focus();
-  },
-  watch: {
-    firstFocus(value) {
-      console.log(value);
+    handlerFocus() {
+      this.$refs.firstFocus.focus();
     },
   },
 };

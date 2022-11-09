@@ -385,7 +385,7 @@
 
         <div class="form-buttom-left">
           <base-button
-            @keydown.tab.prevent="checkFocus = true"
+            @keydown.tab.prevent="fieldFocusValidate.employeeId = true"
             class="button-white"
             @click="$emit('closeForm', false)"
           >
@@ -407,6 +407,7 @@
     :text="checkNotify.text"
     :fieldNameFocus="firstFocus"
     @checkFocusCloseNotify="checkFocusCloseNotify = $event"
+    @sayYes="($event == true)?handlerUploadData(functionUpload.Save):''"
   ></base-notify>
   <!-- end thông báo -->
 </template>

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getMaxCode = exports.insertRecord = exports.updateRecord = exports.deleteRecords = exports.paging = exports.getAll = void 0;
+exports.exportExcel = exports.getMaxCode = exports.insertRecord = exports.updateRecord = exports.deleteRecords = exports.paging = exports.getAll = void 0;
 
 var _endPoint = require("../axios/endPoint");
 
@@ -237,5 +237,48 @@ var getMaxCode = function getMaxCode(endPoint) {
     }
   });
 };
+/**
+ * Author: Phạm Văn Đạt(08/11/2022)
+ * Function: Xử lý xuất excel
+ * @param {*} endPoint : điểm cuối của api
+ * @returns : file excel nếu có, nếu không hiển thị thông báo xuất thất bại
+ */
+
 
 exports.getMaxCode = getMaxCode;
+
+var exportExcel = function exportExcel(endPoint) {
+  return regeneratorRuntime.async(function exportExcel$(_context7) {
+    while (1) {
+      switch (_context7.prev = _context7.next) {
+        case 0:
+          _context7.next = 2;
+          return regeneratorRuntime.awrap((0, _axios["default"])({
+            url: _endPoint.ROOT_API + endPoint,
+            method: "get",
+            responseType: "blob"
+          }).then(function (response) {
+            var url = URL.createObjectURL(new Blob([response.data], {
+              type: 'application/vnd.ms-excel'
+            }));
+            var d = new Date();
+            var time = d.getTime();
+            var link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', "List_Employees_" + time + ".xls");
+            document.body.appendChild(link);
+            link.click();
+          }));
+
+        case 2:
+          return _context7.abrupt("return", _context7.sent);
+
+        case 3:
+        case "end":
+          return _context7.stop();
+      }
+    }
+  });
+};
+
+exports.exportExcel = exportExcel;

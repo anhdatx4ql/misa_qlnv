@@ -69,3 +69,14 @@
 button.button.button-white.base-r-8 {
     margin-right: 8px;
 }
+
+.notify-warning-button button {
+    min-width: auto;
+}
+
+.notify-warning-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+}

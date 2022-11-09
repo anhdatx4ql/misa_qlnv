@@ -9,41 +9,47 @@
     <!-- start header table -->
     <thead>
       <tr>
-        <th class="position-sticky fake-cloumn" style="width:20px;left:0"></th>
-        <th class="position-sticky" style="left:20px;background:#E5E8EC">
-          <base-input-checkbox id="1"></base-input-checkbox>
-        </th>
-        <th v-for="field in fields" :key="field.name" :class="field.class" :style="'width:'+field.width+'px'">
-          <div v-if="!field.title">
+     
+        <th v-for="field in fieldsTHead" :key="field.fieldName" :class="field.class" :style="'width:'+field.width+'px;'+field.style">
+          <div v-if="field.type=='checkbox'">
+            <base-input-checkbox :id="idCheckbox"></base-input-checkbox>
+          </div>
+          <div v-else-if="!field.title">
             {{field.name}}
           </div>
+
           <el-tooltip v-else :content="field.title" effect="light" placement="bottom">
             {{field.name}}
           </el-tooltip>
         </th>
-        <th style="width:120px;" class="table-function">
-          CHỨC NĂNG
-        </th>
-        <th class="position-sticky fake-cloumn" style="width:24px;right:0"></th>
-        <th class="position-sticky fake-cloumn r-30 background-container" style="width:24px;right:-24px"></th>
+      
       </tr>
     </thead>
     <!-- end header table -->
 
     <!-- start body table -->
     <tbody v-show="!currentShowFormLoad">
-      <tr v-for="data in listData" :key="data.id" @dblclick="handlerDetailEmployee(data)">
-        <td class="position-sticky fake-cloumn" @hover="HandlerHoverTd" style="width:20px;left:0"></td>
-        <td class="table-hover position-sticky" style="width:40px;left:20px">
-          <base-input-checkbox style="width:40px" :id="data.id" :value="data.id"></base-input-checkbox>
-        </td>
-        <td class="table-hover" v-for="field in fields" :key="field.fieldName" :style="'width:'+field.width+'px'" :class="field.class">
-          <!-- start hiển thị ô checkbox -->
+      <tr v-for="data in listData" :key="data.id" @dblclick="handlerUpdate(data)">
+      
+        <td class="table-hover" v-for="field in fieldsTHead" :key="field.fieldName" :style="'width:'+field.width+'px;'+field.style" :class="field.class">
+          
+          <base-button v-if="field.button == 'Sửa'" @click="handlerUpdate(data)"><span>{{field.button}}</span></base-button>
+          <base-combobox v-if="!!field.combobox"
+           :listValues="field.combobox" 
+           :input="field.inputCombobox"
+           :icon="field.iconCombobox" :position="field.positionCombobox" 
+           :width="120"
+           @newValueId="handlerFunctionTable($event,data)"
+           >
+          </base-combobox> 
+
+          <!-- hiển thị checkbox có thể sửa -->
+          <!-- start hiển thị ô checkbox không thể sửa -->
           <div v-if="field.checkBox == true">
             <base-input-checkbox 
               :value="data.id"
               :checked="data[field.fieldName]"
-              :disabled="true">
+              :disabled="field.disabled">
             </base-input-checkbox>
           </div>
           <!-- end hiển thị ô checkbox -->
@@ -57,21 +63,8 @@
               :""
             }}
           </div>
-          <!-- end hiển thị các dữ liệu còn lại -->
 
         </td>
-        <td class="table-hover td table-function" style="width:120px">
-          <base-button @click="handlerDetailEmployee(data)"><span>Sửa</span></base-button>
-          <base-combobox
-           :listValues="fieldFunction" 
-           :icon="false" position="top" 
-           :width="120"
-           @newValueId="handlerFunctionTable($event,data)"
-           >
-          </base-combobox>         
-        </td>
-        <th class="position-sticky fake-cloumn" style="width:24px;right:0"></th>
-        <td class="position-sticky fake-cloumn r-30 background-container" style="width:24px;right:-24px;"></td>
       </tr>
     </tbody>
     <!-- end body table -->
@@ -91,57 +84,37 @@
 </template>
 
 <script>
-/**
- * Author: Phạm Văn Đạt(18/10/2022)
- * Function: Lấy danh sách hiển thị các cột trong table
- */
-import {TABLE_FIELDS} from "../../constants"
+
 
 export default {
   name: 'BaseTable',
   props: {
-    listEmployees: Array[Object],
+    // DỮ LIỆU HIỂN THỊ
+    modelValue: Array[Object],
+
+    // KIỂM TRA LOAD DỮ LIỆU
     showFormLoad:{
       Type:Boolean,
       default:true
-    }
+    },
+
+    // CÁC TRƯỜNG TRÊN HEADER
+    fieldsTHead: Array[Object]
   },
   data(){
     return {
-      // các trường hiển thị dữ liệu
-      fields: [],
-
-      // các chức năng: nhân bản, xóa, nhưng sử dụng
-      fieldFunction:[
-        {
-          id:1,
-          name:"Nhân bản"
-        },
-        {
-          id:2,
-          name:"Xóa"
-        },
-        {
-          id:3,
-          name:"Ngưng sử dụng"
-        }
-      ],
-
-      // danh sách các bản ghi hiện tại
-      listData:[],
-
       // kiểm tra đang 
-      currentShowFormLoad: false
+      currentShowFormLoad: false,
+
+      // mảng lưu dữ liệu
+      listData: Array[Object]
     }
   },
   created(){
-    /**
-   * Author: Phạm Văn Đạt(18/10/2022)
-   * Function: khởi tạo giá trị field
-   */
-    this.fields = TABLE_FIELDS;
 
     this.currentShowFormLoad = this.showFormLoad;
+
+    console.log(this.modelValue)
 
   },
   methods: {
@@ -165,31 +138,23 @@ export default {
         console.log(e);
       }
     },
-
-    /**
-     * Author: Phạm Văn Đạt(18/10/2022)
-     * Function: Xử lý scroll table
-     */
-    hanclerScroll(e){
-      this.$refs.trThead.style.transform = "translateX(-"+e.target.scrollLeft+"px)";
-    },
-
     /**
      * Author: Phạm Văn Đạt(22/10/2022)
      * Function: Xử lý khi click nút sửa
      */
-    handlerDetailEmployee(data){
-      this.$emit('employeeDetail',data);
+    handlerUpdate(data){
+      this.$emit('dataDetail',data);
       this.$emit('checkShowForm',true);
     },
   },
   watch:{
+
     /**
-     * Author: Phạm Văn Đạt(21/10/2022)
-     * Function: Load danh sách các bản ghi
-     * @param {*} value danh sách các bản ghi
+     * Author: Phạm Văn Đạt(08/11/2022)
+     * Function: Xử lý lấy dữ liệu mới
+     * @param {*} value : mảng data gửi vào
      */
-    listEmployees(value){
+    modelValue(value){
       this.listData = value;
     },
 

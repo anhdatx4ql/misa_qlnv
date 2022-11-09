@@ -1,5 +1,5 @@
 import {END_POINTS} from '../axios/endPoint';
-import {insertRecord,updateRecord, paging,getMaxCode,deleteRecords } from '../Controllers/BaseController'
+import {insertRecord,updateRecord, paging,getMaxCode,deleteRecords,exportExcel } from '../Controllers/BaseController'
 import {STATUS_CODES} from '../../constants'
 
 // end point của employees
@@ -122,12 +122,28 @@ export class Employees{
    * @returns trả về dữ liệu nếu thành công.
    */
   async getMaxCode(){
+
     let res = await getMaxCode(END_POINTS.EmployeesMaxCode);
     if(res.statusCode == STATUS_CODES.Code200){
       return res.data;
     }else{
       console.log(res)
     }
+  }
+
+  /**
+   * Author: Phạm Văn Đạt(09/11/2022)
+   * Function: Xử lý xuất excel
+   * @param {*} data : keyword
+   * @returns: file excel nếu có
+   */
+  async exportExcel(data){
+    let endString = '';
+    if(data){
+      endString = '?keyword='+data;
+    }
+    
+    await exportExcel(END_POINTS.EmployeesExportExcel+endString)
   }
 
   /**

@@ -39,7 +39,7 @@
       <span class="background-icon-reload icon-24 background-flex"></span>
     </base-button>
 
-    <base-button v-tooltip="'Xuất ra Excel'" class="content-center-button-left">
+    <base-button v-tooltip="'Xuất ra Excel'" @click="handlerExportExcel" class="content-center-button-left">
       <span class="background-icon-excel icon-24 background-flex"></span>
     </base-button>
   </div>
@@ -48,13 +48,14 @@
   <div class="content-table">
     <!-- start table -->
     <base-table
-      @employeeDetail="
+      @dataDetail="
         (employeeDetail = $event),
           (checkShowForm = true),
           (title = 'Sửa nhân viên')
       "
-      :listEmployees="listData"
+      v-model="listData"
       :showFormLoad="checkFormLoad"
+      :fieldsTHead="tableField"
       @showFormLoad="checkFormLoad = $event"
       @functionTable="
         $event.data.id != null && $event.value
@@ -96,13 +97,30 @@
     @textToastMessage="textToastMessage = $event"
   ></base-toast-message>
   <!-- end toast message -->
+
+  <!-- start thông báo -->
+  <base-notify
+    @closeForm="handlerCloseNotifi"
+    @checkShowNotify="checkNotify.isShow = $event"
+    v-if="checkNotify.isShow"
+    :type="checkNotify.type"
+    :text="checkNotify.text"
+    @sayYes="($event == true)?handlerDeleteEmployee():''"
+  ></base-notify>
+  <!-- end thông báo -->
 </template>
    
 <script>
 /**
  * Author: Phạm Văn Đạt (19/10/2022)
  */
-import { PAGING_ITEMS, FUNCTION_TABLE, STATUS_CODES } from "../../../constants";
+import {
+  PAGING_ITEMS,
+  FUNCTION_TABLE,
+  STATUS_CODES,
+  TABLE_FIELDS,
+  NOTIFY_LIST,
+} from "../../../constants";
 
 import EmployeeDetail from "../employees-detail/EmployeeDetail.vue";
 
@@ -111,7 +129,7 @@ import { createGuid } from "../../../js/GuidId.js";
 import {
   employees,
   employeeModel,
-  resetEmployeeDetail
+  resetEmployeeDetail,
 } from "../../../js/Controllers/EmployeesController";
 
 export default {
@@ -166,6 +184,18 @@ export default {
 
       // kiểu toast message
       typeToastMessage: null,
+
+      // các trường trong table
+      tableField: TABLE_FIELDS,
+
+      // kiểm tra notify
+      checkNotify: {
+        isShow: false,
+        type: null,
+        text: null,
+      },
+
+      currentEmployeeId:  null
     };
   },
   created() {
@@ -195,7 +225,6 @@ export default {
           // nếu current pageNumber =1 thì thực hiện load lại dữ liệu với trang đầu và keyword mới
           await this.loadData();
         }
-
       } catch (e) {
         console.log(e);
       }
@@ -238,6 +267,21 @@ export default {
     },
   },
   methods: {
+
+    /**
+     * Author: Phạm Văn Đạt(08/11/2022)
+     * Function: Xử lý xuất excel
+     */
+    async handlerExportExcel(){
+      try{
+
+        await employees.exportExcel(employees.keyword);
+
+      }catch(e){
+        console.log(e);
+      }
+    },
+
     /**
      * Author: Phạm Văn Đạt(04/11/2022)
      * Function: Xử lý các chức năng: Nhân bản, xóa, ngưng sử dụng
@@ -246,7 +290,6 @@ export default {
       try {
         if (value != null && data.id != null) {
           if (value == FUNCTION_TABLE.Replication) {
-
             // form thêm mới nhân viên
             this.title = "Thêm mới nhân viên";
 
@@ -261,21 +304,16 @@ export default {
 
             console.log("Nhân bản");
           } else if (value == FUNCTION_TABLE.Delete) {
+            // hiển thị thông báo có chắc chắn muốn xóa
+            this.checkNotify = {
+              isShow: true,
+              type: NOTIFY_LIST.Warning.type,
+              text: NOTIFY_LIST.Warning.text('Bạn có thực sự muốn xóa nhân viên <'+data.employeeId+'> không?'),
+            };
+
+            this.currentEmployeeId = data.id;
+            
             console.log(value, data.id);
-            let result = await employees.deleteEmployee([data.id]);
-
-            if (result.statusCode == STATUS_CODES.Code200) {
-              // hiển thị toast message xóa thành công
-              this.textToastMessage = result.message[0];
-              this.typeToastMessage = "success";
-
-              // load lại dữ liệu
-              await this.loadData();
-            } else {
-              // hiển thị toast message xóa thất bại
-              this.textToastMessage = result.message[0];
-              this.typeToastMessage = "error";
-            }
           } else if (value == FUNCTION_TABLE.StopUsing) {
             console.log("Ngưng sử dụng");
           }
@@ -283,6 +321,33 @@ export default {
       } catch (e) {
         console.log(e);
       }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(08/11/2022)
+     * Function: Xử lý xóa nhân viên
+     */
+    async handlerDeleteEmployee() {
+      try{
+        console.log("run")
+        let result = await employees.deleteEmployee([this.currentEmployeeId]);
+
+        if (result.statusCode == STATUS_CODES.Code200) {
+          // hiển thị toast message xóa thành công
+          this.textToastMessage = result.message[0];
+          this.typeToastMessage = "success";
+
+          // load lại dữ liệu
+          await this.loadData();
+        } else {
+          // hiển thị toast message xóa thất bại
+          this.textToastMessage = result.message[0];
+          this.typeToastMessage = "error";
+        }
+      }catch(e){
+        console.log(e);
+      }
+      
     },
 
     /**
@@ -311,6 +376,7 @@ export default {
         this.checkFormLoad = false;
 
         console.log(employees);
+        console.log(this.listData);
       } catch (e) {
         console.log(e);
       }
@@ -323,9 +389,12 @@ export default {
     async handlerClickShowForm() {
       try {
         this.disableButtonIndsert = true;
-       
+
         // xóa dữ liệu cũ đi
-        this.employeeDetail = await resetEmployeeDetail(employeeModel,employees);
+        this.employeeDetail = await resetEmployeeDetail(
+          employeeModel,
+          employees
+        );
 
         console.log(this.employeeDetail);
         this.checkShowForm = true;

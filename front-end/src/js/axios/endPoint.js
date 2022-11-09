@@ -15,4 +15,5 @@ export const END_POINTS= {
     EmployeesDelete: "Employees/Delete",
     Departments:"Departments",
     Positions: "Positions",
+    EmployeesExportExcel: 'Employees/ExportExcel'
 };

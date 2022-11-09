@@ -11,6 +11,11 @@ var _FomatData = require("/src/js/FomatData");
  * Author: Phạm Văn Đạt(25/10/2022)
  * Function: Các biến, hằng số dùng chung
  */
+
+/**
+ * Author: Phạm Văn Đạt(18/10/2022)
+ * Function: danh sách item menu
+ */
 var MENU_ITEMS = [{
   // tên item
   title: "Tổng quan",
@@ -114,19 +119,35 @@ var COMPANIES = [{
 
 exports.COMPANIES = COMPANIES;
 var TABLE_FIELDS = [{
-  name: 'TÊN NHÂN VIÊN',
-  fieldName: 'name',
+  width: 20,
+  fieldName: "fakeColumn1",
+  "class": "position-sticky fake-cloumn l-p-0"
+}, {
+  width: 40,
+  nameHeader: "listCheckbox",
+  fieldName: "checkbox1",
+  idCheckbox: "fake-checkbox-1",
+  type: "checkbox",
+  checkBox: true,
+  disabled: false,
+  "class": "position-sticky l-p-20",
+  value: function value(_value) {
+    return _value;
+  }
+}, {
+  name: "TÊN NHÂN VIÊN",
+  fieldName: "name",
   width: 150,
   isRequired: true,
   "class": "left-60 position-sticky"
 }, {
-  name: 'MÃ NHÂN VIÊN',
-  fieldName: 'employeeId',
-  width: 230,
+  name: "MÃ NHÂN VIÊN",
+  fieldName: "employeeId",
+  width: 130,
   isRequired: true
 }, {
-  name: 'GIỚI TÍNH',
-  fieldName: 'gender',
+  name: "GIỚI TÍNH",
+  fieldName: "gender",
   width: 100,
   formatGender: function formatGender(value) {
     value = Number(value);
@@ -139,82 +160,115 @@ var TABLE_FIELDS = [{
     return name;
   }
 }, {
-  name: 'NGÀY SINH',
-  fieldName: 'birthDay',
+  name: "NGÀY SINH",
+  fieldName: "birthDay",
   width: 140,
   "class": "text-align-center",
   formatDate: function formatDate(value) {
     return (0, _FomatData.formatDate)(value, "DD/MM/YYYY");
   }
 }, {
-  name: 'SỐ CMND',
-  fieldName: 'idNo',
+  name: "SỐ CMND",
+  fieldName: "idNo",
   title: "Số chứng minh nhân dân",
   width: 130
 }, {
-  name: 'NGÀY CẤP',
-  fieldName: 'issuaOn',
+  name: "NGÀY CẤP",
+  fieldName: "issuaOn",
   width: 120,
   "class": "text-align-center",
   formatDate: function formatDate(value) {
     return (0, _FomatData.formatDate)(value, "DD/MM/YYYY");
   }
 }, {
-  name: 'NƠI CẤP',
-  fieldName: 'placeOfIssue',
+  name: "NƠI CẤP",
+  fieldName: "placeOfIssue",
   width: 130
 }, {
-  name: 'CHỨC DANH',
-  fieldName: 'positionName',
+  name: "CHỨC DANH",
+  fieldName: "positionName",
   width: 230
 }, {
-  name: 'TÊN ĐƠN VỊ',
-  fieldName: 'departmentName',
+  name: "TÊN ĐƠN VỊ",
+  fieldName: "departmentName",
   width: 230,
   isRequired: true
 }, {
-  name: 'SỐ TÀI KHOẢN',
-  fieldName: 'bankAccountNumber',
+  name: "SỐ TÀI KHOẢN",
+  fieldName: "bankAccountNumber",
   width: 190
 }, {
-  name: 'TÊN NGÂN HÀNG',
-  fieldName: 'bankName',
+  name: "TÊN NGÂN HÀNG",
+  fieldName: "bankName",
   width: 150
 }, {
-  name: 'CHI NHÁNH NGÂN HÀNG',
-  fieldName: 'bankAccountBrand',
+  name: "CHI NHÁNH NGÂN HÀNG",
+  fieldName: "bankAccountBrand",
   width: 230
 }, {
-  name: 'ĐT DI ĐỘNG',
-  fieldName: 'numberPhone',
+  name: "ĐT DI ĐỘNG",
+  fieldName: "numberPhone",
   width: 150,
   title: "Điện thoại di động"
 }, {
-  name: 'ĐT CỐ ĐỊNH',
-  fieldName: 'deskPhone',
+  name: "ĐT CỐ ĐỊNH",
+  fieldName: "deskPhone",
   width: 150,
   title: "Điện thoại cố định"
 }, {
-  name: 'EMAIL',
-  fieldName: 'email',
+  name: "EMAIL",
+  fieldName: "email",
   width: 200
 }, {
-  name: 'LÀ KHÁCH HÀNG',
-  fieldName: 'isEmployee',
+  name: "LÀ KHÁCH HÀNG",
+  fieldName: "isEmployee",
   width: 130,
+  disabled: true,
   "class": "text-align-center",
   checkBox: true
 }, {
-  name: 'LÀ NHÀ CUNG CẤP',
-  fieldName: 'isSuppiler',
+  name: "LÀ NHÀ CUNG CẤP",
+  fieldName: "isSuppiler",
   width: 130,
+  disabled: true,
   "class": "text-align-center",
   checkBox: true
 }, {
-  name: 'ĐỊA CHỈ',
-  fieldName: 'address',
+  name: "ĐỊA CHỈ",
+  fieldName: "address",
   width: 300,
   "class": "border-right-none"
+}, {
+  width: 120,
+  fieldName: "CHỨC NĂNG",
+  name: "CHỨC NĂNG",
+  button: "Sửa",
+  combobox: [{
+    id: 1,
+    name: "Nhân bản"
+  }, {
+    id: 2,
+    name: "Xóa"
+  }, {
+    id: 3,
+    name: "Ngưng sử dụng"
+  }],
+  iconCombobox: false,
+  positionCombobox: "top",
+  inputCombobox: false,
+  "class": "table-hover td table-function",
+  style: "right:24px",
+  type: "function"
+}, {
+  width: 24,
+  fieldName: "fakeColumn2",
+  "class": "position-sticky fake-cloumn",
+  style: "right:0"
+}, {
+  width: 24,
+  fieldName: "fakeColumn2",
+  "class": "position-sticky fake-cloumn r-30 background-container",
+  style: "right:-24px;"
 }];
 /**
  * Author: Phạm Văn Đạt(18/10/2022)

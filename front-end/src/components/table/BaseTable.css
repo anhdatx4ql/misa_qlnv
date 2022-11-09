@@ -265,4 +265,22 @@ tr>th {
 
 .table-content .table-function .dropdown-items {
     overflow: hidden;
+    position: absolute;
+    left: 0;
+}
+
+.l-p-0{
+    left:0;
+}
+
+.l-p-20{
+    left:20px;
+}
+
+.r-p-0{
+    right:0 !important;
+}
+
+.r-p-h-24{
+    right: -24px !important;
 }

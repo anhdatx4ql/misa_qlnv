@@ -21,6 +21,7 @@
     >
       <div class="combobox-container-input" v-show="icon">
         <input
+          v-if="input"
           type="text"
           @focusout="checkShowDropDown = false"
           :disabled="disabled ? '' : disabled"
@@ -121,6 +122,13 @@ export default {
     newValueName: String
   },
   props: {
+
+    // hiển thị input
+    input:{
+      Type: Boolean,
+      default:true
+    },
+
     // Các giá trị có thể có
     listValues: Array[Object],
 

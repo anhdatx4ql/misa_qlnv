@@ -134,4 +134,28 @@ export const insertRecord = async function(endPoint, data){
     return result;
 };
 
+/**
+ * Author: Phạm Văn Đạt(08/11/2022)
+ * Function: Xử lý xuất excel
+ * @param {*} endPoint : điểm cuối của api
+ * @returns : file excel nếu có, nếu không hiển thị thông báo xuất thất bại
+ */
+export const exportExcel = async function(endPoint){
+  return await axios({
+    url: ROOT_API+endPoint,
+    method: "get",
+    responseType: "blob",
+   }).then((response) => {
+    const url = URL.createObjectURL(new Blob([response.data], {
+      type: 'application/vnd.ms-excel'
+    }))
+    const d = new Date();
+    let time = d.getTime();
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', "List_Employees_"+time+".xls");
+    document.body.appendChild(link);
+    link.click();
+  });
+}
 

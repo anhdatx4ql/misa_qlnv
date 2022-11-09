@@ -22,6 +22,7 @@ var END_POINTS = {
   EmployeesMaxCode: "Employees/GetMaxCode",
   EmployeesDelete: "Employees/Delete",
   Departments: "Departments",
-  Positions: "Positions"
+  Positions: "Positions",
+  EmployeesExportExcel: 'Employees/ExportExcel'
 };
 exports.END_POINTS = END_POINTS;

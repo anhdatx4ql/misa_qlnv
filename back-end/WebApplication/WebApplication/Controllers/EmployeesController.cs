@@ -81,11 +81,11 @@ namespace WebApplication
         /// </summary>
         /// <param name="models"></param>
         /// <returns></returns>
-        [HttpPost("ExportExcel")]
-        public async Task<IActionResult> ExportExcel([FromBody] List<Guid> models)
+        [HttpGet("ExportExcel")]
+        public async Task<IActionResult> ExportExcel(string keyword = null)
         {
 
-            var fileContents = await _employeeService.ExportExcel(models);
+            var fileContents = await _employeeService.ExportExcel(keyword);
 
             if (fileContents == null || fileContents.Length == 0)
             {
