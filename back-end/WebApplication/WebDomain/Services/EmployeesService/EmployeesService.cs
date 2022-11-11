@@ -1,4 +1,6 @@
 ﻿using Dapper;
+using MISA.AMIS.Common;
+using MISA.AMIS.DL;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System;
@@ -8,9 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using WebCommon;
 using WebCommon.Resources;
-using WebInfrastructure;
 
-namespace WebDomain
+namespace MISA.AMIS.BL
 {
     /// <summary>
     /// Author: Phạm Văn Đạt(14/10/2022)
@@ -145,7 +146,7 @@ namespace WebDomain
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             ExcelPackage Ep = new ExcelPackage();
 
-            ExcelWorksheet workSheet = Ep.Workbook.Worksheets.Add("CustomerInfo");
+            ExcelWorksheet workSheet = Ep.Workbook.Worksheets.Add("LIst_Employees_");
 
             // Tạo title
             workSheet.Cells["A1"].Value = "Mã khách hàng";
@@ -182,9 +183,6 @@ namespace WebDomain
                 // căn giữa
                 workSheet.Cells[title].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-                // màu background
-                //workSheet.Cells[title].Style.Fill.BackgroundColor.SetColor(Color.Green);
-
                 //workSheet.Cells["title:D32"].Style.Fill.PatternType = ExcelFillStyle.Solid;
 
                 // border
@@ -209,7 +207,7 @@ namespace WebDomain
             // nếu mảng ids = null => lấy hết 
             if (keyword != null)
             {
-                sqlQuery += @" WHERE ve.EmployeeId LIKE @keyword OR ve.Name LIKE @keyword;";
+                sqlQuery += @" WHERE ve.EmployeeId LIKE @keyword OR ve.Name LIKE @keyword OR ve.NumberPhone LIKE @keyword;";
                 keyword = '%' + keyword + '%';
                 parameters.Add("@keyword", keyword);
             }
@@ -236,8 +234,8 @@ namespace WebDomain
                     workSheet.Cells[string.Format("L{0}", row)].Value = (item.NumberPhone != null) ? item.NumberPhone : "";
                     workSheet.Cells[string.Format("M{0}", row)].Value = (item.DeskPhone != null) ? item.DeskPhone : "";
                     workSheet.Cells[string.Format("N{0}", row)].Value = (item.Email != null) ? item.Email : "";
-                    workSheet.Cells[string.Format("O{0}", row)].Value = (item.IsEmployee == true) ? item.IsEmployee.ToString() : "";
-                    workSheet.Cells[string.Format("P{0}", row)].Value = (item.IsSuppiler == true) ? item.IsSuppiler.ToString() : "";
+                    workSheet.Cells[string.Format("O{0}", row)].Value = (item.IsEmployee == true) ? "X" : "";
+                    workSheet.Cells[string.Format("P{0}", row)].Value = (item.IsSuppiler == true) ? "X" : "";
                     workSheet.Cells[string.Format("Q{0}", row)].Value = (item.DepartmentName != null) ? item.DepartmentName : "";
                     workSheet.Cells[string.Format("R{0}", row)].Value = (item.PositionName != null) ? item.PositionName : "";
                     row++;

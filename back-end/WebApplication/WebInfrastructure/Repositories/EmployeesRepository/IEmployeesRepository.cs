@@ -1,10 +1,10 @@
 ﻿using Dapper;
+using MISA.AMIS.Common;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebCommon;
 
-namespace WebInfrastructure
+namespace MISA.AMIS.DL
 {
     /// <summary>
     /// Author: Phạm Văn Đạt(15/10/2022)

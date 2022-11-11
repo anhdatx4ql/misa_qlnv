@@ -164,12 +164,12 @@ button.button-combobox:hover {
 
 .top span.background-icon-arrow-bottom.icon-16 {
     transform: rotate(180deg);
-    background-position: -562px -359px;
+    background-position: -563px -359px;
 }
 
 .top .background-icon-arrow-bottom-active {
     transform: rotate(0deg) !important;
-    background-position: -557px -359px !important;
+    background-position: -558px -359px !important;
 }
 
 

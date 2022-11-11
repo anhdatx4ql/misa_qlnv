@@ -32,11 +32,11 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\WebCommon.csproj": {
-                "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\WebCommon.csproj"
+              "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\MISA.AMIS.Common.csproj": {
+                "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\MISA.AMIS.Common.csproj"
               },
-              "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebDomain\\WebDomain.csproj": {
-                "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebDomain\\WebDomain.csproj"
+              "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebDomain\\MISA.AMIS.BL.csproj": {
+                "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebDomain\\MISA.AMIS.BL.csproj"
               }
             }
           }
@@ -90,11 +90,11 @@
         }
       }
     },
-    "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\WebCommon.csproj": {
+    "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\MISA.AMIS.Common.csproj": {
       "restore": {
-        "projectUniqueName": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\WebCommon.csproj",
-        "projectName": "WebCommon",
-        "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\WebCommon.csproj",
+        "projectUniqueName": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\MISA.AMIS.Common.csproj",
+        "projectName": "MISA.AMIS.Common",
+        "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\MISA.AMIS.Common.csproj",
         "frameworks": {
           "net472": {
             "projectReferences": {}
@@ -105,19 +105,19 @@
         "net472": {}
       }
     },
-    "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebDomain\\WebDomain.csproj": {
+    "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebDomain\\MISA.AMIS.BL.csproj": {
       "restore": {
-        "projectUniqueName": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebDomain\\WebDomain.csproj",
-        "projectName": "WebDomain",
-        "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebDomain\\WebDomain.csproj",
+        "projectUniqueName": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebDomain\\MISA.AMIS.BL.csproj",
+        "projectName": "MISA.AMIS.BL",
+        "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebDomain\\MISA.AMIS.BL.csproj",
         "frameworks": {
           "net472": {
             "projectReferences": {
-              "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\WebCommon.csproj": {
-                "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\WebCommon.csproj"
+              "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\MISA.AMIS.Common.csproj": {
+                "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\MISA.AMIS.Common.csproj"
               },
-              "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebInfrastructure\\WebInfrastructure.csproj": {
-                "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebInfrastructure\\WebInfrastructure.csproj"
+              "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebInfrastructure\\MISA.AMIS.DL.csproj": {
+                "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebInfrastructure\\MISA.AMIS.DL.csproj"
               }
             }
           }
@@ -127,16 +127,16 @@
         "net472": {}
       }
     },
-    "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebInfrastructure\\WebInfrastructure.csproj": {
+    "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebInfrastructure\\MISA.AMIS.DL.csproj": {
       "restore": {
-        "projectUniqueName": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebInfrastructure\\WebInfrastructure.csproj",
-        "projectName": "WebInfrastructure",
-        "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebInfrastructure\\WebInfrastructure.csproj",
+        "projectUniqueName": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebInfrastructure\\MISA.AMIS.DL.csproj",
+        "projectName": "MISA.AMIS.DL",
+        "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebInfrastructure\\MISA.AMIS.DL.csproj",
         "frameworks": {
           "net472": {
             "projectReferences": {
-              "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\WebCommon.csproj": {
-                "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\WebCommon.csproj"
+              "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\MISA.AMIS.Common.csproj": {
+                "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\MISA.AMIS.Common.csproj"
               }
             }
           }

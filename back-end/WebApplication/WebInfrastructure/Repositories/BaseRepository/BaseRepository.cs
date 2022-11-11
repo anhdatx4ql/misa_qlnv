@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using MISA.AMIS.Common;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -6,9 +7,8 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
-using WebCommon;
 
-namespace WebInfrastructure
+namespace MISA.AMIS.DL
 {
     /// <summary>
     /// Author: Phạm Văn Đạt(15/10/2022)
@@ -65,7 +65,17 @@ namespace WebInfrastructure
             using(IDbConnection db = GetDbConnection())
             {
                 db.Open();
-                var result = await db.ExecuteAsync(query, sp_params, commandType: CommandType.StoredProcedure);
+                var transaction = db.BeginTransaction();
+                int result = 0;
+                try
+                {
+                    result = await db.ExecuteAsync(query, sp_params, commandType: CommandType.StoredProcedure);
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                }
                 db.Close();
                 return result;
             }
@@ -83,7 +93,18 @@ namespace WebInfrastructure
            using(IDbConnection db = GetDbConnection())
             {
                 db.Open();
-                var result = await db.ExecuteAsync(proceduceName, sp_params,commandType:CommandType.StoredProcedure);
+                var transaction = db.BeginTransaction();
+                int result = 0;
+                try
+                {
+                    result = await db.ExecuteAsync(proceduceName, sp_params, commandType: CommandType.StoredProcedure);
+
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                }
                 db.Close();
                 return result;
             }
@@ -101,7 +122,18 @@ namespace WebInfrastructure
             using (IDbConnection db = GetDbConnection())
             {
                 db.Open();
-                var result = await db.ExecuteAsync(query, sp_params);
+                var transaction = db.BeginTransaction();
+                int result = 0;
+                try
+                {
+                    result = await db.ExecuteAsync(query, sp_params);
+
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                }
                 db.Close();
                 return result;
             }

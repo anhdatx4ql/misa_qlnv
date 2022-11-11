@@ -21,6 +21,7 @@
       <input
         :type="type"
         :value="currentValue"
+        :disabled="disabled"
         ref="input"
         :style="'height: ' + height"
         :placeholder="placeholder"
@@ -57,7 +58,7 @@
 // nhau trong thời gian đang xử lý thành 1 hành động cuối cùng
 import _ from "lodash";
 
-import { NOTIFY_TEXT, RULE_FORMAT_DATA } from "../../constants";
+import { NOTIFY_TEXT, RULE_FORMAT_DATA } from "../../js/constants";
 
 import { titleCase } from "../../js/FomatData";
 
@@ -65,6 +66,12 @@ export default {
   name: "BaseInput",
 
   props: {
+
+    // kiểm tra input có được nhập không
+    disabled: {
+      Type: Boolean,
+      default: false
+    },
 
     modelValue:String,
     // field hiển thị

@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MISA.AMIS.BL;
+using MISA.AMIS.Common;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebCommon;
-using WebDomain;
 
 namespace WebApplication
 {

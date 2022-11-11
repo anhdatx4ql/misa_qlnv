@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using WebCommon;
+using MISA.AMIS.Common;
 
-namespace WebInfrastructure
+namespace MISA.AMIS.DL
 {
     /// <summary>
     /// Author: Phạm Văn Đạt(15/10/2022)

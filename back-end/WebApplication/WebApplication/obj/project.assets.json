@@ -1502,38 +1502,38 @@
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
         }
       },
-      "WebCommon/1.0.0": {
-        "type": "project",
-        "compile": {
-          "bin/placeholder/WebCommon.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/WebCommon.dll": {}
-        }
-      },
-      "WebDomain/1.0.0": {
+      "MISA.AMIS.BL/1.0.0": {
         "type": "project",
         "dependencies": {
-          "WebCommon": "1.0.0",
-          "WebInfrastructure": "1.0.0"
+          "MISA.AMIS.Common": "1.0.0",
+          "MISA.AMIS.DL": "1.0.0"
         },
         "compile": {
-          "bin/placeholder/WebDomain.dll": {}
+          "bin/placeholder/MISA.AMIS.BL.dll": {}
         },
         "runtime": {
-          "bin/placeholder/WebDomain.dll": {}
+          "bin/placeholder/MISA.AMIS.BL.dll": {}
         }
       },
-      "WebInfrastructure/1.0.0": {
+      "MISA.AMIS.Common/1.0.0": {
         "type": "project",
-        "dependencies": {
-          "WebCommon": "1.0.0"
-        },
         "compile": {
-          "bin/placeholder/WebInfrastructure.dll": {}
+          "bin/placeholder/MISA.AMIS.Common.dll": {}
         },
         "runtime": {
-          "bin/placeholder/WebInfrastructure.dll": {}
+          "bin/placeholder/MISA.AMIS.Common.dll": {}
+        }
+      },
+      "MISA.AMIS.DL/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "MISA.AMIS.Common": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MISA.AMIS.DL.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MISA.AMIS.DL.dll": {}
         }
       }
     }
@@ -5336,30 +5336,30 @@
         "system.xml.xdocument.nuspec"
       ]
     },
-    "WebCommon/1.0.0": {
+    "MISA.AMIS.BL/1.0.0": {
       "type": "project",
-      "path": "../WebCommon/WebCommon.csproj",
-      "msbuildProject": "../WebCommon/WebCommon.csproj"
+      "path": "../WebDomain/MISA.AMIS.BL.csproj",
+      "msbuildProject": "../WebDomain/MISA.AMIS.BL.csproj"
     },
-    "WebDomain/1.0.0": {
+    "MISA.AMIS.Common/1.0.0": {
       "type": "project",
-      "path": "../WebDomain/WebDomain.csproj",
-      "msbuildProject": "../WebDomain/WebDomain.csproj"
+      "path": "../WebCommon/MISA.AMIS.Common.csproj",
+      "msbuildProject": "../WebCommon/MISA.AMIS.Common.csproj"
     },
-    "WebInfrastructure/1.0.0": {
+    "MISA.AMIS.DL/1.0.0": {
       "type": "project",
-      "path": "../WebInfrastructure/WebInfrastructure.csproj",
-      "msbuildProject": "../WebInfrastructure/WebInfrastructure.csproj"
+      "path": "../WebInfrastructure/MISA.AMIS.DL.csproj",
+      "msbuildProject": "../WebInfrastructure/MISA.AMIS.DL.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net5.0": [
       "EPPlus >= 6.0.8",
+      "MISA.AMIS.BL >= 1.0.0",
+      "MISA.AMIS.Common >= 1.0.0",
       "Microsoft.AspNetCore.Mvc.Core >= 2.2.5",
       "MySql.Data >= 8.0.30",
-      "Swashbuckle.AspNetCore >= 5.6.3",
-      "WebCommon >= 1.0.0",
-      "WebDomain >= 1.0.0"
+      "Swashbuckle.AspNetCore >= 5.6.3"
     ]
   },
   "packageFolders": {
@@ -5394,11 +5394,11 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\WebCommon.csproj": {
-              "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\WebCommon.csproj"
+            "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\MISA.AMIS.Common.csproj": {
+              "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\MISA.AMIS.Common.csproj"
             },
-            "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebDomain\\WebDomain.csproj": {
-              "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebDomain\\WebDomain.csproj"
+            "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebDomain\\MISA.AMIS.BL.csproj": {
+              "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebDomain\\MISA.AMIS.BL.csproj"
             }
           }
         }

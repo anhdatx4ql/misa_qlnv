@@ -196,9 +196,9 @@
     <Compile Include="Repositories\PositionsRepository\PositionsRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WebCommon\WebCommon.csproj">
+    <ProjectReference Include="..\WebCommon\MISA.AMIS.Common.csproj">
       <Project>{c22d2092-b038-4be3-9cbb-20875822a41f}</Project>
-      <Name>WebCommon</Name>
+      <Name>MISA.AMIS.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

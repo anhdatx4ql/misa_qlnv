@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebInfrastructure
+namespace MISA.AMIS.DL
 {
     /// <summary>
     /// Author: Phạm Văn Đạt(15/10/2022)

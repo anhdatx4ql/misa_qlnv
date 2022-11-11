@@ -134,6 +134,11 @@ div#app {
     width:25% !important;
 }
 
+.w-14{
+    box-sizing: border-box;
+    width:14px!important;
+}
+
 .w-100{
     box-sizing: border-box;
     width:100% !important;
@@ -164,4 +169,8 @@ div#app {
 
 .input-error .el-input__wrapper, .input-error{
     border-color:red !important;
+}
+
+.background-icon-combobox-black{
+    background: url('/src/assets/img/Sprites.64af8f61.svg') no-repeat -561px -360px;
 }

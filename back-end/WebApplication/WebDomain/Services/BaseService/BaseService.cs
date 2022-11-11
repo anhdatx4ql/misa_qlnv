@@ -1,4 +1,6 @@
 ﻿using Dapper;
+using MISA.AMIS.Common;
+using MISA.AMIS.DL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,8 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using WebCommon;
 using WebCommon.Resources;
-using WebInfrastructure;
-namespace WebDomain
+namespace MISA.AMIS.BL
 {
     /// <summary>
     /// Author: Phạm Văn Đạt(14/10/2022)

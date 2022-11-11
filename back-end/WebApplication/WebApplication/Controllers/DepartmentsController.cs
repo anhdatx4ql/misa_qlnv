@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebCommon;
-using WebDomain;
+using MISA.AMIS.Common;
+using MISA.AMIS.BL;
 
 namespace WebApplication
 {

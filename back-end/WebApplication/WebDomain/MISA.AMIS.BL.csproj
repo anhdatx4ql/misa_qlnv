@@ -83,13 +83,13 @@
     <Compile Include="Services\PositionsService\PositionsService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WebCommon\WebCommon.csproj">
+    <ProjectReference Include="..\WebCommon\MISA.AMIS.Common.csproj">
       <Project>{c22d2092-b038-4be3-9cbb-20875822a41f}</Project>
-      <Name>WebCommon</Name>
+      <Name>MISA.AMIS.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WebInfrastructure\WebInfrastructure.csproj">
+    <ProjectReference Include="..\WebInfrastructure\MISA.AMIS.DL.csproj">
       <Project>{a2d5b77a-d716-43c2-b253-310a373d6e33}</Project>
-      <Name>WebInfrastructure</Name>
+      <Name>MISA.AMIS.DL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

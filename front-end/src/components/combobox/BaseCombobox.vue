@@ -63,6 +63,7 @@
       v-show="checkShowDropDown"
       :style="position + ': 34px'"
     >
+    <slot></slot>
       <div class="dropdown-items">
         <div
           class="dropdown-item loading"
@@ -101,8 +102,7 @@
 </template>
 
 <script>
-// import _ from "lodash";
-import { NOTIFY_TEXT } from "../../constants";
+import { NOTIFY_TEXT } from "../../js/constants";
 export default {
   name: "BaseCombobox",
   emits:{

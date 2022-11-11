@@ -1,6 +1,6 @@
 import {END_POINTS} from '../axios/endPoint';
 import {insertRecord,updateRecord, paging,getMaxCode,deleteRecords,exportExcel } from '../Controllers/BaseController'
-import {STATUS_CODES} from '../../constants'
+import {STATUS_CODES} from '../constants'
 
 // end point của employees
 // const endPoint = END_POINTS.Employees;

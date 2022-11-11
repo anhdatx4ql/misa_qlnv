@@ -38,7 +38,7 @@
  * Author: Phạm Văn Đạt(18/10/2022)
  * Function: Lấy danh sách các công ty
  */
-import {COMPANIES} from "../../constants"
+import {COMPANIES} from "../../js/constants"
 export default {
   name: 'TheHeader',
   props: {

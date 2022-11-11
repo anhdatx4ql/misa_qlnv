@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WebCommon
+namespace MISA.AMIS.Common
 {
     /// <summary>
     /// Author: Phạm Văn Đạt(13/10/2022)

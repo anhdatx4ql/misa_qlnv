@@ -8,6 +8,10 @@ var _elementPlus = _interopRequireDefault(require("element-plus"));
 
 require("element-plus/dist/index.css");
 
+var _vue3ClickAway = _interopRequireDefault(require("vue3-click-away"));
+
+var _clickOutsideVue = _interopRequireDefault(require("click-outside-vue3"));
+
 var _tooltip = _interopRequireDefault(require("./directives/tooltip.js"));
 
 require("@/assets/tooltip.css");
@@ -36,14 +40,8 @@ var _BaseTable = _interopRequireDefault(require("/src/components/table/BaseTable
 
 var _BasePaging = _interopRequireDefault(require("/src/components/paging/BasePaging.vue"));
 
-var _vue3ClickAway = _interopRequireDefault(require("vue3-click-away"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-/**
- * Author: Phạm Văn Đạt(26/10/2022)
- * Function: Nhúng tooltip
- */
 var app = (0, _vue.createApp)(_App["default"]);
 /**
  * Author: Phạm Văn Đạt(18/10/2022)
@@ -154,7 +152,8 @@ app.component('BasePaging', _BasePaging["default"]); // nhúng router
 
 app.use(router); // nhúng click ra ngoài
 
-app.use(_vue3ClickAway["default"]); // nhúng element plus
+app.use(_vue3ClickAway["default"]);
+app.use(_clickOutsideVue["default"]); // nhúng element plus
 
 app.use(_elementPlus["default"]); // nhúng tooltip
 

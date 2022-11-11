@@ -424,7 +424,7 @@ import {
   NOTIFY_TEXT,
   STATUS_CODES,
   FUNCTION_UPLOAD,
-} from "../../../constants";
+} from "../../../js/constants";
 
 import { createGuid } from "../../../js/GuidId.js";
 

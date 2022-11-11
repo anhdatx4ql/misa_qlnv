@@ -1,6 +1,7 @@
-﻿using WebCommon;
+﻿using MISA.AMIS.Common;
+using WebCommon;
 
-namespace WebInfrastructure
+namespace MISA.AMIS.DL
 {
     /// <summary>
     /// Author: Phạm Văn Đạt(15/10/2022)

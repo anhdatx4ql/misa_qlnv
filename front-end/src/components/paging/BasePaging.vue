@@ -45,7 +45,7 @@
  * Author: Phạm Văn Đạt(18/10/2022)
  * Function: Lấy danh sách paging có thể có
  */
-import {PAGING_ITEMS} from '../../constants.js'
+import {PAGING_ITEMS} from '../../js/constants.js'
 
 export default {
   name: 'BasePaging',

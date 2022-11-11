@@ -284,3 +284,151 @@ tr>th {
 .r-p-h-24{
     right: -24px !important;
 }
+
+.filter-icon {
+    width: 14px;
+    height: 14px;
+    display: flex;
+    border: 1px solid #111;
+    opacity: 0.5;
+}
+
+.th-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filter-container:hover {
+    cursor: pointer;
+}
+
+table th:hover .filter-container {
+    display: flex;
+}
+
+.table-content th.text-align-center>div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.filter-container .filter-content {
+    position: absolute;
+    padding: 22px 17px;
+    width: fit-content;
+    width: fit-content;
+    background: white;
+    border: 1px solid #babec5;
+    min-width: 350px;
+    max-width: 350px;
+    box-shadow: 3px 3px 6px #ddd;
+    border-radius: 2px;
+    font-weight: 400;
+    z-index: 99999;
+    left: 50%;
+    box-sizing: border-box;
+    top: 49px;
+    transform: translateX(-33%);
+}
+
+.filter-content-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filter-content-top .combobox-container {
+    width: unset !important;
+    border: none;
+}
+
+.filter-content-top .combobox-container-input input {
+    width: 120px !important;
+    text-align: right;
+    color: #0075c0;
+    font-weight: 600;
+}
+
+.filter-content-top .top span.background-icon-arrow-bottom.icon-16 {
+    width: 14px;
+    height: 14px;
+    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -177px -361px !important;
+    transform: rotate(0) !important;
+}
+
+
+.filter-content-top .top span.background-icon-arrow-bottom-active{
+    width: 14px;
+    height: 14px;
+    background: url('../../assets/img/Sprites.64af8f61.svg') no-repeat -177px -361px !important;
+    transform: rotate(0) !important;
+}
+
+
+.filter-content-top button.combobox-actions-button {
+    padding: 0;
+    width: 14px;
+    height: 14px;
+}
+
+.filter-content-top button.combobox-actions-button:hover{
+    background:none;
+}
+
+.filter-content-top .combobox-actions {
+    width: 14px !important;
+    padding-left:6px;
+}
+
+.filter-content-top .dropdown-items {
+    right: -10px;
+    position: absolute;
+    overflow: unset;
+    max-height: unset;
+    top: -10px;
+}
+
+.filter-content-top .dropdown-items button {
+    padding: 5px 10px;
+    height: 28px;
+    font-size: 13px;
+    width: 100%;
+}
+
+.filter-content-bottom .button {
+    padding: 6px 16px !important;
+    min-width: unset;
+}
+
+.filter-content-bottom .button span {
+    min-width: unset;
+    width: max-content;
+}
+
+.filter-content-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filter-content-center {
+    margin-top: 20px;
+    margin-bottom: 16px;
+}
+
+.filter-content-center .input-container {
+    padding: 0;
+}
+
+.filter-content:hover {
+    cursor: default;
+}
+
+.filter-icon {
+    display: none;
+}
+
+.table-content thead>tr>th:hover .filter-icon{
+    display: flex;
+}

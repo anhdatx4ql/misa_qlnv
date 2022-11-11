@@ -34,11 +34,11 @@
       "WebApplication/1.0.0": {
         "dependencies": {
           "EPPlus": "6.0.8",
+          "MISA.AMIS.BL": "1.0.0",
+          "MISA.AMIS.Common": "1.0.0",
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "MySql.Data": "8.0.30",
           "Swashbuckle.AspNetCore": "5.6.3",
-          "WebCommon": "1.0.0",
-          "WebDomain": "1.0.0",
           "Microsoft.AspNetCore.Antiforgery": "5.0.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions.Reference": "5.0.0.0",
           "Microsoft.AspNetCore.Authentication.Cookies": "5.0.0.0",
@@ -1233,18 +1233,10 @@
           "System.Xml.ReaderWriter": "4.0.11"
         }
       },
-      "WebCommon/1.0.0": {
-        "runtime": {
-          "WebCommon.dll": {}
-        },
-        "compile": {
-          "WebCommon.dll": {}
-        }
-      },
-      "WebDomain/1.0.0": {
+      "MISA.AMIS.BL/1.0.0": {
         "dependencies": {
-          "WebCommon": "1.0.0",
-          "WebInfrastructure": "1.0.0"
+          "MISA.AMIS.Common": "1.0.0",
+          "MISA.AMIS.DL": "1.0.0"
         },
         "runtime": {
           "WebDomain.dll": {}
@@ -1253,9 +1245,17 @@
           "WebDomain.dll": {}
         }
       },
-      "WebInfrastructure/1.0.0": {
+      "MISA.AMIS.Common/1.0.0": {
+        "runtime": {
+          "WebCommon.dll": {}
+        },
+        "compile": {
+          "WebCommon.dll": {}
+        }
+      },
+      "MISA.AMIS.DL/1.0.0": {
         "dependencies": {
-          "WebCommon": "1.0.0"
+          "MISA.AMIS.Common": "1.0.0"
         },
         "runtime": {
           "WebInfrastructure.dll": {}
@@ -3727,17 +3727,17 @@
       "path": "system.xml.xdocument/4.0.11",
       "hashPath": "system.xml.xdocument.4.0.11.nupkg.sha512"
     },
-    "WebCommon/1.0.0": {
+    "MISA.AMIS.BL/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "WebDomain/1.0.0": {
+    "MISA.AMIS.Common/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "WebInfrastructure/1.0.0": {
+    "MISA.AMIS.DL/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

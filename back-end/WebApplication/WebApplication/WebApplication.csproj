@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebCommon\WebCommon.csproj" />
-    <ProjectReference Include="..\WebDomain\WebDomain.csproj" />
+    <ProjectReference Include="..\WebCommon\MISA.AMIS.Common.csproj" />
+    <ProjectReference Include="..\WebDomain\MISA.AMIS.BL.csproj" />
   </ItemGroup>
 
 </Project>

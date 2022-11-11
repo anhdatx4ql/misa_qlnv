@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebCommon
+namespace MISA.AMIS.Common
 {
     /// <summary>
     /// Author:Phạm Văn Đạt(24/10/2022)

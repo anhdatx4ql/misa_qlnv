@@ -157,12 +157,24 @@ export const TABLE_FIELDS = [
     width: 150,
     isRequired: true,
     class: "left-60 position-sticky",
+    nameFilter: "Tên nhân viên",
+    typeFilter: "Text",
+    isField: true,
+    // tạo biến lưu giá trị lọc
+    filter:{
+      name: null,
+      operator: null,
+      value: null
+    }
   },
   {
     name: "MÃ NHÂN VIÊN",
     fieldName: "employeeId",
     width: 130,
     isRequired: true,
+    nameFilter: "Mã nhân viên",
+    typeFilter: "Text",
+    isField: true
   },
   {
     name: "GIỚI TÍNH",
@@ -179,21 +191,30 @@ export const TABLE_FIELDS = [
 
       return name;
     },
+    typeFilter: "Gender",
+    nameFilter: "Giới tính",
+    isField: true
   },
   {
     name: "NGÀY SINH",
     fieldName: "birthDay",
+    nameFilter: "Ngày sinh",
     width: 140,
     class: "text-align-center",
     formatDate: function (value) {
       return formatDate(value, "DD/MM/YYYY");
     },
+    typeFilter: "Datetime",
+    isField: true
   },
   {
     name: "SỐ CMND",
     fieldName: "idNo",
     title: "Số chứng minh nhân dân",
     width: 130,
+    typeFilter: "Text",
+    nameFilter: "Số CMND",
+    isField: true
   },
   {
     name: "NGÀY CẤP",
@@ -203,54 +224,84 @@ export const TABLE_FIELDS = [
     formatDate: function (value) {
       return formatDate(value, "DD/MM/YYYY");
     },
+    typeFilter: "Datetime",
+    nameFilter: "Ngày cấp",
+    isField: true
   },
   {
     name: "NƠI CẤP",
     fieldName: "placeOfIssue",
     width: 130,
+    typeFilter: "Text",
+    nameFilter: "Nơi cấp",
+    isField: true
   },
   {
     name: "CHỨC DANH",
     fieldName: "positionName",
     width: 230,
+    typeFilter: "Text",
+    nameFilter: "Chức danh",
+    isField: true
   },
   {
     name: "TÊN ĐƠN VỊ",
     fieldName: "departmentName",
     width: 230,
     isRequired: true,
+    typeFilter: "Text",
+    nameFilter: "Đơn vị",
+    isField: true
   },
   {
     name: "SỐ TÀI KHOẢN",
     fieldName: "bankAccountNumber",
     width: 190,
+    typeFilter: "Text",
+    nameFilter: "Số tài khoản",
+    isField: true
   },
   {
     name: "TÊN NGÂN HÀNG",
     fieldName: "bankName",
     width: 150,
+    typeFilter: "Text",
+    nameFilter: "Tên ngân hàng",
+    isField: true
   },
   {
     name: "CHI NHÁNH NGÂN HÀNG",
     fieldName: "bankAccountBrand",
     width: 230,
+    typeFilter: "Text",
+    nameFilter: "Chi nhánh ngân hàng",
+    isField: true
   },
   {
     name: "ĐT DI ĐỘNG",
     fieldName: "numberPhone",
     width: 150,
     title: "Điện thoại di động",
+    typeFilter: "Text",
+    nameFilter: "ĐT di động",
+    isField: true
   },
   {
     name: "ĐT CỐ ĐỊNH",
     fieldName: "deskPhone",
     width: 150,
     title: "Điện thoại cố định",
+    typeFilter: "Text",
+    nameFilter: "ĐT cố định",
+    isField: true
   },
   {
     name: "EMAIL",
     fieldName: "email",
     width: 200,
+    typeFilter: "Text",
+    nameFilter: "Email",
+    isField: true  
   },
   {
     name: "LÀ KHÁCH HÀNG",
@@ -259,6 +310,9 @@ export const TABLE_FIELDS = [
     disabled: true,
     class: "text-align-center",
     checkBox: true,
+    typeFilter: "Boolean",
+    nameFilter: "Là khách hàng",
+    isField: true
   },
   {
     name: "LÀ NHÀ CUNG CẤP",
@@ -267,12 +321,18 @@ export const TABLE_FIELDS = [
     disabled: true,
     class: "text-align-center",
     checkBox: true,
+    typeFilter: "Boolean",
+    nameFilter: "Là nhà cung cấp",
+    isField: true
   },
   {
     name: "ĐỊA CHỈ",
     fieldName: "address",
     width: 300,
     class: "border-right-none",
+    typeFilter: "Text",
+    nameFilter: "Địa chỉ",
+    isField: true
   },
   {
     width: 120,
@@ -287,7 +347,7 @@ export const TABLE_FIELDS = [
       {
         id: 2,
         name: "Xóa",
-      },
+      },  
       {
         id: 3,
         name: "Ngưng sử dụng",
@@ -486,3 +546,175 @@ export const RULE_FORMAT_DATA = {
   PhoneNumber: 1,
   Email: 2,
 };
+
+/**
+ * AUthor: Phạm Văn Đạt(11/11/2022)
+ * Function: enum gender
+ */
+const GENDER_OBJECT= {
+  MALE:0,
+  FEMALE:1,
+  OTHER:2
+}
+
+/**
+ * AUthor: Phạm Văn Đạt(10/11/2022)
+ * Function: Các trường trong lọc dữ liệu
+ */
+export const FIELDS_FILTER = {
+  Text:[
+    {
+      id:1,
+      name:"(Trống)",
+      operator: "IS NULL",
+      isDisableInput: true,
+    },
+    {
+      id:2,
+      name:"(Không trống)",
+      operator: "IS NOT NULL",
+      isDisableInput: true,
+    },
+    {
+      id:3,
+      name:"Bằng",
+      operator: "=",
+      value: (value)=>{
+        return value;
+      }
+    },
+    {
+      id:4,
+      name:"Khác",
+      operator: "<>",
+      value: (value)=>{
+        return value;
+      }
+    },
+    {
+      id:5,
+      name:"Chứa",
+      operator: 'like',
+      value:(value)=>{
+        return "'%"+value+"%'";
+      }
+    },
+    {
+      id:6,
+      name:"Không chứa",
+      fieldName: 'notLike',
+      operator: 'not like',
+      value:(value)=>{
+        return "'%"+value+"%'";
+      }
+    },
+    {
+      id:7,
+      name:"Bắt đầu với",
+      fieldName: 'firstLike',
+      operator: 'like',
+      value:(value)=>{
+        return "'"+value+"%'";
+      }
+    },
+    {
+      id:8,
+      name:"Kết thúc với",
+      fieldName: 'lastLike',
+      operator:'like',
+      value:(value)=>{
+        return "'%"+value+"'";
+      }
+    },
+  ],
+  Boolean:[
+    {
+      id: 1,
+      name: "Là",
+      operator: '=',
+      value: 'true'
+    },
+    {
+      id: 2,
+      name: "Không là",
+      operator: '=',
+      value: 'false'
+    }
+  ],
+  DateTime:[
+    {
+      id:1,
+      name: "Bằng",
+      operator: '='
+    },
+    {
+      id:2,
+      name: "Khác",
+      operator: '<>'
+    },
+    {
+      id:3,
+      name: "Nhỏ hơn",
+      operator: '<'
+    },
+    {
+      id:4,
+      name: "Nhỏ hơn hoặc Bằng",
+      operator: '<='
+    },
+    {
+      id:5,
+      name: "Lớn hơn",
+      operator: '>'
+    },
+    
+    {
+      id:6,
+      name: "Lớn hơn hoặc bằng",
+      operator: '>='
+    },
+    
+    {
+      id:7,
+      name: "(Trống)",
+      operator: 'IS NULL'
+    },
+    
+    {
+      id:8,
+      name: "(Không trống)",
+      operator: 'IS NOT NULL'
+    }
+  ],
+  Gender:[
+    {
+      id: 1,
+      name: "Nam",
+      operator: "=",
+      value:GENDER_OBJECT.MALE
+    },
+    {
+      id: 2,
+      name: "Nữ",
+      operator: "=",
+      value:GENDER_OBJECT.FEMALE
+    },
+    {
+      id: 3,
+      name: "Khác",
+      operator: "=",
+      value:GENDER_OBJECT.OTHER
+    }
+  ]
+}
+
+/**
+ * AUtho: Phạm Văn Đạt(11/11/2022)
+ * Function: Các kiểu lọc dữ liệu
+ */
+export const TYPE_FILTER = {
+  Text: "Text",
+  Boolean: "Boolean",
+  Datetime: "Datetime",
+  Gender: "Gender",
+}

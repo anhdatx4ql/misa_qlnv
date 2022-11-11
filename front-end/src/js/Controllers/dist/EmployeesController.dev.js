@@ -10,7 +10,7 @@ var _endPoint = require("../axios/endPoint");
 
 var _BaseController = require("../Controllers/BaseController");
 
-var _constants = require("../../constants");
+var _constants = require("../constants");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 

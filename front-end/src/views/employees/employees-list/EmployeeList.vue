@@ -62,6 +62,7 @@
           ? handlerFunctionTable($event.value, $event.data)
           : ''
       "
+      :isFilter="true"
     >
     </base-table>
     <!-- end table -->
@@ -120,7 +121,7 @@ import {
   STATUS_CODES,
   TABLE_FIELDS,
   NOTIFY_LIST,
-} from "../../../constants";
+} from "../../../js/constants";
 
 import EmployeeDetail from "../employees-detail/EmployeeDetail.vue";
 

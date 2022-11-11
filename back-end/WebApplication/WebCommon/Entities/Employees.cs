@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
-namespace WebCommon
+namespace MISA.AMIS.Common
 {
     /// <summary>
     /// Author: Phạm Văn Đạt(19/10/2022)

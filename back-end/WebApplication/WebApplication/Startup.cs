@@ -4,9 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using WebCommon;
-using WebDomain;
-using WebInfrastructure;
+using MISA.AMIS.BL;
+using MISA.AMIS.Common;
+using MISA.AMIS.DL;
 
 namespace WebApplication
 {

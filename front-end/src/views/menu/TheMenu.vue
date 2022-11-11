@@ -31,7 +31,7 @@
  * Author: Phạm Văn Đạt(18/10/2022)
  * Function: Nhúng hằng số items
  */
-import {MENU_ITEMS} from "../../constants"
+import {MENU_ITEMS} from "../../js/constants"
 
 export default {
   name: 'TheMenu',

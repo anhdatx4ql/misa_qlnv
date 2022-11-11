@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MISA.AMIS.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -6,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebCommon;
 
-namespace WebDomain
+namespace MISA.AMIS.BL
 {
     /// <summary>
     /// Author: Phạm Văn Đạt(14/10/2022)

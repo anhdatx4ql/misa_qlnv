@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Security.Policy;
 
 
-namespace WebCommon
+namespace MISA.AMIS.Common
 {
     /// <summary>
     /// Author: Phạm Văn Đạt(13/10/2022)

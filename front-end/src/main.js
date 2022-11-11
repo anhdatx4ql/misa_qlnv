@@ -3,17 +3,13 @@ import App from './App.vue'
 
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
-
-/**
- * Author: Phạm Văn Đạt(26/10/2022)
- * Function: Nhúng tooltip
- */
-import tooltip from "./directives/tooltip.js";
-import "@/assets/tooltip.css";
-
-import { createRouter, createWebHistory } from "vue-router";
+import VueClickAway from "vue3-click-away"
+import vClickOutside from "click-outside-vue3"
+import tooltip from "./directives/tooltip.js"
+import "@/assets/tooltip.css"
+import { createRouter, createWebHistory } from "vue-router"
 import BaseNotFound from '/src/views/not-found/TheNotFound.vue'
-import EmployeeList from '/src/views/employees/employees-list/EmployeeList.vue';
+import EmployeeList from '/src/views/employees/employees-list/EmployeeList.vue'
 import BaseButton from '/src/components/button/BaseButton.vue'
 import BaseCombobox from '/src/components/combobox/BaseCombobox.vue'
 import BaseInputText from '/src/components/Input/BaseInputText.vue'
@@ -24,7 +20,6 @@ import BaseToastMessage from '/src/components/toastMessage/BaseToastMessage.vue'
 import BaseTable from '/src/components/table/BaseTable.vue'
 import BasePaging from '/src/components/paging/BasePaging.vue' 
 
-import VueClickAway from "vue3-click-away";
 
 const app = createApp(App);
 
@@ -157,9 +152,12 @@ app.use(router);
 // nhúng click ra ngoài
 app.use(VueClickAway);
 
+app.use(vClickOutside);
+
 // nhúng element plus
 app.use(ElementPlus);
 
 // nhúng tooltip
 app.directive("tooltip", tooltip);
+
 app.mount("#app");
