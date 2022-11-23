@@ -25,6 +25,7 @@
           type="text"
           @focusout="checkShowDropDown = false"
           :disabled="disabled ? '' : disabled"
+          :placeholder="placeholder"
           @input="handlerInput"
           ref="input"
           :value="cbxValue.name"
@@ -63,7 +64,6 @@
       v-show="checkShowDropDown"
       :style="position + ': 34px'"
     >
-    <slot></slot>
       <div class="dropdown-items">
         <div
           class="dropdown-item loading"
@@ -74,13 +74,10 @@
             <div>Đang lấy dữ liệu</div>
           </div>
         </div>
-        <div
-          class="dropdown-item"
-          v-else
-          v-for="(cbxListValue, index) in cbxListValues"
-          :key="cbxListValue.id"
-        >
+        <div class="dropdown-item" v-else>
           <base-button
+            v-for="(cbxListValue, index) in cbxListValues"
+            :key="cbxListValue.id"
             @click.prevent="selectValueCombobox(cbxListValue)"
             class="button-combobox"
             :tabindex="index"
@@ -105,7 +102,7 @@
 import { NOTIFY_TEXT } from "../../js/constants";
 export default {
   name: "BaseCombobox",
-  emits:{
+  emits: {
     // kiểm tra focus
     checkFocus: Boolean,
 
@@ -119,14 +116,13 @@ export default {
     newValueId: String,
 
     // giá trị tên mới
-    newValueName: String
+    newValueName: String,
   },
   props: {
-
     // hiển thị input
-    input:{
+    input: {
       Type: Boolean,
-      default:true
+      default: true,
     },
 
     // Các giá trị có thể có
@@ -180,6 +176,11 @@ export default {
 
     // kiểm tra có focus hay không
     checkFocus: Boolean,
+
+    placeholder: {
+      Type: String,
+      default: null,
+    },
   },
   data() {
     return {
@@ -189,7 +190,7 @@ export default {
       // giá trị hiện tại
       cbxValue: {
         id: null,
-        name: null
+        name: null,
       },
 
       // kiểm tra xem drop down có hiển thị hay không
@@ -249,9 +250,8 @@ export default {
         this.checkFocusItemSearch = el.id;
         this.checkShowDropDown = false;
 
-        this.$emit("newValueId", el.id);
-        this.$emit("newValueName", el.name);
-
+        this.$emit("newValueId", this.cbxValue.id);
+        this.$emit("newValueName", this.cbxValue.name);
       } catch (e) {
         console.log(e);
       }
@@ -303,7 +303,6 @@ export default {
         if (!text) {
           me.checkFocusItemSearch = -1;
         } else {
-
           //tìm kiếm giá trị gần nhất
           me.listValues.forEach((value) => {
             if (value) {
@@ -422,14 +421,12 @@ export default {
     },
   },
   watch: {
-
     /**
      * Author:  Phạm Văn Đạt(05/11/2022)
      * Function: Theo dõi thay đổi giá trị id combobox
      */
-    value(value){
-      this.cbxValue.id = value.id;
-      this.cbxValue.name = value.name;
+    value(value) {
+      this.cbxValue = {id: value.id, name:value.name};
     },
     /**
      * Author: Phạm Văn Đạt(31/10/2022)

@@ -48,10 +48,11 @@ function () {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.next = 2;
-              return regeneratorRuntime.awrap((0, _BaseController.getRecords)(endPoint));
+              console.log("a");
+              _context.next = 3;
+              return regeneratorRuntime.awrap((0, _BaseController.getAll)(endPoint));
 
-            case 2:
+            case 3:
               res = _context.sent;
 
               if (res.statusCode == _constants.STATUS_CODES.Code200) {
@@ -60,7 +61,7 @@ function () {
                 console.log(res);
               }
 
-            case 4:
+            case 5:
             case "end":
               return _context.stop();
           }

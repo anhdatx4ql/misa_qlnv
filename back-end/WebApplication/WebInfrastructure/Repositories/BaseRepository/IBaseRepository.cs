@@ -37,27 +37,27 @@ namespace MISA.AMIS.DL
         /// Function: Xử lý thêm mới 1 bản ghi
         /// </summary>
         /// <param name="query"></param>
-        /// <param name="sp_params"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
-        Task<int> InsertRecord(string query, DynamicParameters sp_params = null);
+        Task<int> InsertRecord(string query, DynamicParameters parameters = null);
 
         /// <summary>
         /// Author: Phạm Văn Đạt
         /// Function: Update 1 bản ghi
         /// </summary>
         /// <param name="proceduceName"></param>
-        /// <param name="sp_params"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
-        Task<int> UpdateRecord(string proceduceName, DynamicParameters sp_params = null);
+        Task<int> UpdateRecord(string proceduceName, DynamicParameters parameters = null);
 
         /// <summary>
         /// Author: Phạm Văn Đạt
         /// Function: Xử lý xóa 1 hoặc nhiều bản ghi
         /// </summary>
         /// <param name="query"></param>
-        /// <param name="sp_params"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
-        Task<int> DeleteRecord(string query, DynamicParameters sp_params = null);
+        Task<int> DeleteRecord(string query, DynamicParameters parameters = null);
 
         /// <summary>
         /// Author: Phạm Văn Đạt

@@ -1,0 +1,150 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebApplication\\MISA.AMIS.Application.csproj": {}
+  },
+  "projects": {
+    "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebApplication\\MISA.AMIS.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebApplication\\MISA.AMIS.Application.csproj",
+        "projectName": "MISA.AMIS.Application",
+        "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebApplication\\MISA.AMIS.Application.csproj",
+        "packagesPath": "C:\\Users\\This MC\\.nuget\\packages\\",
+        "outputPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebApplication\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\This MC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\MISA.AMIS.Common.csproj": {
+                "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\MISA.AMIS.Common.csproj"
+              },
+              "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebDomain\\MISA.AMIS.BL.csproj": {
+                "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebDomain\\MISA.AMIS.BL.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "EPPlus": {
+              "target": "Package",
+              "version": "[6.0.8, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Core": {
+              "target": "Package",
+              "version": "[2.2.5, )"
+            },
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[8.0.30, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[5.6.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.408\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\MISA.AMIS.Common.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\MISA.AMIS.Common.csproj",
+        "projectName": "MISA.AMIS.Common",
+        "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\MISA.AMIS.Common.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    },
+    "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebDomain\\MISA.AMIS.BL.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebDomain\\MISA.AMIS.BL.csproj",
+        "projectName": "MISA.AMIS.BL",
+        "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebDomain\\MISA.AMIS.BL.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {
+              "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\MISA.AMIS.Common.csproj": {
+                "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\MISA.AMIS.Common.csproj"
+              },
+              "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebInfrastructure\\MISA.AMIS.DL.csproj": {
+                "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebInfrastructure\\MISA.AMIS.DL.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    },
+    "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebInfrastructure\\MISA.AMIS.DL.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebInfrastructure\\MISA.AMIS.DL.csproj",
+        "projectName": "MISA.AMIS.DL",
+        "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebInfrastructure\\MISA.AMIS.DL.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {
+              "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\MISA.AMIS.Common.csproj": {
+                "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebCommon\\MISA.AMIS.Common.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    }
+  }
+}

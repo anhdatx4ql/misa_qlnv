@@ -69,7 +69,7 @@ input[type="text"]:disabled {
     width: 100%;
 }
 
-.dropdown-items {
+.dropdown-items,.handler-data-child {
     padding: 2px 0;
     border: 1px solid #babec5;
     background: white;

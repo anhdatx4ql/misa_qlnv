@@ -9,7 +9,6 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using WebCommon;
 using WebCommon.Resources;
 namespace MISA.AMIS.BL
 {
@@ -182,8 +181,9 @@ namespace MISA.AMIS.BL
                     foreach (var property in properties)
                     {
                         var propertyValue = property.GetValue(entity);
+                        var value = (propertyValue?.ToString() != "" && propertyValue?.ToString() != null) ? propertyValue : null;
                         if (property.Name != "UpdatedAt")
-                            parameters.Add($"@_{property.Name}", propertyValue);
+                            parameters.Add($"@_{property.Name}", value);
                     }
 
                     // thêm thời gian hiện tại 
@@ -351,7 +351,7 @@ namespace MISA.AMIS.BL
                 checkSelectMessage = true;
 
             }
-            else if (attributeEmail != null && propertyValue != null && this.CheckRegex(propertyValue?.ToString(), "email") == false)
+            else if (attributeEmail != null && propertyValue?.ToString() != null && propertyValue?.ToString() != "" && this.CheckRegex(propertyValue?.ToString(), "email") == false)
             {
 
                 // nếu không phải dạng biểu thức email => lỗi
@@ -360,7 +360,7 @@ namespace MISA.AMIS.BL
                 checkSelectMessage = true;
 
             }
-            else if (attributePhone != null && propertyValue != null && this.CheckRegex(propertyValue?.ToString(), "phone") == false)
+            else if (attributePhone != null && propertyValue?.ToString() != null && propertyValue?.ToString() != "" && this.CheckRegex(propertyValue?.ToString(), "phone") == false)
             {
 
                 // nếu không phải dạng biểu thức email => lỗi
@@ -377,7 +377,7 @@ namespace MISA.AMIS.BL
                 checkSelectMessage = true;
             }
 
-            if (attributeExists != null && propertyValue != null)
+            if (attributeExists != null && String.IsNullOrEmpty(propertyValue.ToString()))
             {
                 // truyền tên table, tên trường cần check, giá trị của trường cần check, id khách hàng cần check
                 var sql = $"SELECT {propertyName} FROM {tableName} WHERE {propertyName} = @propertyValue and Id Not IN (@id) LIMIT 1";

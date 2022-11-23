@@ -5,8 +5,9 @@ using MISA.AMIS.Common;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WebCommon;
 
-namespace WebApplication
+namespace MISA.AMIS.Application
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -58,10 +59,10 @@ namespace WebApplication
         /// <param name="currentPageNumber"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        [HttpGet("Paging")]
-        public async Task<ReponsitoryModel> Paging(string keyword = null, int currentPageNumber = 1, int pageSize = 10)
+        [HttpPost("Paging")]
+        public async Task<ReponsitoryModel> Paging([FromBody] List<EmployeesModelFilter> listFilter, string keyword = null, int currentPageNumber = 1, int pageSize = 10)
         {
-            return await _employeeService.Paging(keyword, currentPageNumber, pageSize);
+            return await _employeeService.Paging(keyword, currentPageNumber, pageSize, listFilter);
         }
 
         /// <summary>

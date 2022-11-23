@@ -8,7 +8,7 @@ using MISA.AMIS.BL;
 using MISA.AMIS.Common;
 using MISA.AMIS.DL;
 
-namespace WebApplication
+namespace MISA.AMIS.Application
 {
     public class Startup
     {

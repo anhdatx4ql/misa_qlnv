@@ -58,9 +58,9 @@ namespace MISA.AMIS.DL
         /// Function: Thực thi câu lệnh insert, update, delete
         /// </summary>
         /// <param name="query">Câu truy vấn</param>
-        /// <param name="sp_params">biến truyền vào</param>
+        /// <param name="parameters">biến truyền vào</param>
         /// <returns></returns>
-        public async Task<int> InsertRecord(string query, DynamicParameters sp_params = null)
+        public async Task<int> InsertRecord(string query, DynamicParameters parameters = null)
         {
             using(IDbConnection db = GetDbConnection())
             {
@@ -69,7 +69,7 @@ namespace MISA.AMIS.DL
                 int result = 0;
                 try
                 {
-                    result = await db.ExecuteAsync(query, sp_params, commandType: CommandType.StoredProcedure);
+                    result = await db.ExecuteAsync(query, parameters, commandType: CommandType.StoredProcedure);
                     transaction.Commit();
                 }
                 catch
@@ -86,9 +86,9 @@ namespace MISA.AMIS.DL
         /// Function: Thực thi insert, update, delete có thủ tục trong db
         /// </summary>
         /// <param name="proceduceName">câu query gọi thủ tục</param>
-        /// <param name="sp_params">biến truyền vào</param>
+        /// <param name="parameters">biến truyền vào</param>
         /// <returns>số nguyên </returns>
-        public async Task<int> UpdateRecord(string proceduceName, DynamicParameters sp_params = null)
+        public async Task<int> UpdateRecord(string proceduceName, DynamicParameters parameters = null)
         {
            using(IDbConnection db = GetDbConnection())
             {
@@ -97,7 +97,7 @@ namespace MISA.AMIS.DL
                 int result = 0;
                 try
                 {
-                    result = await db.ExecuteAsync(proceduceName, sp_params, commandType: CommandType.StoredProcedure);
+                    result = await db.ExecuteAsync(proceduceName, parameters, commandType: CommandType.StoredProcedure);
 
                     transaction.Commit();
                 }
@@ -115,9 +115,9 @@ namespace MISA.AMIS.DL
         /// Function: chạy câu truy vấn get
         /// </summary>
         /// <param name="query">câu tuy vấn</param>
-        /// <param name="sp_params">parameters truyền vào</param>
+        /// <param name="parameters">parameters truyền vào</param>
         /// <returns></returns>
-        public async Task<int> DeleteRecord(string query, DynamicParameters sp_params = null)
+        public async Task<int> DeleteRecord(string query, DynamicParameters parameters = null)
         {
             using (IDbConnection db = GetDbConnection())
             {
@@ -126,7 +126,7 @@ namespace MISA.AMIS.DL
                 int result = 0;
                 try
                 {
-                    result = await db.ExecuteAsync(query, sp_params);
+                    result = await db.ExecuteAsync(query, parameters);
 
                     transaction.Commit();
                 }

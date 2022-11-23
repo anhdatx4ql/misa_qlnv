@@ -1,5 +1,5 @@
 import {END_POINTS} from '../axios/endPoint';
-import { getRecords } from '../Controllers/BaseController'
+import { getAll } from '../Controllers/BaseController'
 import {STATUS_CODES} from '../constants'
 
 // end point của employees
@@ -23,7 +23,8 @@ class Positions{
      * Function: Xử lý lấy các bản ghi đầu tiên trong bảng chức danh
      */
     async getRecords(){
-        let res =  await getRecords(endPoint);
+        console.log("a");
+        let res =  await getAll(endPoint);
         if(res.statusCode == STATUS_CODES.Code200){
             this.data = res.data;
         }else{

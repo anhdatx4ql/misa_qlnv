@@ -169,6 +169,21 @@ export default {
   watch: {
 
     /**
+     * Author: Phạm Văn Đạt(19/11/2022)
+     * Function: Theo dõi disable
+     * @param {*} value : giá trị true false nhận vào
+     */
+    disabled(value){
+      try{
+        if(value){
+          this.$emit('update:modelValue', null);
+        }
+      }catch(e){
+        console.log(e);
+      }
+    },
+
+    /**
      * Author: Phạm Văn Đạt(05/11/2022)
      * Function: Xử lý lấy giá trị truyền vào
      * @param {*} value : giá trị truyền vào
@@ -231,7 +246,7 @@ export default {
       } catch (e) {
         console.log(e);
       }
-    }, 500),
+    }, 200),
 
     /**
      * Author: Phạm Văn Đạt(25/10/2022)

@@ -47,7 +47,7 @@ export const paging = async function(endPoint, keyword, currentPageNumber, pageS
   else{
     endPointLast = "keyword="+keyword+"&pageSize="+pageSize+"&currentPageNumber="+currentPageNumber;
   }
-  await axios.get(ROOT_API+endPoint+endPointLast)
+  await axios.post(ROOT_API+endPoint+endPointLast, [],{header: headers})
   .then(res=>{
     result = res.data;
   })

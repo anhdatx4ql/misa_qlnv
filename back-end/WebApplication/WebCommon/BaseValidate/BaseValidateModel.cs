@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace MISA.AMIS.Common
-
 {
     /// <summary>
     /// Author: Phạm Văn Đạt(13/10/2022)
@@ -141,4 +140,36 @@ namespace MISA.AMIS.Common
         }
         #endregion
     }
+
+    /// <summary>
+    /// Author: Phạm Văn Đạt(23/11/2022)
+    /// FUnction: Xử lý thêm \ trước các ký tự đặc biệt
+    /// </summary>
+    public static class CheckSpecialCharacters
+    {
+
+        #region Fields
+        public static readonly List<String> SpecialCharacters = new List<string> { "/", "*", "-", "+", "@", "&", "$", "#", "%" };
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Xử lý thêm \ trước các ký tự đặc biệt trên mảng trên
+        /// </summary>
+        /// <param name="text">chuỗi string truyền vào</param>
+        /// <returns></returns>
+        public static string CheckSpecial(string text)
+        {
+            for(var i = 0; i < SpecialCharacters.Count(); i++)
+            {
+                if (text.Contains(SpecialCharacters[i]))
+                {
+                    text = text.Replace(SpecialCharacters[i], "\\"+SpecialCharacters[i]);
+                }
+            }
+            return text;
+        }
+        #endregion
+    }
+
 }

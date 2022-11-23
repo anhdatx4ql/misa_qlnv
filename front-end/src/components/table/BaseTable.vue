@@ -16,7 +16,10 @@
           >
             <div class="th-container">
               <div v-if="field.type == 'checkbox'">
-                <base-input-checkbox :id="idCheckbox"></base-input-checkbox>
+                <base-input-checkbox id="idCheckboxHeader"
+                 @checked="handlerChecked($event,listData)"
+                 :checked="isCheckedCheckboxHeader"
+                 ></base-input-checkbox>
               </div>
               <div v-else-if="!field.title">
                 {{ field.name }}
@@ -50,8 +53,11 @@
 
                   <div
                     class="filter-content"
-                    v-show="fieldNameFilter == field.fieldName"
                     :ref="field.fieldName"
+                    :class="{
+                      'filter-content-check-show':
+                        fieldNameFilter == field.fieldName,
+                    }"
                   >
                     <div class="filter-content-top">
                       <el-tooltip
@@ -73,9 +79,11 @@
                         @newValueId="
                           handlerCheckDisableInputFilter(
                             $event,
-                            TYPE_FILTER.Text
+                            TYPE_FILTER.Text,
+                            field.filter
                           )
                         "
+                        :disabled="true"
                         @newValueName="itemFilter.name = $event"
                         position="top"
                       >
@@ -87,14 +95,32 @@
                         :isFormatText="false"
                         :disabled="checkDisableInputFilter"
                         placeholder="Nhập giá trị lọc"
-                        v-model="itemFilter.value"
+                        v-model="field.filter.value"
                       ></base-input-text>
                     </div>
                     <div class="filter-content-bottom">
-                      <base-button class="button-white">
+                      <base-button
+                        class="button-white filter-content-bottom-button"
+                        @click="
+                          handlerRemoveFilterItem(
+                            field.filter,
+                            field.typeFilter,
+                            field.fieldName
+                          )
+                        "
+                      >
                         <span>Bỏ lọc</span>
                       </base-button>
-                      <base-button @click="handlerFilter">
+                      <base-button class="filter-content-bottom-button"
+                        @click="
+                          handlerFilter(
+                            field.fieldName,
+                            TYPE_FILTER.Text,
+                            field.filter,
+                            field.nameFilter
+                          )
+                        "
+                      >
                         <span>Lọc</span>
                       </base-button>
                     </div>
@@ -103,15 +129,226 @@
                 <!-- end xử lý lọc theo dạng văn bản -->
 
                 <!-- start xử lý lọc theo dạng đúng sai -->
-                <div v-else-if="field.typeFilter == TYPE_FILTER.Boolean"></div>
+                <div
+                  v-else-if="field.typeFilter == TYPE_FILTER.Boolean"
+                  class="filter-container"
+                >
+                  <div class="filter-icon">
+                    <span class="background-icon-combobox-black w-14"></span>
+                  </div>
+
+                  <div
+                    class="filter-content"
+                    :ref="field.fieldName"
+                    :class="{
+                      'filter-content-check-show':
+                        fieldNameFilter == field.fieldName,
+                    }"
+                  >
+                    <div class="filter-content-top">
+                      <el-tooltip
+                        v-if="field.title"
+                        :content="field.title"
+                        effect="light"
+                        placement="bottom"
+                      >
+                        {{ field.nameFilter }}
+                      </el-tooltip>
+                      <span v-else>Lọc {{ field.nameFilter }}</span>
+                    </div>
+
+                    <div class="filter-content-bottom">
+                      <base-button
+                        class="button-white"
+                        @click="
+                          handlerRemoveFilterItem(
+                            field.filter,
+                            field.typeFilter,
+                            field.fieldName
+                          )
+                        "
+                      >
+                        <span>Bỏ lọc</span>
+                      </base-button>
+                      <base-button
+                        @click="
+                          handlerFilter(field.fieldName, field.nameFilter)
+                        "
+                      >
+                        <span>Lọc</span>
+                      </base-button>
+                    </div>
+                  </div>
+                </div>
                 <!-- end xử lý lọc theo dạng đúng sai -->
 
                 <!-- start xử lý lọc theo dạng ngày tháng -->
-                <div v-else-if="field.typeFilter == TYPE_FILTER.Datetime"></div>
+                <div
+                  v-if="field.typeFilter == TYPE_FILTER.DateTime"
+                  class="filter-container"
+                >
+                  <div class="filter-icon">
+                    <span class="background-icon-combobox-black w-14"></span>
+                  </div>
+
+                  <div
+                    class="filter-content"
+                    :ref="field.fieldName"
+                    :class="{
+                      'filter-content-check-show':
+                        fieldNameFilter == field.fieldName,
+                    }"
+                  >
+                    <div class="filter-content-top">
+                      <el-tooltip
+                        v-if="field.title"
+                        :content="field.title"
+                        effect="light"
+                        placement="bottom"
+                      >
+                        {{ field.nameFilter }}
+                      </el-tooltip>
+                      <span v-else>Lọc {{ field.nameFilter }}</span>
+
+                      <base-combobox
+                        :value="{
+                          id: 1,
+                          name: 'Bằng',
+                        }"
+                        :listValues="FIELDS_FILTER.DateTime"
+                        @newValueId="
+                          handlerCheckDisableInputFilter(
+                            $event,
+                            TYPE_FILTER.DateTime,
+                            field.filter
+                          )
+                        "
+                        :disabled="true"
+                        @newValueName="itemFilter.name = $event"
+                        position="top"
+                      >
+                      </base-combobox>
+                    </div>
+
+                    <div class="filter-content-center">
+                      <el-config-provider :locale="locale">
+                        <el-date-picker
+                          :disabled="FIELDS_FILTER.DateTime.isDisableInput"
+                          v-model="field.filter.value"
+                          type="date"
+                          placeholder="DD/MM/YYY"
+                          format="DD/MM/YYYY"
+                        />
+                      </el-config-provider>
+                    </div>
+                    <div class="filter-content-bottom">
+                      <base-button
+                        class="button-white"
+                        @click="
+                          handlerRemoveFilterItem(
+                            field.filter,
+                            field.typeFilter,
+                            field.fieldName
+                          )
+                        "
+                      >
+                        <span>Bỏ lọc</span>
+                      </base-button>
+                      <base-button
+                        @click="
+                          handlerFilter(
+                            field.fieldName,
+                            TYPE_FILTER.DateTime,
+                            field.filter,
+                            field.nameFilter
+                          )
+                        "
+                      >
+                        <span>Lọc</span>
+                      </base-button>
+                    </div>
+                  </div>
+                </div>
                 <!-- end xử lý lọc theo dạng ngày tháng -->
 
                 <!-- start xử lý lọc theo dạng giới itnhs -->
-                <div v-else-if="field.typeFilter == TYPE_FILTER.Gender"></div>
+                <div
+                  v-else-if="field.typeFilter == TYPE_FILTER.Gender"
+                  class="filter-container"
+                >
+                  <div class="filter-icon">
+                    <span class="background-icon-combobox-black w-14"></span>
+                  </div>
+
+                  <div
+                    class="filter-content"
+                    :ref="field.fieldName"
+                    :class="{
+                      'filter-content-check-show':
+                        fieldNameFilter == field.fieldName,
+                    }"
+                  >
+                    <div class="filter-content-top">
+                      <el-tooltip
+                        v-if="field.title"
+                        :content="field.title"
+                        effect="light"
+                        placement="bottom"
+                      >
+                        {{ field.nameFilter }}
+                      </el-tooltip>
+                      <span v-else>Lọc {{ field.nameFilter }}</span>
+                    </div>
+
+                    <div class="filter-content-center">
+                      <base-combobox
+                        :value="{
+                          id: field.filter.value,
+                          name: field.filter.name,
+                        }"
+                        :listValues="GENDERS"
+                        @newValueId="
+                          handlerCheckDisableInputFilter(
+                            $event,
+                            field.typeFilter,
+                            field.filter
+                          )
+                        "
+                        @newValueName="field.filter.name = $event"
+                        :disabled="true"
+                        placeholder="Nhập giá trị lọc"
+                        position="top"
+                      >
+                      </base-combobox>
+                    </div>
+                    <div class="filter-content-bottom">
+                      <base-button
+                        class="button-white"
+                        @click="
+                          handlerRemoveFilterItem(
+                            field.filter,
+                            field.typeFilter,
+                            field.fieldName
+                          )
+                        "
+                      >
+                        <span>Bỏ lọc</span>
+                      </base-button>
+                      <base-button
+                        @click="
+                          handlerFilter(
+                            field.fieldName,
+                            field.typeFilter,
+                            field.filter,
+                            field.nameFilter
+                          )
+                        "
+                      >
+                        <span>Lọc</span>
+                      </base-button>
+                    </div>
+                  </div>
+                </div>
                 <!-- end xử lý lọc theo dạng giới itnhs -->
               </div>
             </div>
@@ -155,8 +392,9 @@
             <div v-if="field.checkBox == true">
               <base-input-checkbox
                 :value="data.id"
-                :checked="data[field.fieldName]"
+                :checked="(listIdData.indexOf(data.id)>-1)?true:false"
                 :disabled="field.disabled"
+                @checked="handlerChecked($event,[data])"
               >
               </base-input-checkbox>
             </div>
@@ -190,14 +428,28 @@
 </template>
 
 <script>
-import { FIELDS_FILTER, TYPE_FILTER } from "../../js/constants.js";
+import {
+  FIELDS_FILTER,
+  TYPE_FILTER,
+  GENDERS,
+  FIELDS_FILTER_NOT_VALUE,
+} from "../../js/constants.js";
+import vi from "../../../node_modules/element-plus/es/locale/lang/vi";
 import clickOutSide from "@mahdikhashan/vue3-click-outside";
 export default {
   name: "BaseTable",
   directives: {
     clickOutSide,
   },
+  setup() {
+    return {
+      locale: vi,
+    };
+  },
   props: {
+    // dữ liệu lọc
+    listDeleteFilterData: Array,
+
     // DỮ LIỆU HIỂN THỊ
     modelValue: Array[Object],
 
@@ -215,6 +467,12 @@ export default {
       Type: Boolean,
       default: false,
     },
+
+    // dữ liệu lọc
+    dataFilter: Map,
+
+    // list id nhan viên
+    listIdDataIn: Array
   },
   data() {
     return {
@@ -242,19 +500,193 @@ export default {
         operator: null,
         value: null,
       },
+
+      // giới tính
+      GENDERS,
+
+      // mảng lưu giá trị lọc
+      listFilter: new Map(),
+
+      // kiểm tra reset giá trị lọc
+      currentFillter: {
+        id: null,
+        type: null,
+      },
+
+      // các filter có giá trị null
+      FIELDS_FILTER_NOT_VALUE,
+
+      // mảng lưu các giá trị checked của data
+      listIdData: [],
+
+      // id item đầu tiên của mảng
+      isCheckedCheckboxHeader: false
     };
   },
   created() {
     this.currentShowFormLoad = this.showFormLoad;
+    this.listIdData = this.listIdDataIn;
   },
   methods: {
+
+    /**
+     * Author: Phạm Văn Đạt(22/11/2022)
+     * FUnction: Xử lý lấy list lưu id nhân viên
+     * @param {*} value : giá trị checked
+     */
+    handlerChecked(value,data){
+      try{
+        if(value){
+          // xử lý thêm dữ liệu vào mảng
+          for(let i=0;i<data.length;i++){
+            if(this.listIdData.indexOf(data[i].id) == -1)
+              this.listIdData.push(data[i].id)
+          }
+         
+        }else{
+          for(let i=0;i<data.length;i++){
+            // xử lý xóa dữ liệu khỏi mảng
+            let index = this.listIdData.indexOf(data[i].id);
+            if (index > -1) {
+              this.listIdData.splice(index, 1);
+            }
+          }
+         
+        }
+        console.log(this.listIdData);
+
+        this.$emit("listIdData",this.listIdData);
+
+      }catch(e){
+        console.log(e);
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(21/11/2022)
+     * Function: Xử lý bỏ lọc
+     * @param {*} filterItem : item lọc cần xóa
+     * @param {*} type : kiểu item lọc
+     * @param {*} fieldName : tên item lọc
+     */
+    handlerRemoveFilterItem(filterItem, type, fieldName) {
+      try {
+        console.log(this.listFilter);
+
+        this.resetValueFilterItem(type, filterItem);
+
+        // Xóa item có tên trong mảng lọc
+        if (this.listFilter.has(fieldName)) {
+          this.listFilter.delete(fieldName);
+          this.$emit("listFilter", this.listFilter);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(21/11/2022)
+     * Function: trả về giá trị lọc ban đầu
+     * @param {*} type : kiểu lọc của item
+     * @param {*} filterItem : item lọc
+     */
+    resetValueFilterItem(type, filterItem) {
+      // set lại giá trị mặc định cho item
+      if (type == TYPE_FILTER.Text) {
+        filterItem.value = null;
+
+        filterItem.operator = "like";
+      } else if (type == TYPE_FILTER.Gender) {
+        filterItem.value = null;
+
+        filterItem.operator = "=";
+
+        filterItem.name = null;
+      } else if (type == TYPE_FILTER.Boolean) {
+        console.log(type);
+      } else if (type == TYPE_FILTER.DateTime) {
+        filterItem.value = null;
+
+        filterItem.operator = "=";
+      }
+    },
+
     /**
      * Author: Phạm Văn Đạt(11/11/2022)
      * Function: Xử lý lọc
      */
-    handlerFilter() {
+    handlerFilter(fieldName, type, filterItem, nameFilter) {
       try {
-        console.log(this.itemFilter);
+        // lấy ra id hiện tại của item filter
+        if (this.currentFillter.id == null) {
+          this.currentFillter.id = this.itemFilter.id;
+        }
+
+        if (type == TYPE_FILTER.Gender) {
+
+          let item = this.selectItemFilter(type, filterItem.value);
+
+          if (item) {
+            this.listFilter.set(fieldName, {
+              operator: filterItem.operator,
+              value: filterItem.value,
+              text: nameFilter + ": " + item.name,
+            });
+          }
+        } else {
+          let item = this.selectItemFilter(type, this.currentFillter.id);
+
+          filterItem.value = filterItem.value ? filterItem.value : "";
+
+          const checkItem = FIELDS_FILTER_NOT_VALUE.filter((value) => {
+            return value == item.operator;
+          });
+
+          if (checkItem.length > 0) {
+            filterItem.value = "";
+            this.listFilter.set(fieldName, {
+              operator: filterItem.operator,
+              value: item.value(filterItem.value),
+              text:
+                nameFilter +
+                " " +
+                item.name +
+                " " +
+                item.value(filterItem.value),
+                typeOperator: item.fieldName
+            });
+          } else {
+            if (!filterItem.value) {
+              // nếu giá trị null thì xóa đi
+              this.listFilter.delete(fieldName);
+            } else {
+              let text = "";
+
+              if (type == TYPE_FILTER.Text) {
+                // nếu có giá trị thì thêm mới hoặc update
+                text = nameFilter + " " + item.name + " " + filterItem.value;
+              } else if (type == TYPE_FILTER.DateTime) {
+                // lấy giá trị ngày tháng
+                text =
+                  nameFilter +
+                  " " +
+                  item.name +
+                  " " +
+                  item.value(filterItem.value);
+              }
+              this.listFilter.set(fieldName, {
+                operator: item.operator,
+                value: item.value(filterItem.value),
+                text: text,
+                typeOperator: item.fieldName
+              });
+            }
+          }
+        }
+
+        this.$emit("listFilter", this.listFilter);
+
       } catch (e) {
         console.log(e);
       }
@@ -265,20 +697,30 @@ export default {
      * Function: Xử lý disable input của lọc
      * @param {*} value : giá trị id trả về của filter từ combobox
      */
-    handlerCheckDisableInputFilter(value, type) {
+    handlerCheckDisableInputFilter(value, type, filterItem) {
       try {
-        console.log(value, type);
+        let item;
 
-        let item = this.selectItemFilter(type, value);
+        // xử lý kiểu lọc là giới tính
+        if (type == TYPE_FILTER.Gender) {
+          filterItem.value = value;
+          filterItem.operator = "=";
+        } else {
+          item = this.selectItemFilter(type, value);
+          filterItem.operator = item.operator;
+        }
 
         // kiểm tra xem item đó có cho phép nhập vào input hay không
-        if (item.isDisableInput) {
-          this.checkDisableInputFilter = true;
-        } else {
-          this.checkDisableInputFilter = false;
+        if (item) {
+          if (item.isDisableInput) {
+            this.checkDisableInputFilter = true;
+          } else {
+            this.checkDisableInputFilter = false;
+          }
+
+          this.currentFillter.id = item.id;
+          this.currentFillter.type = type;
         }
-        this.itemFilter = item;
-        console.log(this.itemFilter);
       } catch (e) {
         console.log(e);
       }
@@ -302,13 +744,41 @@ export default {
     /**
      * Author: Phạm Văn Đạt(10/11/2022)
      * Function: Xử lý click ẩn form lọc
+     * @param{*} event : el vừa click
      */
-    handlerClickAwayFilter() {
+    handlerClickAwayFilter(event) {
       try {
-        console.log("click away");
-        // this.checkShowFilter = false;
-        // this.$refs[fieldName]?console.log(this.$refs[fieldName][0].style.display):'';
-        // this.$refs[this.fieldNameFilter]?this.$refs[this.fieldNameFilter][0].style.display= 'none':'';
+        // lấy el vừa click vào
+        let elClick = event.target;
+
+        // lấy el hiển thị form lọc
+        let el = this.$refs[this.fieldNameFilter];
+
+        // check xem el vừa click vào nằm ở trong hay ngoài form lọc
+        while (
+          !elClick?.classList.contains("th-container") &&
+          !elClick?.classList.contains("table-filter") &&
+          !(
+            elClick?.getAttribute("id") == "app" &&
+            !elClick?.classList.contains("el-popper is-pure")
+          )
+          && !elClick?.classList.contains("filter-content-bottom-button")
+        ) {
+          elClick = elClick.parentNode;
+        }
+
+        // xử lý hiển thị, ẩn form
+        if (el) {
+          if (elClick?.classList.contains("table-filter")) {
+            if (!el[0].classList.contains("filter-content-check-show") ) {
+              el[0].classList.add("filter-content-check-show");
+            }
+          } else {
+            if (el[0].classList.contains("filter-content-check-show"))
+              el[0].classList.remove("filter-content-check-show");
+          }
+        }
+
       } catch (e) {
         console.log(e);
       }
@@ -350,17 +820,37 @@ export default {
       this.$emit("checkShowForm", true);
     },
 
+    /**
+     * Author: Phạm Văn Đạt(15/11/2022)
+     * Function: Xử lý click thanh lọc
+     */
     handlerClickTableFilter(fieldName, typeFilter) {
       try {
         this.fieldNameFilter = fieldName;
+
         if (typeFilter == TYPE_FILTER.Text) {
-          this.itemFilter = {id:FIELDS_FILTER.Text[4].id, name: FIELDS_FILTER.Text[4].name, operator: FIELDS_FILTER.Text[4].operator, value: null };
-        }else if(typeFilter == TYPE_FILTER.Boolean){
-          this.itemFilter = {id:FIELDS_FILTER.Boolean[4].id, name: FIELDS_FILTER.Boolean[0].name, operator: FIELDS_FILTER.Boolean[0].operator, value: FIELDS_FILTER.Boolean[0].value };
-        }else if(typeFilter == TYPE_FILTER.DateTime){
-          this.itemFilter = {id:FIELDS_FILTER.DateTime[4].id, name: FIELDS_FILTER.DateTime[0].name, operator: FIELDS_FILTER.DateTime[0].operator, value: null };
-        }else if(typeFilter == TYPE_FILTER.Gender){
-          this.itemFilter = {name: null, operator: '=', value: null };
+          this.itemFilter = {
+            id: FIELDS_FILTER.Text[4].id,
+            name: FIELDS_FILTER.Text[4].name,
+            operator: FIELDS_FILTER.Text[4].operator,
+            value: null,
+          };
+        } else if (typeFilter == TYPE_FILTER.Boolean) {
+          this.itemFilter = {
+            id: FIELDS_FILTER.Boolean[4].id,
+            name: FIELDS_FILTER.Boolean[0].name,
+            operator: FIELDS_FILTER.Boolean[0].operator,
+            value: FIELDS_FILTER.Boolean[0].value,
+          };
+        } else if (typeFilter == TYPE_FILTER.DateTime) {
+          this.itemFilter = {
+            id: FIELDS_FILTER.DateTime[4].id,
+            name: FIELDS_FILTER.DateTime[0].name,
+            operator: FIELDS_FILTER.DateTime[0].operator,
+            value: null,
+          };
+        } else if (typeFilter == TYPE_FILTER.Gender) {
+          this.itemFilter = { name: null, operator: "=", value: null };
         }
       } catch (e) {
         console.log(e);
@@ -368,6 +858,56 @@ export default {
     },
   },
   watch: {
+
+    /**
+     * Author: Phạm Văn Đạt(22/11/2022)
+     * Function: Xử lý lấy id khách hàng
+     * @param {*} value : giá trị id khách hàng
+     */
+    listIdDataIn(value){
+      if(value){
+        this.listIdData = this.listIdDataIn;
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(21/11/2022)
+     * Function: Theo dõi mảng xóa dữ liệu lọc
+     * @param {*} value : giá trị dùng để xóa dữ liệu lọc
+     */
+    listDeleteFilterData(value) {
+      try {
+        if (value) {
+          // nếu có giá trị nằm trong mảng thì xóa đi
+          for (let i = 0; i < value.length; i++) {
+            if (this.listFilter.has(value[i])) {
+              console.log(value[i]);
+
+              this.listFilter.delete(value[i]);
+
+              // reset dữ liệu item đã xóa
+              for (const property in this.fieldsTHead) {
+                if (this.fieldsTHead[property].fieldName == value[i]) {
+                  this.resetValueFilterItem(
+                    this.fieldsTHead[property].typeFilter,
+                    this.fieldsTHead[property].filter
+                  );
+                }
+              }
+            }
+          }
+
+          this.$emit("listFilter", this.listFilter);
+
+          console.log(this.listDeleteFilterData)
+
+          this.$emit("listDeleteFilterData", null);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
     /**
      * Author: Phạm Văn Đạt(08/11/2022)
      * Function: Xử lý lấy dữ liệu mới
@@ -375,6 +915,14 @@ export default {
      */
     modelValue(value) {
       this.listData = value;
+
+      if(this.listIdData.indexOf(value[0].id) > -1 && this.listIdData.length == value.length){
+        this.isCheckedCheckboxHeader = true;
+      }else{
+        this.isCheckedCheckboxHeader = false;
+        console.log("a")
+      }
+
     },
 
     /**

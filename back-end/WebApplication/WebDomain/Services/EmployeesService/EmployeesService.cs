@@ -62,22 +62,62 @@ namespace MISA.AMIS.BL
         /// <param name="currentPageNumber">trang hiện tại</param>
         /// <param name="pageSize">số bản ghi/trang</param>
         /// <returns></returns>
-        public async Task<ReponsitoryModel> Paging(string keyword, int currentPageNumber, int pageSize)
+        public async Task<ReponsitoryModel> Paging(string keyword, int currentPageNumber, int pageSize, List<EmployeesModelFilter> listFilters)
         {
             List<string> message = new List<string>();
             try
             {
-                // lấy tên proceduce
-                var nameProceduce = "Proc_Employees_Paging(@_keyword,@_currentPageNumber,@_pageSize)";
 
                 // chỉnh sửa lại keyword
                 keyword = '%' + keyword + '%';
 
+                var stringFilter = "";
+
+                // xử lý lọc các trường
+                if (listFilters.Count == 0){
+                    stringFilter = "1=1";
+                }
+                else
+                {
+                    // xử lý lấy dữ liệu where
+                    foreach(var item in listFilters)
+                    {
+                        if (item.Operator == "like" || item.Operator == "not like")
+                        {
+                            item.Value = CheckSpecialCharacters.CheckSpecial(item.Value);
+                        }
+
+                        switch (item.TypeOperator)
+                        {
+                            case "like":
+                                item.Value = '%' + item.Value + '%';
+                                break;
+                            case "firstLike":
+                                item.Value = '%' + item.Value;
+                                break;
+                            case "lastLike":
+                                item.Value += '%';
+                                break;
+                        }
+
+                        stringFilter += item.Name + " " + item.Operator + " " + item.Value;
+                        if(item != listFilters[listFilters.Count - 1])
+                        {
+                            stringFilter += " and ";
+                        }
+                    }
+                }
+
+                var offset = (currentPageNumber - 1) * pageSize;
+
+                // lấy tên proceduce
+                var nameProceduce = "SELECT COUNT(*) FROM employees e WHERE e.Id IN (SELECT ve.Id FROM view_employees ve WHERE (ve.Name LIKE @_keyword OR ve.EmployeeId LIKE @_keyword OR ve.NumberPhone LIKE @_keyword) AND " + stringFilter + "); ";
+                nameProceduce += "SELECT * FROM view_employees ve WHERE(ve.Name LIKE @_keyword OR ve.EmployeeId LIKE @_keyword OR ve.NumberPhone LIKE @_keyword) AND " + stringFilter + " ORDER BY ve.UpdatedAt DESC LIMIT @_offset,@_pageSize; ";
                 // khai báo parameters
                 var parameters = new DynamicParameters();
                 parameters.Add("@_keyword", keyword);
-                parameters.Add("@_currentPageNumber", currentPageNumber);
                 parameters.Add("@_pageSize", pageSize);
+                parameters.Add("@_offset", offset);
 
                 //  gọi đến db truy vấn
                 var result = await _employee.Paging<EmployeesViewModel>(nameProceduce, parameters);

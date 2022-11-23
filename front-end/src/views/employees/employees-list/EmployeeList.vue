@@ -15,33 +15,80 @@
     </div>
     <!-- end content top left -->
   </div>
-
+  <!-- start custom tooltip -->
+  <div v-tooltip="{ global: true, theme: { placement: 'bottom' } }"></div>
+  <!-- end custom tooltip -->
   <!-- start  content center top -->
   <div class="content-center-top">
-    <!-- start custom tooltip -->
-    <div v-tooltip="{ global: true, theme: { placement: 'bottom' } }"></div>
-    <!-- end custom tooltip -->
+    <div class="content-center-top-left">
+      <div class="content-center-top-left-child">
+        <div
+          class="content-center-top-left-child handler-data"
+          @click="checkShowComboboxHandlerData = true"
+          v-click-away="clickAwayHandlerData"
+        >
+          <base-button>
+            <span>Thực hiện hàng loạt</span>
+          </base-button>
+          <div
+            class="handler-data-child"
+            v-show="checkShowComboboxHandlerData"
+            ref="itemResolveMultiple"
+          >
+            <button
+              v-for="item in RULE_HANDLER_DATA"
+              :key="item.id"
+              @click="resolveMultiple(item)"
+              class="button-combobox"
+            >
+              <span>{{ item.name }}</span>
+            </button>
+          </div>
+        </div>
+        <div
+          class="content-center-top-left-child text-data"
+          v-for="(value, key) of listFilter"
+          :key="key"
+        >
+          <span>{{ value[1].text }}</span>
+          <base-button @click="clickDeleteItemFilter(value)"
+            ><span class="button-icon-x"></span
+          ></base-button>
+        </div>
+        <base-button
+          v-show="listFilter.size > 0"
+          @click="clickDeleteItemFilter()"
+        >
+          <span>Xóa điều kiện lọc</span>
+        </base-button>
+      </div>
+    </div>
+    <div class="content-center-top-right">
+      <base-input-text
+        placeholder="Tìm theo mã, tên nhân viên"
+        classIcon="input-icon-search"
+        v-model="keyword"
+        :isFormatText="false"
+      >
+      </base-input-text>
 
-    <base-input-text
-      placeholder="Tìm theo mã, tên nhân viên"
-      classIcon="input-icon-search"
-      v-model="keyword"
-      :isFormatText="false"
-    >
-    </base-input-text>
+      <base-button
+        v-tooltip="'Lấy lại dữ liệu'"
+        :disable="disableButtonResetData"
+        @click.prevent="loadData"
+        class="content-center-button-left icon-ml-10"
+      >
+        <span class="background-icon-reload icon-24 background-flex"></span>
+      </base-button>
 
-    <base-button
-      v-tooltip="'Lấy lại dữ liệu'"
-      :disable="disableButtonResetData"
-      @click.prevent="loadData"
-      class="content-center-button-left icon-ml-10"
-    >
-      <span class="background-icon-reload icon-24 background-flex"></span>
-    </base-button>
-
-    <base-button v-tooltip="'Xuất ra Excel'" @click="handlerExportExcel" class="content-center-button-left">
-      <span class="background-icon-excel icon-24 background-flex"></span>
-    </base-button>
+      <base-button
+        v-tooltip="'Xuất ra Excel'"
+        @click="handlerExportExcel"
+        class="content-center-button-left"
+      >
+        <span class="background-icon-excel icon-24 background-flex"></span>
+      </base-button>
+    </div>
   </div>
   <!-- end content center top -->
 
@@ -63,6 +110,11 @@
           : ''
       "
       :isFilter="true"
+      @listFilter="handlerFilter($event)"
+      :listDeleteFilterData="listDeleteFilterData"
+      @listDeleteFilterData="listDeleteFilterData = $event"
+      @listIdData="handlerSelectIdEmployees($event)"
+      :listIdDataIn="listIdEmployees"
     >
     </base-table>
     <!-- end table -->
@@ -106,7 +158,7 @@
     v-if="checkNotify.isShow"
     :type="checkNotify.type"
     :text="checkNotify.text"
-    @sayYes="($event == true)?handlerDeleteEmployee():''"
+    @sayYes="$event == true ? handlerDeleteEmployee() : ''"
   ></base-notify>
   <!-- end thông báo -->
 </template>
@@ -121,6 +173,7 @@ import {
   STATUS_CODES,
   TABLE_FIELDS,
   NOTIFY_LIST,
+  RULE_HANDLER_DATA,
 } from "../../../js/constants";
 
 import EmployeeDetail from "../employees-detail/EmployeeDetail.vue";
@@ -196,7 +249,23 @@ export default {
         text: null,
       },
 
-      currentEmployeeId:  null
+      // id nhân viên hiện tại
+      currentEmployeeId: null,
+
+      // mảng lưu giá trị lọc
+      listFilter: new Map(),
+
+      // các chức năng thao tác nhanh dữ liệu
+      RULE_HANDLER_DATA,
+
+      // kiểm tra hiển thị các chức năng hiển thị nhanh
+      checkShowComboboxHandlerData: false,
+
+      // mảng lưu các giá trị dùng để xóa nhân viên
+      listIdEmployees: [],
+
+      // mảng lưu các giá trị lọc dùng để xóa
+      listDeleteFilterData: []
     };
   },
   created() {
@@ -268,17 +337,136 @@ export default {
     },
   },
   methods: {
+    /**
+     * Author:Phạm Văn Đạt(22/11/2022)
+     * Function: Xử lý thao tác nhiều dữ liệu
+     * @param {*} item : Xóa nhiều | Sửa nhiều
+     */
+    async resolveMultiple(item) {
+      try {
+        if (this.listIdEmployees.length > 0) {
+          if (item.id == RULE_HANDLER_DATA.Delete.id) {
+            console.log(this.listIdEmployees);
+            let result = await employees.deleteEmployee(this.listIdEmployees);
+
+            if (result.statusCode == STATUS_CODES.Code200) {
+              // hiển thị toast message xóa thành công
+              this.textToastMessage = result.message[0];
+              this.typeToastMessage = "success";
+
+              // load lại dữ liệu
+              await this.loadData();
+
+              this.listIdEmployees = [];
+            } else {
+              // hiển thị toast message xóa thất bại
+              this.textToastMessage = result.message[0];
+              this.typeToastMessage = "error";
+            }
+          } else {
+              this.textToastMessage = "Tính năng đang phát triển.";
+              this.typeToastMessage = "error";
+              console.log("vào đây")
+          }
+        }
+
+        if (this.$refs.itemResolveMultiple) {
+          // this.$refs.itemResolveMultiple[0].style.display = "none";
+          this.$refs.itemResolveMultiple.style.display = "none"
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    /**
+     * Author:Phạm Văn Đạt(22/11/2022)
+     * Function: Xử lý lấy dữ liệu id khách hàng
+     * @param {*} value : id nhân viên
+     */
+    handlerSelectIdEmployees(value) {
+      try {
+        this.listIdEmployees = value;
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    /**
+     * Author:Phạm Văn Đạt(19/11/2022)
+     * Function: Xử lý xóa item lọc
+     * @param {*} value : item muốn xóa
+     */
+    clickDeleteItemFilter(value) {
+      try {
+        if (value) {
+          this.listDeleteFilterData = [value[0]];
+        } else {
+          let arrNameFilter = [];
+          this.listFilter.forEach(function (value, key) {
+            arrNameFilter.push(key);
+          });
+
+          this.listDeleteFilterData = [...arrNameFilter];
+        }
+
+        console.log(this.listDeleteFilterData);
+
+        // gọi api lọc
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(18/11/2022)
+     * Function: Xử lý hiển thị, ẩn form xử lý dữ liệu nhanh
+     * @param {*} event : el click
+     */
+    clickAwayHandlerData() {
+      try {
+        this.checkShowComboboxHandlerData = false;
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(18/11/2022)
+     * Function: Xử lý lọc
+     * @param {*} value : mảng giá trị lọc
+     */
+    handlerFilter(value) {
+      try {
+        this.listFilter = value;
+        console.log(this.listFilter);
+
+        // tạo mảng lưu giá các object lọc
+        let arrFilter = [];
+
+        // xử lý thêm dữ liệu vào object lọc
+        this.listFilter.forEach((value, key) => {
+          arrFilter.push({
+            name: key,
+            operator: value.operator,
+            value: value.value,
+          });
+        });
+
+        console.log(arrFilter);
+      } catch (e) {
+        console.log(e);
+      }
+    },
 
     /**
      * Author: Phạm Văn Đạt(08/11/2022)
      * Function: Xử lý xuất excel
      */
-    async handlerExportExcel(){
-      try{
-
+    async handlerExportExcel() {
+      try {
         await employees.exportExcel(employees.keyword);
-
-      }catch(e){
+      } catch (e) {
         console.log(e);
       }
     },
@@ -309,11 +497,15 @@ export default {
             this.checkNotify = {
               isShow: true,
               type: NOTIFY_LIST.Warning.type,
-              text: NOTIFY_LIST.Warning.text('Bạn có thực sự muốn xóa nhân viên <'+data.employeeId+'> không?'),
+              text: NOTIFY_LIST.Warning.text(
+                "Bạn có thực sự muốn xóa nhân viên <" +
+                  data.employeeId +
+                  "> không?"
+              ),
             };
 
             this.currentEmployeeId = data.id;
-            
+
             console.log(value, data.id);
           } else if (value == FUNCTION_TABLE.StopUsing) {
             console.log("Ngưng sử dụng");
@@ -329,8 +521,8 @@ export default {
      * Function: Xử lý xóa nhân viên
      */
     async handlerDeleteEmployee() {
-      try{
-        console.log("run")
+      try {
+        console.log("run");
         let result = await employees.deleteEmployee([this.currentEmployeeId]);
 
         if (result.statusCode == STATUS_CODES.Code200) {
@@ -345,10 +537,9 @@ export default {
           this.textToastMessage = result.message[0];
           this.typeToastMessage = "error";
         }
-      }catch(e){
+      } catch (e) {
         console.log(e);
       }
-      
     },
 
     /**

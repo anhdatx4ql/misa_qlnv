@@ -66,6 +66,7 @@ export default {
      */
     checked(value){
       this.currentChecked = value;
+      console.log(value)
     }
   }
 }

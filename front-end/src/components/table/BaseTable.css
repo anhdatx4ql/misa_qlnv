@@ -303,8 +303,14 @@ tr>th {
     cursor: pointer;
 }
 
-table th:hover .filter-container {
+table th .filter-container {
     display: flex;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width:16px;
+    height:16px;
 }
 
 .table-content th.text-align-center>div {
@@ -328,8 +334,9 @@ table th:hover .filter-container {
     z-index: 99999;
     left: 50%;
     box-sizing: border-box;
-    top: 49px;
-    transform: translateX(-33%);
+    top: 33px;
+    transform: translateX(-49%);
+    display: none;
 }
 
 .filter-content-top {
@@ -431,4 +438,23 @@ table th:hover .filter-container {
 
 .table-content thead>tr>th:hover .filter-icon{
     display: flex;
+}
+
+.filter-content-check-show{
+    display:inline-block !important;
+}
+
+.filter-container {
+    font-size: 13px;
+}
+
+.filter-container .filter-content-center .combobox-container {width: 314px !important;}
+
+th {
+    position: relative;
+}
+
+.table-filter {
+    position: absolute;
+    right: 0;
 }

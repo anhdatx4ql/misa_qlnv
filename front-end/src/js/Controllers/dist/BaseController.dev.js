@@ -76,7 +76,9 @@ var paging = function paging(endPoint, keyword, currentPageNumber, pageSize) {
           }
 
           _context2.next = 5;
-          return regeneratorRuntime.awrap(_axios["default"].get(_endPoint.ROOT_API + endPoint + endPointLast).then(function (res) {
+          return regeneratorRuntime.awrap(_axios["default"].post(_endPoint.ROOT_API + endPoint + endPointLast, [], {
+            header: headers
+          }).then(function (res) {
             result = res.data;
           })["catch"](function (e) {
             result = e;

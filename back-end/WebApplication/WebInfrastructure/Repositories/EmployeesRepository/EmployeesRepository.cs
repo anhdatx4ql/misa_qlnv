@@ -33,14 +33,14 @@ namespace MISA.AMIS.DL
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="sql"></param>
-        /// <param name="sp_params"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
-        public async Task<PagingModel<T>> Paging<T>(string sql, DynamicParameters sp_params = null)
+        public async Task<PagingModel<T>> Paging<T>(string sql, DynamicParameters parameters = null)
         {
             using (IDbConnection db = GetDbConnection())
             {
                 db.Open();
-                var results = await db.QueryMultipleAsync(sql, sp_params);
+                var results = await db.QueryMultipleAsync(sql, parameters);
 
                 if (results != null)
                 {

@@ -641,6 +641,8 @@ export default {
     async loadPositions() {
       try {
         await positions.getRecords();
+        console.log(positions)
+
         this.positions = positions.data;
       } catch (e) {
         console.log(e);
@@ -762,7 +764,6 @@ export default {
         // load lại dữ liệu
         this.$emit("loadData", true);
 
-        console.log("Xử lý cất");
       } else {
 
         this.currentEmployee = await resetEmployeeDetail(employeeModel,employees);
@@ -774,7 +775,6 @@ export default {
 
         this.checkLoadData = true;
 
-        console.log("Xử lý cất và thêm");
       }
     },
 

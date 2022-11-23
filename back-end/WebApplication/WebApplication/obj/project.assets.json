@@ -5369,9 +5369,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebApplication\\WebApplication.csproj",
-      "projectName": "WebApplication",
-      "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebApplication\\WebApplication.csproj",
+      "projectUniqueName": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebApplication\\MISA.AMIS.Application.csproj",
+      "projectName": "MISA.AMIS.Application",
+      "projectPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebApplication\\MISA.AMIS.Application.csproj",
       "packagesPath": "C:\\Users\\This MC\\.nuget\\packages\\",
       "outputPath": "D:\\hoctap\\BTMiSa\\misa_qlnv\\back-end\\WebApplication\\WebApplication\\obj\\",
       "projectStyle": "PackageReference",

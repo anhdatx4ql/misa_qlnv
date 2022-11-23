@@ -18,9 +18,9 @@ namespace MISA.AMIS.DL
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="sql"></param>
-        /// <param name="sp_params"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
-        Task<PagingModel<T>> Paging<T>(string sql, DynamicParameters sp_params = null);
+        Task<PagingModel<T>> Paging<T>(string sql, DynamicParameters parameters = null);
 
         /// <summary>
         /// Author: Phạm Văn Đạt(23/10/2022)

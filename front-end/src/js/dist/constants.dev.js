@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.TYPE_FILTER = exports.FIELDS_FILTER = exports.RULE_FORMAT_DATA = exports.FUNCTION_TABLE = exports.FUNCTION_UPLOAD = exports.FIELDS_REQUIRED = exports.STATUS_CODES = exports.NOTIFY_TEXT = exports.NOTIFY_LIST = exports.GENDERS = exports.PAGING_ITEMS = exports.TABLE_FIELDS = exports.COMPANIES = exports.MENU_ITEMS = void 0;
+exports.RULE_HANDLER_DATA = exports.TYPE_FILTER = exports.FIELDS_FILTER_NOT_VALUE = exports.FIELDS_FILTER = exports.RULE_FORMAT_DATA = exports.FUNCTION_TABLE = exports.FUNCTION_UPLOAD = exports.FIELDS_REQUIRED = exports.STATUS_CODES = exports.NOTIFY_TEXT = exports.NOTIFY_LIST = exports.GENDERS = exports.PAGING_ITEMS = exports.TABLE_FIELDS = exports.COMPANIES = exports.MENU_ITEMS = void 0;
 
 var _FomatData = require("/src/js/FomatData");
 
@@ -143,10 +143,8 @@ var TABLE_FIELDS = [{
   nameFilter: "Tên nhân viên",
   typeFilter: "Text",
   isField: true,
-  // tạo biến lưu giá trị lọc
   filter: {
-    name: null,
-    operator: null,
+    operator: 'like',
     value: null
   }
 }, {
@@ -156,7 +154,11 @@ var TABLE_FIELDS = [{
   isRequired: true,
   nameFilter: "Mã nhân viên",
   typeFilter: "Text",
-  isField: true
+  isField: true,
+  filter: {
+    operator: 'like',
+    value: null
+  }
 }, {
   name: "GIỚI TÍNH",
   fieldName: "gender",
@@ -173,7 +175,12 @@ var TABLE_FIELDS = [{
   },
   typeFilter: "Gender",
   nameFilter: "Giới tính",
-  isField: true
+  isField: true,
+  filter: {
+    operator: '=',
+    value: null,
+    name: null
+  }
 }, {
   name: "NGÀY SINH",
   fieldName: "birthDay",
@@ -183,8 +190,12 @@ var TABLE_FIELDS = [{
   formatDate: function formatDate(value) {
     return (0, _FomatData.formatDate)(value, "DD/MM/YYYY");
   },
-  typeFilter: "Datetime",
-  isField: true
+  typeFilter: "DateTime",
+  isField: true,
+  filter: {
+    operator: '=',
+    value: null
+  }
 }, {
   name: "SỐ CMND",
   fieldName: "idNo",
@@ -192,32 +203,48 @@ var TABLE_FIELDS = [{
   width: 130,
   typeFilter: "Text",
   nameFilter: "Số CMND",
-  isField: true
+  isField: true,
+  filter: {
+    operator: 'like',
+    value: null
+  }
 }, {
   name: "NGÀY CẤP",
   fieldName: "issuaOn",
   width: 120,
   "class": "text-align-center",
+  typeFilter: "DateTime",
   formatDate: function formatDate(value) {
     return (0, _FomatData.formatDate)(value, "DD/MM/YYYY");
   },
-  typeFilter: "Datetime",
   nameFilter: "Ngày cấp",
-  isField: true
+  isField: true,
+  filter: {
+    operator: '=',
+    value: null
+  }
 }, {
   name: "NƠI CẤP",
   fieldName: "placeOfIssue",
   width: 130,
   typeFilter: "Text",
   nameFilter: "Nơi cấp",
-  isField: true
+  isField: true,
+  filter: {
+    operator: 'like',
+    value: null
+  }
 }, {
   name: "CHỨC DANH",
   fieldName: "positionName",
   width: 230,
   typeFilter: "Text",
   nameFilter: "Chức danh",
-  isField: true
+  isField: true,
+  filter: {
+    operator: 'like',
+    value: null
+  }
 }, {
   name: "TÊN ĐƠN VỊ",
   fieldName: "departmentName",
@@ -225,28 +252,44 @@ var TABLE_FIELDS = [{
   isRequired: true,
   typeFilter: "Text",
   nameFilter: "Đơn vị",
-  isField: true
+  isField: true,
+  filter: {
+    operator: 'like',
+    value: null
+  }
 }, {
   name: "SỐ TÀI KHOẢN",
   fieldName: "bankAccountNumber",
   width: 190,
   typeFilter: "Text",
   nameFilter: "Số tài khoản",
-  isField: true
+  isField: true,
+  filter: {
+    operator: 'like',
+    value: null
+  }
 }, {
   name: "TÊN NGÂN HÀNG",
   fieldName: "bankName",
   width: 150,
   typeFilter: "Text",
   nameFilter: "Tên ngân hàng",
-  isField: true
+  isField: true,
+  filter: {
+    operator: 'like',
+    value: null
+  }
 }, {
   name: "CHI NHÁNH NGÂN HÀNG",
   fieldName: "bankAccountBrand",
   width: 230,
   typeFilter: "Text",
   nameFilter: "Chi nhánh ngân hàng",
-  isField: true
+  isField: true,
+  filter: {
+    operator: 'like',
+    value: null
+  }
 }, {
   name: "ĐT DI ĐỘNG",
   fieldName: "numberPhone",
@@ -254,7 +297,11 @@ var TABLE_FIELDS = [{
   title: "Điện thoại di động",
   typeFilter: "Text",
   nameFilter: "ĐT di động",
-  isField: true
+  isField: true,
+  filter: {
+    operator: 'like',
+    value: null
+  }
 }, {
   name: "ĐT CỐ ĐỊNH",
   fieldName: "deskPhone",
@@ -262,18 +309,26 @@ var TABLE_FIELDS = [{
   title: "Điện thoại cố định",
   typeFilter: "Text",
   nameFilter: "ĐT cố định",
-  isField: true
+  isField: true,
+  filter: {
+    operator: 'like',
+    value: null
+  }
 }, {
   name: "EMAIL",
   fieldName: "email",
   width: 200,
   typeFilter: "Text",
   nameFilter: "Email",
-  isField: true
+  isField: true,
+  filter: {
+    operator: 'like',
+    value: null
+  }
 }, {
   name: "LÀ KHÁCH HÀNG",
   fieldName: "isEmployee",
-  width: 130,
+  width: 150,
   disabled: true,
   "class": "text-align-center",
   checkBox: true,
@@ -283,7 +338,7 @@ var TABLE_FIELDS = [{
 }, {
   name: "LÀ NHÀ CUNG CẤP",
   fieldName: "isSuppiler",
-  width: 130,
+  width: 170,
   disabled: true,
   "class": "text-align-center",
   checkBox: true,
@@ -297,7 +352,11 @@ var TABLE_FIELDS = [{
   "class": "border-right-none",
   typeFilter: "Text",
   nameFilter: "Địa chỉ",
-  isField: true
+  isField: true,
+  filter: {
+    operator: 'like',
+    value: null
+  }
 }, {
   width: 120,
   fieldName: "CHỨC NĂNG",
@@ -520,56 +579,63 @@ var FIELDS_FILTER = {
     id: 1,
     name: "(Trống)",
     operator: "IS NULL",
-    isDisableInput: true
+    isDisableInput: true,
+    value: function value(_value2) {
+      return _value2 ? "" : "";
+    }
   }, {
     id: 2,
     name: "(Không trống)",
     operator: "IS NOT NULL",
-    isDisableInput: true
+    isDisableInput: true,
+    value: function value(_value3) {
+      return _value3 ? "" : "";
+    }
   }, {
     id: 3,
     name: "Bằng",
     operator: "=",
-    value: function value(_value2) {
-      return _value2;
+    value: function value(_value4) {
+      return _value4;
     }
   }, {
     id: 4,
     name: "Khác",
     operator: "<>",
-    value: function value(_value3) {
-      return _value3;
+    value: function value(_value5) {
+      return _value5;
     }
   }, {
     id: 5,
     name: "Chứa",
+    fieldName: 'like',
     operator: 'like',
-    value: function value(_value4) {
-      return "'%" + _value4 + "%'";
+    value: function value(_value6) {
+      return _value6;
     }
   }, {
     id: 6,
     name: "Không chứa",
     fieldName: 'notLike',
     operator: 'not like',
-    value: function value(_value5) {
-      return "'%" + _value5 + "%'";
+    value: function value(_value7) {
+      return _value7;
     }
   }, {
     id: 7,
     name: "Bắt đầu với",
     fieldName: 'firstLike',
     operator: 'like',
-    value: function value(_value6) {
-      return "'" + _value6 + "%'";
+    value: function value(_value8) {
+      return _value8;
     }
   }, {
     id: 8,
     name: "Kết thúc với",
     fieldName: 'lastLike',
     operator: 'like',
-    value: function value(_value7) {
-      return "'%" + _value7 + "'";
+    value: function value(_value9) {
+      return _value9;
     }
   }],
   Boolean: [{
@@ -586,63 +652,108 @@ var FIELDS_FILTER = {
   DateTime: [{
     id: 1,
     name: "Bằng",
-    operator: '='
+    operator: '=',
+    value: function value(_value10) {
+      return _value10 ? (0, _FomatData.formatDate)(_value10, "DD/MM/YYYY") : null;
+    }
   }, {
     id: 2,
     name: "Khác",
-    operator: '<>'
+    operator: '<>',
+    value: function value(_value11) {
+      return _value11 ? (0, _FomatData.formatDate)(_value11, "DD/MM/YYYY") : null;
+    }
   }, {
     id: 3,
     name: "Nhỏ hơn",
-    operator: '<'
+    operator: '<',
+    value: function value(_value12) {
+      return _value12 ? (0, _FomatData.formatDate)(_value12, "DD/MM/YYYY") : null;
+    }
   }, {
     id: 4,
     name: "Nhỏ hơn hoặc Bằng",
-    operator: '<='
+    operator: '<=',
+    value: function value(_value13) {
+      return _value13 ? (0, _FomatData.formatDate)(_value13, "DD/MM/YYYY") : null;
+    }
   }, {
     id: 5,
     name: "Lớn hơn",
-    operator: '>'
+    operator: '>',
+    value: function value(_value14) {
+      return _value14 ? (0, _FomatData.formatDate)(_value14, "DD/MM/YYYY") : null;
+    }
   }, {
     id: 6,
     name: "Lớn hơn hoặc bằng",
-    operator: '>='
+    operator: '>=',
+    value: function value(_value15) {
+      return _value15 ? (0, _FomatData.formatDate)(_value15, "DD/MM/YYYY") : null;
+    }
   }, {
     id: 7,
     name: "(Trống)",
-    operator: 'IS NULL'
+    operator: 'IS NULL',
+    value: function value(_value16) {
+      return _value16 ? null : null;
+    },
+    isDisableInput: true
   }, {
     id: 8,
     name: "(Không trống)",
-    operator: 'IS NOT NULL'
+    operator: 'IS NOT NULL',
+    value: function value(_value17) {
+      return _value17 ? null : null;
+    },
+    isDisableInput: true
   }],
   Gender: [{
-    id: 1,
+    id: 0,
     name: "Nam",
     operator: "=",
     value: GENDER_OBJECT.MALE
   }, {
-    id: 2,
+    id: 1,
     name: "Nữ",
     operator: "=",
     value: GENDER_OBJECT.FEMALE
   }, {
-    id: 3,
+    id: 2,
     name: "Khác",
     operator: "=",
     value: GENDER_OBJECT.OTHER
   }]
 };
 /**
+ * AUthor: Phạm Văn Đạt(10/11/2022)
+ * Function: Các trường không có value trong lọc
+ */
+
+exports.FIELDS_FILTER = FIELDS_FILTER;
+var FIELDS_FILTER_NOT_VALUE = ["IS NULL", "IS NOT NULL"];
+/**
  * AUtho: Phạm Văn Đạt(11/11/2022)
  * Function: Các kiểu lọc dữ liệu
  */
 
-exports.FIELDS_FILTER = FIELDS_FILTER;
+exports.FIELDS_FILTER_NOT_VALUE = FIELDS_FILTER_NOT_VALUE;
 var TYPE_FILTER = {
   Text: "Text",
   Boolean: "Boolean",
-  Datetime: "Datetime",
+  DateTime: "DateTime",
   Gender: "Gender"
 };
+/**
+ * AUtho: Phạm Văn Đạt(18/11/2022)
+ * Function: Các kiểu thao tác nhanh với dữ liệu
+ */
+
 exports.TYPE_FILTER = TYPE_FILTER;
+var RULE_HANDLER_DATA = {
+  Delete: {
+    id: 1,
+    name: "Xóa"
+  }
+};
+exports.RULE_HANDLER_DATA = RULE_HANDLER_DATA;

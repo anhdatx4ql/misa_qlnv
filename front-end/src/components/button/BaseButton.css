@@ -76,3 +76,10 @@ button:hover>.background-icon-reload{
 button.button-white:focus {
     outline: 2px solid #e2e2e2;
 }
+
+.button-icon-x{
+    background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -84px -316px;
+	width: 8px;
+	height: 8px;
+    display:flex;
+}

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using MISA.AMIS.Common;
 using MISA.AMIS.BL;
 
-namespace WebApplication
+namespace MISA.AMIS.Application
 {
     [Route("api/[controller]")]
     [ApiController]

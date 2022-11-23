@@ -12,7 +12,8 @@ span.content-top-left-title {
 
 .content-center-top {
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
+    align-items: baseline;
 }
 
 button.button.content-center-button-left {
@@ -28,4 +29,97 @@ span.background-flex {
 
 .content-center-top {
     padding: 16px 16px 32px 16px;
+}
+
+.content-center-top-right {
+    display: flex;
+    align-items: center;
+}
+
+.content-center-top-right .input-container {
+    padding: 0;
+}
+
+.handler-data-child {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 100%;
+    overflow: hidden;
+}
+
+.content-center-top-left-child.handler-data {
+    position: relative;
+}
+
+.handler-data-child button {
+    height: 34px;
+}
+
+.handler-data-child {
+    overflow: hidden;
+}
+
+.handler-data-child button {
+    background: white;
+}
+
+.handler-data-child {
+    overflow: hidden;
+}
+
+.content-center-top-left-child.handler-data>.button {
+    border-radius: 30px;
+    padding: 0 16px;
+    background: white;
+    color: #111;
+    border: 2px solid #3b3c3f;
+}
+
+.content-center-top-left-child.handler-data>.button:hover {
+    background: #D2D3D6;
+}
+
+.handler-data-child {
+    overflow: hidden;
+}
+
+.content-center-top-left-child {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.content-center-top-left-child>div {
+    margin-right: 8px;
+    align-items: center;
+    color: #0075c0;
+}
+
+.content-center-top-left-child>button:not(:first-child):hover {
+    background: none;
+    text-decoration: underline;
+}
+
+.content-center-top-left-child>button:not(:first-child){
+    font-weight: 400;
+    height: fit-content;
+    background: none;
+    color: #0075c0;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.handler-data-child {
+    position: absolute;
+    top: 100%;
+    overflow: hidden;
+}
+
+.handler-data-child>button {
+    width: 100%;
+}
+
+.handler-data-child {
+    overflow: hidden !important;
 }
