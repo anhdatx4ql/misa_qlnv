@@ -265,7 +265,10 @@ export default {
       listIdEmployees: [],
 
       // mảng lưu các giá trị lọc dùng để xóa
-      listDeleteFilterData: []
+      listDeleteFilterData: [],
+
+      // mảng lưu các trường lọc
+      arrFilter:[]
     };
   },
   created() {
@@ -436,24 +439,36 @@ export default {
      * Function: Xử lý lọc
      * @param {*} value : mảng giá trị lọc
      */
-    handlerFilter(value) {
+    async handlerFilter(value) {
       try {
         this.listFilter = value;
         console.log(this.listFilter);
 
         // tạo mảng lưu giá các object lọc
-        let arrFilter = [];
+        this.arrFilter = [];
 
         // xử lý thêm dữ liệu vào object lọc
         this.listFilter.forEach((value, key) => {
-          arrFilter.push({
+          let valueFilter = "";
+          if(typeof value.value != "string"){
+            valueFilter = value.value.toString();
+          }else{
+            valueFilter = value.value;
+          }
+
+          console.log(valueFilter)
+          this.arrFilter.push({
             name: key,
             operator: value.operator,
-            value: value.value,
+            value: valueFilter,
+            typeOperator: (value.typeOperator != undefined)?value.typeOperator:null
           });
         });
 
-        console.log(arrFilter);
+        console.log(this.arrFilter);
+        // load lại dữ liệu
+        await this.loadData();
+
       } catch (e) {
         console.log(e);
       }
@@ -555,7 +570,7 @@ export default {
         this.disableButtonResetData = true;
 
         // gọi api phân trang
-        await employees.pagingEmployee();
+        await employees.pagingEmployee(this.arrFilter);
 
         // khởi tạo giá trị list dữ liệu
         this.listData = employees.data;

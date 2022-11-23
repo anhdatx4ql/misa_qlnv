@@ -16,10 +16,11 @@
           >
             <div class="th-container">
               <div v-if="field.type == 'checkbox'">
-                <base-input-checkbox id="idCheckboxHeader"
-                 @checked="handlerChecked($event,listData)"
-                 :checked="isCheckedCheckboxHeader"
-                 ></base-input-checkbox>
+                <base-input-checkbox
+                  id="idCheckboxHeader"
+                  @checked="handlerChecked($event, listData)"
+                  :checked="isCheckedCheckboxHeader"
+                ></base-input-checkbox>
               </div>
               <div v-else-if="!field.title">
                 {{ field.name }}
@@ -111,7 +112,8 @@
                       >
                         <span>Bỏ lọc</span>
                       </base-button>
-                      <base-button class="filter-content-bottom-button"
+                      <base-button
+                        class="filter-content-bottom-button"
                         @click="
                           handlerFilter(
                             field.fieldName,
@@ -159,7 +161,7 @@
 
                     <div class="filter-content-bottom">
                       <base-button
-                        class="button-white"
+                        class="button-white filter-content-bottom-button"
                         @click="
                           handlerRemoveFilterItem(
                             field.filter,
@@ -171,6 +173,7 @@
                         <span>Bỏ lọc</span>
                       </base-button>
                       <base-button
+                        class="filter-content-bottom-button"
                         @click="
                           handlerFilter(field.fieldName, field.nameFilter)
                         "
@@ -243,7 +246,7 @@
                     </div>
                     <div class="filter-content-bottom">
                       <base-button
-                        class="button-white"
+                        class="button-white filter-content-bottom-button"
                         @click="
                           handlerRemoveFilterItem(
                             field.filter,
@@ -255,6 +258,7 @@
                         <span>Bỏ lọc</span>
                       </base-button>
                       <base-button
+                        class="filter-content-bottom-button"
                         @click="
                           handlerFilter(
                             field.fieldName,
@@ -323,7 +327,7 @@
                     </div>
                     <div class="filter-content-bottom">
                       <base-button
-                        class="button-white"
+                        class="button-white filter-content-bottom-button"
                         @click="
                           handlerRemoveFilterItem(
                             field.filter,
@@ -335,6 +339,7 @@
                         <span>Bỏ lọc</span>
                       </base-button>
                       <base-button
+                        class="filter-content-bottom-button"
                         @click="
                           handlerFilter(
                             field.fieldName,
@@ -392,9 +397,9 @@
             <div v-if="field.checkBox == true">
               <base-input-checkbox
                 :value="data.id"
-                :checked="(listIdData.indexOf(data.id)>-1)?true:false"
+                :checked="listIdData.indexOf(data.id) > -1 ? true : false"
                 :disabled="field.disabled"
-                @checked="handlerChecked($event,[data])"
+                @checked="handlerChecked($event, [data])"
               >
               </base-input-checkbox>
             </div>
@@ -472,7 +477,7 @@ export default {
     dataFilter: Map,
 
     // list id nhan viên
-    listIdDataIn: Array
+    listIdDataIn: Array,
   },
   data() {
     return {
@@ -520,7 +525,7 @@ export default {
       listIdData: [],
 
       // id item đầu tiên của mảng
-      isCheckedCheckboxHeader: false
+      isCheckedCheckboxHeader: false,
     };
   },
   created() {
@@ -528,36 +533,32 @@ export default {
     this.listIdData = this.listIdDataIn;
   },
   methods: {
-
     /**
      * Author: Phạm Văn Đạt(22/11/2022)
      * FUnction: Xử lý lấy list lưu id nhân viên
      * @param {*} value : giá trị checked
      */
-    handlerChecked(value,data){
-      try{
-        if(value){
+    handlerChecked(value, data) {
+      try {
+        if (value) {
           // xử lý thêm dữ liệu vào mảng
-          for(let i=0;i<data.length;i++){
-            if(this.listIdData.indexOf(data[i].id) == -1)
-              this.listIdData.push(data[i].id)
+          for (let i = 0; i < data.length; i++) {
+            if (this.listIdData.indexOf(data[i].id) == -1)
+              this.listIdData.push(data[i].id);
           }
-         
-        }else{
-          for(let i=0;i<data.length;i++){
+        } else {
+          for (let i = 0; i < data.length; i++) {
             // xử lý xóa dữ liệu khỏi mảng
             let index = this.listIdData.indexOf(data[i].id);
             if (index > -1) {
               this.listIdData.splice(index, 1);
             }
           }
-         
         }
         console.log(this.listIdData);
 
-        this.$emit("listIdData",this.listIdData);
-
-      }catch(e){
+        this.$emit("listIdData", this.listIdData);
+      } catch (e) {
         console.log(e);
       }
     },
@@ -624,7 +625,6 @@ export default {
         }
 
         if (type == TYPE_FILTER.Gender) {
-
           let item = this.selectItemFilter(type, filterItem.value);
 
           if (item) {
@@ -632,6 +632,7 @@ export default {
               operator: filterItem.operator,
               value: filterItem.value,
               text: nameFilter + ": " + item.name,
+              typeOperator: item.fieldName,
             });
           }
         } else {
@@ -652,9 +653,10 @@ export default {
                 nameFilter +
                 " " +
                 item.name +
-                " " +
-                item.value(filterItem.value),
-                typeOperator: item.fieldName
+                ' "' +
+                item.value(filterItem.value) +
+                '"',
+              typeOperator: item.fieldName,
             });
           } else {
             if (!filterItem.value) {
@@ -672,21 +674,21 @@ export default {
                   nameFilter +
                   " " +
                   item.name +
-                  " " +
-                  item.value(filterItem.value);
+                  ' "' +
+                  item.value(filterItem.value) +
+                  '"';
               }
               this.listFilter.set(fieldName, {
                 operator: item.operator,
                 value: item.value(filterItem.value),
                 text: text,
-                typeOperator: item.fieldName
+                typeOperator: item.fieldName,
               });
             }
           }
         }
 
         this.$emit("listFilter", this.listFilter);
-
       } catch (e) {
         console.log(e);
       }
@@ -761,8 +763,8 @@ export default {
           !(
             elClick?.getAttribute("id") == "app" &&
             !elClick?.classList.contains("el-popper is-pure")
-          )
-          && !elClick?.classList.contains("filter-content-bottom-button")
+          ) &&
+          !elClick?.classList.contains("filter-content-bottom-button")
         ) {
           elClick = elClick.parentNode;
         }
@@ -770,7 +772,7 @@ export default {
         // xử lý hiển thị, ẩn form
         if (el) {
           if (elClick?.classList.contains("table-filter")) {
-            if (!el[0].classList.contains("filter-content-check-show") ) {
+            if (!el[0].classList.contains("filter-content-check-show")) {
               el[0].classList.add("filter-content-check-show");
             }
           } else {
@@ -778,7 +780,6 @@ export default {
               el[0].classList.remove("filter-content-check-show");
           }
         }
-
       } catch (e) {
         console.log(e);
       }
@@ -858,14 +859,13 @@ export default {
     },
   },
   watch: {
-
     /**
      * Author: Phạm Văn Đạt(22/11/2022)
      * Function: Xử lý lấy id khách hàng
      * @param {*} value : giá trị id khách hàng
      */
-    listIdDataIn(value){
-      if(value){
+    listIdDataIn(value) {
+      if (value) {
         this.listIdData = this.listIdDataIn;
       }
     },
@@ -899,7 +899,7 @@ export default {
 
           this.$emit("listFilter", this.listFilter);
 
-          console.log(this.listDeleteFilterData)
+          console.log(this.listDeleteFilterData);
 
           this.$emit("listDeleteFilterData", null);
         }
@@ -915,14 +915,19 @@ export default {
      */
     modelValue(value) {
       this.listData = value;
-
-      if(this.listIdData.indexOf(value[0].id) > -1 && this.listIdData.length == value.length){
-        this.isCheckedCheckboxHeader = true;
-      }else{
+      console.log(value)
+      if (value.length >0) {
+        if (
+          this.listIdData.indexOf(value[0].id) > -1 &&
+          this.listIdData.length == value.length
+        ) {
+          this.isCheckedCheckboxHeader = true;
+        }else {
         this.isCheckedCheckboxHeader = false;
-        console.log("a")
       }
-
+      } else {
+        this.isCheckedCheckboxHeader = false;
+      }
     },
 
     /**

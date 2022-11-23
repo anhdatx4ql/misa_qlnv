@@ -82,25 +82,42 @@ namespace MISA.AMIS.BL
                     // xử lý lấy dữ liệu where
                     foreach(var item in listFilters)
                     {
+
                         if (item.Operator == "like" || item.Operator == "not like")
                         {
                             item.Value = CheckSpecialCharacters.CheckSpecial(item.Value);
                         }
 
+                        var checkGender = false;
                         switch (item.TypeOperator)
                         {
                             case "like":
-                                item.Value = '%' + item.Value + '%';
+                                item.Value = "'%" + item.Value + "%'";
                                 break;
                             case "firstLike":
-                                item.Value = '%' + item.Value;
+                                item.Value = "'" + item.Value + "%'";
                                 break;
                             case "lastLike":
-                                item.Value += '%';
+                                item.Value = "'%" + item.Value + "'";
+                                break;
+                            case "gender":
+                                checkGender = true;
+                                break;
+                            default:
+                                item.Value = "'" + item.Value + "'";
                                 break;
                         }
 
-                        stringFilter += item.Name + " " + item.Operator + " " + item.Value;
+                        if(checkGender == true)
+                        {
+                            stringFilter += item.Name + " " + item.Operator + " " + int.Parse(item.Value);
+                        }
+                        else
+                        {
+                            stringFilter += item.Name + " " + item.Operator + " " + item.Value;
+                        }
+
+                        
                         if(item != listFilters[listFilters.Count - 1])
                         {
                             stringFilter += " and ";

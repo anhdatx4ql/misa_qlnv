@@ -74,12 +74,13 @@
     font-weight: 600;
     position: relative;
     color: inherit;
-    display: inline-block;
     transition: all .25s ease;
     white-space: nowrap;
     font-size: 13px;
     padding: 6px 0px 6px 16px;
     min-width: auto;
+    display: flex;
+    align-items: center;
 }
 
 .table-content td.td.table-function>.combobox>.combobox-container {

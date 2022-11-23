@@ -105,9 +105,9 @@ export class Employees{
    * @param {*} currentPageNumber : số trang hiện tại: mặc định là 1
    * @param {*} pageSize : số bản ghi trên trang
    */
-  async pagingEmployee(){
+  async pagingEmployee(data){
 
-    let res = await paging(END_POINTS.PagingEmployee,this.keyword,this.currentPageNumber,this.pageSize);
+    let res = await paging(END_POINTS.PagingEmployee,this.keyword,this.currentPageNumber,this.pageSize,data);
     if(res.statusCode == STATUS_CODES.Code200){
       this.data = res.data.data;
       this.totalCount = res.data.totalCount;

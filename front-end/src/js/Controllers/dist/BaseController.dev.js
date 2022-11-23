@@ -59,7 +59,7 @@ var getAll = function getAll(endPoint) {
 
 exports.getAll = getAll;
 
-var paging = function paging(endPoint, keyword, currentPageNumber, pageSize) {
+var paging = function paging(endPoint, keyword, currentPageNumber, pageSize, data) {
   var result, endPointLast;
   return regeneratorRuntime.async(function paging$(_context2) {
     while (1) {
@@ -76,7 +76,7 @@ var paging = function paging(endPoint, keyword, currentPageNumber, pageSize) {
           }
 
           _context2.next = 5;
-          return regeneratorRuntime.awrap(_axios["default"].post(_endPoint.ROOT_API + endPoint + endPointLast, [], {
+          return regeneratorRuntime.awrap(_axios["default"].post(_endPoint.ROOT_API + endPoint + endPointLast, data, {
             header: headers
           }).then(function (res) {
             result = res.data;

@@ -35,7 +35,7 @@ export const getAll = async function(endPoint){
  * @param {*} pageSize : số bản ghi trên 1 trang
  * @returns : respose hoặc lỗi nếu có
  */
-export const paging = async function(endPoint, keyword, currentPageNumber, pageSize) {
+export const paging = async function(endPoint, keyword, currentPageNumber, pageSize,data) {
   let result = {};
 
   // khai báo chuỗi nối để phân trang
@@ -47,7 +47,7 @@ export const paging = async function(endPoint, keyword, currentPageNumber, pageS
   else{
     endPointLast = "keyword="+keyword+"&pageSize="+pageSize+"&currentPageNumber="+currentPageNumber;
   }
-  await axios.post(ROOT_API+endPoint+endPointLast, [],{header: headers})
+  await axios.post(ROOT_API+endPoint+endPointLast, data,{header: headers})
   .then(res=>{
     result = res.data;
   })

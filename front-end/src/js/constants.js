@@ -713,7 +713,7 @@ export const FIELDS_FILTER = {
       name: "Bằng",
       operator: '=',
       value:(value)=>{
-        return (value)?formatDate(value, "DD/MM/YYYY"):null;
+        return (value)?formatDate(value, "YYYY/MM/DD"):null;
       }
     },
     {
@@ -721,7 +721,7 @@ export const FIELDS_FILTER = {
       name: "Khác",
       operator: '<>',
       value:(value)=>{
-        return (value)?formatDate(value, "DD/MM/YYYY"):null;
+        return (value)?formatDate(value, "YYYY/MM/DD"):null;
       }
     },
     {
@@ -729,7 +729,7 @@ export const FIELDS_FILTER = {
       name: "Nhỏ hơn",
       operator: '<',
       value:(value)=>{
-        return (value)?formatDate(value, "DD/MM/YYYY"):null;
+        return (value)?formatDate(value, "YYYY/MM/DD"):null;
       }
     },
     {
@@ -737,7 +737,7 @@ export const FIELDS_FILTER = {
       name: "Nhỏ hơn hoặc Bằng",
       operator: '<=',
       value:(value)=>{
-        return (value)?formatDate(value, "DD/MM/YYYY"):null;
+        return (value)?formatDate(value,"YYYY/MM/DD"):null;
       }
     },
     {
@@ -745,7 +745,7 @@ export const FIELDS_FILTER = {
       name: "Lớn hơn",
       operator: '>',
       value:(value)=>{
-        return (value)?formatDate(value, "DD/MM/YYYY"):null;
+        return (value)?formatDate(value, "YYYY/MM/DD"):null;
       }
     },
     
@@ -754,7 +754,7 @@ export const FIELDS_FILTER = {
       name: "Lớn hơn hoặc bằng",
       operator: '>=',
       value:(value)=>{
-        return (value)?formatDate(value, "DD/MM/YYYY"):null;
+        return (value)?formatDate(value, "YYYY/MM/DD"):null;
       }
     },
     
@@ -782,18 +782,21 @@ export const FIELDS_FILTER = {
       id: 0,
       name: "Nam",
       operator: "=",
+      fieldName: 'gender',
       value:GENDER_OBJECT.MALE
     },
     {
       id: 1,
       name: "Nữ",
       operator: "=",
+      fieldName: 'gender',
       value:GENDER_OBJECT.FEMALE
     },
     {
       id: 2,
       name: "Khác",
       operator: "=",
+      fieldName: 'gender',
       value:GENDER_OBJECT.OTHER
     }
   ]

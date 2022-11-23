@@ -104,14 +104,14 @@ function () {
 
   _createClass(Employees, [{
     key: "pagingEmployee",
-    value: function pagingEmployee() {
+    value: function pagingEmployee(data) {
       var res;
       return regeneratorRuntime.async(function pagingEmployee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return regeneratorRuntime.awrap((0, _BaseController.paging)(_endPoint.END_POINTS.PagingEmployee, this.keyword, this.currentPageNumber, this.pageSize));
+              return regeneratorRuntime.awrap((0, _BaseController.paging)(_endPoint.END_POINTS.PagingEmployee, this.keyword, this.currentPageNumber, this.pageSize, data));
 
             case 2:
               res = _context.sent;

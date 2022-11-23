@@ -654,42 +654,42 @@ var FIELDS_FILTER = {
     name: "Bằng",
     operator: '=',
     value: function value(_value10) {
-      return _value10 ? (0, _FomatData.formatDate)(_value10, "DD/MM/YYYY") : null;
+      return _value10 ? (0, _FomatData.formatDate)(_value10, "YYYY/MM/DD") : null;
     }
   }, {
     id: 2,
     name: "Khác",
     operator: '<>',
     value: function value(_value11) {
-      return _value11 ? (0, _FomatData.formatDate)(_value11, "DD/MM/YYYY") : null;
+      return _value11 ? (0, _FomatData.formatDate)(_value11, "YYYY/MM/DD") : null;
     }
   }, {
     id: 3,
     name: "Nhỏ hơn",
     operator: '<',
     value: function value(_value12) {
-      return _value12 ? (0, _FomatData.formatDate)(_value12, "DD/MM/YYYY") : null;
+      return _value12 ? (0, _FomatData.formatDate)(_value12, "YYYY/MM/DD") : null;
     }
   }, {
     id: 4,
     name: "Nhỏ hơn hoặc Bằng",
     operator: '<=',
     value: function value(_value13) {
-      return _value13 ? (0, _FomatData.formatDate)(_value13, "DD/MM/YYYY") : null;
+      return _value13 ? (0, _FomatData.formatDate)(_value13, "YYYY/MM/DD") : null;
     }
   }, {
     id: 5,
     name: "Lớn hơn",
     operator: '>',
     value: function value(_value14) {
-      return _value14 ? (0, _FomatData.formatDate)(_value14, "DD/MM/YYYY") : null;
+      return _value14 ? (0, _FomatData.formatDate)(_value14, "YYYY/MM/DD") : null;
     }
   }, {
     id: 6,
     name: "Lớn hơn hoặc bằng",
     operator: '>=',
     value: function value(_value15) {
-      return _value15 ? (0, _FomatData.formatDate)(_value15, "DD/MM/YYYY") : null;
+      return _value15 ? (0, _FomatData.formatDate)(_value15, "YYYY/MM/DD") : null;
     }
   }, {
     id: 7,
@@ -712,16 +712,19 @@ var FIELDS_FILTER = {
     id: 0,
     name: "Nam",
     operator: "=",
+    fieldName: 'gender',
     value: GENDER_OBJECT.MALE
   }, {
     id: 1,
     name: "Nữ",
     operator: "=",
+    fieldName: 'gender',
     value: GENDER_OBJECT.FEMALE
   }, {
     id: 2,
     name: "Khác",
     operator: "=",
+    fieldName: 'gender',
     value: GENDER_OBJECT.OTHER
   }]
 };
