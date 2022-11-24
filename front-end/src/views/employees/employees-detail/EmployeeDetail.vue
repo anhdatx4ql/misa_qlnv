@@ -3,7 +3,11 @@
   Function: Thông tin chi tiết khách hàng
  -->
 <template>
-  <div class="form">
+  <div
+    class="form"
+    @keydown.esc.prevent="handlerCloseForm"
+    @keydown.ctrl.s.prevent="handlerUploadData(functionUpload.Save)"
+  >
     <div class="form-container" ref="formContainer">
       <!-- start header -->
       <div class="form-header">
@@ -407,7 +411,7 @@
     :text="checkNotify.text"
     :fieldNameFocus="firstFocus"
     @checkFocusCloseNotify="checkFocusCloseNotify = $event"
-    @sayYes="($event == true)?handlerUploadData(functionUpload.Save):''"
+    @sayYes="$event == true ? handlerUploadData(functionUpload.Save) : ''"
   ></base-notify>
   <!-- end thông báo -->
 </template>
@@ -436,7 +440,11 @@ import { positions } from "../../../js/Controllers/PositionsController.js";
 
 import vi from "../../../../node_modules/element-plus/es/locale/lang/vi";
 
-import { employees,resetEmployeeDetail,employeeModel } from "../../../js/Controllers/EmployeesController";
+import {
+  employees,
+  resetEmployeeDetail,
+  employeeModel,
+} from "../../../js/Controllers/EmployeesController";
 
 export default {
   name: "EmployeeDetail",
@@ -465,7 +473,6 @@ export default {
   },
   data() {
     return {
-
       //  kiểm tra xem có reload lại dữ liệu sau khi ẩn form không
       checkLoadData: false,
 
@@ -550,30 +557,24 @@ export default {
     this.currentEmployee = this.employeeDetail;
 
     console.log(this.currentEmployee);
-
   },
 
   methods: {
-
     /**
      * Author: Phạm Văn Đạt(05/11/2022)
      * Function: Xử lý ẩn form
      * @param {*} value : bắt sự kiện form
      */
-    handlerCloseNotifi(value){
-      if(value == true){
+    handlerCloseNotifi(value) {
+      if (value == true) {
+        this.$emit("closeForm", false);
 
-        this.$emit('closeForm',false);
-
-        if(this.checkLoadData == true){
-          
-          this.$emit('loadData');
+        if (this.checkLoadData == true) {
+          this.$emit("loadData");
 
           this.checkLoadData = false;
         }
       }
-      
-      
     },
 
     /**
@@ -641,7 +642,7 @@ export default {
     async loadPositions() {
       try {
         await positions.getRecords();
-        console.log(positions)
+        console.log(positions);
 
         this.positions = positions.data;
       } catch (e) {
@@ -677,7 +678,6 @@ export default {
      */
     async handlerUploadData(functionUpload) {
       try {
-
         // xóa tên trường focus lỗi đầu tiên đã có trước đó
         this.firstFocus = null;
 
@@ -750,8 +750,7 @@ export default {
      * Function: Xử lý chức năng form cất hoặc cất và thêm
      */
     async handlerFunctionForm(functionUpload, message) {
-
-       // hiển thị thông báo thêm/upload thành công
+      // hiển thị thông báo thêm/upload thành công
       this.$emit("textToastMessage", message);
       this.$emit("typeToastMessage", "success");
 
@@ -763,18 +762,18 @@ export default {
 
         // load lại dữ liệu
         this.$emit("loadData", true);
-
       } else {
+        this.currentEmployee = await resetEmployeeDetail(
+          employeeModel,
+          employees
+        );
 
-        this.currentEmployee = await resetEmployeeDetail(employeeModel,employees);
-
-        console.log(this.currentEmployee)
+        console.log(this.currentEmployee);
 
         //focus vào mã nhân viên
-        this.fieldFocusValidate.employeeId =  true;
+        this.fieldFocusValidate.employeeId = true;
 
         this.checkLoadData = true;
-
       }
     },
 
