@@ -4,9 +4,7 @@
  -->
 <template>
   <div
-    class="form"
-    @keydown.esc.prevent="handlerCloseForm"
-    @keydown.ctrl.s.prevent="handlerUploadData(functionUpload.Save)"
+    class="form" ref="form"
   >
     <div class="form-container" ref="formContainer">
       <!-- start header -->
@@ -429,6 +427,8 @@ import {
   STATUS_CODES,
   FUNCTION_UPLOAD,
 } from "../../../js/constants";
+
+import { createKeybindingsHandler } from "tinykeys";
 
 import { createGuid } from "../../../js/GuidId.js";
 
@@ -894,7 +894,27 @@ export default {
       console.log(this.currentEmployee);
     },
   },
-  mounted() {},
+  mounted() {
+
+    let handler = createKeybindingsHandler({
+      "$mod+S": (event) => {
+        event.preventDefault();
+        this.handlerUploadData(this.functionUpload.Save);
+      },
+      "$mod+Shift+S": (event) => {
+        event.preventDefault();
+        console.log("thêm");
+        this.handlerUploadData(this.functionUpload.SaveAndInsert);
+      },
+      Escape: (event) => {
+        event.preventDefault();
+        this.handlerCloseForm();
+      },
+    });
+
+    this.$refs.form.addEventListener("keydown", handler);
+
+  },
 };
 </script>
 
