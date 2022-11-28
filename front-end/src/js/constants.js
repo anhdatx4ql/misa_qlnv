@@ -364,7 +364,7 @@ export let TABLE_FIELDS = [
     width: 150,
     disabled: true,
     class: "text-align-center",
-    checkBox: true,
+    checkBoxDisable: true,
     typeFilter: "Boolean",
     nameFilter: "Là khách hàng",
     isField: true
@@ -375,7 +375,7 @@ export let TABLE_FIELDS = [
     width: 170,
     disabled: true,
     class: "text-align-center",
-    checkBox: true,
+    checkBoxDisable: true,
     typeFilter: "Boolean",
     nameFilter: "Là nhà cung cấp",
     isField: true
@@ -830,4 +830,33 @@ export const RULE_HANDLER_DATA = {
     id: 1,
     name: "Xóa"
   }
+}
+
+/**
+ * Author: Phạm Văn Đạt(28/11/2022)
+ * Function: thông tin hiển thị toast message
+ */
+export const TEXT_TOAST_MESSAGE = {
+  Error: {
+    text: "Có lỗi xảy ra.",
+    type: "error"
+  },
+  CreateFail:{
+    text: "Thêm mới thất bại.",
+    type: "error"
+  },
+  UpdateFail:{
+    text: "Cập nhật thất bại",
+    type: "error"
+  },
+
+}
+
+/**
+ * Author: Phạm Văn Đạt(28/11/2022)
+ * Function: title form
+ */
+export const TITLES_FORM = {
+  Create: "Thêm mới nhân viên",
+  Update: "Sửa nhân viên"
 }

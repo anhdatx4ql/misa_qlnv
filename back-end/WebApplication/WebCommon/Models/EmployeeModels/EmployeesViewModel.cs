@@ -59,10 +59,10 @@ namespace MISA.AMIS.Common
         public string Email { set; get; }
 
         // id phòng ban
-        public Guid DepartmentId { set; get; }
+        public Guid? DepartmentId { set; get; }
 
         // id chức danh
-        public Guid PositionId { set; get; }
+        public Guid? PositionId { set; get; }
 
         // là khách hàng
         public bool IsEmployee { set; get; }

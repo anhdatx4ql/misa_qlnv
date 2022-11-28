@@ -337,7 +337,7 @@ namespace MISA.AMIS.BL
 
 
             }
-            else if (attributeRequired != null && string.IsNullOrEmpty(propertyValue?.ToString()))
+            else if (attributeRequired != null && propertyValue == null)
             {
                 // nếu tồn tại attribute AttributeRequired và giá trị null => thêm vào mảng lỗi
                 messageValidateFields.Add(attributeRequired.ErrorMessage);
@@ -351,7 +351,7 @@ namespace MISA.AMIS.BL
                 checkSelectMessage = true;
 
             }
-            else if (attributeEmail != null && propertyValue?.ToString() != null && propertyValue?.ToString() != "" && this.CheckRegex(propertyValue?.ToString(), "email") == false)
+            else if (attributeEmail != null && propertyValue != null && propertyValue != "" && this.CheckRegex(propertyValue?.ToString(), "email") == false)
             {
 
                 // nếu không phải dạng biểu thức email => lỗi
@@ -360,7 +360,7 @@ namespace MISA.AMIS.BL
                 checkSelectMessage = true;
 
             }
-            else if (attributePhone != null && propertyValue?.ToString() != null && propertyValue?.ToString() != "" && this.CheckRegex(propertyValue?.ToString(), "phone") == false)
+            else if (attributePhone != null && propertyValue != null && propertyValue != "" && this.CheckRegex(propertyValue?.ToString(), "phone") == false)
             {
 
                 // nếu không phải dạng biểu thức email => lỗi
@@ -377,7 +377,7 @@ namespace MISA.AMIS.BL
                 checkSelectMessage = true;
             }
 
-            if (attributeExists != null && String.IsNullOrEmpty(propertyValue.ToString()))
+            if (attributeExists != null && propertyValue != null)
             {
                 // truyền tên table, tên trường cần check, giá trị của trường cần check, id khách hàng cần check
                 var sql = $"SELECT {propertyName} FROM {tableName} WHERE {propertyName} = @propertyValue and Id Not IN (@id) LIMIT 1";

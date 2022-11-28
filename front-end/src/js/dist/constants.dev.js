@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.RULE_HANDLER_DATA = exports.TYPE_FILTER = exports.FIELDS_FILTER_NOT_VALUE = exports.FIELDS_FILTER = exports.RULE_FORMAT_DATA = exports.FUNCTION_TABLE = exports.FUNCTION_UPLOAD = exports.FIELDS_REQUIRED = exports.STATUS_CODES = exports.NOTIFY_TEXT = exports.NOTIFY_LIST = exports.GENDERS = exports.PAGING_ITEMS = exports.TABLE_FIELDS = exports.COMPANIES = exports.MENU_ITEMS = void 0;
+exports.TITLES_FORM = exports.TEXT_TOAST_MESSAGE = exports.RULE_HANDLER_DATA = exports.TYPE_FILTER = exports.FIELDS_FILTER_NOT_VALUE = exports.FIELDS_FILTER = exports.RULE_FORMAT_DATA = exports.FUNCTION_TABLE = exports.FUNCTION_UPLOAD = exports.FIELDS_REQUIRED = exports.STATUS_CODES = exports.NOTIFY_TEXT = exports.NOTIFY_LIST = exports.GENDERS = exports.PAGING_ITEMS = exports.TABLE_FIELDS = exports.COMPANIES = exports.MENU_ITEMS = void 0;
 
 var _FomatData = require("/src/js/FomatData");
 
@@ -331,7 +331,7 @@ var TABLE_FIELDS = [{
   width: 150,
   disabled: true,
   "class": "text-align-center",
-  checkBox: true,
+  checkBoxDisable: true,
   typeFilter: "Boolean",
   nameFilter: "Là khách hàng",
   isField: true
@@ -341,7 +341,7 @@ var TABLE_FIELDS = [{
   width: 170,
   disabled: true,
   "class": "text-align-center",
-  checkBox: true,
+  checkBoxDisable: true,
   typeFilter: "Boolean",
   nameFilter: "Là nhà cung cấp",
   isField: true
@@ -759,4 +759,34 @@ var RULE_HANDLER_DATA = {
     name: "Xóa"
   }
 };
+/**
+ * Author: Phạm Văn Đạt(28/11/2022)
+ * Function: thông tin hiển thị toast message
+ */
+
 exports.RULE_HANDLER_DATA = RULE_HANDLER_DATA;
+var TEXT_TOAST_MESSAGE = {
+  Error: {
+    text: "Có lỗi xảy ra.",
+    type: "error"
+  },
+  CreateFail: {
+    text: "Thêm mới thất bại.",
+    type: "error"
+  },
+  UpdateFail: {
+    text: "Cập nhật thất bại",
+    type: "error"
+  }
+};
+/**
+ * Author: Phạm Văn Đạt(28/11/2022)
+ * Function: title form
+ */
+
+exports.TEXT_TOAST_MESSAGE = TEXT_TOAST_MESSAGE;
+var TITLES_FORM = {
+  Create: "Thêm mới nhân viên",
+  Update: "Sửa nhân viên"
+};
+exports.TITLES_FORM = TITLES_FORM;

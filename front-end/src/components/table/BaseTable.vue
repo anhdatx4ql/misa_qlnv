@@ -394,15 +394,16 @@
 
             <!-- hiển thị checkbox có thể sửa -->
             <!-- start hiển thị ô checkbox không thể sửa -->
-            <div v-if="field.checkBox == true">
+            <div v-if="field.checkBox == true || field.checkBoxDisable == true">
               <base-input-checkbox
                 :value="data.id"
-                :checked="listIdData.indexOf(data.id) > -1 ? true : false"
+                :checked="(field.checkBox == true)?listIdData.indexOf(data.id) > -1 ? true : false:data[field.fieldName]"
                 :disabled="field.disabled"
                 @checked="handlerChecked($event, [data])"
               >
               </base-input-checkbox>
             </div>
+            
             <!-- end hiển thị ô checkbox -->
 
             <!-- start hiển thị các dữ liệu còn lại -->
@@ -425,7 +426,7 @@
 
     <div v-show="currentShowFormLoad" class="loading">
       <div>
-        <div class="spiner"></div>
+       <div class="spinner-4"></div>
         <div>Đang lấy dữ liệu</div>
       </div>
     </div>

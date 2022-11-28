@@ -92,7 +92,7 @@
   </div>
   <!-- end content center top -->
 
-  <div class="content-table">
+  <div class="content-table" :style="(checkFormLoad)?'flex-grow:1':''">
     <!-- start table -->
     <base-table
       @dataDetail="
@@ -174,6 +174,8 @@ import {
   TABLE_FIELDS,
   NOTIFY_LIST,
   RULE_HANDLER_DATA,
+  TEXT_TOAST_MESSAGE,
+  TITLES_FORM
 } from "../../../js/constants";
 
 import EmployeeDetail from "../employees-detail/EmployeeDetail.vue";
@@ -204,7 +206,7 @@ export default {
       employeesList: [],
 
       // title form
-      title: "Thêm mới nhân viên",
+      title: TITLES_FORM.Create,
 
       // danh sách khách hàng truyền vào table để hiển thị
       listData: [],
@@ -299,7 +301,8 @@ export default {
           await this.loadData();
         }
       } catch (e) {
-        console.log(e);
+        this.textToastMessage = TEXT_TOAST_MESSAGE.Error.text;
+        this.typeToastMessage = TEXT_TOAST_MESSAGE.Error.type;
       }
     },
 
@@ -317,7 +320,8 @@ export default {
         // gọi hàm load dữ liệu
         await this.loadData();
       } catch (e) {
-        console.log(e);
+        this.textToastMessage = TEXT_TOAST_MESSAGE.Error.text;
+        this.typeToastMessage = TEXT_TOAST_MESSAGE.Error.type;
       }
     },
 
@@ -335,7 +339,8 @@ export default {
           await this.loadData();
         }
       } catch (e) {
-        console.log(e);
+        this.textToastMessage = TEXT_TOAST_MESSAGE.Error.text;
+        this.typeToastMessage = TEXT_TOAST_MESSAGE.Error.type;
       }
     },
   },
@@ -378,7 +383,8 @@ export default {
           this.$refs.itemResolveMultiple.style.display = "none"
         }
       } catch (e) {
-        console.log(e);
+        this.textToastMessage = TEXT_TOAST_MESSAGE.Error.text;
+        this.typeToastMessage = TEXT_TOAST_MESSAGE.Error.type;
       }
     },
 
@@ -391,7 +397,8 @@ export default {
       try {
         this.listIdEmployees = value;
       } catch (e) {
-        console.log(e);
+        this.textToastMessage = TEXT_TOAST_MESSAGE.Error.text;
+        this.typeToastMessage = TEXT_TOAST_MESSAGE.Error.type;
       }
     },
 
@@ -417,7 +424,8 @@ export default {
 
         // gọi api lọc
       } catch (e) {
-        console.log(e);
+        this.textToastMessage = TEXT_TOAST_MESSAGE.Error.text;
+        this.typeToastMessage = TEXT_TOAST_MESSAGE.Error.type;
       }
     },
 
@@ -430,7 +438,8 @@ export default {
       try {
         this.checkShowComboboxHandlerData = false;
       } catch (e) {
-        console.log(e);
+        this.textToastMessage = TEXT_TOAST_MESSAGE.Error.text;
+        this.typeToastMessage = TEXT_TOAST_MESSAGE.Error.type;
       }
     },
 
@@ -470,7 +479,8 @@ export default {
         await this.loadData();
 
       } catch (e) {
-        console.log(e);
+        this.textToastMessage = TEXT_TOAST_MESSAGE.Error.text;
+        this.typeToastMessage = TEXT_TOAST_MESSAGE.Error.type;
       }
     },
 
@@ -482,7 +492,8 @@ export default {
       try {
         await employees.exportExcel(employees.keyword);
       } catch (e) {
-        console.log(e);
+        this.textToastMessage = TEXT_TOAST_MESSAGE.Error.text;
+        this.typeToastMessage = TEXT_TOAST_MESSAGE.Error.type;
       }
     },
 
@@ -495,7 +506,7 @@ export default {
         if (value != null && data.id != null) {
           if (value == FUNCTION_TABLE.Replication) {
             // form thêm mới nhân viên
-            this.title = "Thêm mới nhân viên";
+            this.title = TITLES_FORM.Create;
 
             // lưu giá trị vào nhân viên chi tiết
             this.employeeDetail = data;
@@ -527,7 +538,8 @@ export default {
           }
         }
       } catch (e) {
-        console.log(e);
+        this.textToastMessage = TEXT_TOAST_MESSAGE.Error.text;
+        this.typeToastMessage = TEXT_TOAST_MESSAGE.Error.type;
       }
     },
 
@@ -553,7 +565,8 @@ export default {
           this.typeToastMessage = "error";
         }
       } catch (e) {
-        console.log(e);
+        this.textToastMessage = TEXT_TOAST_MESSAGE.Error.text;
+        this.typeToastMessage = TEXT_TOAST_MESSAGE.Error.type;
       }
     },
 
@@ -585,7 +598,8 @@ export default {
         console.log(employees);
         console.log(this.listData);
       } catch (e) {
-        console.log(e);
+        this.textToastMessage = TEXT_TOAST_MESSAGE.Error.text;
+        this.typeToastMessage = TEXT_TOAST_MESSAGE.Error.type;
       }
     },
 
@@ -605,10 +619,11 @@ export default {
 
         console.log(this.employeeDetail);
         this.checkShowForm = true;
-        this.title = "Thêm mới nhân viên";
+        this.title = TITLES_FORM.Create;
         this.disableButtonIndsert = false;
       } catch (e) {
-        console.log(e);
+        this.textToastMessage = TEXT_TOAST_MESSAGE.Error.text;
+        this.typeToastMessage = TEXT_TOAST_MESSAGE.Error.type;
       }
     },
   },

@@ -3,9 +3,7 @@
   Function: Thông tin chi tiết khách hàng
  -->
 <template>
-  <div
-    class="form" ref="form"
-  >
+  <div class="form" ref="form">
     <div class="form-container" ref="formContainer">
       <!-- start header -->
       <div class="form-header">
@@ -426,6 +424,8 @@ import {
   NOTIFY_TEXT,
   STATUS_CODES,
   FUNCTION_UPLOAD,
+  TEXT_TOAST_MESSAGE,
+  TITLES_FORM
 } from "../../../js/constants";
 
 import { createKeybindingsHandler } from "tinykeys";
@@ -601,7 +601,8 @@ export default {
 
         console.log(this.listErrors);
       } catch (e) {
-        console.log(e);
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
       }
     },
 
@@ -618,7 +619,8 @@ export default {
           text: NOTIFY_LIST.Question.text(NOTIFY_TEXT?.changeData),
         };
       } catch (e) {
-        console.log(e);
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
       }
     },
 
@@ -631,7 +633,8 @@ export default {
         await departments.getRecords();
         this.departments = departments.data;
       } catch (e) {
-        console.log(e);
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
       }
     },
 
@@ -646,29 +649,8 @@ export default {
 
         this.positions = positions.data;
       } catch (e) {
-        console.log(e);
-      }
-    },
-
-    /**
-     * Author: Phạm Văn Đạt(27/10/2022)
-     * Function: Xử lý các nút phím tắt
-     */
-    handlerKeyDown(event) {
-      try {
-        if (event.code == "Escape") {
-          this.handlerCloseForm();
-        } else if (event.code == "KeyS") {
-          console.log("Xử lý nút cất");
-        }
-        // xuwr lys caats vaf theem
-        // if(event.code == "KeyS"){
-        //   console.log("Xử lý nút cất")
-        // }
-
-        console.log(event);
-      } catch (e) {
-        console.log(e);
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
       }
     },
 
@@ -678,6 +660,7 @@ export default {
      */
     async handlerUploadData(functionUpload) {
       try {
+
         // xóa tên trường focus lỗi đầu tiên đã có trước đó
         this.firstFocus = null;
 
@@ -685,11 +668,9 @@ export default {
 
         // nếu không có lỗi => thực hiện thêm hoặc update
         if (this.listErrors.size == 0) {
-          if (this.title == "Thêm mới nhân viên") {
+          if (this.title == TITLES_FORM.Create) {
             // lấy id mới
             this.currentEmployee.id = createGuid();
-
-            console.log(this.currentEmployee);
 
             // gọi đến db thêm dữ liệu
             let result = await employees.insertEmployee(this.currentEmployee);
@@ -701,13 +682,17 @@ export default {
             } else if (result?.statusCode == STATUS_CODES.Code201) {
               // nếu thêm mới thành công
               this.handlerFunctionForm(functionUpload, "Thêm mới thành công.");
-
-              console.log("thêm mới thành công!");
             } else {
-              console.log("Thêm mới thất bại");
+              this.$emit(
+                "textToastMessage",
+                TEXT_TOAST_MESSAGE.CreateFail.text
+              );
+              this.$emit(
+                "typeToastMessage",
+                TEXT_TOAST_MESSAGE.CreateFail.type
+              );
             }
           } else {
-            console.log("xử lý cập nhật");
             console.log(this.currentEmployee);
             // gọi đến db thêm dữ liệu
             let result = await employees.updateEmployee(this.currentEmployee);
@@ -719,9 +704,15 @@ export default {
               }
             } else if (result?.statusCode == STATUS_CODES.Code200) {
               this.handlerFunctionForm(functionUpload, "Cập nhật thành công.");
-              console.log("cập nhật thành công!");
             } else {
-              console.log("Cập nhật thất bại");
+              this.$emit(
+                "textToastMessage",
+                TEXT_TOAST_MESSAGE.UpdateFail.text
+              );
+              this.$emit(
+                "typeToastMessage",
+                TEXT_TOAST_MESSAGE.UpdateFail.type
+              );
             }
           }
         } else {
@@ -729,7 +720,6 @@ export default {
 
           // chuyển map về dạng value, lấy phân tử đầu tiên hiển thị lên thông báo
           let valueText = this.selectErrorTextFirst();
-          console.log(valueText);
           // hiển thị lỗi đầu tiên lên thông báo lỗi
           // gán lại giá trị notifi
           if (valueText != null) {
@@ -741,7 +731,8 @@ export default {
           }
         }
       } catch (e) {
-        console.log(e);
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
       }
     },
 
@@ -818,7 +809,8 @@ export default {
           }
         }
       } catch (e) {
-        console.log(e);
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
       }
     },
 
@@ -868,7 +860,8 @@ export default {
           }
         });
       } catch (e) {
-        console.log(e);
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
       }
     },
   },
@@ -890,12 +883,15 @@ export default {
      * Function: THeo dõi thay đổi thông tin khách hàng
      */
     employeeDetail(value) {
-      this.currentEmployee = value;
-      console.log(this.currentEmployee);
+      try {
+        this.currentEmployee = value;
+      } catch (e) {
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
+      }
     },
   },
   mounted() {
-
     let handler = createKeybindingsHandler({
       "$mod+S": (event) => {
         event.preventDefault();
@@ -903,7 +899,6 @@ export default {
       },
       "$mod+Shift+S": (event) => {
         event.preventDefault();
-        console.log("thêm");
         this.handlerUploadData(this.functionUpload.SaveAndInsert);
       },
       Escape: (event) => {
@@ -913,7 +908,6 @@ export default {
     });
 
     this.$refs.form.addEventListener("keydown", handler);
-
   },
 };
 </script>
