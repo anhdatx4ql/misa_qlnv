@@ -165,6 +165,7 @@ div#app {
     padding-left:20px;
     box-sizing: border-box;
     background-color: #ECEEF1;
+    height: calc(100vh - 56px);
 }
 
 .input-error .el-input__wrapper, .input-error{
@@ -173,4 +174,30 @@ div#app {
 
 .background-icon-combobox-black{
     background: url('/src/assets/img/Sprites.64af8f61.svg') no-repeat -561px -360px;
+}
+
+.background-icon-customer{
+    background: url('/src/assets/img/Sprites.64af8f61.svg') no-repeat -872px -202px;
+}
+
+.background-icon-customer{
+    background: url('/src/assets/img/Sprites.64af8f61.svg') no-repeat -876px -202px;
+}
+
+.background-icon-supplier{
+    background: url('/src/assets/img/Sprites.64af8f61.svg') no-repeat -928px -202px;
+}
+
+.background-icon-employee{
+    background: url('/src/assets/img/Sprites.64af8f61.svg') no-repeat -984px -202px;
+}
+
+.background-icon-setting{
+    background: url('/src/assets/img/Sprites.64af8f61.svg') no-repeat -648px -201px;
+}
+
+.w-h-24{
+    width:24px;
+    height:24px;
+    display:flex;
 }

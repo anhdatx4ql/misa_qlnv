@@ -40,6 +40,12 @@ var _BaseTable = _interopRequireDefault(require("/src/components/table/BaseTable
 
 var _BasePaging = _interopRequireDefault(require("/src/components/paging/BasePaging.vue"));
 
+var _TheCash = _interopRequireDefault(require("/src/views/cash/TheCash.vue"));
+
+var _MSProcess = _interopRequireDefault(require("/src/views/cash/process/MSProcess.vue"));
+
+var _MSReceipt = _interopRequireDefault(require("/src/views/cash/receipt/MSReceipt.vue"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var app = (0, _vue.createApp)(_App["default"]);
@@ -62,8 +68,15 @@ var routers = [{
   name: ""
 }, {
   path: '/tien-mat',
-  component: _EmployeeList["default"],
-  name: "/tien-mat"
+  component: _TheCash["default"],
+  children: [{
+    path: '/quy-trinh',
+    component: _MSProcess["default"]
+  }, {
+    name: "/thu-chi-tien",
+    path: '/thu-chi-tien',
+    component: _MSReceipt["default"]
+  }]
 }, {
   path: '/nhan-vien',
   component: _EmployeeList["default"],

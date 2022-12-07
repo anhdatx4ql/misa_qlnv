@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 /// </summary>
 namespace WebCommon
 {
-    public class EmployeesModelFilter
+    public class ModelFilter
     {
         #region Fields
         /// <summary>
@@ -31,6 +32,12 @@ namespace WebCommon
         /// Kiểu lọc 
         /// </summary>
         public string TypeOperator { set; get; }
+
+        /// <summary>
+        /// kiểu nối: AND hoặc OR
+        /// </summary>
+        public string StringConcatenation { set; get; }
+
         #endregion
     }
 }

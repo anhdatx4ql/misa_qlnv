@@ -46,6 +46,16 @@ namespace MISA.AMIS.BL
         /// <param name="ids"></param>
         /// <returns></returns>
         Task<ReponsitoryModel> DeleteRecords(List<Guid> ids);
+
+        /// <summary>
+        /// Author: Phạm Văn Đạt(07/12/2022)
+        /// Function: Base phân trang dữ liệu
+        /// </summary>
+        /// <param name="currentPageNumber">số trang hiện tại</param>
+        /// <param name="pageSize">số bản ghi/trang</param>
+        /// <param name="entityModel">model dữ liệu phân trang</param>
+        /// <returns></returns>
+        Task<ReponsitoryModel> PagingRecords(int currentPageNumber, int pageSize, List<ModelFilter> entityModel);
         #endregion
     }
 }

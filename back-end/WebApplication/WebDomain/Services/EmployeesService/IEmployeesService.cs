@@ -23,7 +23,7 @@ namespace MISA.AMIS.BL
         /// <param name="currentPageNumber">trang hiện tại</param>
         /// <param name="pageSize">số bản ghi/trang</param>
         /// <returns></returns>
-        Task<ReponsitoryModel> Paging(string keyword, int currentPageNumber, int pageSize, List<EmployeesModelFilter> listFilters);
+        Task<ReponsitoryModel> Paging(string keyword, int currentPageNumber, int pageSize, List<ModelFilter> listFilters);
 
         /// <summary>
         /// Author: Phạm Văn Đạt(23/10/2022)

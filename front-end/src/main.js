@@ -19,7 +19,9 @@ import BaseNotify from '/src/components/notify/BaseNotify.vue'
 import BaseToastMessage from '/src/components/toastMessage/BaseToastMessage.vue'
 import BaseTable from '/src/components/table/BaseTable.vue'
 import BasePaging from '/src/components/paging/BasePaging.vue' 
-
+import TheCash from '/src/views/cash/TheCash.vue'
+import MSProcess from '/src/views/cash/process/MSProcess.vue'
+import MSReceipt from '/src/views/cash/receipt/MSReceipt.vue'
 
 const app = createApp(App);
 
@@ -40,8 +42,18 @@ const routers = [
     },
     {
         path: '/tien-mat',
-        component: EmployeeList,
-        name:"/tien-mat"
+        component: TheCash,
+        children: [
+            {
+              path: '/quy-trinh',
+              component: MSProcess,
+            },
+            {
+                name:"/thu-chi-tien",
+                path: '/thu-chi-tien',
+                component: MSReceipt,
+              }
+          ],
     },
     
     {

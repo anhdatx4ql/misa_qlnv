@@ -628,7 +628,7 @@ export const FIELDS_FILTER = {
       operator: "IS NULL",
       isDisableInput: true,
       value: (value)=>{
-        return (value)?"":"";
+        return (value)?null:null;
       }
     },
     {
@@ -637,7 +637,7 @@ export const FIELDS_FILTER = {
       operator: "IS NOT NULL",
       isDisableInput: true,
       value: (value)=>{
-        return (value)?"":"";
+        return (value)?null:null;
       }
     },
     {
@@ -860,3 +860,116 @@ export const TITLES_FORM = {
   Create: "Thêm mới nhân viên",
   Update: "Sửa nhân viên"
 }
+
+/**
+ * Author: Phạm Văn Đạt(07/12/2022)
+ * Function: danh sách các tab trong màn hình tiền mặt
+ */
+export const LIST_CASH_TAB = [
+  {
+    // tên item
+    title: "Quy trình",
+
+    // class nếu active vào item
+    activeClass: "cash-header-tab-active",
+
+    // điều hướng item
+    route: "tien-mat/quy-trinh"
+  },
+  {
+    // tên item
+    title: "Thu, chi tiền",
+
+    // class nếu active vào item
+    activeClass: "cash-header-tab-active",
+
+    // điều hướng item
+    route: "/thu-chi-tien"
+  },
+  {
+    // tên item
+    title: "Kiểm kê",
+
+    // class nếu active vào item
+    activeClass: "cash-header-tab-active",
+
+    // điều hướng item
+    route: "kiem-ke"
+  },
+  
+  {
+    // tên item
+    title: "Dự báo dòng tiền",
+
+    // class nếu active vào item
+    activeClass: "cash-header-tab-active",
+
+    // điều hướng item
+    route: "du-bao-dong-tien"
+  },
+  {
+    // tên item
+    title: "Báo cáo",
+
+    // class nếu active vào item
+    activeClass: "cash-header-tab-active",
+
+    // điều hướng item
+    route: "bao-cao"
+  },
+];
+
+/**
+ * Author: Phạm Văn Đạt(07/12/2022)
+ * Function: danh sách dữ liệu dùng để báo cáo trong màn hình quy trình
+ */
+export const LIST_REPORTS_PROCESS = [
+  {
+    // tên báo cáo
+    title: "Bảng kê số dư tiền theo ngày",
+  },
+  {
+    // tên báo cáo
+    title: "Dòng tiền",
+  },
+  {
+    // tên báo cáo
+    title: "S03a1-DN: Sổ nhật ký thu tiền",
+  },
+  {
+    // tên báo cáo
+    title: "Sổ kế toán chi tiết quỹ tiền mặt",
+  },
+  {
+    // tên báo cáo
+    title: "S03a2-DN: Sổ nhật ký chi tiền",
+  },
+
+]
+
+/**
+ * Author: Phạm Văn Đạt(07/12/2022)
+ * Function: danh sách các màn hình trong màn hình quy trình
+ */
+export const LIST_MENU_PROCESS_BOTTOM = [
+  {
+    title: "Khách hàng",
+    class: "background-icon-customer w-h-24",
+    route:""
+  },
+  {
+    title: "Nhà cung cấp",
+    class: "background-icon-supplier w-h-24",
+    route:""
+  },
+  {
+    title: "Nhân viên",
+    class: "background-icon-employee w-h-24",
+    route:""
+  },
+  {
+    title: "Tùy chọn",
+    class: "background-icon-setting w-h-24",
+    route:""
+  },
+]

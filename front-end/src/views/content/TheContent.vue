@@ -5,9 +5,7 @@
  -->
 
 <template>
-  <div class="content">
-    <router-view></router-view>
-  </div>
+  <router-view></router-view>
 </template>
 
 <script>

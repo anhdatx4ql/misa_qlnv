@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebCommon;
 
 namespace MISA.AMIS.Application
 {
@@ -58,6 +59,20 @@ namespace MISA.AMIS.Application
         public async Task<ReponsitoryModel> UpdateRecord([FromBody] T entity)
         {
             return await _baseService.UpdateRecord(entity);
+        }
+
+        /// <summary>
+        /// Author: Phạm Văn Đạt(07/12/2022)
+        /// Function: Xử lý base phân trang
+        /// </summary>
+        /// <param name="listFilter">danh sách lọc</param>
+        /// <param name="currentPageNumber">trang hiện tại</param>
+        /// <param name="pageSize">số bản ghi/trang</param>
+        /// <returns></returns>
+        [HttpPost("Paging")]
+        public async Task<ReponsitoryModel> Paging([FromBody] List<ModelFilter> listFilter,int currentPageNumber = 1, int pageSize = 10)
+        {
+            return await _baseService.PagingRecords(currentPageNumber, pageSize, listFilter);
         }
 
         #endregion

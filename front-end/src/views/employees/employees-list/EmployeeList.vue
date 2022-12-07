@@ -274,6 +274,7 @@ export default {
     };
   },
   created() {
+    // lấy thông tin paging trong constants
     this.pagingItems = PAGING_ITEMS;
 
     /**
@@ -460,21 +461,19 @@ export default {
         this.listFilter.forEach((value, key) => {
           let valueFilter = "";
           if(typeof value.value != "string"){
-            valueFilter = value.value.toString();
+            valueFilter = (value.value)?value.value.toString():null;
           }else{
             valueFilter = value.value;
           }
 
-          console.log(valueFilter)
           this.arrFilter.push({
             name: key,
             operator: value.operator,
             value: valueFilter,
-            typeOperator: (value.typeOperator != undefined)?value.typeOperator:null
+            typeOperator: (value.typeOperator != null || value.typeOperator != undefined )?value.typeOperator:null
           });
         });
 
-        console.log(this.arrFilter);
         // load lại dữ liệu
         await this.loadData();
 
@@ -579,8 +578,10 @@ export default {
         // hiển thị form loadding
         this.checkFormLoad = true;
 
-        // disable nút reload dữ liệu khi chưa load dữ liệu xong
+        // disable nút reload dữ liệu khi chưa load dữ liệu xong để trách db click
         this.disableButtonResetData = true;
+
+        console.log(123,this.arrFilter)
 
         // gọi api phân trang
         await employees.pagingEmployee(this.arrFilter);
@@ -594,10 +595,8 @@ export default {
 
         //ẩn form loading
         this.checkFormLoad = false;
-
-        console.log(employees);
-        console.log(this.listData);
       } catch (e) {
+        console.log(e);
         this.textToastMessage = TEXT_TOAST_MESSAGE.Error.text;
         this.typeToastMessage = TEXT_TOAST_MESSAGE.Error.type;
       }
@@ -617,7 +616,6 @@ export default {
           employees
         );
 
-        console.log(this.employeeDetail);
         this.checkShowForm = true;
         this.title = TITLES_FORM.Create;
         this.disableButtonIndsert = false;

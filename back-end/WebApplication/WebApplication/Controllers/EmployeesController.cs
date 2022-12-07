@@ -59,11 +59,11 @@ namespace MISA.AMIS.Application
         /// <param name="currentPageNumber"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        [HttpPost("Paging")]
-        public async Task<ReponsitoryModel> Paging([FromBody] List<EmployeesModelFilter> listFilter, string keyword = null, int currentPageNumber = 1, int pageSize = 10)
-        {
-            return await _employeeService.Paging(keyword, currentPageNumber, pageSize, listFilter);
-        }
+        //[HttpPost("Paging")]
+        //public async Task<ReponsitoryModel> Paging([FromBody] List<ModelFilter> listFilter, string keyword = null, int currentPageNumber = 1, int pageSize = 10)
+        //{
+        //    return await _employeeService.Paging(keyword, currentPageNumber, pageSize, listFilter);
+        //}
 
         /// <summary>
         /// Author: Phạm Văn Đạt(23/10/2022)

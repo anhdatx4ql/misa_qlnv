@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿
+using Dapper;
 using MISA.AMIS.Common;
 using MISA.AMIS.DL;
 using OfficeOpenXml;
@@ -62,7 +63,7 @@ namespace MISA.AMIS.BL
         /// <param name="currentPageNumber">trang hiện tại</param>
         /// <param name="pageSize">số bản ghi/trang</param>
         /// <returns></returns>
-        public async Task<ReponsitoryModel> Paging(string keyword, int currentPageNumber, int pageSize, List<EmployeesModelFilter> listFilters)
+        public async Task<ReponsitoryModel> Paging(string keyword, int currentPageNumber, int pageSize, List<ModelFilter> listFilters)
         {
             List<string> message = new List<string>();
             try
@@ -104,7 +105,7 @@ namespace MISA.AMIS.BL
                                 checkGender = true;
                                 break;
                             default:
-                                item.Value = "'" + item.Value + "'";
+                                item.Value = (item.Value!=null)?"'" + item.Value + "'":null;
                                 break;
                         }
 
@@ -114,14 +115,30 @@ namespace MISA.AMIS.BL
                         }
                         else
                         {
-                            stringFilter += item.Name + " " + item.Operator + " " + item.Value;
+                            if (String.IsNullOrEmpty(item.Value))
+                            {
+                                stringFilter += item.Name + " " + item.Operator + " " + item.Value;
+
+                            }
+                            else
+                            {
+                                stringFilter += item.Name + " " + item.Operator;
+                            }
                         }
 
                         
                         if(item != listFilters[listFilters.Count - 1])
                         {
-                            stringFilter += " and ";
+                            if(item.StringConcatenation == null || item.StringConcatenation.ToLower() == "and")
+                            {
+                                stringFilter += " AND ";
+                            }
+                            else
+                            {
+                                stringFilter += " OR ";
+                            }
                         }
+                        
                     }
                 }
 
@@ -284,9 +301,7 @@ namespace MISA.AMIS.BL
                     workSheet.Cells[string.Format("E{0}", row)].Value = (item.IdNo != null) ? item.IdNo : "";
                     workSheet.Cells[string.Format("F{0}", row)].Value = (item.IssuaOn != null) ? item.IssuaOn : "";
                     workSheet.Cells[string.Format("G{0}", row)].Value = (item.PlaceOfIssue != null) ? item.PlaceOfIssue : "";
-                    workSheet.Cells[string.Format("H{0}", row)].Value = (item.BankAccountNumber != null) ? item.BankAccountNumber : "";
-                    workSheet.Cells[string.Format("I{0}", row)].Value = (item.BankName != null) ? item.BankName : "";
-                    workSheet.Cells[string.Format("j{0}", row)].Value = (item.BankAccountBrand != null) ? item.BankAccountBrand : "";
+                    workSheet.Cells[string.Format("H{0}", row)].Value = (item.BankAccountId != null) ? item.BankAccountId : "";
                     workSheet.Cells[string.Format("K{0}", row)].Value = (item.Address != null) ? item.Address : "";
                     workSheet.Cells[string.Format("L{0}", row)].Value = (item.NumberPhone != null) ? item.NumberPhone : "";
                     workSheet.Cells[string.Format("M{0}", row)].Value = (item.DeskPhone != null) ? item.DeskPhone : "";

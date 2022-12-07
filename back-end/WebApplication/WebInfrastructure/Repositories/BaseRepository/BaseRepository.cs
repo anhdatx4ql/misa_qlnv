@@ -82,6 +82,32 @@ namespace MISA.AMIS.DL
         }
 
         /// <summary>
+        /// Phân trang, tìm kiếm
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public async Task<PagingModel<T>> Paging<T>(string sql, DynamicParameters parameters = null)
+        {
+            using (IDbConnection db = GetDbConnection())
+            {
+                db.Open();
+                var results = await db.QueryMultipleAsync(sql, parameters);
+
+                if (results != null)
+                {
+                    var TotalRecords = results.Read<int>().FirstOrDefault();
+                    var Entity = results.Read<T>().ToList();
+                    db.Close();
+                    return new PagingModel<T>(TotalRecords, Entity);
+                }
+
+                return new PagingModel<T>(0, null);
+            }
+        }
+
+        /// <summary>
         /// Author: Phạm Văn Đạt
         /// Function: Thực thi insert, update, delete có thủ tục trong db
         /// </summary>

@@ -37,14 +37,8 @@ namespace MISA.AMIS.Common
         // Nơi cấp
         public string PlaceOfIssue { set; get; }
 
-        // Số tài khoản
-        public string BankAccountNumber { set; get; }
-
-        // Tên ngân hàng
-        public string BankName { set; get; }
-
-        // Chi nhánh ngân hàng
-        public string BankAccountBrand { set; get; }
+        // id số tài khoản
+        public string BankAccountId { set; get; }
 
         // Địa chỉ
         public string Address { set; get; }
@@ -82,6 +76,24 @@ namespace MISA.AMIS.Common
 
         //Đã xóa hay chưa
         public bool IsDelete { set; get; }
+
+        // Lương thỏa thuận
+        public decimal WageAgreement { set; get; }
+
+        // Hệ số lương
+        public decimal CoefficientSalary { set; get; }
+
+        // lương đóng bảo hiểm
+        public decimal PremiumSalary { set; get; }
+
+        // mã số thuế
+        public string TaxCode { set; get; }
+
+        // loại hợp đồng
+        public string TypeOfContract { set; get; }
+
+        // số người phụ thuộc
+        public string NumberOfDependent { set; get; }
         #endregion
     }
 }

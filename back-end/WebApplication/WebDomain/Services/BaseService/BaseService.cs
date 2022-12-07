@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using WebCommon;
 using WebCommon.Resources;
 namespace MISA.AMIS.BL
 {
@@ -257,6 +258,117 @@ namespace MISA.AMIS.BL
             {
                 messages.Add(ex.Message);
                 return new ReponsitoryModel(null, CodeErrors.Code500, messages);
+            }
+        }
+
+        /// <summary>
+        /// Author: Phạm Văn Đạt(07/12/2022)
+        /// Function: Base phân trang dữ liệu
+        /// </summary>
+        /// <param name="currentPageNumber">số trang hiện tại</param>
+        /// <param name="pageSize">số bản ghi/trang</param>
+        /// <param name="entityModel">model dữ liệu phân trang</param>
+        /// <returns></returns>
+        public virtual async Task<ReponsitoryModel> PagingRecords(int currentPageNumber, int pageSize, List<ModelFilter> listFilters)
+        {
+            List<string> message = new List<string>();
+            try
+            {
+
+                var tableName = TableName.GetTableName<T>();
+
+                // chỉnh sửa lại keyword
+                //keyword = '%' + keyword + '%';
+
+                var stringFilter = "";
+
+                // xử lý lọc các trường
+                if (listFilters.Count == 0)
+                {
+                    stringFilter = "1=1";
+                }
+                else
+                {
+                    // xử lý lấy dữ liệu where
+                    foreach (var item in listFilters)
+                    {
+
+                        if (item.Operator == "like" || item.Operator == "not like")
+                        {
+                            item.Value = CheckSpecialCharacters.CheckSpecial(item.Value);
+                        }
+
+                        var checkNumber = false;
+                        switch (item.TypeOperator)
+                        {
+                            case "like":
+                                item.Value = "'%" + item.Value + "%'";
+                                break;
+                            case "firstLike":
+                                item.Value = "'" + item.Value + "%'";
+                                break;
+                            case "lastLike":
+                                item.Value = "'%" + item.Value + "'";
+                                break;
+                            case "gender": // int
+                                checkNumber = true;
+                                break;
+                            default:
+                                item.Value = (item.Value != null) ? "'" + item.Value + "'" : null;
+                                break;
+                        }
+
+                        if (checkNumber == true)
+                        {
+                            stringFilter += item.Name + " " + item.Operator + " " + int.Parse(item.Value);
+                        }
+                        else
+                        {
+                            if (item.Value != null && item.Value!= "")
+                            {
+                                stringFilter += item.Name + " " + item.Operator + " " + item.Value;
+                            }
+                            else
+                            {
+                                stringFilter += item.Name + " " + item.Operator;
+                            }
+                        }
+
+
+                        if (item != listFilters[listFilters.Count - 1])
+                        {
+                            if (item.StringConcatenation == null || item.StringConcatenation.ToLower() == "and")
+                            {
+                                stringFilter += " AND ";
+                            }
+                            else
+                            {
+                                stringFilter += " OR ";
+                            }
+                        }
+
+                    }
+                }
+
+                var offset = (currentPageNumber - 1) * pageSize;
+
+                // lấy tên proceduce
+                var sql = "SELECT COUNT(*) FROM "+ tableName + " WHERE Id IN (SELECT Id FROM view_"+ tableName + " ve WHERE (" + stringFilter + ")); ";
+                sql += "SELECT * FROM view_" + tableName + " WHERE(" + stringFilter + ") ORDER BY UpdatedAt DESC LIMIT @_offset,@_pageSize; ";
+                // khai báo parameters
+                var parameters = new DynamicParameters();
+                parameters.Add("@_pageSize", pageSize);
+                parameters.Add("@_offset", offset);
+
+                //  gọi đến db truy vấn
+                var result = await _baseRepository.Paging<T>(sql, parameters);
+                message.Add(MessageSuccess.GetSuccess);
+                return new ReponsitoryModel(result, CodeSuccess.Code200, message);
+            }
+            catch (Exception ex)
+            {
+                message.Add(ex.Message);
+                return new ReponsitoryModel(null, CodeErrors.Code500, message);
             }
         }
 

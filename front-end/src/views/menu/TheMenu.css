@@ -1,6 +1,8 @@
 .menu{
     width: 178px;
     background-color: #38393D;
+    position: relative;
+    z-index: 1;
 }
 
 .menu-top {
@@ -72,8 +74,8 @@
     background: url(../../assets/img/Sprites.64af8f61.svg) no-repeat -316px -37px;
 }
 
-a.active-item-menu.router-link-exact-active.menu-content-item {
-    border-left-color: #2CA01C;
+.menu-content a.active-item-menu {
+    border-left-color: #2CA01C !important;
     background: #58595D;
 }
 

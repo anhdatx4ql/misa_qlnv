@@ -589,7 +589,7 @@ export default {
 
     /**
      * Author: Phạm Văn Đạt(21/11/2022)
-     * Function: trả về giá trị lọc ban đầu
+     * Function: set lại giá trị lọc ban đầu
      * @param {*} type : kiểu lọc của item
      * @param {*} filterItem : item lọc
      */
@@ -633,7 +633,7 @@ export default {
               operator: filterItem.operator,
               value: filterItem.value,
               text: nameFilter + ": " + item.name,
-              typeOperator: item.fieldName,
+              typeOperator:  (item.fieldName)?item.fieldName:null,
             });
           }
         } else {
@@ -653,17 +653,18 @@ export default {
               text:
                 nameFilter +
                 " " +
-                item.name +
-                ' "' +
-                item.value(filterItem.value) +
-                '"',
-              typeOperator: item.fieldName,
+                item.name,
+              typeOperator: (item.fieldName)?item.fieldName:null,
             });
           } else {
+            // nếu có giá trị lọc
             if (!filterItem.value) {
+
               // nếu giá trị null thì xóa đi
               this.listFilter.delete(fieldName);
+
             } else {
+              // nếu không có giá trị lọc
               let text = "";
 
               if (type == TYPE_FILTER.Text) {
@@ -683,7 +684,7 @@ export default {
                 operator: item.operator,
                 value: item.value(filterItem.value),
                 text: text,
-                typeOperator: item.fieldName,
+                typeOperator:  (item.fieldName)?item.fieldName:null,
               });
             }
           }

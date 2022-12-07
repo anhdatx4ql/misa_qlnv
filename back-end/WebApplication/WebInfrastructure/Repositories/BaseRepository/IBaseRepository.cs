@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using MISA.AMIS.Common;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -58,6 +59,16 @@ namespace MISA.AMIS.DL
         /// <param name="parameters"></param>
         /// <returns></returns>
         Task<int> DeleteRecord(string query, DynamicParameters parameters = null);
+
+        /// <summary>
+        /// Author: Phạm Văn Đạt(07/12/2022)
+        /// Function: Phân trang, tìm kiếm
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        Task<PagingModel<T>> Paging<T>(string sql, DynamicParameters parameters = null);
 
         /// <summary>
         /// Author: Phạm Văn Đạt

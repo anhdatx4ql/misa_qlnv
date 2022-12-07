@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.TITLES_FORM = exports.TEXT_TOAST_MESSAGE = exports.RULE_HANDLER_DATA = exports.TYPE_FILTER = exports.FIELDS_FILTER_NOT_VALUE = exports.FIELDS_FILTER = exports.RULE_FORMAT_DATA = exports.FUNCTION_TABLE = exports.FUNCTION_UPLOAD = exports.FIELDS_REQUIRED = exports.STATUS_CODES = exports.NOTIFY_TEXT = exports.NOTIFY_LIST = exports.GENDERS = exports.PAGING_ITEMS = exports.TABLE_FIELDS = exports.COMPANIES = exports.MENU_ITEMS = void 0;
+exports.LIST_MENU_PROCESS_BOTTOM = exports.LIST_REPORTS_PROCESS = exports.LIST_CASH_TAB = exports.TITLES_FORM = exports.TEXT_TOAST_MESSAGE = exports.RULE_HANDLER_DATA = exports.TYPE_FILTER = exports.FIELDS_FILTER_NOT_VALUE = exports.FIELDS_FILTER = exports.RULE_FORMAT_DATA = exports.FUNCTION_TABLE = exports.FUNCTION_UPLOAD = exports.FIELDS_REQUIRED = exports.STATUS_CODES = exports.NOTIFY_TEXT = exports.NOTIFY_LIST = exports.GENDERS = exports.PAGING_ITEMS = exports.TABLE_FIELDS = exports.COMPANIES = exports.MENU_ITEMS = void 0;
 
 var _FomatData = require("/src/js/FomatData");
 
@@ -581,7 +581,7 @@ var FIELDS_FILTER = {
     operator: "IS NULL",
     isDisableInput: true,
     value: function value(_value2) {
-      return _value2 ? "" : "";
+      return _value2 ? null : null;
     }
   }, {
     id: 2,
@@ -589,7 +589,7 @@ var FIELDS_FILTER = {
     operator: "IS NOT NULL",
     isDisableInput: true,
     value: function value(_value3) {
-      return _value3 ? "" : "";
+      return _value3 ? null : null;
     }
   }, {
     id: 3,
@@ -789,4 +789,91 @@ var TITLES_FORM = {
   Create: "Thêm mới nhân viên",
   Update: "Sửa nhân viên"
 };
+/**
+ * Author: Phạm Văn Đạt(07/12/2022)
+ * Function: danh sách các tab trong màn hình tiền mặt
+ */
+
 exports.TITLES_FORM = TITLES_FORM;
+var LIST_CASH_TAB = [{
+  // tên item
+  title: "Quy trình",
+  // class nếu active vào item
+  activeClass: "cash-header-tab-active",
+  // điều hướng item
+  route: "tien-mat/quy-trinh"
+}, {
+  // tên item
+  title: "Thu, chi tiền",
+  // class nếu active vào item
+  activeClass: "cash-header-tab-active",
+  // điều hướng item
+  route: "/thu-chi-tien"
+}, {
+  // tên item
+  title: "Kiểm kê",
+  // class nếu active vào item
+  activeClass: "cash-header-tab-active",
+  // điều hướng item
+  route: "kiem-ke"
+}, {
+  // tên item
+  title: "Dự báo dòng tiền",
+  // class nếu active vào item
+  activeClass: "cash-header-tab-active",
+  // điều hướng item
+  route: "du-bao-dong-tien"
+}, {
+  // tên item
+  title: "Báo cáo",
+  // class nếu active vào item
+  activeClass: "cash-header-tab-active",
+  // điều hướng item
+  route: "bao-cao"
+}];
+/**
+ * Author: Phạm Văn Đạt(07/12/2022)
+ * Function: danh sách dữ liệu dùng để báo cáo trong màn hình quy trình
+ */
+
+exports.LIST_CASH_TAB = LIST_CASH_TAB;
+var LIST_REPORTS_PROCESS = [{
+  // tên báo cáo
+  title: "Bảng kê số dư tiền theo ngày"
+}, {
+  // tên báo cáo
+  title: "Dòng tiền"
+}, {
+  // tên báo cáo
+  title: "S03a1-DN: Sổ nhật ký thu tiền"
+}, {
+  // tên báo cáo
+  title: "Sổ kế toán chi tiết quỹ tiền mặt"
+}, {
+  // tên báo cáo
+  title: "S03a2-DN: Sổ nhật ký chi tiền"
+}];
+/**
+ * Author: Phạm Văn Đạt(07/12/2022)
+ * Function: danh sách các màn hình trong màn hình quy trình
+ */
+
+exports.LIST_REPORTS_PROCESS = LIST_REPORTS_PROCESS;
+var LIST_MENU_PROCESS_BOTTOM = [{
+  title: "Khách hàng",
+  "class": "background-icon-customer w-h-24",
+  route: ""
+}, {
+  title: "Nhà cung cấp",
+  "class": "background-icon-supplier w-h-24",
+  route: ""
+}, {
+  title: "Nhân viên",
+  "class": "background-icon-employee w-h-24",
+  route: ""
+}, {
+  title: "Tùy chọn",
+  "class": "background-icon-setting w-h-24",
+  route: ""
+}];
+exports.LIST_MENU_PROCESS_BOTTOM = LIST_MENU_PROCESS_BOTTOM;
