@@ -46,6 +46,8 @@ var _MSProcess = _interopRequireDefault(require("/src/views/cash/process/MSProce
 
 var _MSReceipt = _interopRequireDefault(require("/src/views/cash/receipt/MSReceipt.vue"));
 
+var _SupplierList = _interopRequireDefault(require("/src/views/suppliers/SupplierList.vue"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var app = (0, _vue.createApp)(_App["default"]);
@@ -59,7 +61,7 @@ var routers = [{
   redirect: {
     path: 'tien-mat'
   },
-  name: "/tien-mat"
+  name: "/"
 }, {
   path: '',
   redirect: {
@@ -69,6 +71,9 @@ var routers = [{
 }, {
   path: '/tien-mat',
   component: _TheCash["default"],
+  redirect: {
+    path: '/quy-trinh'
+  },
   children: [{
     path: '/quy-trinh',
     component: _MSProcess["default"]
@@ -77,6 +82,10 @@ var routers = [{
     path: '/thu-chi-tien',
     component: _MSReceipt["default"]
   }]
+}, {
+  path: '/nha-cung-cap',
+  component: _SupplierList["default"],
+  name: "/nha-cung-cap"
 }, {
   path: '/nhan-vien',
   component: _EmployeeList["default"],

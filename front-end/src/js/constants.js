@@ -955,21 +955,21 @@ export const LIST_MENU_PROCESS_BOTTOM = [
   {
     title: "Khách hàng",
     class: "background-icon-customer w-h-24",
-    route:""
+    route:"/khach-hang"
   },
   {
     title: "Nhà cung cấp",
     class: "background-icon-supplier w-h-24",
-    route:""
+    route:"/nha-cung-cap"
   },
   {
     title: "Nhân viên",
     class: "background-icon-employee w-h-24",
-    route:""
+    route:"/nhan-vien"
   },
   {
     title: "Tùy chọn",
     class: "background-icon-setting w-h-24",
-    route:""
+    route:"/tuy-chon"
   },
 ]

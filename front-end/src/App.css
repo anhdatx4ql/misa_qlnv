@@ -196,8 +196,29 @@ div#app {
     background: url('/src/assets/img/Sprites.64af8f61.svg') no-repeat -648px -201px;
 }
 
+
+.background-icon-bottom-white {
+    background: url('/src/assets/img/Sprites.64af8f61.svg') no-repeat -845px -359px;
+}
+
 .w-h-24{
     width:24px;
     height:24px;
     display:flex;
+}
+
+.background-icon-filter{
+    background: url('/src/assets/img/Sprites.64af8f61.svg') no-repeat -1817px -208px;
+}
+
+.icon-ml-5{
+    margin-left:5px;
+}
+
+.background-icon-setting{
+    background: url('/src/assets/img/Sprites.64af8f61.svg') no-repeat -88px -199px;
+}
+
+.background-icon-setting:hover{
+    background-position: -88px -255px;
 }

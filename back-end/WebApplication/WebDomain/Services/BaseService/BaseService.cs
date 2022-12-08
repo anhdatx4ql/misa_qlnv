@@ -289,16 +289,23 @@ namespace MISA.AMIS.BL
                 }
                 else
                 {
+
+                    // tạo biến để đưa () vào trong sql dựa vào AND hoặc OR
+                    int checkOrInString = 0;
+
                     // xử lý lấy dữ liệu where
                     foreach (var item in listFilters)
                     {
 
                         if (item.Operator == "like" || item.Operator == "not like")
                         {
-                            item.Value = CheckSpecialCharacters.CheckSpecial(item.Value);
+                            if(item.Value != null && item.Value != "")
+                                item.Value = CheckSpecialCharacters.CheckSpecial(item.Value);
                         }
 
+                        // kiểm tra xem kiểu dữ liệu nào là số thì đưa về dạng số
                         var checkNumber = false;
+
                         switch (item.TypeOperator)
                         {
                             case "like":
@@ -318,36 +325,65 @@ namespace MISA.AMIS.BL
                                 break;
                         }
 
+                        // tạo chuỗi string nhỏ để buil vào chuỗi to
+                        string childrenSql = "";
+
                         if (checkNumber == true)
                         {
-                            stringFilter += item.Name + " " + item.Operator + " " + int.Parse(item.Value);
+                            // láy từng chuỗi nhỏ
+                            childrenSql = item.Name + " " + item.Operator + " " + int.Parse(item.Value);
                         }
                         else
                         {
+                            // nếu có giá trị thì build giá trị vào
                             if (item.Value != null && item.Value!= "")
                             {
-                                stringFilter += item.Name + " " + item.Operator + " " + item.Value;
+                                childrenSql = item.Name + " " + item.Operator + " " + item.Value;
                             }
                             else
                             {
-                                stringFilter += item.Name + " " + item.Operator;
+                                // nếu không có giá trị thì chỉ đưa dấu vào
+                                childrenSql = item.Name + " " + item.Operator;
                             }
                         }
 
-
+                        // xử lý nối and hoặc or
                         if (item != listFilters[listFilters.Count - 1])
                         {
+                            // nổi chuỗi and
                             if (item.StringConcatenation == null || item.StringConcatenation.ToLower() == "and")
                             {
-                                stringFilter += " AND ";
+                                childrenSql += " AND ";
                             }
                             else
                             {
-                                stringFilter += " OR ";
+                                // nối chuỗi or
+                                checkOrInString++;
+                                if (checkOrInString == 1)
+                                {
+                                    // nếu như or đầu tiên thì thêm dấu ngoặc ( ở đầu
+                                    childrenSql = "( " + childrenSql + " OR ";
+                                }
+                                else
+                                {
+                                    // nếu không thì thêm OR ở đằng sau
+                                    childrenSql += " OR ";
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            if (checkOrInString > 0)
+                            {
+                                childrenSql += " )";
                             }
                         }
 
+                        stringFilter += childrenSql;
+
                     }
+
                 }
 
                 var offset = (currentPageNumber - 1) * pageSize;

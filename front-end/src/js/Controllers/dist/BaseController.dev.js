@@ -59,7 +59,7 @@ var getAll = function getAll(endPoint) {
 
 exports.getAll = getAll;
 
-var paging = function paging(endPoint, keyword, currentPageNumber, pageSize, data) {
+var paging = function paging(endPoint, currentPageNumber, pageSize, data) {
   var result, endPointLast;
   return regeneratorRuntime.async(function paging$(_context2) {
     while (1) {
@@ -67,15 +67,8 @@ var paging = function paging(endPoint, keyword, currentPageNumber, pageSize, dat
         case 0:
           result = {}; // khai báo chuỗi nối để phân trang
 
-          endPointLast = "";
-
-          if (keyword == null) {
-            endPointLast = "pageSize=" + pageSize + "&currentPageNumber=" + currentPageNumber;
-          } else {
-            endPointLast = "keyword=" + keyword + "&pageSize=" + pageSize + "&currentPageNumber=" + currentPageNumber;
-          }
-
-          _context2.next = 5;
+          endPointLast = "pageSize=" + pageSize + "&currentPageNumber=" + currentPageNumber;
+          _context2.next = 4;
           return regeneratorRuntime.awrap(_axios["default"].post(_endPoint.ROOT_API + endPoint + endPointLast, data, {
             header: headers
           }).then(function (res) {
@@ -84,10 +77,10 @@ var paging = function paging(endPoint, keyword, currentPageNumber, pageSize, dat
             result = e;
           }));
 
-        case 5:
+        case 4:
           return _context2.abrupt("return", result);
 
-        case 6:
+        case 5:
         case "end":
           return _context2.stop();
       }

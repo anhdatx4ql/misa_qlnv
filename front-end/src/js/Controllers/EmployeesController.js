@@ -107,7 +107,42 @@ export class Employees{
    */
   async pagingEmployee(data){
 
-    let res = await paging(END_POINTS.PagingEmployee,this.keyword,this.currentPageNumber,this.pageSize,data);
+    let dataKeyword = [];
+
+    // nếu tồn tại keyword thì tìm kiếm theo keyword với 3 trường: tên, mã , sđt
+    if(this.keyword){
+      console.log(this.keyword)
+      dataKeyword.push({
+        name: 'employeeId',
+        operator: 'like',
+        value: this.keyword,
+        typeOperator: 'like',
+        stringConcatenation: 'OR'
+      },
+      {
+        name: 'name',
+        operator: 'like',
+        value: this.keyword,
+        typeOperator: 'like',
+        stringConcatenation: 'OR'
+      },
+      {
+        name: 'numberPhone',
+        operator: 'like',
+        value: this.keyword,
+        typeOperator: 'like'
+      });
+    }
+
+    let newData = [...data];
+
+    if(dataKeyword != []){
+      newData.push(...dataKeyword);
+    }
+
+    console.log(newData)
+
+    let res = await paging(END_POINTS.PagingEmployee,this.currentPageNumber,this.pageSize,newData);
     if(res.statusCode == STATUS_CODES.Code200){
       this.data = res.data.data;
       this.totalCount = res.data.totalCount;

@@ -3,164 +3,168 @@
     Function: Xử lý hiển thị trang thông tin khách hàng
  -->
 <template>
-  <div class="content-top">
-    <!-- start content top left -->
-    <div class="content-top-left">
-      <span class="content-top-left-title">Nhân viên</span>
-    </div>
-    <div class="content-top-right">
-      <base-button @click="handlerClickShowForm" :disable="disableButtonIndsert"
-        ><span>Thêm mới nhân viên</span></base-button
-      >
-    </div>
-    <!-- end content top left -->
-  </div>
-  <!-- start custom tooltip -->
-  <div v-tooltip="{ global: true, theme: { placement: 'bottom' } }"></div>
-  <!-- end custom tooltip -->
-  <!-- start  content center top -->
-  <div class="content-center-top">
-    <div class="content-center-top-left">
-      <div class="content-center-top-left-child">
-        <div
-          class="content-center-top-left-child handler-data"
-          @click="checkShowComboboxHandlerData = true"
-          v-click-away="clickAwayHandlerData"
-        >
-          <base-button>
-            <span>Thực hiện hàng loạt</span>
-          </base-button>
-          <div
-            class="handler-data-child"
-            v-show="checkShowComboboxHandlerData"
-            ref="itemResolveMultiple"
-          >
-            <button
-              v-for="item in RULE_HANDLER_DATA"
-              :key="item.id"
-              @click="resolveMultiple(item)"
-              class="button-combobox"
-            >
-              <span>{{ item.name }}</span>
-            </button>
-          </div>
-        </div>
-        <div
-          class="content-center-top-left-child text-data"
-          v-for="(value, key) of listFilter"
-          :key="key"
-        >
-          <span>{{ value[1].text }}</span>
-          <base-button @click="clickDeleteItemFilter(value)"
-            ><span class="button-icon-x"></span
-          ></base-button>
-        </div>
+  <div class="content">
+    <div class="content-top">
+      <!-- start content top left -->
+      <div class="content-top-left">
+        <span class="content-top-left-title">Nhân viên</span>
+      </div>
+      <div class="content-top-right">
         <base-button
-          v-show="listFilter.size > 0"
-          @click="clickDeleteItemFilter()"
+          @click="handlerClickShowForm"
+          :disable="disableButtonIndsert"
+          ><span>Thêm mới nhân viên</span></base-button
         >
-          <span>Xóa điều kiện lọc</span>
+      </div>
+      <!-- end content top left -->
+    </div>
+    <!-- start custom tooltip -->
+    <div v-tooltip="{ global: true, theme: { placement: 'bottom' } }"></div>
+    <!-- end custom tooltip -->
+    <!-- start  content center top -->
+    <div class="content-center-top">
+      <div class="content-center-top-left">
+        <div class="content-center-top-left-child">
+          <div
+            class="content-center-top-left-child handler-data"
+            @click="checkShowComboboxHandlerData = true"
+            v-click-away="clickAwayHandlerData"
+          >
+            <base-button>
+              <span>Thực hiện hàng loạt</span>
+            </base-button>
+            <div
+              class="handler-data-child"
+              v-show="checkShowComboboxHandlerData"
+              ref="itemResolveMultiple"
+            >
+              <button
+                v-for="item in RULE_HANDLER_DATA"
+                :key="item.id"
+                @click="resolveMultiple(item)"
+                class="button-combobox"
+              >
+                <span>{{ item.name }}</span>
+              </button>
+            </div>
+          </div>
+          <div
+            class="content-center-top-left-child text-data"
+            v-for="(value, key) of listFilter"
+            :key="key"
+          >
+            <span>{{ value[1].text }}</span>
+            <base-button @click="clickDeleteItemFilter(value)"
+              ><span class="button-icon-x"></span
+            ></base-button>
+          </div>
+          <base-button
+            v-show="listFilter.size > 0"
+            @click="clickDeleteItemFilter()"
+          >
+            <span>Xóa điều kiện lọc</span>
+          </base-button>
+        </div>
+      </div>
+      <div class="content-center-top-right">
+        <base-input-text
+          placeholder="Tìm theo mã, tên nhân viên"
+          classIcon="input-icon-search"
+          v-model="keyword"
+          :isFormatText="false"
+        >
+        </base-input-text>
+
+        <base-button
+          v-tooltip="'Lấy lại dữ liệu'"
+          :disable="disableButtonResetData"
+          @click.prevent="loadData"
+          class="content-center-button-left icon-ml-5"
+        >
+          <span class="background-icon-reload icon-24 background-flex"></span>
+        </base-button>
+
+        <base-button
+          v-tooltip="'Xuất ra Excel'"
+          @click="handlerExportExcel"
+          class="content-center-button-left"
+        >
+          <span class="background-icon-excel icon-24 background-flex"></span>
         </base-button>
       </div>
     </div>
-    <div class="content-center-top-right">
-      <base-input-text
-        placeholder="Tìm theo mã, tên nhân viên"
-        classIcon="input-icon-search"
-        v-model="keyword"
-        :isFormatText="false"
-      >
-      </base-input-text>
+    <!-- end content center top -->
 
-      <base-button
-        v-tooltip="'Lấy lại dữ liệu'"
-        :disable="disableButtonResetData"
-        @click.prevent="loadData"
-        class="content-center-button-left icon-ml-10"
+    <div class="content-table" :style="checkFormLoad ? 'flex-grow:1' : ''">
+      <!-- start table -->
+      <base-table
+        @dataDetail="
+          (employeeDetail = $event),
+            (checkShowForm = true),
+            (title = 'Sửa nhân viên')
+        "
+        v-model="listData"
+        :showFormLoad="checkFormLoad"
+        :fieldsTHead="tableField"
+        @showFormLoad="checkFormLoad = $event"
+        @functionTable="
+          $event.data.id != null && $event.value
+            ? handlerFunctionTable($event.value, $event.data)
+            : ''
+        "
+        :isFilter="true"
+        @listFilter="handlerFilter($event)"
+        :listDeleteFilterData="listDeleteFilterData"
+        @listDeleteFilterData="listDeleteFilterData = $event"
+        @listIdData="handlerSelectIdEmployees($event)"
+        :listIdDataIn="listIdEmployees"
       >
-        <span class="background-icon-reload icon-24 background-flex"></span>
-      </base-button>
-
-      <base-button
-        v-tooltip="'Xuất ra Excel'"
-        @click="handlerExportExcel"
-        class="content-center-button-left"
-      >
-        <span class="background-icon-excel icon-24 background-flex"></span>
-      </base-button>
+      </base-table>
+      <!-- end table -->
     </div>
+
+    <div class="content-bottom">
+      <!-- start paging -->
+      <base-paging
+        :totalCount="totalCount"
+        @pageSize="pageSize = $event"
+        @currentPage="currentPage = $event"
+        :currentPage="currentPage"
+      ></base-paging>
+      <!-- end paging -->
+    </div>
+
+    <!-- start form -->
+    <employee-detail
+      v-if="checkShowForm"
+      :title="title"
+      @closeForm="checkShowForm = $event"
+      @loadData="loadData"
+      :employeeDetail="employeeDetail"
+      @textToastMessage="textToastMessage = $event"
+      @typeToastMessage="typeToastMessage = $event"
+    ></employee-detail>
+    <!-- end form -->
+
+    <!-- start toast message -->
+    <base-toast-message
+      :text="textToastMessage"
+      :type="typeToastMessage"
+      @textToastMessage="textToastMessage = $event"
+    ></base-toast-message>
+    <!-- end toast message -->
+
+    <!-- start thông báo -->
+    <base-notify
+      @closeForm="handlerCloseNotifi"
+      @checkShowNotify="checkNotify.isShow = $event"
+      v-if="checkNotify.isShow"
+      :type="checkNotify.type"
+      :text="checkNotify.text"
+      @sayYes="$event == true ? handlerDeleteEmployee() : ''"
+    ></base-notify>
+    <!-- end thông báo -->
   </div>
-  <!-- end content center top -->
-
-  <div class="content-table" :style="(checkFormLoad)?'flex-grow:1':''">
-    <!-- start table -->
-    <base-table
-      @dataDetail="
-        (employeeDetail = $event),
-          (checkShowForm = true),
-          (title = 'Sửa nhân viên')
-      "
-      v-model="listData"
-      :showFormLoad="checkFormLoad"
-      :fieldsTHead="tableField"
-      @showFormLoad="checkFormLoad = $event"
-      @functionTable="
-        $event.data.id != null && $event.value
-          ? handlerFunctionTable($event.value, $event.data)
-          : ''
-      "
-      :isFilter="true"
-      @listFilter="handlerFilter($event)"
-      :listDeleteFilterData="listDeleteFilterData"
-      @listDeleteFilterData="listDeleteFilterData = $event"
-      @listIdData="handlerSelectIdEmployees($event)"
-      :listIdDataIn="listIdEmployees"
-    >
-    </base-table>
-    <!-- end table -->
-  </div>
-
-  <div class="content-bottom">
-    <!-- start paging -->
-    <base-paging
-      :totalCount="totalCount"
-      @pageSize="pageSize = $event"
-      @currentPage="currentPage = $event"
-      :currentPage="currentPage"
-    ></base-paging>
-    <!-- end paging -->
-  </div>
-
-  <!-- start form -->
-  <employee-detail
-    v-if="checkShowForm"
-    :title="title"
-    @closeForm="checkShowForm = $event"
-    @loadData="loadData"
-    :employeeDetail="employeeDetail"
-    @textToastMessage="textToastMessage = $event"
-    @typeToastMessage="typeToastMessage = $event"
-  ></employee-detail>
-  <!-- end form -->
-
-  <!-- start toast message -->
-  <base-toast-message
-    :text="textToastMessage"
-    :type="typeToastMessage"
-    @textToastMessage="textToastMessage = $event"
-  ></base-toast-message>
-  <!-- end toast message -->
-
-  <!-- start thông báo -->
-  <base-notify
-    @closeForm="handlerCloseNotifi"
-    @checkShowNotify="checkNotify.isShow = $event"
-    v-if="checkNotify.isShow"
-    :type="checkNotify.type"
-    :text="checkNotify.text"
-    @sayYes="$event == true ? handlerDeleteEmployee() : ''"
-  ></base-notify>
-  <!-- end thông báo -->
 </template>
    
 <script>
@@ -175,7 +179,7 @@ import {
   NOTIFY_LIST,
   RULE_HANDLER_DATA,
   TEXT_TOAST_MESSAGE,
-  TITLES_FORM
+  TITLES_FORM,
 } from "../../../js/constants";
 
 import EmployeeDetail from "../employees-detail/EmployeeDetail.vue";
@@ -270,7 +274,7 @@ export default {
       listDeleteFilterData: [],
 
       // mảng lưu các trường lọc
-      arrFilter:[]
+      arrFilter: [],
     };
   },
   created() {
@@ -373,15 +377,15 @@ export default {
               this.typeToastMessage = "error";
             }
           } else {
-              this.textToastMessage = "Tính năng đang phát triển.";
-              this.typeToastMessage = "error";
-              console.log("vào đây")
+            this.textToastMessage = "Tính năng đang phát triển.";
+            this.typeToastMessage = "error";
+            console.log("vào đây");
           }
         }
 
         if (this.$refs.itemResolveMultiple) {
           // this.$refs.itemResolveMultiple[0].style.display = "none";
-          this.$refs.itemResolveMultiple.style.display = "none"
+          this.$refs.itemResolveMultiple.style.display = "none";
         }
       } catch (e) {
         this.textToastMessage = TEXT_TOAST_MESSAGE.Error.text;
@@ -460,9 +464,9 @@ export default {
         // xử lý thêm dữ liệu vào object lọc
         this.listFilter.forEach((value, key) => {
           let valueFilter = "";
-          if(typeof value.value != "string"){
-            valueFilter = (value.value)?value.value.toString():null;
-          }else{
+          if (typeof value.value != "string") {
+            valueFilter = value.value ? value.value.toString() : null;
+          } else {
             valueFilter = value.value;
           }
 
@@ -470,13 +474,15 @@ export default {
             name: key,
             operator: value.operator,
             value: valueFilter,
-            typeOperator: (value.typeOperator != null || value.typeOperator != undefined )?value.typeOperator:null
+            typeOperator:
+              value.typeOperator != null || value.typeOperator != undefined
+                ? value.typeOperator
+                : null,
           });
         });
 
         // load lại dữ liệu
         await this.loadData();
-
       } catch (e) {
         this.textToastMessage = TEXT_TOAST_MESSAGE.Error.text;
         this.typeToastMessage = TEXT_TOAST_MESSAGE.Error.type;
@@ -581,7 +587,7 @@ export default {
         // disable nút reload dữ liệu khi chưa load dữ liệu xong để trách db click
         this.disableButtonResetData = true;
 
-        console.log(123,this.arrFilter)
+        console.log(123, this.arrFilter);
 
         // gọi api phân trang
         await employees.pagingEmployee(this.arrFilter);

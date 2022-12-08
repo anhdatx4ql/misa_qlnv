@@ -138,6 +138,34 @@ export default {
                                     );
                                 }
                                 break;
+                                case "bottom-right":
+                                targetEl.style.setProperty(
+                                    "--v-tooltip-right",
+                                    "-100%"
+                                );
+                                targetEl.style.setProperty(
+                                    "--v-tooltip-top",
+                                    "65%"
+                                );
+                                targetEl.style.setProperty(
+                                    "--v-tooltip-translate",
+                                    "translate(-75%, 50%)"
+                                );
+                                if (value.displayArrow || modifiers.arrow) {
+                                    targetEl.style.setProperty(
+                                        "--v-tooltip-arrow-border-color",
+                                        "transparent var(--v-tooltip-background-color) transparent  transparent"
+                                    );
+                                    targetEl.style.setProperty(
+                                        "--v-tooltip-arrow-top",
+                                        "calc(var(--v-tooltip-top)"
+                                    );
+                                    targetEl.style.setProperty(
+                                        "--v-tooltip-arrow-left",
+                                        "calc( var(--v-tooltip-left) - var(--v-tooltip-left-offset) - 2px)"
+                                    );
+                                }
+                                break;
                             default:
                                 break;
                         }

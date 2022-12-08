@@ -162,11 +162,14 @@ namespace MISA.AMIS.Common
         {
             for(var i = 0; i < SpecialCharacters.Count(); i++)
             {
-                if (text.Contains(SpecialCharacters[i]))
-                {
-                    text = text.Replace(SpecialCharacters[i], "\\"+SpecialCharacters[i]);
+                if(text != null || text != "") {
+                    if (text.Contains(SpecialCharacters[i]))
+                    {
+                        text = text.Replace(SpecialCharacters[i], "\\" + SpecialCharacters[i]);
+                    }
                 }
             }
+                
             return text;
         }
         #endregion

@@ -620,22 +620,29 @@ export default {
      */
     handlerFilter(fieldName, type, filterItem, nameFilter) {
       try {
+
+        console.log(filterItem.value)
+
         // lấy ra id hiện tại của item filter
         if (this.currentFillter.id == null) {
           this.currentFillter.id = this.itemFilter.id;
         }
 
         if (type == TYPE_FILTER.Gender) {
+          
           let item = this.selectItemFilter(type, filterItem.value);
 
           if (item) {
             this.listFilter.set(fieldName, {
               operator: filterItem.operator,
-              value: filterItem.value,
+              value: filterItem.value.toString(),
               text: nameFilter + ": " + item.name,
               typeOperator:  (item.fieldName)?item.fieldName:null,
             });
           }
+
+          console.log(this.listFilter)
+          
         } else {
           let item = this.selectItemFilter(type, this.currentFillter.id);
 

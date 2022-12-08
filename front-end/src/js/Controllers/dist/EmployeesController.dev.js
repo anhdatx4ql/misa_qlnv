@@ -12,6 +12,14 @@ var _BaseController = require("../Controllers/BaseController");
 
 var _constants = require("../constants");
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -105,15 +113,46 @@ function () {
   _createClass(Employees, [{
     key: "pagingEmployee",
     value: function pagingEmployee(data) {
-      var res;
+      var dataKeyword, newData, res;
       return regeneratorRuntime.async(function pagingEmployee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.next = 2;
-              return regeneratorRuntime.awrap((0, _BaseController.paging)(_endPoint.END_POINTS.PagingEmployee, this.keyword, this.currentPageNumber, this.pageSize, data));
+              dataKeyword = []; // nếu tồn tại keyword thì tìm kiếm theo keyword với 3 trường: tên, mã , sđt
 
-            case 2:
+              if (this.keyword) {
+                console.log(this.keyword);
+                dataKeyword.push({
+                  name: 'employeeId',
+                  operator: 'like',
+                  value: this.keyword,
+                  typeOperator: 'like',
+                  stringConcatenation: 'OR'
+                }, {
+                  name: 'name',
+                  operator: 'like',
+                  value: this.keyword,
+                  typeOperator: 'like',
+                  stringConcatenation: 'OR'
+                }, {
+                  name: 'numberPhone',
+                  operator: 'like',
+                  value: this.keyword,
+                  typeOperator: 'like'
+                });
+              }
+
+              newData = _toConsumableArray(data);
+
+              if (dataKeyword != []) {
+                newData.push.apply(newData, dataKeyword);
+              }
+
+              console.log(newData);
+              _context.next = 7;
+              return regeneratorRuntime.awrap((0, _BaseController.paging)(_endPoint.END_POINTS.PagingEmployee, this.currentPageNumber, this.pageSize, newData));
+
+            case 7:
               res = _context.sent;
 
               if (res.statusCode == _constants.STATUS_CODES.Code200) {
@@ -123,7 +162,7 @@ function () {
                 console.log(res);
               }
 
-            case 4:
+            case 9:
             case "end":
               return _context.stop();
           }

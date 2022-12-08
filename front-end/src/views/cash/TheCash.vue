@@ -5,11 +5,12 @@
  -->
 
 <template>
+  
   <div class="cash">
     <div class="cash-header">
       <div class="cash-header-tab">
         <ul>
-          <li v-for="item in listCashTab" :key="item.title">
+          <li v-for="item in listCashTab" :key="item.title" :class="( isActive && item.activeClass)">
             <router-link :to="item.route">{{item.title}}</router-link>
           </li>
         </ul>

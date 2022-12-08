@@ -13,9 +13,12 @@
     color: #111111;
 }
 
-.cash-header-tab>ul>li {
+.cash-header-tab>ul>li>a {
     display: inline-block;
-    padding: 15px 20px;
+    padding: 15px 20px; 
+}
+
+.cash-header-tab-active{
     border-bottom: 4px solid #2ca01c;
 }
 
@@ -30,4 +33,13 @@
     border-bottom: 2px solid #D4D7DC;
     position: relative;
     z-index: 1;
+}
+
+.cash-header-tab li {
+    list-style: none;
+}
+
+.cash-header-tab>ul>li>a.active-item-menu {
+    border-bottom: 4px solid green;
+    box-sizing: border-box;
 }

@@ -22,6 +22,7 @@ import BasePaging from '/src/components/paging/BasePaging.vue'
 import TheCash from '/src/views/cash/TheCash.vue'
 import MSProcess from '/src/views/cash/process/MSProcess.vue'
 import MSReceipt from '/src/views/cash/receipt/MSReceipt.vue'
+import SupplierList from '/src/views/suppliers/SupplierList.vue'
 
 const app = createApp(App);
 
@@ -33,7 +34,7 @@ const routers = [
     {
         path: '/',
         redirect: { path: 'tien-mat' },
-        name:"/tien-mat"
+        name:"/"
     },
     {
         path: '',
@@ -43,6 +44,7 @@ const routers = [
     {
         path: '/tien-mat',
         component: TheCash,
+        redirect: { path: '/quy-trinh' },
         children: [
             {
               path: '/quy-trinh',
@@ -55,7 +57,11 @@ const routers = [
               }
           ],
     },
-    
+    {
+        path: '/nha-cung-cap',
+        component: SupplierList,
+        name:"/nha-cung-cap"
+    },
     {
         path: '/nhan-vien',
         component: EmployeeList,
