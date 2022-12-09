@@ -15,15 +15,19 @@ namespace MISA.AMIS.Common
     {
         #region Fields
         // ngày tạo
+        [AttributePost("")]
         public DateTime CreatedAt { set; get; }
 
         // ngày cập nhật
+        [AttributePost("")]
         public DateTime UpdatedAt { set; get; }
 
         // người cập nhật
+        [AttributePost("")]
         public string UpdatedBy { set; get; }
 
         // người tạo
+        [AttributePost("")]
         public string CreatedBy { set; get; }
         #endregion
     }

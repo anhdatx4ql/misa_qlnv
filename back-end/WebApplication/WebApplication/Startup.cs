@@ -47,9 +47,24 @@ namespace MISA.AMIS.Application
             services.AddScoped<IDepartmentsRepository, DepartmentsRepository>();
             services.AddScoped<IEmployeesRepository, EmployeesRepository>();
             services.AddScoped<IPositionsRepository, PositionsRepository>();
+            services.AddScoped<IAccountsRepository, AccountsRepository>();
+            services.AddScoped<IBankAccountsRepository, BankAccountsRepository>();
+            services.AddScoped<IDeliveryAddressRepository, DeliveryAddressRepository>();
+            services.AddScoped<IGroupSuppliersRepository, GroupSuppliersRepository>();
+            services.AddScoped<IRulePaymentsRepository, RulePaymentsRepository>();
+            services.AddScoped<ISuppliers_GroupSuppliersRepository, Suppliers_GroupSuppliersRepository>();
+            services.AddScoped<ISuppliersRepository, SuppliersRepository>();
+
             services.AddScoped<IEmployeesService, EmployeesService>();
             services.AddScoped<IDepartmentsService, DepartmentsService>();
             services.AddScoped<IPositionsService, PositionsService>();
+            services.AddScoped<IAccountsService, AccountsService>();
+            services.AddScoped<IBankAccountsService, BankAccountsService>();
+            services.AddScoped<IDeliveryAddressService, DeliveryAddressService>();
+            services.AddScoped<IGroupSuppliersService, GroupSuppliersService>();
+            services.AddScoped<IRulePaymentsService, RulePaymentsService>();
+            services.AddScoped<ISuppliers_GroupSuppliersService, Suppliers_GroupSuppliersService>();
+            services.AddScoped<ISuppliersService, SuppliersService>();
 
             services.AddSwaggerGen(c =>
             {

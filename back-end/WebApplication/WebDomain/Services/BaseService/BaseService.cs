@@ -101,7 +101,11 @@ namespace MISA.AMIS.BL
 
                     if (property.Name != "CreatedAt" || property.Name != "UpdatedAt")
                     {
-                        parameters.Add($"@_{property.Name}", propertyValue);
+                        var attributePost = (AttributePost)Attribute.GetCustomAttribute(property, typeof(AttributePost));
+                        if(attributePost != null)
+                        {
+                            parameters.Add($"@_{property.Name}", propertyValue);
+                        }
                     }
                         
                 }
@@ -277,8 +281,10 @@ namespace MISA.AMIS.BL
 
                 var tableName = TableName.GetTableName<T>();
 
-                // chỉnh sửa lại keyword
-                //keyword = '%' + keyword + '%';
+                // lấy các thuộc tính public của entity
+                var properties = typeof(T).GetProperties();
+
+                var keyName = GetKeyName(properties);
 
                 var stringFilter = "";
 
@@ -386,11 +392,13 @@ namespace MISA.AMIS.BL
 
                 }
 
+                // lấy số bản ghi bắt đầu từ bao nhiêu
                 var offset = (currentPageNumber - 1) * pageSize;
 
                 // lấy tên proceduce
-                var sql = "SELECT COUNT(*) FROM "+ tableName + " WHERE Id IN (SELECT Id FROM view_"+ tableName + " ve WHERE (" + stringFilter + ")); ";
+                var sql = "SELECT COUNT(*) FROM "+ tableName + " WHERE "+ keyName + " IN (SELECT "+keyName+" FROM view_" + tableName + " WHERE (" + stringFilter + ")); ";
                 sql += "SELECT * FROM view_" + tableName + " WHERE(" + stringFilter + ") ORDER BY UpdatedAt DESC LIMIT @_offset,@_pageSize; ";
+                
                 // khai báo parameters
                 var parameters = new DynamicParameters();
                 parameters.Add("@_pageSize", pageSize);
@@ -409,6 +417,29 @@ namespace MISA.AMIS.BL
         }
 
         /// <summary>
+        /// Author: Phạm Văn Đạt(09/12/2022)
+        /// Function: Xử lý lấy tên keyword
+        /// </summary>
+        /// <param name="entity">bảng</param>
+        /// <param name="properties">properties truyền vào</param>
+        /// <returns></returns>
+        private string GetKeyName(PropertyInfo[] properties)
+        {
+            string keyName = null;
+            foreach (var property in properties)
+            {
+                var attributePrimarykey = (AttributePrimarykey)Attribute.GetCustomAttribute(property, typeof(AttributePrimarykey));
+                // xử lý validate
+                if (attributePrimarykey != null)
+                {
+                    keyName = property.Name;
+                    break;
+                }
+            }
+            return keyName;
+        }
+
+        /// <summary>
         /// Author: Phạm Văn Đạt
         /// Function: Xử lý validate base
         /// </summary>
@@ -424,7 +455,7 @@ namespace MISA.AMIS.BL
             foreach (var property in properties)
             {
 
-                await this.HandlerValidate(property, entity, id, tableName, fieldsDupcaty, message);
+                await this.HandlerValidate(property, entity, id, tableName, fieldsDupcaty, message, properties);
             }
 
             return new CheckDupcatyModel(message, fieldsDupcaty);
@@ -439,7 +470,7 @@ namespace MISA.AMIS.BL
         /// <param name="entity">bảng</param>
         /// <param name="messageError">mảng chứa lỗi</param>
         /// <returns></returns>
-        private async Task HandlerValidate(PropertyInfo property, T entity, Guid id, string tableName, List<Dictionary<string, string>> checkValidateFields, List<string> messageValidateFields)
+        private async Task HandlerValidate(PropertyInfo property, T entity, Guid id, string tableName, List<Dictionary<string, string>> checkValidateFields, List<string> messageValidateFields, PropertyInfo[] properties)
         {
             // lấy tên thuộc tính
             var propertyName = property.Name;
@@ -462,10 +493,10 @@ namespace MISA.AMIS.BL
             // nếu không có thuộc tính attribute Exists => trả về null
             var attributeExists = (AttributeExists)Attribute.GetCustomAttribute(property, typeof(AttributeExists));
 
-            // nếu không có thuộc tính attribute Exists => trả về null
+            // nếu không có thuộc tính attribute khóa chính => trả về null
             var attributePrimarykey = (AttributePrimarykey)Attribute.GetCustomAttribute(property, typeof(AttributePrimarykey));
 
-            // nếu không có thuộc tính attribute Exists => trả về null
+            // nếu không có thuộc tính attribute datetime => trả về null
             var attributeDateTime = (AttributeDateTime)Attribute.GetCustomAttribute(property, typeof(AttributeDateTime));
 
             // kiểm tra nếu có add message thì thêm field vào list trong trường hợp field đó chưa có trong list
@@ -499,7 +530,7 @@ namespace MISA.AMIS.BL
                 checkSelectMessage = true;
 
             }
-            else if (attributeEmail != null && propertyValue != null && propertyValue != "" && this.CheckRegex(propertyValue?.ToString(), "email") == false)
+            else if (attributeEmail != null && propertyValue != null && propertyValue?.ToString() != "" && this.CheckRegex(propertyValue?.ToString(), "email") == false)
             {
 
                 // nếu không phải dạng biểu thức email => lỗi
@@ -508,7 +539,7 @@ namespace MISA.AMIS.BL
                 checkSelectMessage = true;
 
             }
-            else if (attributePhone != null && propertyValue != null && propertyValue != "" && this.CheckRegex(propertyValue?.ToString(), "phone") == false)
+            else if (attributePhone != null && propertyValue != null && propertyValue?.ToString() != "" && this.CheckRegex(propertyValue?.ToString(), "phone") == false)
             {
 
                 // nếu không phải dạng biểu thức email => lỗi
@@ -527,8 +558,12 @@ namespace MISA.AMIS.BL
 
             if (attributeExists != null && propertyValue != null)
             {
+
+                // lấy tên ID
+                var keyName = GetKeyName(properties);
+
                 // truyền tên table, tên trường cần check, giá trị của trường cần check, id khách hàng cần check
-                var sql = $"SELECT {propertyName} FROM {tableName} WHERE {propertyName} = @propertyValue and Id Not IN (@id) LIMIT 1";
+                var sql = $"SELECT {propertyName} FROM {tableName} WHERE {propertyName} = @propertyValue AND "+ keyName + " Not IN (@id) LIMIT 1";
                 var parameters = new DynamicParameters();
                 parameters.Add("@propertyValue", propertyValue.ToString().Trim());
                 parameters.Add("@id", id);

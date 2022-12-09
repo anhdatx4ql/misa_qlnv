@@ -15,10 +15,12 @@ namespace MISA.AMIS.Common
         #region Fields
         // Id phòng ban
         [AttributePrimarykey("Id không được bỏ trống")]
+        [AttributePost("")]
         public Guid Id { set; get; }
 
         // tên phòng ban
         [AttributeRequired("Tên phòng ban không được bỏ trống!")]
+        [AttributePost("")]
         public string Name { set; get; }
         #endregion
     }

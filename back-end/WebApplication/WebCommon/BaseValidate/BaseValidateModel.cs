@@ -142,6 +142,25 @@ namespace MISA.AMIS.Common
     }
 
     /// <summary>
+    /// Author: Phạm Văn Đạt(29/10/2022)
+    /// Function: kiểm tra ngày tháng không vượt quá ngày tháng hiện tại
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Property)]
+    public class AttributePost : Attribute
+    {
+        #region Fields
+        public string ErrorMessage { get; }
+        #endregion
+
+        #region Constructor
+        public AttributePost(string message)
+        {
+            ErrorMessage = message;
+        }
+        #endregion
+    }
+
+    /// <summary>
     /// Author: Phạm Văn Đạt(23/11/2022)
     /// FUnction: Xử lý thêm \ trước các ký tự đặc biệt
     /// </summary>

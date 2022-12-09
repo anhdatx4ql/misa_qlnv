@@ -972,4 +972,413 @@ export const LIST_MENU_PROCESS_BOTTOM = [
     class: "background-icon-setting w-h-24",
     route:"/tuy-chon"
   },
-]
+];
+
+
+
+/**
+ * Author: Phạm Văn Đạt(18/10/2022)
+ * Function: các trường trong table
+ */
+export let SUPPLIER_FIELDS = [
+  {
+    width: 20,
+    fieldName: "fakeColumn1",
+    class: "position-sticky fake-cloumn l-p-0",
+  },
+  {
+    width: 40,
+    nameHeader: "listCheckbox",
+    fieldName: "checkbox1",
+    idCheckbox: "fake-checkbox-1",
+    type: "checkbox",
+    checkBox: true,
+    disabled: false,
+    class: "position-sticky l-p-20",
+    value: (value) => {
+      return value;
+    },
+  },
+  {
+    name: "MÃ NHÀ CUNG CẤP",
+    fieldName: "supplierCode",
+    width: 150,
+    isRequired: true,
+    class: "left-60 position-sticky",
+    nameFilter: "Mã nhà cung cấp",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "TÊN NHÀ CUNG CẤP",
+    fieldName: "supplierName",
+    width: 130,
+    isRequired: true,
+    nameFilter: "Tên nhà cung cấp",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "MÃ SỐ THUẾ",
+    fieldName: "TaxCode",
+    width: 130,
+    isRequired: true,
+    nameFilter: "Mã số thuế",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "ĐỊA CHỈ",
+    fieldName: "supplierAddress",
+    width: 130,
+    isRequired: true,
+    nameFilter: "Địa chỉ",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "ĐIỆN THOẠI",
+    fieldName: "SupplierDeskPhone",
+    width: 130,
+    isRequired: true,
+    nameFilter: "Địa chỉ",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "Website",
+    fieldName: "Website",
+    width: 130,
+    isRequired: true,
+    nameFilter: "Website",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "TÊN NHÂN VIÊN",
+    fieldName: "employeeName",
+    width: 130,
+    isRequired: true,
+    nameFilter: "Tên nhân viên",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "XƯNG HÔ",
+    fieldName: "supplierVocativeName",
+    width: 130,
+    isRequired: true,
+    nameFilter: "Xưng hô",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "NGƯỜI LIÊN HỆ",
+    fieldName: "supplierNameContact",
+    width: 130,
+    isRequired: true,
+    nameFilter: "Người liên hệ",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "Email",
+    fieldName: "supplierEmail",
+    width: 130,
+    isRequired: true,
+    nameFilter: "Email",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "Điện thoại NLH",
+    fieldName: "SupplierMobile",
+    width: 130,
+    isRequired: true,
+    nameFilter: "Điện thoại NLH",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "NGƯỜI ĐẠI DIỆN PL",
+    fieldName: "legaRrepresentative",
+    width: 130,
+    isRequired: true,
+    nameFilter: "Người đại diện PL",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "ĐIỀU KHOẢN THANH TOÁN",
+    fieldName: "rulePaymentName",
+    width: 130,
+    isRequired: true,
+    nameFilter: "Điều khoản thanh toán",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "SỐ NGÀY ĐƯỢC NỢ",
+    fieldName: "DayOwed",
+    width: 130,
+    isRequired: true,
+    nameFilter: "Điều khoản thanh toán",
+    typeFilter: "DateTime",
+    isField: true,
+    filter:{
+      operator: '=',
+      value: null
+    }
+  },
+  {
+    name: "SỐ NỢ TỐI ĐA",
+    fieldName: "debitAmountMax",
+    width: 130,
+    isRequired: true,
+    nameFilter: "Số nợ tối đa",
+    typeFilter: "DateTime",
+    isField: true,
+    filter:{
+      operator: '=',
+      value: null
+    }
+  },
+  {
+    name: "CÔNG NỢ",
+    fieldName: "debt",
+    width: 130,
+    isRequired: true,
+    nameFilter: "Công nợ",
+    typeFilter: "DateTime",
+    isField: true,
+    filter:{
+      operator: '=',
+      value: null
+    }
+  },
+  {
+    name: "TK CÔNG NỢ PHẢI TRẢ",
+    fieldName: "accountName",
+    width: 130,
+    isRequired: true,
+    nameFilter: "TK công nợ phải trả",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "GHI CHÚ",
+    fieldName: "supplierDescription",
+    width: 130,
+    isRequired: true,
+    nameFilter: "Ghi chú",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "QUỐC GIA",
+    fieldName: "supplierCountry",
+    width: 130,
+    isRequired: true,
+    nameFilter: "Quốc gia",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "TỈNH/THÀNH PHỐ",
+    fieldName: "supplierCity",
+    width: 130,
+    isRequired: true,
+    nameFilter: "TỈnh/thành phố",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "QUẬN/HUYỆN",
+    fieldName: "supplierDistrict",
+    width: 130,
+    isRequired: true,
+    nameFilter: "Quận/huyện",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "XÃ/PHƯỜNG",
+    fieldName: "supplierWard",
+    width: 130,
+    isRequired: true,
+    nameFilter: "Xã/phường",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "XÃ/PHƯỜNG",
+    fieldName: "supplierWard",
+    width: 130,
+    isRequired: true,
+    nameFilter: "Xã/phường",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "ĐANG HOẠT ĐỘNG",
+    fieldName: "isActive",
+    width: 170,
+    disabled: true,
+    class: "text-align-center",
+    checkBoxDisable: true,
+    typeFilter: "Boolean",
+    nameFilter: "Đang hoạt động",
+    isField: true
+  },
+  {
+    name: "LÀ KHÁCH HÀNG",
+    fieldName: "isCustomer",
+    width: 170,
+    disabled: true,
+    class: "text-align-center",
+    checkBoxDisable: true,
+    typeFilter: "Boolean",
+    nameFilter: "Là khách hàng",
+    isField: true
+  },
+  {
+    name: "LÀ TỔ CHỨC",
+    fieldName: "isOrganization",
+    width: 170,
+    disabled: true,
+    class: "text-align-center",
+    checkBoxDisable: true,
+    typeFilter: "Boolean",
+    nameFilter: "Là tổ chức",
+    isField: true
+  },
+  {
+    name: "LÀ CÁ NHÂN",
+    fieldName: "isPersonal",
+    width: 170,
+    disabled: true,
+    class: "text-align-center",
+    checkBoxDisable: true,
+    typeFilter: "Boolean",
+    nameFilter: "Là cá nhân",
+    isField: true
+  },
+  {
+    width: 120,
+    fieldName: "CHỨC NĂNG",
+    name: "CHỨC NĂNG",
+    button: "Sửa",
+    combobox: [
+      {
+        id: 1,
+        name: "Nhân bản",
+      },
+      {
+        id: 2,
+        name: "Xóa",
+      },  
+      {
+        id: 3,
+        name: "Ngưng sử dụng",
+      },
+    ],
+    iconCombobox: false,
+    positionCombobox: "top",
+    inputCombobox: false,
+    class: "table-hover td table-function",
+    style: "right:24px",
+    type: "function",
+  },
+  {
+    width: 24,
+    fieldName: "fakeColumn2",
+    class: "position-sticky fake-cloumn",
+    style: "right:0",
+  },
+  {
+    width: 24,
+    fieldName: "fakeColumn2",
+    class: "position-sticky fake-cloumn r-30 background-container",
+    style: "right:-24px;",
+  },
+];

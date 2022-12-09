@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace MISA.AMIS.Common
     /// Author: Phạm Văn Đạt(19/10/2022)
     /// Function: Hiển thị thông tin khách hàng
     /// </summary>
+    [Table("Employees")]
     public class EmployeesViewModel :BaseEntity
     {
         #region Field

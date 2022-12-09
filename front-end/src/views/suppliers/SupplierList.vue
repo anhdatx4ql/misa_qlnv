@@ -131,6 +131,11 @@
         <!-- end content top -->
 
         <!-- startt content table -->
+        <div class="content-table">
+          <base-table 
+          :fieldsTHead="tableField"
+          ></base-table>
+        </div>
         <!-- end content table -->
 
       </div>
@@ -139,11 +144,18 @@
 </template>
 
 <script>
+
+import {LIST_CASH_TAB} from '../../js/constants.js'
+
 export default {
   name: "SupplierList",
   props: {},
   data() {
     return {
+
+      // các trường hiển thị thông tin table
+      tableField: LIST_CASH_TAB,
+
       // mảng lưu giá trị lọc
       listFilter: new Map(),
 

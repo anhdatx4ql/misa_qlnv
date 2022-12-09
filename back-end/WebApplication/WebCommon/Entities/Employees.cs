@@ -14,51 +14,75 @@ namespace MISA.AMIS.Common
     {
         #region Fields
         // Id khách hàng
+        [AttributePrimarykey("Id không hợp lệ.")]
+        [AttributePost("")]
         public Guid Id { set; get; }
 
         // mã khách hàng
+        [AttributeRequired("Mã khách hàng không được bỏ trống.")]
+        [AttributePost("")]
         public string EmployeeId { set; get; }
 
         // tên khách hàng
+        [AttributeRequired("Tên khách hàng không được bỏ trống.")]
+        [AttributePost("")]
         public string Name { set; get; }
 
         // Giới tính
+        [AttributeGender("Giới tính sai định dạng.")]
+        [AttributePost("")]
         public int Gender { set; get; }
 
         // Ngày sinh
+        [AttributeDateTime("Ngày tháng không vượt quá ngày tháng hiện tại.")]
+        [AttributePost("")]
         public string BirthDay { set; get; }
 
         // Số chứng minh nhân dân
+        [AttributePost("")]
         public string IdNo { set; get; }
 
         // Ngày cấp
+        [AttributePost("")]
         public string IssuaOn { set; get; }
 
         // Nơi cấp
+        [AttributePost("")]
         public string PlaceOfIssue { set; get; }
 
         // id số tài khoản
         public string BankAccountId { set; get; }
 
         // Địa chỉ
+        [AttributePost("")]
         public string Address { set; get; }
 
         // số điện thoại di động
+        [AttributePost("")]
+        [AttributePhone("Số điện thoại di động không hợp lệ.")]
         public string NumberPhone { set; get; }
 
         // số điện thoại bàn
+        [AttributePost("")]
+        [AttributePhone("Số điện thoại bàn không hợp lệ.")]
         public string DeskPhone { set; get; }
 
         // email
+        [AttributePost("")]
+        [AttributeEmail("Email không hợp lệ.")]
         public string Email { set; get; }
 
         // id phòng ban
+        [AttributeRequired("Mã phòng ban không được để trống.")]
+        [AttributePost("")]
         public Guid? DepartmentId { set; get; }
 
         // id chức danh
+        [AttributePost("")]
         public Guid? PositionId { set; get; }
 
         // là khách hàng
+        [AttributePost("")]
         public bool IsEmployee { set; get; }
 
         /// <summary>
@@ -72,9 +96,11 @@ namespace MISA.AMIS.Common
         public string PositionName { set; get; }
 
         // là nhà cung cấp
+        [AttributePost("")]
         public bool IsSuppiler { set; get; }
 
         //Đã xóa hay chưa
+        [AttributePost("")]
         public bool IsDelete { set; get; }
 
         // Lương thỏa thuận
@@ -94,7 +120,6 @@ namespace MISA.AMIS.Common
 
         // số người phụ thuộc
         public string NumberOfDependent { set; get; }
-
         #endregion
     }
 }

@@ -186,14 +186,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AccountsRepository\AccountsRepository.cs" />
+    <Compile Include="Repositories\AccountsRepository\IAccountsRepository.cs" />
+    <Compile Include="Repositories\BankAccountsRepository\BankAccountsRepository.cs" />
+    <Compile Include="Repositories\BankAccountsRepository\IBankAccountsRepository.cs" />
     <Compile Include="Repositories\BaseRepository\BaseRepository.cs" />
     <Compile Include="Repositories\BaseRepository\IBaseRepository.cs" />
+    <Compile Include="Repositories\DeliveryAddressRepository\DeliveryAddressRepository.cs" />
+    <Compile Include="Repositories\DeliveryAddressRepository\IDeliveryAddressRepository.cs" />
     <Compile Include="Repositories\DepartmentsRepository\DepartmentsRepository.cs" />
     <Compile Include="Repositories\DepartmentsRepository\IDepartmentsRepository.cs" />
     <Compile Include="Repositories\EmployeesRepository\EmployeesRepository.cs" />
     <Compile Include="Repositories\EmployeesRepository\IEmployeesRepository.cs" />
+    <Compile Include="Repositories\GroupSuppliersRepository\GroupSuppliersRepository.cs" />
+    <Compile Include="Repositories\GroupSuppliersRepository\IGroupSuppliersRepository.cs" />
     <Compile Include="Repositories\PositionsRepository\IPositionsRepository.cs" />
     <Compile Include="Repositories\PositionsRepository\PositionsRepository.cs" />
+    <Compile Include="Repositories\RulePaymentsRepository\IRulePaymentsRepository.cs" />
+    <Compile Include="Repositories\RulePaymentsRepository\RulePaymentsRepository.cs" />
+    <Compile Include="Repositories\SuppliersRepository\ISuppliersRepository.cs" />
+    <Compile Include="Repositories\SuppliersRepository\SuppliersRepository.cs" />
+    <Compile Include="Repositories\Suppliers_GroupSuppliersRepository\ISuppliers_GroupSuppliersRepository.cs" />
+    <Compile Include="Repositories\Suppliers_GroupSuppliersRepository\Suppliers_GroupSuppliersRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebCommon\MISA.AMIS.Common.csproj">
@@ -205,5 +219,6 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

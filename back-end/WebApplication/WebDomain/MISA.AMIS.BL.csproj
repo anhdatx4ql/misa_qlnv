@@ -73,14 +73,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AccountsService\AccountsService.cs" />
+    <Compile Include="Services\AccountsService\IAccountsService.cs" />
+    <Compile Include="Services\BankAccountsService\BankAccountsService.cs" />
+    <Compile Include="Services\BankAccountsService\IBankAccountsService.cs" />
     <Compile Include="Services\BaseService\BaseService.cs" />
     <Compile Include="Services\BaseService\IBaseService.cs" />
+    <Compile Include="Services\DeliveryAddress\DeliveryAddressService.cs" />
+    <Compile Include="Services\DeliveryAddress\IDeliveryAddressService.cs" />
     <Compile Include="Services\DepartmentsService\DepartmentsService.cs" />
     <Compile Include="Services\DepartmentsService\IDepartmentsService.cs" />
     <Compile Include="Services\EmployeesService\EmployeesService.cs" />
     <Compile Include="Services\EmployeesService\IEmployeesService.cs" />
+    <Compile Include="Services\GroupSuppliersService\GroupSuppliersService.cs" />
+    <Compile Include="Services\GroupSuppliersService\IGroupSuppliersService.cs" />
     <Compile Include="Services\PositionsService\IPositionsService.cs" />
     <Compile Include="Services\PositionsService\PositionsService.cs" />
+    <Compile Include="Services\RulePaymentsService\IRulePaymentsService.cs" />
+    <Compile Include="Services\RulePaymentsService\RulePaymentsService.cs" />
+    <Compile Include="Services\SuppliersService\ISuppliersService.cs" />
+    <Compile Include="Services\SuppliersService\SuppliersService.cs" />
+    <Compile Include="Services\Suppliers_GroupSuppliersService\ISuppliers_GroupSuppliersService.cs" />
+    <Compile Include="Services\Suppliers_GroupSuppliersService\Suppliers_GroupSuppliersService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebCommon\MISA.AMIS.Common.csproj">
@@ -92,9 +106,7 @@
       <Name>MISA.AMIS.DL</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
