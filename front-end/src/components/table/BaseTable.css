@@ -39,11 +39,11 @@
 
 .table-content thead>tr>th {
     background: #E5E8EC !important;
-    height: 49px;
+    height: 38px;
 }
 
 .table-content tbody>tr {
-    height: 44px;
+    height: 40px;
     box-sizing: border-box;
 }
 
@@ -355,6 +355,7 @@ table th .filter-container {
 .filter-container .filter-content {
     position: absolute;
     padding: 22px 17px;
+    width: -moz-fit-content;
     width: fit-content;
     width: fit-content;
     background: white;
@@ -367,7 +368,7 @@ table th .filter-container {
     z-index: 99999;
     left: 50%;
     box-sizing: border-box;
-    top: 33px;
+    top: 169%;
     transform: translateX(-49%);
     display: none;
 }
@@ -490,4 +491,44 @@ th {
 .table-filter {
     position: absolute;
     right: 0;
+}
+
+.content-center-top-left {}
+
+.content-center-top-left .button-container.background-unset>button {
+    color: #0075c0;
+    font-weight: 400;
+    padding: 0;
+    margin: 0;
+}
+
+.content-center-top-left .button-container.background-unset>button:hover {
+    text-decoration: underline;
+}
+
+.content-center-top-left .button-container.background-unset {
+    margin: 0;
+    min-width: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-center-top-left .button-container .background-unset {
+    min-width: 20px;
+}
+
+td.table-hover.table-hover.td.table-function>div>button {
+    padding: 6px 3px 6px 16px;
+    min-width: unset;
+}
+
+.table-content td.td.table-function {
+    color: #0075c0;
+}
+
+
+td.table-hover>.loading {
+    background: #F2F2F2;
+    height: 14px;
 }

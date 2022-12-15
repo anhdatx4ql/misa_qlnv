@@ -9,10 +9,10 @@ using WebCommon;
 namespace MISA.AMIS.DL
 {
     /// <summary>
-    /// Author: Phạm Văn Đạt(09/12/2022)
-    /// Function: thao tác với DB của bảng phòng ban
+    /// Author: Phạm Văn Đạt(08/12/2022)
+    /// Function: thao tác với DB của bảng tài khoản công nợ phải trả
     /// </summary>
-    public class AccountsRepository : BaseRepository<Accounts>, IAccountsRepository
+    public interface IAccountsPayableRepository : IBaseRepository<AccountsPayable>
     {
     }
 }

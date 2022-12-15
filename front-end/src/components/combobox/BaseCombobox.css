@@ -136,9 +136,6 @@ button.button-combobox:hover {
     width: 100% !important;
 }
 
-
-
-
 .dropdown-items::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -159,27 +156,24 @@ button.button-combobox:hover {
 }
 
 .top .icon-16.background-icon-arrow-bottobase {
-    transform: rotate(180deg) !important;
+    transform: rotate(180deg);
 }
 
-.top span.background-icon-arrow-bottom.icon-16 {
+.top .background-icon-arrow-bottom {
     transform: rotate(180deg);
-    background-position: -563px -359px;
 }
 
 .top .background-icon-arrow-bottom-active {
-    transform: rotate(0deg) !important;
-    background-position: -558px -359px !important;
+    transform: rotate(0deg);
+    background-position: -558px -359px;
 }
 
-
-
 .header .background-icon-arrow-bottom-active {
-    background-position: -560px -359px !important;
+    background-position: -560px -359px;
 }
 
 .bottom .background-icon-arrow-bottom-active {
-    background-position: -562px -359px;
+    background-position: -560px -359px;
     transform: rotate(180deg);
 }
 
@@ -202,4 +196,29 @@ button.button-combobox:hover {
 
 .combobox-error {
     border-color: red !important;
+}
+
+td.table-hover.table-hover.td.table-function>div>button {
+    color: #0075c0;
+}
+
+.btn-pri.button-active>button {
+    background: #35BF22;
+    color: #fff;
+}
+
+.dropdown-item button {
+    border-radius: unset;
+}
+
+.dropdown-items .button {display: flex;justify-content: start;}
+
+.top span.background-icon-arrow-bottom.icon-16 {
+    transform: rotate(180deg);
+    background-position: -560px -359px !important;
+}
+
+.top .background-icon-arrow-bottom.icon-16.background-icon-arrow-bottom-active {
+    transform: rotate(0deg);
+    background-position: -558px -358px !important;
 }

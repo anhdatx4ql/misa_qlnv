@@ -45,3 +45,17 @@ export function titleCase(string) {
 
   return string;
 }
+
+/**
+ * Author: Phạm Văn Đạt(15/12/2022)
+ * Function: xử lý nhập decimal
+ */
+export function decimal(value) {
+
+  // chuyển chuỗi text về dạng số
+  let val = value.replace('.', '');
+  val = val.replace(',', '.');
+
+  val = (val/1).toFixed(2).replace('.', ',')
+  return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+}

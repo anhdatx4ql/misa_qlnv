@@ -44,7 +44,8 @@
   <ItemGroup>
     <Compile Include="BaseValidate\BaseValidateModel.cs" />
     <Compile Include="DbContext.cs" />
-    <Compile Include="Entities\Accounts.cs" />
+    <Compile Include="Entities\AccountsPayable.cs" />
+    <Compile Include="Entities\AccountsReceivable.cs" />
     <Compile Include="Entities\BankAccounts.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\DeliveryAddress.cs" />

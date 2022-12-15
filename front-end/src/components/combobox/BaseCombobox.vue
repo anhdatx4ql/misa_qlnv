@@ -78,8 +78,8 @@
           <base-button
             v-for="(cbxListValue, index) in cbxListValues"
             :key="cbxListValue.id"
-            @click.prevent="selectValueCombobox(cbxListValue)"
-            class="button-combobox"
+            @clickButton="selectValueCombobox(cbxListValue)"
+            listClass="button-combobox btn-pri"
             :tabindex="index"
             :value="cbxListValue.id"
             :class="{
@@ -89,8 +89,8 @@
                   ? true
                   : false,
             }"
+            :text="cbxListValue.name"
           >
-            <span>{{ cbxListValue.name }}</span>
           </base-button>
         </div>
       </div>

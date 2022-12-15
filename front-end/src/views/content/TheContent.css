@@ -44,8 +44,7 @@
     left: 0;
     background: #ECEEF1;
     bottom: 0;
-    z-index: 20;
-
+    z-index: 101;
 }
 
 .content-center-top button:focus {

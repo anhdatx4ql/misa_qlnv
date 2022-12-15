@@ -80,3 +80,7 @@ button.button.button-white.base-r-8 {
     justify-content: space-between;
     margin-top: 20px;
 }
+
+.notify-question-button>div {
+    display: flex;
+}

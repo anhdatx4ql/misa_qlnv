@@ -85,6 +85,25 @@ namespace MISA.AMIS.Common
     }
 
     /// <summary>
+    /// Author: Phạm Văn Đạt(09/12/2022)
+    /// Function: attribute taxcode
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Property)]
+    public class AttributeTaxCode:Attribute
+    {
+        #region Fields
+        public string ErrorMessage;
+        #endregion
+
+        #region Constructor
+        public AttributeTaxCode(string message)
+        {
+            ErrorMessage = message;
+        }
+        #endregion
+    }
+
+    /// <summary>
     /// Author: Phạm Văn Đạt(13/10/2022)
     /// Function: attribute check trùng
     /// </summary>
@@ -166,7 +185,6 @@ namespace MISA.AMIS.Common
     /// </summary>
     public static class CheckSpecialCharacters
     {
-
         #region Fields
         public static readonly List<String> SpecialCharacters = new List<string> { "/", "*", "-", "+", "@", "&", "$", "#", "%" };
         #endregion

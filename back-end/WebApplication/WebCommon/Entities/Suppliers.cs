@@ -16,24 +16,26 @@ namespace MISA.AMIS.Common
         /// <summary>
         /// Id
         /// </summary>
-        [AttributePrimarykey("Id không được bỏ trống")]
+        [AttributePrimarykey("Id không được bỏ trống.")]
         public Guid SupplierID { set; get; }
 
         /// <summary>
         /// Mã nhà cung cấp
         /// </summary>
-        [AttributeRequired("Mã nhà cung cấp không được bỏ trống!")]
+        [AttributeRequired("Mã nhà cung cấp không được bỏ trống.")]
         public string SupplierCode { set; get; }
 
         /// <summary>
         /// Tên nhà cung cấp
         /// </summary>
-        [AttributeRequired("Tên nhà cung cấp không được bỏ trống!")]
+        [AttributeRequired("Tên nhà cung cấp không được bỏ trống.")]
         public string SupplierName { set; get; }
 
         /// <summary>
         /// Mã số thuế
         /// </summary>
+        [AttributeTaxCode("Mã số thuế không hợp lệ.")]
+        [AttributeExists("Mã số thuế đã được sử dụng.")]
         public string TaxCode { set; get; }
 
         /// <summary>
@@ -45,7 +47,7 @@ namespace MISA.AMIS.Common
         /// Số điện thoại bàn
         /// </summary>
         [AttributePhone("Số điện thoại bàn sai định dạng")]
-        public string SupplierDeskPhone { set; get; }
+        public string SupplierMobile { set; get; }
 
         /// <summary>
         /// Website
@@ -53,7 +55,7 @@ namespace MISA.AMIS.Common
         public string Website { set; get; }
 
         /// <summary>
-        /// Website
+        /// id nhân viên bán hàng
         /// </summary>
         public Guid? EmployeeId { set; get; }
 
@@ -77,7 +79,7 @@ namespace MISA.AMIS.Common
         /// Số điện thoại cá nhân
         /// </summary>
         [AttributeEmail("Số điện thoại sai định dạng.")]
-        public string SupplierMobile { set; get; }
+        public string SupplierPhoneNumber { set; get; }
 
         /// <summary>
         /// đại diện theo pháp luật
@@ -107,7 +109,7 @@ namespace MISA.AMIS.Common
         /// <summary>
         /// id tài khoản công nợ phải trả
         /// </summary>
-        public Guid? AccountId { set; get; }
+        public Guid? AccountPayableId { set; get; }
 
         /// <summary>
         /// ghi chú
@@ -168,6 +170,43 @@ namespace MISA.AMIS.Common
         /// số tiền đã thanh toán
         /// </summary>
         public decimal? Paid { set; get; }
+
+        /// <summary>
+        /// Số CMND
+        /// </summary>
+        public string IdNo { set; get; }
+
+        /// <summary>
+        /// Ngày cấp
+        /// </summary>
+        public string IssueOn { set; get; }
+
+        /// <summary>
+        /// nơi cấp
+        /// </summary>
+        public string PlaceOfIssue { set; get; }
+
+        /// <summary>
+        /// Họ và tên người nhận hóa đơn điện tử
+        /// </summary>
+        public string UserNameElectronicBill { set; get; }
+
+        /// <summary>
+        /// email người nhận hóa đơn điện tử
+        /// </summary>
+        [AttributeEmail("Email sai định dạng.")]
+        public string UserEmailElectronicBill { set; get; }
+
+        /// <summary>
+        /// số điện thoại
+        /// </summary>
+        [AttributePhone("Số điện thoại sai định dạng.")]
+        public string UserMobileElectronicBill { set; get; }
+
+        /// <summary>
+        /// Id số tài khoản công nợ phải thu
+        /// </summary
+        public Guid? AccountReceivableId { set; get; }
         #endregion
     }
 }

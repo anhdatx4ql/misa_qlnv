@@ -44,3 +44,17 @@ input[type="radio"]:focus + .radio-focus {
     height: 20px;
     border:1px solid #CCE4F9;
 }
+
+.form-header-left-radio {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 0 13px;
+}
+
+.radio-container>label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}

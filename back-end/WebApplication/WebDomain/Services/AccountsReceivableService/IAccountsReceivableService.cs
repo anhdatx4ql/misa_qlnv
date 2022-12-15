@@ -6,13 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using WebCommon;
 
-namespace MISA.AMIS.DL
+namespace MISA.AMIS.BL
 {
     /// <summary>
     /// Author: Phạm Văn Đạt(08/12/2022)
-    /// Function: thao tác với DB của bảng tài khoản
+    /// Function: xử lý nghiệp vụ tài khoản
     /// </summary>
-    public interface IAccountsRepository : IBaseRepository<Accounts>
+    public interface IAccountsReceivableService : IBaseService<AccountsReceivable>
     {
     }
 }

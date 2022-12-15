@@ -1,0 +1,103 @@
+.tab-content {
+    position: relative;
+    border: 1px solid #c9ccd2;
+    margin: 0 1px 1px;
+    z-index: 1;
+    margin-top: -1px;
+    padding: 11px 8px;
+}
+
+.tab-content-input {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tab-content.d-flex>.d-flex>div {
+    box-sizing: border-box;
+}
+
+.tab-content-text {
+    font-size: 12px;
+    font-weight: 700;
+    padding-bottom: 4px;
+    color: #111;
+}
+
+.tab-content.d-flex>.w-1\/2.d-flex>div {
+    width: 100% !important;
+}
+
+.tab-content.d-flex>.w-1\/2.d-flex {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.tab-content textarea {
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: 5px 10px 6px;
+}
+
+.tab-content th {
+    background: #E5E8EC;
+    height: 34px;
+    padding: 0 10px;
+    font-size: 12px;
+    box-sizing: border-box;
+}
+
+.tab-content table {
+    border-collapse: collapse;
+}
+
+.tab-content table>tbody>tr>td {
+    width: 150px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    background: #E5F3FF;
+    height: 44px;
+}
+
+.tab-content table>tbody>tr>td,.tab-content table>thead>tr>th {
+    border-bottom: 1.2px solid #c7c7c7;
+}
+
+.tab-content table>tbody>tr>td:not(:last-child), .tab-content table>thead>tr>th:not(:last-child) {
+    border-right: 1px solid #c7c7c7;
+}
+
+.tab-content-control .button-container {
+    width: max-content;
+}
+
+.tab-content-control {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding-top: 10px;
+}
+
+.tab-content table button.button {
+    min-width: unset;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.tab-content-title {
+    display: flex;
+    border-bottom: 2px solid #d3d6db;
+    place-items: center;
+    box-sizing: border-box;
+    align-items: stretch;
+}
+
+.tab-content-title>div:last-child {
+    padding-left: 18px;
+    padding-bottom: 6px;
+    box-sizing: border-box;
+}
+
+.tab-content .combobox-container {
+    width: 100% !important;
+}

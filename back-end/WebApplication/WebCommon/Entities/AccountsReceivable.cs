@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 /// <summary>
 /// Author: Phạm Văn Đạt(08/12/2022)
-/// Function: bảng tài khoản
+/// Function: bảng tài khoản công nợ phải thu
 /// </summary>
 
 namespace MISA.AMIS.Common
 {
-    [Table("Accounts")]
-    public class Accounts:BaseEntity
+    [Table("accountsreceivable")]
+    public class AccountsReceivable : BaseEntity
     {
         #region Fields
         // Id tài khoản

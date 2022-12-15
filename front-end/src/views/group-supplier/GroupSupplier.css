@@ -1,0 +1,37 @@
+.form-supplier-group {
+    width: 100%;
+    background: rgba(0,0,0,.4);
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    z-index: 98;
+    transition: all .25s ease;
+    opacity: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-container.form-supplier-group-container {
+    min-width: 600px;
+    max-width: 600px;
+    width: 600px;
+}
+
+.divide {
+    width: 100%;
+    border-top: 1px solid #e0e0e0;
+    margin: 32px 0 20px;
+    position: relative;
+}
+
+.form-container.form-supplier-group-container .form-bottom {
+    padding-top: 0;
+}
+
+.form-container.form-supplier-group-container .from-content {
+    padding: 0 32px;
+    display: flex;
+    flex-wrap: wrap;
+}

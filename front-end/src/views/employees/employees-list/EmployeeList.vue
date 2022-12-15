@@ -11,10 +11,10 @@
       </div>
       <div class="content-top-right">
         <base-button
-          @click="handlerClickShowForm"
+          @clickButton="handlerClickShowForm"
           :disable="disableButtonIndsert"
-          ><span>Thêm mới nhân viên</span></base-button
-        >
+          text="Thêm mới nhân viên"
+        ></base-button>
       </div>
       <!-- end content top left -->
     </div>
@@ -25,44 +25,29 @@
     <div class="content-center-top">
       <div class="content-center-top-left">
         <div class="content-center-top-left-child">
-          <div
-            class="content-center-top-left-child handler-data"
-            @click="checkShowComboboxHandlerData = true"
-            v-click-away="clickAwayHandlerData"
+          <base-button
+            listClass="btn-secondary"
+            text="Thực hiện hàng loạt"
+            :listDropDown="RULE_HANDLER_DATA"
+            :iconDropDown="true"
+            @clickButtonDropDown="resolveMultiple($event)"
           >
-            <base-button>
-              <span>Thực hiện hàng loạt</span>
-            </base-button>
-            <div
-              class="handler-data-child"
-              v-show="checkShowComboboxHandlerData"
-              ref="itemResolveMultiple"
-            >
-              <button
-                v-for="item in RULE_HANDLER_DATA"
-                :key="item.id"
-                @click="resolveMultiple(item)"
-                class="button-combobox"
-              >
-                <span>{{ item.name }}</span>
-              </button>
-            </div>
-          </div>
+          </base-button>
           <div
             class="content-center-top-left-child text-data"
             v-for="(value, key) of listFilter"
             :key="key"
           >
             <span>{{ value[1].text }}</span>
-            <base-button @click="clickDeleteItemFilter(value)"
-              ><span class="button-icon-x"></span
+            <base-button listClass="background-unset" classButtonIcon="button-icon-x" @clickButtonDropDown="clickDeleteItemFilter(value)"
             ></base-button>
           </div>
           <base-button
             v-show="listFilter.size > 0"
-            @click="clickDeleteItemFilter()"
+            @clickButton="clickDeleteItemFilter()"
+            text="Xóa điều kiện lọc"
+            listClass="background-unset"
           >
-            <span>Xóa điều kiện lọc</span>
           </base-button>
         </div>
       </div>
@@ -78,18 +63,19 @@
         <base-button
           v-tooltip="'Lấy lại dữ liệu'"
           :disable="disableButtonResetData"
-          @click.prevent="loadData"
-          class="content-center-button-left icon-ml-5"
+          listClass="background-unset"
+          classButtonIcon="background-icon-reload icon-24 background-flex"
+          @clickButton="loadData"
         >
-          <span class="background-icon-reload icon-24 background-flex"></span>
         </base-button>
-
+        
         <base-button
           v-tooltip="'Xuất ra Excel'"
-          @click="handlerExportExcel"
-          class="content-center-button-left"
+          :disable="disableButtonResetData"
+          listClass="background-unset"
+          classButtonIcon="background-icon-excel icon-24 background-flex"
+          @clickButton="handlerExportExcel"
         >
-          <span class="background-icon-excel icon-24 background-flex"></span>
         </base-button>
       </div>
     </div>
@@ -358,28 +344,30 @@ export default {
     async resolveMultiple(item) {
       try {
         if (this.listIdEmployees.length > 0) {
-          if (item.id == RULE_HANDLER_DATA.Delete.id) {
-            console.log(this.listIdEmployees);
-            let result = await employees.deleteEmployee(this.listIdEmployees);
+          for (let i = 0; i < RULE_HANDLER_DATA.length; i++) {
+            if (item.name == i.name) {
+              console.log(this.listIdEmployees);
+              let result = await employees.deleteEmployee(this.listIdEmployees);
 
-            if (result.statusCode == STATUS_CODES.Code200) {
-              // hiển thị toast message xóa thành công
-              this.textToastMessage = result.message[0];
-              this.typeToastMessage = "success";
+              if (result.statusCode == STATUS_CODES.Code200) {
+                // hiển thị toast message xóa thành công
+                this.textToastMessage = result.message[0];
+                this.typeToastMessage = "success";
 
-              // load lại dữ liệu
-              await this.loadData();
+                // load lại dữ liệu
+                await this.loadData();
 
-              this.listIdEmployees = [];
+                this.listIdEmployees = [];
+              } else {
+                // hiển thị toast message xóa thất bại
+                this.textToastMessage = result.message[0];
+                this.typeToastMessage = "error";
+              }
             } else {
-              // hiển thị toast message xóa thất bại
-              this.textToastMessage = result.message[0];
+              this.textToastMessage = "Tính năng đang phát triển.";
               this.typeToastMessage = "error";
+              console.log("vào đây");
             }
-          } else {
-            this.textToastMessage = "Tính năng đang phát triển.";
-            this.typeToastMessage = "error";
-            console.log("vào đây");
           }
         }
 

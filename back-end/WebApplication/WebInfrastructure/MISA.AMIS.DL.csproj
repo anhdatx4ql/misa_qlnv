@@ -186,8 +186,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\AccountsRepository\AccountsRepository.cs" />
-    <Compile Include="Repositories\AccountsRepository\IAccountsRepository.cs" />
+    <Compile Include="Repositories\AccountsPayableRepository\AccountsPayableRepository.cs" />
+    <Compile Include="Repositories\AccountsPayableRepository\IAccountsPayableRepository.cs" />
+    <Compile Include="Repositories\AccountsReceivableRepository\AccountsReceivableRepository.cs" />
+    <Compile Include="Repositories\AccountsReceivableRepository\IAccountsReceivableRepository.cs" />
     <Compile Include="Repositories\BankAccountsRepository\BankAccountsRepository.cs" />
     <Compile Include="Repositories\BankAccountsRepository\IBankAccountsRepository.cs" />
     <Compile Include="Repositories\BaseRepository\BaseRepository.cs" />

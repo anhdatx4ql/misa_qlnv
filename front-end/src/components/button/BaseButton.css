@@ -1,5 +1,4 @@
 .button {
-    height: 34px;
     border: none;
     border-radius: 3px;
     background-color: #2CA01C;
@@ -11,6 +10,7 @@
     font-weight: 500;
     transition: all 0.25s ease;
     font-weight: 600;
+    outline:none;
 }
 
 .button:hover {
@@ -51,8 +51,6 @@ button:hover>.background-icon-reload{
     border: 1px solid #8d9096;
     color: #111;
     background-color: transparent;
-    padding: 6px 16px;
-    height: 34px;
     border-radius: 3px;
     font-weight: 600;
 }
@@ -82,4 +80,113 @@ button.button-white:focus {
 	width: 8px;
 	height: 8px;
     display:flex;
+}
+
+.btn-secondary>button {
+    border: 2px solid #3b3c3f;
+    border-radius: 30px;
+    color: #111;
+    background: #fff;
+}
+
+.btn-secondary>button:hover {
+    background: #D2D3D6;
+}
+
+.content-center-center-top-left-child.handler-data>div {
+    margin-right: 12px;
+    border-radius: 30px;
+    position:relative;
+}
+
+.button-container.btn-secondary>button {
+    background: unset;
+    color: #111;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+span.background-icon-arrow-bottom {
+    display: flex;
+    align-items: center;
+    width: 18px;
+    height: 18px;
+}
+
+.background-icon-arrow-bottom {
+    transition: all 0.2s ease;
+    background: url('/src/assets/img/Sprites.64af8f61.svg') no-repeat -558px -358px;
+}
+
+
+.button-container.btn-secondary>div {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    background: #fff;
+    padding: 2px 1px;
+    border-radius: 2px;
+    border: 1px solid #babec5;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 102%;
+}
+
+.button-container.btn-secondary>div>button {
+    padding: 5px 10px;
+    width: 100%;
+    background: unset;
+}
+
+.button-container.btn-secondary>div>button:hover {
+    background: #E8E9EC;
+}
+
+.button-container.btn-secondary>button:hover {
+    background: #D2D3D6;
+}
+
+.button-container.btn-secondary {
+    position: relative;
+}
+.background-unset>button {
+    background: unset;
+}
+
+.background-unset>button:hover {
+    background: unset;
+}
+
+.background-unset>button:focus {
+    background: unset;
+}
+
+.button-container.btn-secondary>button {
+    padding: 0 16px;
+}
+
+.button-container.button-white>button {
+    background: unset;
+    color: #111;
+}
+
+.btn-pri:hover {
+    background: #35BF22;
+}
+
+.btn-pri:hover>button{
+    color: #fff;
+}
+
+.background-icon-sum{
+    background: url('/src/assets/img/Sprites.64af8f61.svg') no-repeat -32px -312px;  
+}
+
+button.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

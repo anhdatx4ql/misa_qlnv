@@ -8,14 +8,14 @@ namespace MISA.AMIS.BL
     /// Author: Phạm Văn Đạt(08/12/2022)
     /// Function: xử lý nghiệp vụ tài khoản
     /// </summary>
-    public class AccountsService : BaseService<Accounts>, IAccountsService
+    public class AccountsPayableService : BaseService<AccountsPayable>, IAccountsPayableService
     {
         #region Fields
-        private readonly IAccountsRepository _accounts;
+        private readonly IAccountsPayableRepository _accounts;
         #endregion
 
         #region Constructor
-        public AccountsService(IAccountsRepository accounts) : base(accounts)
+        public AccountsPayableService(IAccountsPayableRepository accounts) : base(accounts)
         {
             _accounts = accounts;
         }

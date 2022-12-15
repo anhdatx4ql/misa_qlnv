@@ -196,3 +196,11 @@ input {
     align-items: center;
     justify-content: center;
 }
+
+.form-content-cennter>div {
+    width: 100%;
+}
+
+.combobox-container-input input {
+    padding: 0  !important;
+}

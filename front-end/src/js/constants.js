@@ -825,12 +825,12 @@ export const TYPE_FILTER = {
  * AUtho: Phạm Văn Đạt(18/11/2022)
  * Function: Các kiểu thao tác nhanh với dữ liệu
  */
-export const RULE_HANDLER_DATA = {
-  Delete: {
-    id: 1,
-    name: "Xóa"
+export const RULE_HANDLER_DATA = [
+  {
+    name: 'Delete',
+    text: "Xóa"
   }
-}
+]
 
 /**
  * Author: Phạm Văn Đạt(28/11/2022)
@@ -1002,7 +1002,7 @@ export let SUPPLIER_FIELDS = [
   {
     name: "MÃ NHÀ CUNG CẤP",
     fieldName: "supplierCode",
-    width: 150,
+    width: 180,
     isRequired: true,
     class: "left-60 position-sticky",
     nameFilter: "Mã nhà cung cấp",
@@ -1016,7 +1016,7 @@ export let SUPPLIER_FIELDS = [
   {
     name: "TÊN NHÀ CUNG CẤP",
     fieldName: "supplierName",
-    width: 130,
+    width: 250,
     isRequired: true,
     nameFilter: "Tên nhà cung cấp",
     typeFilter: "Text",
@@ -1029,7 +1029,7 @@ export let SUPPLIER_FIELDS = [
   {
     name: "MÃ SỐ THUẾ",
     fieldName: "TaxCode",
-    width: 130,
+    width: 150,
     isRequired: true,
     nameFilter: "Mã số thuế",
     typeFilter: "Text",
@@ -1042,7 +1042,7 @@ export let SUPPLIER_FIELDS = [
   {
     name: "ĐỊA CHỈ",
     fieldName: "supplierAddress",
-    width: 130,
+    width: 250,
     isRequired: true,
     nameFilter: "Địa chỉ",
     typeFilter: "Text",
@@ -1066,9 +1066,61 @@ export let SUPPLIER_FIELDS = [
     }
   },
   {
+    name: "NHÓM KH,NCC",
+    fieldName: "groupSupplierName",
+    width: 250,
+    isRequired: true,
+    nameFilter: "Địa chỉ",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "SỐ CMND",
+    fieldName: "IdNo",
+    width: 250,
+    isRequired: true,
+    nameFilter: "Số CMND",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "NGÀY CẤP",
+    fieldName: "issueOn",
+    width: 250,
+    isRequired: true,
+    nameFilter: "Ngày cấp",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "NƠI CẤP",
+    fieldName: "PlaceOfIssue",
+    width: 250,
+    isRequired: true,
+    nameFilter: "Nơi cấp",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
     name: "Website",
     fieldName: "Website",
-    width: 130,
+    width: 200,
     isRequired: true,
     nameFilter: "Website",
     typeFilter: "Text",
@@ -1081,7 +1133,7 @@ export let SUPPLIER_FIELDS = [
   {
     name: "TÊN NHÂN VIÊN",
     fieldName: "employeeName",
-    width: 130,
+    width: 180,
     isRequired: true,
     nameFilter: "Tên nhân viên",
     typeFilter: "Text",
@@ -1107,7 +1159,7 @@ export let SUPPLIER_FIELDS = [
   {
     name: "NGƯỜI LIÊN HỆ",
     fieldName: "supplierNameContact",
-    width: 130,
+    width: 200,
     isRequired: true,
     nameFilter: "Người liên hệ",
     typeFilter: "Text",
@@ -1120,7 +1172,7 @@ export let SUPPLIER_FIELDS = [
   {
     name: "Email",
     fieldName: "supplierEmail",
-    width: 130,
+    width: 200,
     isRequired: true,
     nameFilter: "Email",
     typeFilter: "Text",
@@ -1133,7 +1185,7 @@ export let SUPPLIER_FIELDS = [
   {
     name: "Điện thoại NLH",
     fieldName: "SupplierMobile",
-    width: 130,
+    width: 180,
     isRequired: true,
     nameFilter: "Điện thoại NLH",
     typeFilter: "Text",
@@ -1146,7 +1198,7 @@ export let SUPPLIER_FIELDS = [
   {
     name: "NGƯỜI ĐẠI DIỆN PL",
     fieldName: "legaRrepresentative",
-    width: 130,
+    width: 200,
     isRequired: true,
     nameFilter: "Người đại diện PL",
     typeFilter: "Text",
@@ -1159,7 +1211,7 @@ export let SUPPLIER_FIELDS = [
   {
     name: "ĐIỀU KHOẢN THANH TOÁN",
     fieldName: "rulePaymentName",
-    width: 130,
+    width: 250,
     isRequired: true,
     nameFilter: "Điều khoản thanh toán",
     typeFilter: "Text",
@@ -1172,7 +1224,7 @@ export let SUPPLIER_FIELDS = [
   {
     name: "SỐ NGÀY ĐƯỢC NỢ",
     fieldName: "DayOwed",
-    width: 130,
+    width: 150,
     isRequired: true,
     nameFilter: "Điều khoản thanh toán",
     typeFilter: "DateTime",
@@ -1185,7 +1237,7 @@ export let SUPPLIER_FIELDS = [
   {
     name: "SỐ NỢ TỐI ĐA",
     fieldName: "debitAmountMax",
-    width: 130,
+    width: 150,
     isRequired: true,
     nameFilter: "Số nợ tối đa",
     typeFilter: "DateTime",
@@ -1198,7 +1250,7 @@ export let SUPPLIER_FIELDS = [
   {
     name: "CÔNG NỢ",
     fieldName: "debt",
-    width: 130,
+    width: 150,
     isRequired: true,
     nameFilter: "Công nợ",
     typeFilter: "DateTime",
@@ -1211,7 +1263,7 @@ export let SUPPLIER_FIELDS = [
   {
     name: "TK CÔNG NỢ PHẢI TRẢ",
     fieldName: "accountName",
-    width: 130,
+    width: 200,
     isRequired: true,
     nameFilter: "TK công nợ phải trả",
     typeFilter: "Text",
@@ -1222,11 +1274,89 @@ export let SUPPLIER_FIELDS = [
     }
   },
   {
-    name: "GHI CHÚ",
-    fieldName: "supplierDescription",
-    width: 130,
+    name: "DIỄN GIẢI",
+    fieldName: "",
+    width: 250,
     isRequired: true,
-    nameFilter: "Ghi chú",
+    nameFilter: "Diễn giải",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "TK NGÂN HÀNG",
+    fieldName: "",
+    width: 250,
+    isRequired: true,
+    nameFilter: "Tài khoản ngân hàng",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "TÊN NGÂN HÀNG",
+    fieldName: "",
+    width: 250,
+    isRequired: true,
+    nameFilter: "Tên ngân hàng",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "CHI NHÁNH TÀI KHOẢN NGÂN HÀNG",
+    fieldName: "",
+    width: 250,
+    isRequired: true,
+    nameFilter: "Chi nhánh TK ngân hàng",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "TỈNH/THÀNH PHỐ TK NGÂN HÀNG",
+    fieldName: "",
+    width: 250,
+    isRequired: true,
+    nameFilter: "Tỉnh/TP TK ngân hàng",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "CHI NHÁNH",
+    fieldName: "",
+    width: 250,
+    isRequired: true,
+    nameFilter: "Chi nhánh",
+    typeFilter: "Text",
+    isField: true,
+    filter:{
+      operator: 'like',
+      value: null
+    }
+  },
+  {
+    name: "ĐỊA ĐIỂM GIAO HÀNG",
+    fieldName: "",
+    width: 250,
+    isRequired: true,
+    nameFilter: "Địa điểm giao hàng",
     typeFilter: "Text",
     isField: true,
     filter:{
@@ -1237,7 +1367,7 @@ export let SUPPLIER_FIELDS = [
   {
     name: "QUỐC GIA",
     fieldName: "supplierCountry",
-    width: 130,
+    width: 180,
     isRequired: true,
     nameFilter: "Quốc gia",
     typeFilter: "Text",
@@ -1250,7 +1380,7 @@ export let SUPPLIER_FIELDS = [
   {
     name: "TỈNH/THÀNH PHỐ",
     fieldName: "supplierCity",
-    width: 130,
+    width: 180,
     isRequired: true,
     nameFilter: "TỈnh/thành phố",
     typeFilter: "Text",
@@ -1263,7 +1393,7 @@ export let SUPPLIER_FIELDS = [
   {
     name: "QUẬN/HUYỆN",
     fieldName: "supplierDistrict",
-    width: 130,
+    width: 180,
     isRequired: true,
     nameFilter: "Quận/huyện",
     typeFilter: "Text",
@@ -1276,7 +1406,7 @@ export let SUPPLIER_FIELDS = [
   {
     name: "XÃ/PHƯỜNG",
     fieldName: "supplierWard",
-    width: 130,
+    width: 180,
     isRequired: true,
     nameFilter: "Xã/phường",
     typeFilter: "Text",
@@ -1287,20 +1417,7 @@ export let SUPPLIER_FIELDS = [
     }
   },
   {
-    name: "XÃ/PHƯỜNG",
-    fieldName: "supplierWard",
-    width: 130,
-    isRequired: true,
-    nameFilter: "Xã/phường",
-    typeFilter: "Text",
-    isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
-  },
-  {
-    name: "ĐANG HOẠT ĐỘNG",
+    name: "TRẠNG THÁI",
     fieldName: "isActive",
     width: 170,
     disabled: true,
@@ -1382,3 +1499,153 @@ export let SUPPLIER_FIELDS = [
     style: "right:-24px;",
   },
 ];
+
+/**
+ * Author: Phạm Văn Đạt(11/12/2022)
+ * Function: các field thực hiện hàng loạt
+ */
+export const BatchExecution = [
+  {
+    name: 'Delete',
+    text: "Xóa"
+  },{
+    name: 'Sum',
+    text: "Gộp"
+  }
+]
+
+/**
+ * Author: Phạm Văn Đạt(12/12/2022)
+ * Function: các titls form nhà cung cấp
+ */
+export const RULE_FORM_SUPPLIER_DETAIL = {
+  View: "Thông tin nhà cung cấp"
+}
+
+/**
+ * Author: Phạm Văn Đạt(12/12/2022)
+ * Function: HIển thị dữ liệu nhân viên trong bảng con
+ */
+export const FIELDS_TABLE_COMBOBOX_EMPLOYEE = [
+  {
+    name: "Mã nhân viên",
+    fieldName: "employeeId",
+    width: 130,
+  },
+  {
+    name: "Tên nhân viên",
+    fieldName: "name",
+    view: true,
+    width: 175,
+  }
+];
+
+
+
+/**
+ * Author: Phạm Văn Đạt(13/12/2022)
+ * Function: HIển thị dữ liệu nhà cung cấp trong bảng con
+ */
+export const FIELDS_TABLE_COMBOBOX_SUPPLIERS = [
+  {
+    name: "Mã nhóm KH, NCC",
+    view: true,
+    fieldName: "groupSupplierCode",
+    width: 130,
+  },
+  {
+    name: "Tên nhóm KH, NCC",
+    fieldName: "groupSupplierName",
+    width: 175,
+  }
+];
+
+/**
+ * Author: Phạm Văn Đạt(14/12/2022)
+ * Function: Các tabs hiển thị trong form thông tin chi tiết nhà cung cấp
+ */
+export const LIST_TABS_SUPPLIERS = [
+  {
+    title: "Thông tin liên hệ",
+    content: "<p>thông tin chi tiết</p>",
+  },
+  {
+    title: "Điều khoản thanh toán",
+    content: "<p>thông tin chi tiết 1</p>",
+  },
+  {
+    title: "Tài khoản ngân hàng",
+    content: "<p>thông tin chi tiết 2</p>",
+  },
+  {
+    title: "Địa chỉ khác",
+    content: "<p>thông tin chi tiết 3</p>",
+  },
+  {
+    title: "Ghi chú",
+    content: "<p>thông tin chi tiết 4</p>",
+  }
+]
+
+/**
+ * Author: Phạm Văn Đạt(14/12/2022)
+ * Function: nhà cung cấp là tổ chức hay cá nhân
+ */
+export const FIELDS_HEADER_LEFT_SUPPLIER_DETAIL = [
+  {
+    id: 0,
+    name: "Tổ chức",
+    field: "isOrganization"
+  },
+  {
+    id: 1,
+    name: "Cá nhân",
+    field:"isPersonal"
+  },
+]
+
+/**
+ * Author: Phạm Văn Đạt(14/12/2022)
+ * Function: Các trường của ngân hàng
+ */
+export const FIELDS_BACKACCOUNT = [
+  {
+    name: "backAccountNumber",
+    fieldName: "SỐ TÀI KHOẢN",
+    width: 150
+  },
+  {
+    name: "backAccountName",
+    fieldName: "TÊN NGÂN HÀNG",
+    width: 200
+  },
+  {
+    name: "backAccountBrand",
+    fieldName: "CHI NHÁNH",
+    width: 180
+  },
+  {
+    name: "backAccountAddress",
+    fieldName: "TỈNH/TP CỦA NGÂN HÀNG",
+    width: 236
+  },
+];
+
+/**
+ * Author: Phạm Văn Đạt(15/12/2022)
+ * Function: danh sách các loại hợp đồng
+ */
+export const LIST_CONTRACT = [
+  {
+    id: 1,
+    name: "Không cú trú",
+  },
+  {
+    id: 2,
+    name: "Cư trú và không ký HĐLĐ/HĐLĐ dưới 3 tháng",
+  },
+  {
+    id: 3,
+    name: "Cư trú và có HĐLĐ từ 3 tháng trở lên",
+  }
+]

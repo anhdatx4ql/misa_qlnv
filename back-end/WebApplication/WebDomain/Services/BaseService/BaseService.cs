@@ -82,7 +82,9 @@ namespace MISA.AMIS.BL
                 // lấy các thuộc tính của entity
                 var properties = typeof(T).GetProperties();
 
-                var id = (Guid)this.GetIdByRecord(entity, properties);
+                var keyName = GetKeyName(properties);
+
+                var id = (Guid)this.GetIdByRecord(entity, properties, keyName);
 
                 // validate
                 var errValidate = await this.Validate(entity, properties, id, tableName);
@@ -161,6 +163,8 @@ namespace MISA.AMIS.BL
 
                 var id = (Guid)this.GetIdByRecord(entity, properties);
 
+                var keyName = GetKeyName(properties);
+
                 // validate dữ liệu
                 var validateErrors = await this.Validate(entity, properties, id, tableName);
 
@@ -233,6 +237,7 @@ namespace MISA.AMIS.BL
             var messages = new List<string>();
             try
             {
+               
                 // kiểm tra xem mảng id truyền vào có tồn tại không
                 if (ids.Count == 0)
                 {
@@ -242,7 +247,12 @@ namespace MISA.AMIS.BL
 
                 var tableName = TableName.GetTableName<T>();
 
-                var sql = $"DELETE FROM {tableName} WHERE Id IN @ids;";
+                // lấy các thuộc tính public của entity
+                var properties = typeof(T).GetProperties();
+
+                var keyName = GetKeyName(properties);
+
+                var sql = $"DELETE FROM {tableName} WHERE "+ keyName + " IN @ids;";
                 var parameter = new DynamicParameters();
                 parameter.Add("ids", ids);
 
@@ -302,11 +312,23 @@ namespace MISA.AMIS.BL
                     // xử lý lấy dữ liệu where
                     foreach (var item in listFilters)
                     {
-
+                        // viết ra hàm riêng sử dụng tránh sql injection 
                         if (item.Operator == "like" || item.Operator == "not like")
                         {
                             if(item.Value != null && item.Value != "")
                                 item.Value = CheckSpecialCharacters.CheckSpecial(item.Value);
+
+                            if (item.Name != null && item.Name != "")
+                                item.Name = CheckSpecialCharacters.CheckSpecial(item.Name);
+
+                            if (item.Operator != null && item.Operator != "")
+                                item.Operator = CheckSpecialCharacters.CheckSpecial(item.Operator);
+
+                            if (item.TypeOperator != null && item.TypeOperator != "")
+                                item.TypeOperator = CheckSpecialCharacters.CheckSpecial(item.TypeOperator);
+
+                            if (item.StringConcatenation != null && item.StringConcatenation != "")
+                                item.StringConcatenation = CheckSpecialCharacters.CheckSpecial(item.StringConcatenation);
                         }
 
                         // kiểm tra xem kiểu dữ liệu nào là số thì đưa về dạng số
@@ -397,7 +419,7 @@ namespace MISA.AMIS.BL
 
                 // lấy tên proceduce
                 var sql = "SELECT COUNT(*) FROM "+ tableName + " WHERE "+ keyName + " IN (SELECT "+keyName+" FROM view_" + tableName + " WHERE (" + stringFilter + ")); ";
-                sql += "SELECT * FROM view_" + tableName + " WHERE(" + stringFilter + ") ORDER BY UpdatedAt DESC LIMIT @_offset,@_pageSize; ";
+                sql += "SELECT * FROM view_" + tableName + " WHERE(" + stringFilter + ") LIMIT @_offset,@_pageSize; ";
                 
                 // khai báo parameters
                 var parameters = new DynamicParameters();
@@ -425,18 +447,16 @@ namespace MISA.AMIS.BL
         /// <returns></returns>
         private string GetKeyName(PropertyInfo[] properties)
         {
-            string keyName = null;
             foreach (var property in properties)
             {
                 var attributePrimarykey = (AttributePrimarykey)Attribute.GetCustomAttribute(property, typeof(AttributePrimarykey));
                 // xử lý validate
                 if (attributePrimarykey != null)
                 {
-                    keyName = property.Name;
-                    break;
+                    return property.Name;
                 }
             }
-            return keyName;
+            return null;
         }
 
         /// <summary>
@@ -489,6 +509,8 @@ namespace MISA.AMIS.BL
 
             // nếu không có attribute phone => trả về null
             var attributePhone = (AttributePhone)Attribute.GetCustomAttribute(property, typeof(AttributePhone));
+            
+            var attributeTaxCode= (AttributeTaxCode)Attribute.GetCustomAttribute(property, typeof(AttributeTaxCode));
 
             // nếu không có thuộc tính attribute Exists => trả về null
             var attributeExists = (AttributeExists)Attribute.GetCustomAttribute(property, typeof(AttributeExists));
@@ -554,6 +576,12 @@ namespace MISA.AMIS.BL
                 messageValidateFields.Add(attributeDateTime.ErrorMessage);
 
                 checkSelectMessage = true;
+            }else if(attributeTaxCode != null && propertyValue != null && propertyValue?.ToString() != "" && this.CheckRegex(propertyValue?.ToString(), "taxcode") == false)
+            {
+                // nếu không phải dạng biểu thức taxcode => lỗi
+                messageValidateFields.Add(attributeDateTime.ErrorMessage);
+
+                checkSelectMessage = true;
             }
 
             if (attributeExists != null && propertyValue != null)
@@ -609,6 +637,9 @@ namespace MISA.AMIS.BL
                 valiPattenrn = @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|"
                    + @"([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<!\.)"
                    + @"@[a-z0-9][\w\.-]*[a-z0-9]\.[a-z][a-z\.]*[a-z]$";
+            }else if (type.ToLower() == "taxcode")
+            {
+                valiPattenrn = @"[0-9]{10}-[0-9]{3}|[0-9]{10}";
             }
             else
             {
@@ -626,7 +657,7 @@ namespace MISA.AMIS.BL
         /// <param name="entity"></param>
         /// <param name="properties"></param>
         /// <returns></returns>
-        private Guid GetIdByRecord(T entity, PropertyInfo[] properties = null)
+        private Guid GetIdByRecord(T entity, PropertyInfo[] properties = null, string keyName = null)
         {
             if (properties == null)
             {
@@ -636,7 +667,7 @@ namespace MISA.AMIS.BL
             Guid id = Guid.NewGuid();
             foreach (var property in properties)
             {
-                if (property.Name == "Id" && (Guid)property.GetValue(entity) != Guid.Empty)
+                if (property.Name == keyName && (Guid)property.GetValue(entity) != Guid.Empty)
                 {
                     id = (Guid)property.GetValue(entity);
                     break;

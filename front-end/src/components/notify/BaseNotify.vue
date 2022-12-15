@@ -3,7 +3,7 @@
   Function: THông báo hiển thị giữa trang
  -->
 <template>
-  <div class="notify">
+  <div class="notify" ref="notify" >
     <div class="notify-content" ref="notify">
       <div class="notify-content-title" :class="type">
         <div class="notify-content-title-icon background-icon w-h-48"></div>
@@ -17,32 +17,32 @@
         >
           <!-- button hủy -->
           <base-button
-            class="button-white"
+            classButton="button-white"
             tabindex="3"
             @keydown.tab.prevent="handlerFocus"
-            @click="$emit('checkShowNotify', false)"
+            @clickButton="$emit('checkShowNotify', false)"
+            text="Hủy"
           >
-            <span>Hủy</span>
           </base-button>
           <div>
             <!-- button  -->
             <base-button
-              class="button-white base-r-8"
+              classButton="button-white base-r-8"
               tabindex="2"
-              @click="$emit('closeForm', true)"
+              @clickButton="$emit('closeForm', true)"
+              text="Không"
             >
-              <span>Không</span>
             </base-button>
 
-            <button
-              class="button"
-              @click="$emit('sayYes', true)"
+            <base-button
+              classButton="btn-pri"
+              @clickButton="$emit('sayYes', true)"
               autofocus
               ref="firstFocus"
               tabindex="1"
+              text="Có"
             >
-              <span>Có</span>
-            </button>
+            </base-button>
           </div>
         </div>
 
@@ -51,18 +51,17 @@
           v-else-if="type == 'error' ? true : false"
         >
           <!-- button  -->
-          <button
-            class="button"
-            autofocus
+          <base-button
+          listClass="btton-white"
             ref="firstFocus"
             tabindex="1"
-            @click="
+            @clickButton="
               $emit('checkShowNotify', false);
               $emit('checkFocusCloseNotify', fieldNameFocus);
             "
+            text="Đóng"
           >
-            <span>Đóng</span>
-          </button>
+          </base-button>
         </div>
 
         <!-- start type = warning -->
@@ -71,31 +70,31 @@
           v-else-if="type == 'warning' ? true : false"
         >
           <!-- button  -->
-          <button
-            autofocus
-            class="button-white"
+          <base-button
+          listClass="button-white"
             ref="firstFocus"
             tabindex="1"
-            @click="
+            @clickButton="
               $emit('checkShowNotify', false);
               $emit('checkFocusCloseNotify', fieldNameFocus);
             "
+            text="Không"
           >
-            <span>Không</span>
-          </button>
+          </base-button>
 
           <!-- button  -->
-          <button
-            class="button"
-            tabindex="2"
+          <base-button
+            autofocus
+            listClass="btn-pri"
+            tabindex="1"
             @keydown.tab.prevent="handlerFocus"
-            @click="
+            @clickButton="
               $emit('checkShowNotify', false);
               $emit('sayYes', true);
             "
+            text="Có"
           >
-            <span>Có</span>
-          </button>
+          </base-button>
         </div>
         <!-- end type = warning -->
       </div>
@@ -121,17 +120,10 @@ export default {
   },
   created() {},
   mounted() {
-    this.handlerFocus();
   },
   watch: {},
   methods: {
-    /**
-     * Author: Phạm Văn Đạt
-     * Function: xử lý focus button khi hiển thị notify
-     */
-    handlerFocus() {
-      this.$refs.firstFocus.focus();
-    },
+    
   },
 };
 </script>

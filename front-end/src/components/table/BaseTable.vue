@@ -101,20 +101,19 @@
                     </div>
                     <div class="filter-content-bottom">
                       <base-button
-                        class="button-white filter-content-bottom-button"
-                        @click="
+                        @clickButton="
                           handlerRemoveFilterItem(
                             field.filter,
                             field.typeFilter,
                             field.fieldName
                           )
                         "
-                      >
-                        <span>Bỏ lọc</span>
-                      </base-button>
+                        text="Bỏ lọc"
+                        listClass="button-white"
+                      ></base-button>
+
                       <base-button
-                        class="filter-content-bottom-button"
-                        @click="
+                        @clickButton="
                           handlerFilter(
                             field.fieldName,
                             TYPE_FILTER.Text,
@@ -122,8 +121,9 @@
                             field.nameFilter
                           )
                         "
+                        text="Lọc"
+                        listClass="btn-pri"
                       >
-                        <span>Lọc</span>
                       </base-button>
                     </div>
                   </div>
@@ -161,8 +161,9 @@
 
                     <div class="filter-content-bottom">
                       <base-button
-                        class="button-white filter-content-bottom-button"
-                        @click="
+                        text="Bỏ lọc"
+                        listClass="button-white"
+                        @clickButton="
                           handlerRemoveFilterItem(
                             field.filter,
                             field.typeFilter,
@@ -173,8 +174,9 @@
                         <span>Bỏ lọc</span>
                       </base-button>
                       <base-button
-                        class="filter-content-bottom-button"
-                        @click="
+                        text="Lọc"
+                        listClass="btn-pri"
+                        @clickButton="
                           handlerFilter(field.fieldName, field.nameFilter)
                         "
                       >
@@ -246,7 +248,8 @@
                     </div>
                     <div class="filter-content-bottom">
                       <base-button
-                        class="button-white filter-content-bottom-button"
+                        text="Bỏ lọc"
+                        listClass="button-white"
                         @click="
                           handlerRemoveFilterItem(
                             field.filter,
@@ -258,8 +261,9 @@
                         <span>Bỏ lọc</span>
                       </base-button>
                       <base-button
-                        class="filter-content-bottom-button"
-                        @click="
+                        text="Lọc"
+                        listClass="btn-pri"
+                        @clickButton="
                           handlerFilter(
                             field.fieldName,
                             TYPE_FILTER.DateTime,
@@ -327,7 +331,8 @@
                     </div>
                     <div class="filter-content-bottom">
                       <base-button
-                        class="button-white filter-content-bottom-button"
+                        text="Bỏ lọc"
+                        listClass="button-white"
                         @click="
                           handlerRemoveFilterItem(
                             field.filter,
@@ -339,8 +344,9 @@
                         <span>Bỏ lọc</span>
                       </base-button>
                       <base-button
-                        class="filter-content-bottom-button"
-                        @click="
+                        text="Lọc"
+                        listClass="btn-pri"
+                        @clickButton="
                           handlerFilter(
                             field.fieldName,
                             field.typeFilter,
@@ -363,7 +369,7 @@
       <!-- end header table -->
 
       <!-- start body table -->
-      <tbody v-show="!currentShowFormLoad">
+      <tbody v-if="!currentShowFormLoad">
         <tr
           v-for="data in listData"
           :key="data.id"
@@ -378,9 +384,10 @@
           >
             <base-button
               v-if="field.button == 'Sửa'"
-              @click="handlerUpdate(data)"
-              ><span>{{ field.button }}</span></base-button
-            >
+              @clickButton="handlerUpdate(data)"
+              listClass="background-unset"
+              :text="field.button"
+            ></base-button>
             <base-combobox
               v-if="!!field.combobox"
               :listValues="field.combobox"
@@ -397,13 +404,19 @@
             <div v-if="field.checkBox == true || field.checkBoxDisable == true">
               <base-input-checkbox
                 :value="data.id"
-                :checked="(field.checkBox == true)?listIdData.indexOf(data.id) > -1 ? true : false:data[field.fieldName]"
+                :checked="
+                  field.checkBox == true
+                    ? listIdData.indexOf(data.id) > -1
+                      ? true
+                      : false
+                    : data[field.fieldName]
+                "
                 :disabled="field.disabled"
                 @checked="handlerChecked($event, [data])"
               >
               </base-input-checkbox>
             </div>
-            
+
             <!-- end hiển thị ô checkbox -->
 
             <!-- start hiển thị các dữ liệu còn lại -->
@@ -421,15 +434,23 @@
           </td>
         </tr>
       </tbody>
+      <tbody v-else>
+        <tr v-for="i in 10" :key="i">
+          <td
+            class="table-hover"
+            v-for="field in fieldsTHead"
+            :key="field.fieldName"
+            :style="'width:' + field.width + 'px;' + field.style"
+            :class="field.class"
+          >
+          <div class="loading">
+            <div class="bar"></div>
+          </div>
+          </td>
+        </tr>
+      </tbody>
       <!-- end body table -->
     </table>
-
-    <div v-show="currentShowFormLoad" class="loading">
-      <div>
-       <div class="spinner-4"></div>
-        <div>Đang lấy dữ liệu</div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -620,8 +641,7 @@ export default {
      */
     handlerFilter(fieldName, type, filterItem, nameFilter) {
       try {
-
-        console.log(filterItem.value)
+        console.log(filterItem.value);
 
         // lấy ra id hiện tại của item filter
         if (this.currentFillter.id == null) {
@@ -629,7 +649,6 @@ export default {
         }
 
         if (type == TYPE_FILTER.Gender) {
-          
           let item = this.selectItemFilter(type, filterItem.value);
 
           if (item) {
@@ -637,12 +656,11 @@ export default {
               operator: filterItem.operator,
               value: filterItem.value.toString(),
               text: nameFilter + ": " + item.name,
-              typeOperator:  (item.fieldName)?item.fieldName:null,
+              typeOperator: item.fieldName ? item.fieldName : null,
             });
           }
 
-          console.log(this.listFilter)
-          
+          console.log(this.listFilter);
         } else {
           let item = this.selectItemFilter(type, this.currentFillter.id);
 
@@ -657,19 +675,14 @@ export default {
             this.listFilter.set(fieldName, {
               operator: filterItem.operator,
               value: item.value(filterItem.value),
-              text:
-                nameFilter +
-                " " +
-                item.name,
-              typeOperator: (item.fieldName)?item.fieldName:null,
+              text: nameFilter + " " + item.name,
+              typeOperator: item.fieldName ? item.fieldName : null,
             });
           } else {
             // nếu có giá trị lọc
             if (!filterItem.value) {
-
               // nếu giá trị null thì xóa đi
               this.listFilter.delete(fieldName);
-
             } else {
               // nếu không có giá trị lọc
               let text = "";
@@ -691,7 +704,7 @@ export default {
                 operator: item.operator,
                 value: item.value(filterItem.value),
                 text: text,
-                typeOperator:  (item.fieldName)?item.fieldName:null,
+                typeOperator: item.fieldName ? item.fieldName : null,
               });
             }
           }
@@ -924,16 +937,16 @@ export default {
      */
     modelValue(value) {
       this.listData = value;
-      console.log(value)
-      if (value.length >0) {
+      console.log(value);
+      if (value.length > 0) {
         if (
           this.listIdData.indexOf(value[0].id) > -1 &&
           this.listIdData.length == value.length
         ) {
           this.isCheckedCheckboxHeader = true;
-        }else {
-        this.isCheckedCheckboxHeader = false;
-      }
+        } else {
+          this.isCheckedCheckboxHeader = false;
+        }
       } else {
         this.isCheckedCheckboxHeader = false;
       }

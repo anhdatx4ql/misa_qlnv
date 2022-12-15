@@ -102,6 +102,10 @@ div#app {
     background-image: url('assets/img/Sprites.64af8f61.svg');
 }
 
+.background-position-delete{
+    background-position: -464px -313px;
+}
+
 .main {
     width: calc(100% - 178px);
     flex-grow: 1;
@@ -112,6 +116,14 @@ div#app {
 .background-icon-arrow-bottom{
     transition:all 0.2s ease;
     background: url(assets/img/Sprites.64af8f61.svg) no-repeat -558px -359px;
+}
+
+.background-icon-close-small{
+    background: url(assets/img/Sprites.64af8f61.svg) no-repeat -84px -316px;
+}
+
+.background-checked{
+    background: url(assets/img/Sprites.64af8f61.svg) no-repeat -896px -312px;
 }
 
 .w-h-48{
@@ -139,22 +151,68 @@ div#app {
     width:14px!important;
 }
 
+.box-sizing-b{
+    box-sizing: border-box;
+}
+
 .w-100{
     box-sizing: border-box;
     width:100% !important;
 }
 
+.p-b-12{
+    padding-bottom:12px;
+}
+
+.w-200{
+    width: 200px !important;
+}
+
 .p-r-6{
     padding-right:6px!important;
 }
+
+.p-r-26{
+    padding-right:26px!important;
+}
+
 .m-l-10{
     margin-left: 10px;
+}
+
+.p-r-6-5 {
+    padding-right: 6.5px !important;
+}
+
+.w-2\/3 {
+    width: 66.66667%!important;
 }
 
 .flex{
     display:flex;
     justify-content: start;
     align-items: center;
+}
+
+.w-1\/3 {
+    width: 33.33333%!important;
+}
+
+.w-1\/4 {
+    width: 25%!important;
+}
+
+.d-flex{
+    display:flex;
+}
+
+.flex-wrap{
+    display:flex;
+    flex-wrap:wrap;
+}
+
+.w-1\/2 {
+    width: 50%!important;
 }
 
 .flex-grow-1{
@@ -221,4 +279,34 @@ div#app {
 
 .background-icon-setting:hover{
     background-position: -88px -255px;
+}
+
+.background-icon-load-data{
+    background: url('/src/assets/img/Sprites.64af8f61.svg') no-repeat -425px -201px;
+
+}
+
+.p-r-12 {
+    padding-right: 12px;
+}
+
+.h-24{
+    height:24px;
+}
+
+.w-h-16{
+    width:16px;
+    height:16px;
+}
+
+.w-1\/6 {
+    width: 16.66667%!important;
+}
+
+.p-b-6-5{
+    padding-bottom: 6.5px;
+}
+
+.text-right{
+    text-align: right;
 }

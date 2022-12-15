@@ -3,30 +3,122 @@
   Function: Base button
  -->
 <template>
-   <button class="button" :value="value" :disabled="disable">
-      <slot></slot>
+  <div
+    :style="'height: ' + height + 'px;'"
+    class="button-container"
+    @click="checkShowDropDown = true"
+    :class="listClass"
+    v-click-away="handlerClickButton"
+  >
+    <button
+      :style="'height: ' + height + 'px;font-size: ' + frontSize + 'px;'"
+      class="button"
+      @click="$emit('clickButton')"
+      :class="classButton"
+      :value="value"
+      :disabled="disable"
+    >
+      <span v-if="text">{{ text }}</span>
+      <span v-if="classButtonIcon" :class="classButtonIcon"></span>
+      <span v-if="iconDropDown" class="background-icon-arrow-bottom"></span>
     </button>
+
+    <div v-if="listDropDown.length > 0" v-show="checkShowDropDown">
+      <button
+        @click="$emit('clickButtonDropDown', item.name)"
+        v-for="item in listDropDown"
+        :key="item"
+      >
+        {{ item.text }}
+      </button>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'BaseButton',
+  name: "BaseButton",
   props: {
-    text:String,
-    value:{
-      Type:String,
-      default:null
+    text: String,
+
+    // giá trị
+    value: {
+      Type: String,
+      default: null,
     },
-    disable:{
-      Type:Boolean,
-      default: false
-    }
+
+    // kiểm tra có click được hay không
+    disable: {
+      Type: Boolean,
+      default: false,
+    },
+
+    // class button
+    listClass: {
+      Type: String,
+      default: null,
+    },
+
+    // drop down button
+    listDropDown: {
+      Type: Array,
+      default: [],
+    },
+
+    // icon
+    iconDropDown: {
+      Type: Boolean,
+      default: false,
+    },
+
+    // class button muốn thêm vào
+    classButton: {
+      Type: String,
+      default: null,
+    },
+
+    // class button icon muốn thêm vào
+    classButtonIcon: {
+      Type: String,
+      default: null,
+    },
+
+    // chiều cao button
+    height: {
+      Type: Number,
+      default: 34,
+    },
+
+    // kích thước chữ
+    frontSize: {
+      Type: Number,
+      default: 13,
+    },
   },
-  mounted(){
-  }
-}
+  data() {
+    return {
+      // check hiển thị drop down
+      checkShowDropDown: false,
+    };
+  },
+  created() {},
+  mounted() {},
+  methods: {
+    /**
+     * Author: Phạm Văn Đạt(11/12/2022)
+     * Functioin: kiểm tra click button hiển thị dropdown
+     */
+    handlerClickButton() {
+      try {
+        this.checkShowDropDown = false;
+      } catch (e) {
+        console.log(e);
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>
-@import url(BaseButton.css)
+@import url(BaseButton.css);
 </style>

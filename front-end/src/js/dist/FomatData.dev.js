@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.formatDate = formatDate;
 exports.lowerCaseFirst = lowerCaseFirst;
 exports.titleCase = titleCase;
+exports.decimal = decimal;
 
 var _moment = _interopRequireDefault(require("moment"));
 
@@ -59,4 +60,17 @@ function titleCase(string) {
   }
 
   return string;
+}
+/**
+ * Author: Phạm Văn Đạt(15/12/2022)
+ * Function: xử lý nhập decimal
+ */
+
+
+function decimal(value) {
+  // chuyển chuỗi text về dạng số
+  var val = value.replace('.', '');
+  val = val.replace(',', '.');
+  val = (val / 1).toFixed(2).replace('.', ',');
+  return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }

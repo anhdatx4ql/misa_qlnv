@@ -50,9 +50,6 @@ namespace MISA.AMIS.Common
         [AttributePost("")]
         public string PlaceOfIssue { set; get; }
 
-        // id số tài khoản
-        public string BankAccountId { set; get; }
-
         // Địa chỉ
         [AttributePost("")]
         public string Address { set; get; }
@@ -113,6 +110,8 @@ namespace MISA.AMIS.Common
         public decimal PremiumSalary { set; get; }
 
         // mã số thuế
+        [AttributeTaxCode("")]
+        [AttributeExists("Mã số thuế không được trùng.")]
         public string TaxCode { set; get; }
 
         // loại hợp đồng
@@ -120,6 +119,16 @@ namespace MISA.AMIS.Common
 
         // số người phụ thuộc
         public string NumberOfDependent { set; get; }
+
+        /// <summary>
+        /// Tài khoản công nợ phải trả
+        /// </summary>
+        public Guid? AccountPayableId { set; get; }
+
+        /// <summary>
+        /// Tài khoản công nợ phải thu
+        /// </summary>
+        public Guid? AccountReceivable { set; get; }
         #endregion
     }
 }

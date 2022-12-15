@@ -46,7 +46,17 @@ var _MSProcess = _interopRequireDefault(require("/src/views/cash/process/MSProce
 
 var _MSReceipt = _interopRequireDefault(require("/src/views/cash/receipt/MSReceipt.vue"));
 
-var _SupplierList = _interopRequireDefault(require("/src/views/suppliers/SupplierList.vue"));
+var _SupplierList = _interopRequireDefault(require("/src/views/suppliers/supplier-list/SupplierList.vue"));
+
+var _BaseTextarea = _interopRequireDefault(require("/src/components/textarea/BaseTextarea.vue"));
+
+var _BaseComboboxMultiple = _interopRequireDefault(require("/src/components/combobox-multiple/BaseComboboxMultiple.vue"));
+
+var _BaseTabs = _interopRequireDefault(require("/src/components/tabs/BaseTabs.vue"));
+
+var _BaseTab = _interopRequireDefault(require("/src/components/tab/BaseTab.vue"));
+
+var _BaseBankAccount = _interopRequireDefault(require("/src/components/bank-account/BaseBankAccount.vue"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -168,9 +178,14 @@ app.component('BaseInputText', _BaseInputText["default"]);
 app.component('BaseInputRadio', _BaseInputRadio["default"]);
 app.component('BaseInputCheckbox', _BaseInputCheckbox["default"]);
 app.component('BaseNotify', _BaseNotify["default"]);
+app.component('BaseTextarea', _BaseTextarea["default"]);
 app.component('BaseToastMessage', _BaseToastMessage["default"]);
 app.component('BaseTable', _BaseTable["default"]);
-app.component('BasePaging', _BasePaging["default"]); // nhúng router
+app.component('BasePaging', _BasePaging["default"]);
+app.component('BaseComboboxMultiple', _BaseComboboxMultiple["default"]);
+app.component('BaseTabs', _BaseTabs["default"]);
+app.component('BaseTab', _BaseTab["default"]);
+app.component('BaseBankAccount', _BaseBankAccount["default"]); // nhúng router
 
 app.use(router); // nhúng click ra ngoài
 

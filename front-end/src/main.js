@@ -22,7 +22,12 @@ import BasePaging from '/src/components/paging/BasePaging.vue'
 import TheCash from '/src/views/cash/TheCash.vue'
 import MSProcess from '/src/views/cash/process/MSProcess.vue'
 import MSReceipt from '/src/views/cash/receipt/MSReceipt.vue'
-import SupplierList from '/src/views/suppliers/SupplierList.vue'
+import SupplierList from '/src/views/suppliers/supplier-list/SupplierList.vue'
+import BaseTextarea from '/src/components/textarea/BaseTextarea.vue'
+import BaseComboboxMultiple from '/src/components/combobox-multiple/BaseComboboxMultiple.vue'
+import BaseTabs from '/src/components/tabs/BaseTabs.vue'
+import BaseTab from '/src/components/tab/BaseTab.vue'
+import BaseBankAccount from '/src/components/bank-account/BaseBankAccount.vue'
 
 const app = createApp(App);
 
@@ -160,9 +165,14 @@ app.component('BaseInputText',BaseInputText);
 app.component('BaseInputRadio',BaseInputRadio);
 app.component('BaseInputCheckbox',BaseInputCheckbox);
 app.component('BaseNotify',BaseNotify);
+app.component('BaseTextarea',BaseTextarea);
 app.component('BaseToastMessage',BaseToastMessage);
 app.component('BaseTable',BaseTable);
 app.component('BasePaging',BasePaging);
+app.component('BaseComboboxMultiple',BaseComboboxMultiple);
+app.component('BaseTabs',BaseTabs);
+app.component('BaseTab',BaseTab);
+app.component('BaseBankAccount',BaseBankAccount);
 
 // nhúng router
 app.use(router);

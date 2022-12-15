@@ -73,14 +73,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\AccountsService\AccountsService.cs" />
-    <Compile Include="Services\AccountsService\IAccountsService.cs" />
+    <Compile Include="Services\AccountsPayableService\AccountsPayableService.cs" />
+    <Compile Include="Services\AccountsPayableService\IAccountsPayableService.cs" />
+    <Compile Include="Services\AccountsReceivableService\AccountsReceivableService.cs" />
+    <Compile Include="Services\AccountsReceivableService\IAccountsReceivableService.cs" />
     <Compile Include="Services\BankAccountsService\BankAccountsService.cs" />
     <Compile Include="Services\BankAccountsService\IBankAccountsService.cs" />
     <Compile Include="Services\BaseService\BaseService.cs" />
     <Compile Include="Services\BaseService\IBaseService.cs" />
-    <Compile Include="Services\DeliveryAddress\DeliveryAddressService.cs" />
-    <Compile Include="Services\DeliveryAddress\IDeliveryAddressService.cs" />
+    <Compile Include="Services\DeliveryAddressService\DeliveryAddressService.cs" />
+    <Compile Include="Services\DeliveryAddressService\IDeliveryAddressService.cs" />
     <Compile Include="Services\DepartmentsService\DepartmentsService.cs" />
     <Compile Include="Services\DepartmentsService\IDepartmentsService.cs" />
     <Compile Include="Services\EmployeesService\EmployeesService.cs" />

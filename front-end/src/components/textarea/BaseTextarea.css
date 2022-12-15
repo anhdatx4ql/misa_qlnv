@@ -1,0 +1,25 @@
+.textarea-container>textarea {
+    resize: none;
+    border-radius: 3px;
+    border: 1px solid #EBEBEB;
+    font-family: inherit;
+    display: block;
+    padding: 9px;
+    color: #000;
+    font-size: 13px;
+    width: 100%;
+}
+
+.textarea-container>p {
+    margin: 0;
+    padding: 0;
+    padding-bottom: 4px;
+}
+
+.textarea-container>textarea:focus {
+    border: 1px solid #2ca01c;
+}
+
+.textarea-container>textarea:hover{
+    outline: 1px solid #e2e2e2;
+}
