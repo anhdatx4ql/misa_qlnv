@@ -1,7 +1,7 @@
 .combobox-container {
     display: flex;
     align-items: center;
-    border: 1px solid #babec5;
+    border: 1px solid #babec5 !important;
     height: 32px;
     overflow: hidden;
     border-radius: 2px;
@@ -125,7 +125,7 @@ button.button-combobox:hover {
     font-size: 12px;
 }
 .combobox-container {
-    border: 1px solid #EBEBEB;
+    border: 1px solid #babec5;
 }
 
 .combobox-container:focus-within {

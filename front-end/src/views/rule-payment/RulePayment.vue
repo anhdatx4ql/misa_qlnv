@@ -1,9 +1,11 @@
+
 <!-- 
-  Author: Phạm Văn Đạt(25/10/2022)
-  Function: Thông tin chi tiết khách hàng
+  Author: Phạm Văn Đạt
+  Function: màn hình thu, chi tiền
  -->
+
 <template>
-  <div class="form-supplier-group from">
+ <div class="form-supplier-group from">
     <div class="form-container form-supplier-group-container">
       <!-- start header form -->
       <div class="form-header">
@@ -47,20 +49,44 @@
         ></base-input-text>
         <!-- end mã nhóm nhà cung cấp, khách hàng -->
 
-        <!-- start nhóm nhà cung cấp -->
-        <base-combobox-multiple
-          class="w-100 p-b-12"
-          classText="input-container-field-label"
-          fieldName="Thuộc"
-          :iconSum="false"
-          :isMultiple="true"
-        >
-        </base-combobox-multiple>
-        <!-- end nhóm nhà cung cấp -->
+         <!-- start số ngày được nợ -->
+         <base-input-text
+          class="w-1/3 p-r-12 box-sizing-b"
+          fieldLabel="Số ngày được nợ"
+          :isFormatText="false"
+          :isNumber="true"
+        ></base-input-text>
+        <!-- end số ngày được nợ -->
 
-        <!-- start diễn giải -->
-        <base-textarea class="w-100" text="Diễn giải" :height="56"></base-textarea>
-        <!-- start diễn giải -->
+        <div class="w-1/6 p-t-30">
+          Ngày
+        </div>
+
+         <!-- start Thời hạn hưởng chiết khấu -->
+         <base-input-text
+          class="w-1/3 p-r-12 box-sizing-b"
+          fieldLabel="Thời hạn hưởng chiết khấu"
+          :isFormatText="false"
+          :isNumber="true"
+        ></base-input-text>
+        <!-- end Thời hạn hưởng chiết khấu -->
+
+        <div class="w-1/6 p-t-30">
+          Ngày
+        </div>
+
+         <!-- start Tỉ lệ chiết khấu -->
+         <base-input-text
+          class="w-1/3 p-r-12 box-sizing-b"
+          fieldLabel="Tỉ lệ chiết khấu"
+          :isFormatText="false"
+          :isNumber="true"
+        ></base-input-text>
+        <!-- end Tỉ lệ chiết khấu -->
+
+        <div class="w-1/6 p-t-30">
+          %
+        </div>
 
         <div class="divide"></div>
       </div>
@@ -93,45 +119,38 @@
 </template>
 
 <script>
-/**
- * Author: Phạm Văn Đạt(14/12/2022)
- * Function: nhúng các các hằng số
- */
 
 export default {
-  components: {},
-  name: "GroupSupplier",
+  name: "RulePayment",
   props: {
-
-    // title form
-    title: {
+     // title form
+     title: {
       Type: String,
-      default: "Tên Nhóm khách hàng, nhà cung cấp",
+      default: "Thêm Điều khoản thanh toán",
     },
   },
   data() {
-    return {};
+    return {
+      
+    };
   },
-  created() {},
-  methods: {
-
+  methods:{
+    
     /**
      * Author: Phạm Văn Đạt(14/12/2022)
      * Function: Xử lý close Form
      */
-    handlerCloseForm(){
+     handlerCloseForm(){
       try{
         this.$emit('closeForm',false);
       }catch(e){
         console.log(e);
       }
     }
-
-  },
-  watch: {},
+  }
 };
 </script>
 
 <style scoped>
-@import url(GroupSupplier.css);
+@import url(RulePayment.css); 
 </style>

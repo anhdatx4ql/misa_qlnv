@@ -325,6 +325,7 @@
                   fieldName="Điều khoản thanh toán"
                   :iconSum="true"
                   :isMultiple="false"
+                  @clickIconSum="showRulePay = true"
                 >
                 </base-combobox-multiple>
               </div>
@@ -332,13 +333,19 @@
 
               <!-- Start Số ngày được nợ -->
               <div class="w-200 p-r-12">
-                <base-input-text fieldLabel="Số ngày được nợ"></base-input-text>
+                <base-input-text
+                  :isNumber="true"
+                  fieldLabel="Số ngày được nợ"
+                ></base-input-text>
               </div>
               <!-- end số ngày được nợ -->
 
               <!-- Start Số nợ tối đa -->
               <div class="w-200 p-r-12">
-                <base-input-text fieldLabel="Số nợ tối đa"></base-input-text>
+                <base-input-text
+                  :isNumber="true"
+                  fieldLabel="Số nợ tối đa"
+                ></base-input-text>
               </div>
               <!-- end số nwoj tối đa -->
 
@@ -542,6 +549,11 @@
     ></employee-detail>
     <!-- end hiển thị form nhân viên -->
 
+    <!-- start form thêm điều khoản thanh toán -->
+    <rule-payment v-if="showRulePay"
+      @closeForm="showRulePay = $event"></rule-payment>
+    <!-- end form thêm điều khoản thanh toán -->
+
     <!-- end content -->
   </div>
 </template>
@@ -558,13 +570,14 @@ import GroupSupplier from "../../group-supplier/GroupSupplier";
 
 import EmployeeDetail from "../../employees/employees-detail/EmployeeDetail";
 
+import RulePayment from "../../rule-payment/RulePayment"
 /**
  * Author: Phạm Văn Đạt(12/12/2022)
  * Function: nhúng các các hằng số
  */
 
 export default {
-  components: { GroupSupplier, EmployeeDetail },
+  components: { GroupSupplier, EmployeeDetail, RulePayment },
   name: "SupplierDetail",
 
   setup() {},
@@ -591,6 +604,9 @@ export default {
 
       // hiển thị form thêm mới nhân viên
       showEmployee: false,
+
+      // hiển thị form thêm mới điều khoản thanh toán
+      showRulePay: false,
 
       // danh sách lưu thông tin tài khoản ngân hàng,
       bankAccounts: [

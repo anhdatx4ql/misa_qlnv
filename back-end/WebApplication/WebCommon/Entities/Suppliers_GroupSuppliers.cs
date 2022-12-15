@@ -17,18 +17,21 @@ namespace MISA.AMIS.Common
         /// id bảng liên kết nhà cung cấp và nhóm nhà cung cấp
         /// </summary>
         [AttributePrimarykey("Id không được bỏ trống.")]
+        [AttributePost("")]
         public Guid SupplierGroupSupplierID { set; get; }
 
         /// <summary>
         /// id bảng liên kết nhà cung cấp và nhóm nhà cung cấp
         /// </summary>
         [AttributeRequired("Id nhà cung cấp không được bỏ trống.")]
+        [AttributePost("")]
         public Guid SupplierId { set; get; }
 
         /// <summary>
         /// id bảng liên kết nhà cung cấp và nhóm nhà cung cấp
         /// </summary>
         [AttributeRequired("Id nhà cung cấp không được bỏ trống.")]
+        [AttributePost("")]
         public Guid GroupSupplierId { set; get; }
         #endregion
     }

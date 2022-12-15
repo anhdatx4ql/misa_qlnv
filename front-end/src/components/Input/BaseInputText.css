@@ -25,7 +25,7 @@ input {
 
 .input-container-content {
     display: flex;
-    border: 1px solid #EBEBEB;
+    border: 1px solid #babec5;
     height: 34px;
     overflow: hidden;
     border-radius: 2px;
@@ -85,7 +85,7 @@ input::placeholder {
 .el-input__wrapper {
     border-radius: 2px !important;
     box-shadow: none;
-    border: 1px solid #EBEBEB;
+    border: 1px solid #babec5;
     flex-direction: row-reverse !important;
     padding: 0 12px 0 10px;
 }

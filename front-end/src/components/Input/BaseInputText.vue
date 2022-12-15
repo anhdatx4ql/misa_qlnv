@@ -175,6 +175,12 @@ export default {
       Type: Number,
       default: 255,
     },
+
+    // cho phép format số
+    isFormatNumber:{
+      Type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -220,7 +226,7 @@ export default {
      * @param {*} value : giá trị truyền vào
      */
     modelValue(value) {
-      if (this.isNumber == true) {
+      if (this.isFormatNumber == true) {
         this.currentValue = decimal(value);
       } else {
         this.currentValue = value;
@@ -323,7 +329,7 @@ export default {
      * Function: Xử lý trả về dữ liệu sau 500ms
      */
     handlerFormat: _.debounce(function () {
-      if (this.isNumber) {
+      if (this.isFormatNumber) {
         this.currentValue = decimal(this.currentValue);
       }
     }, 400),

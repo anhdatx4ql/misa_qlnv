@@ -310,3 +310,7 @@ div#app {
 .text-right{
     text-align: right;
 }
+
+.p-t-30{
+    padding-top:30px;
+}

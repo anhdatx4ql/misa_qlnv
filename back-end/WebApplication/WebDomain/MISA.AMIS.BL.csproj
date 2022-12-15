@@ -81,8 +81,6 @@
     <Compile Include="Services\BankAccountsService\IBankAccountsService.cs" />
     <Compile Include="Services\BaseService\BaseService.cs" />
     <Compile Include="Services\BaseService\IBaseService.cs" />
-    <Compile Include="Services\DeliveryAddressService\DeliveryAddressService.cs" />
-    <Compile Include="Services\DeliveryAddressService\IDeliveryAddressService.cs" />
     <Compile Include="Services\DepartmentsService\DepartmentsService.cs" />
     <Compile Include="Services\DepartmentsService\IDepartmentsService.cs" />
     <Compile Include="Services\EmployeesService\EmployeesService.cs" />

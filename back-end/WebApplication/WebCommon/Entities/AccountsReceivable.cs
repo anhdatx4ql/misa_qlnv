@@ -14,19 +14,22 @@ namespace MISA.AMIS.Common
         #region Fields
         // Id tài khoản
         [AttributePrimarykey("Id không được bỏ trống")]
-        public Guid AccountID { set; get; }
+        [AttributePost("")]
+        public Guid AccountReceivableID { set; get; }
 
         /// <summary>
         /// Số tài khoản
         /// </summary>
         [AttributeRequired("Số tài khoản không được bỏ trống!")]
-        public string AccountNumber { set; get; }
+        [AttributePost("")]
+        public string AccountReceivableNumber { set; get; }
 
         /// <summary>
         /// tên tài khoản
         /// </summary>
+        [AttributePost("")]
         [AttributeRequired("Tên tài khoản không được bỏ trống!")]
-        public string AccountName { set; get; }
+        public string AccountReceivableName { set; get; }
         #endregion
     }
 }

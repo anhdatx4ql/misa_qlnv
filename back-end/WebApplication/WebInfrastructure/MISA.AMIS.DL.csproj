@@ -194,8 +194,6 @@
     <Compile Include="Repositories\BankAccountsRepository\IBankAccountsRepository.cs" />
     <Compile Include="Repositories\BaseRepository\BaseRepository.cs" />
     <Compile Include="Repositories\BaseRepository\IBaseRepository.cs" />
-    <Compile Include="Repositories\DeliveryAddressRepository\DeliveryAddressRepository.cs" />
-    <Compile Include="Repositories\DeliveryAddressRepository\IDeliveryAddressRepository.cs" />
     <Compile Include="Repositories\DepartmentsRepository\DepartmentsRepository.cs" />
     <Compile Include="Repositories\DepartmentsRepository\IDepartmentsRepository.cs" />
     <Compile Include="Repositories\EmployeesRepository\EmployeesRepository.cs" />

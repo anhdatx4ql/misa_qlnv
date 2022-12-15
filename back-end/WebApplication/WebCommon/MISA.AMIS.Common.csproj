@@ -48,7 +48,6 @@
     <Compile Include="Entities\AccountsReceivable.cs" />
     <Compile Include="Entities\BankAccounts.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
-    <Compile Include="Entities\DeliveryAddress.cs" />
     <Compile Include="Entities\Departments.cs" />
     <Compile Include="Entities\Employees.cs" />
     <Compile Include="Entities\GroupSuppliers.cs" />

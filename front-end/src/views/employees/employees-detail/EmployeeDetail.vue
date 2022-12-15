@@ -302,6 +302,7 @@
               <base-input-text
                 fieldLabel="Lương thỏa thuận"
                 class="w-1/4 p-r-12"
+                :isFormatNumber="true"
                 :isNumber="true"
                 :maxlength="15"
               ></base-input-text>
@@ -311,6 +312,7 @@
               <base-input-text
                 fieldLabel="Hệ số lương"
                 class="w-1/6 p-r-12"
+                :isFormatNumber="true"
                 :isNumber="true"
                 :maxlength="10"
               ></base-input-text>
@@ -319,8 +321,9 @@
               <!-- Start Lương đóng bảo hiểm -->
               <base-input-text
                 fieldLabel="Lương đóng bảo hiểm"
-                class="w-1/3 p-r-12"
+                class="w-1/3 p-r-12 box-sizing-b"
                 :isNumber="true"
+                :isFormatNumber="true"
                 :maxlength="15"
               ></base-input-text>
               <!-- End Lương đóng bảo hiểm -->

@@ -49,7 +49,6 @@ namespace MISA.AMIS.Application
             services.AddScoped<IPositionsRepository, PositionsRepository>();
             services.AddScoped<IAccountsPayableRepository, AccountsPayableRepository>();
             services.AddScoped<IBankAccountsRepository, BankAccountsRepository>();
-            services.AddScoped<IDeliveryAddressRepository, DeliveryAddressRepository>();
             services.AddScoped<IGroupSuppliersRepository, GroupSuppliersRepository>();
             services.AddScoped<IRulePaymentsRepository, RulePaymentsRepository>();
             services.AddScoped<ISuppliers_GroupSuppliersRepository, Suppliers_GroupSuppliersRepository>();
@@ -61,7 +60,6 @@ namespace MISA.AMIS.Application
             services.AddScoped<IPositionsService, PositionsService>();
             services.AddScoped<IAccountsPayableService, AccountsPayableService>();
             services.AddScoped<IBankAccountsService, BankAccountsService>();
-            services.AddScoped<IDeliveryAddressService, DeliveryAddressService>();
             services.AddScoped<IGroupSuppliersService, GroupSuppliersService>();
             services.AddScoped<IRulePaymentsService, RulePaymentsService>();
             services.AddScoped<ISuppliers_GroupSuppliersService, Suppliers_GroupSuppliersService>();

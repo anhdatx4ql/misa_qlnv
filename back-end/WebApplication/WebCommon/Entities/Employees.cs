@@ -101,12 +101,15 @@ namespace MISA.AMIS.Common
         public bool IsDelete { set; get; }
 
         // Lương thỏa thuận
+        [AttributePost("")]
         public decimal WageAgreement { set; get; }
 
         // Hệ số lương
+        [AttributePost("")]
         public decimal CoefficientSalary { set; get; }
 
         // lương đóng bảo hiểm
+        [AttributePost("")]
         public decimal PremiumSalary { set; get; }
 
         // mã số thuế
@@ -115,19 +118,24 @@ namespace MISA.AMIS.Common
         public string TaxCode { set; get; }
 
         // loại hợp đồng
+        [AttributePost("")]
+        [AttributeRequired("Loại hợp đồng không được trùng.")]
         public string TypeOfContract { set; get; }
 
         // số người phụ thuộc
-        public string NumberOfDependent { set; get; }
+        [AttributePost("")]
+        public int NumberOfDependent { set; get; }
 
         /// <summary>
         /// Tài khoản công nợ phải trả
         /// </summary>
+        [AttributePost("")]
         public Guid? AccountPayableId { set; get; }
 
         /// <summary>
         /// Tài khoản công nợ phải thu
         /// </summary>
+        [AttributePost("")]
         public Guid? AccountReceivable { set; get; }
         #endregion
     }
