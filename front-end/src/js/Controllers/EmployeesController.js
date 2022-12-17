@@ -1,6 +1,13 @@
-import {END_POINTS} from '../axios/endPoint';
-import {insertRecord,updateRecord, paging,getMaxCode,deleteRecords,exportExcel } from '../Controllers/BaseController'
-import {STATUS_CODES} from '../constants'
+import { END_POINTS } from "../axios/endPoint";
+import {
+  insertRecord,
+  updateRecord,
+  paging,
+  getMaxCode,
+  deleteRecords,
+  exportExcel,
+} from "../Controllers/BaseController";
+import { STATUS_CODES } from "../constants";
 
 // end point của employees
 // const endPoint = END_POINTS.Employees;
@@ -9,92 +16,118 @@ import {STATUS_CODES} from '../constants'
  * Author: Phạm Văn Đạt(22/10/2022)
  * Function: Model view khách hàng
  */
-export const employeeModel={
-  // Địa chỉ
-  address: null,
+export const employeeModel = {
+  // id Tài khoản công nợ phải trả
+  accountPayableId: null,
 
-  // Chi nhánh ngân hàng
-  bankAccountBrand: null,
+  // id Tài khoản công nợ phải thu
+  accountReceivable: null,
 
-  // Số tài khoản
-  bankAccountNumber: null,
+  // Hệ số lương
+  coefficientSalary: 0,
 
-  // Tên ngân hàng
-  bankName: null,
-
-  // ngày sinh
-  birthDay: null,
+  // ngày tạo
+  createdAt: null,
 
   // người tạo
   createdBy: null,
 
-  // id phòng ban
+  // id đơn vị
   departmentId: null,
 
-  // tên phòng ban
+  // tên đơn vị
   departmentName: null,
 
-  // điện thoại bàn
-  deskPhone: null,
+  // Địa chỉ
+  employeeAddress: null,
+
+  // ngày sinh
+  employeeBirthDay: null,
+
+  // mã nhân viên
+  employeeCode: null,
+
+  // số điện thoại bàn
+  employeeDeskPhone: null,
 
   // email
-  email: null,
+  employeeEmail: null,
 
-  // mã khách hàng
-  employeeId: null,
-
-  // giới tính (0-nam, 1-nữ, 2-khác)
-  gender: 0,
+  // giới tính mặc định là nam
+  employeeGender: 0,
 
   // id
-  id: null,
+  employeeID: null,
 
-  // số chứng minh nhân dân
+  // tên nhân viên
+  employeeName: null,
+
+  // số điện thoại di động
+  employeeNumberPhone: null,
+
+  // Số chứng minh nhân dân
   idNo: null,
 
   // kiểm tra xóa hay chưa
   isDelete: false,
 
-  // là khách hàng
+  // là KH
   isEmployee: false,
 
   // là nhà cung cấp
   isSuppiler: false,
 
-  // Ngày cấp
+  // ngày cấp
   issuaOn: null,
 
-  // tên khách hàng
-  name: null,
+  // số người phụ thuộc
+  numberOfDependent: 0,
 
-  // số điện thoại
-  numberPhone: null,
-
-  // Nơi cấp
+  // nơi cấp
   placeOfIssue: null,
 
-  // id chức danh
+  // id chức vụ
   positionId: null,
 
-  // tên chức danh
+  // tên chức vụ
   positionName: null,
 
+  // lương đóng bảo hiểm
+  premiumSalary: 0,
+
+  // mã số thuế
+  taxCode: null,
+
+  // loại hợp đồng - không được để trống
+  typeOfContract: null,
+
+  // ngày cập nhật
+  updatedAt: null,
+
   // người cập nhật
-  updatedBy: null
+  updatedBy: null,
+
+  // lương thỏa thuận
+  wageAgreement: 0,
 };
 
 /**
  * Author: Phạm Văn Đạt(19/10/2022)
  * Function: Class lưu thông tin các khách hàng
  */
-export class Employees{
-
+export class Employees {
   // khởi tạo giá trị
-  constructor(data, keyword = null, currentPageNumber = 1, pageSize = 10,totalCount){
+  constructor(
+    data,
+    keyword = null,
+    currentPageNumber = 1,
+    pageSize = 10,
+    totalCount
+  ) {
     this.data = data;
     this.keyword = keyword;
     this.currentPageNumber = currentPageNumber;
-    this.pageSize= pageSize;
+    this.pageSize = pageSize;
     this.totalCount = totalCount;
   }
 
@@ -105,49 +138,55 @@ export class Employees{
    * @param {*} currentPageNumber : số trang hiện tại: mặc định là 1
    * @param {*} pageSize : số bản ghi trên trang
    */
-  async pagingEmployee(data){
-
+  async pagingEmployee(data) {
     let dataKeyword = [];
 
     // nếu tồn tại keyword thì tìm kiếm theo keyword với 3 trường: tên, mã , sđt
-    if(this.keyword){
-      console.log(this.keyword)
-      dataKeyword.push({
-        name: 'employeeId',
-        operator: 'like',
-        value: this.keyword,
-        typeOperator: 'like',
-        stringConcatenation: 'OR'
-      },
-      {
-        name: 'name',
-        operator: 'like',
-        value: this.keyword,
-        typeOperator: 'like',
-        stringConcatenation: 'OR'
-      },
-      {
-        name: 'numberPhone',
-        operator: 'like',
-        value: this.keyword,
-        typeOperator: 'like'
-      });
+    if (this.keyword) {
+      console.log(this.keyword);
+      dataKeyword.push(
+        {
+          name: "employeeId",
+          operator: "like",
+          value: this.keyword,
+          typeOperator: "like",
+          stringConcatenation: "OR",
+        },
+        {
+          name: "name",
+          operator: "like",
+          value: this.keyword,
+          typeOperator: "like",
+          stringConcatenation: "OR",
+        },
+        {
+          name: "numberPhone",
+          operator: "like",
+          value: this.keyword,
+          typeOperator: "like",
+        }
+      );
     }
 
     let newData = [...data];
 
-    if(dataKeyword != []){
+    if (dataKeyword != []) {
       newData.push(...dataKeyword);
     }
 
-    console.log(newData)
+    console.log(newData);
 
-    let res = await paging(END_POINTS.PagingEmployee,this.currentPageNumber,this.pageSize,newData);
-    if(res.statusCode == STATUS_CODES.Code200){
+    let res = await paging(
+      END_POINTS.PagingEmployee,
+      this.currentPageNumber,
+      this.pageSize,
+      newData
+    );
+    if (res.statusCode == STATUS_CODES.Code200) {
       this.data = res.data.data;
       this.totalCount = res.data.totalCount;
-    }else{
-      console.log(res)
+    } else {
+      console.log(res);
     }
   }
 
@@ -156,13 +195,12 @@ export class Employees{
    * Function: Lấy mã code mới nhất
    * @returns trả về dữ liệu nếu thành công.
    */
-  async getMaxCode(){
-
+  async getMaxCode() {
     let res = await getMaxCode(END_POINTS.EmployeesMaxCode);
-    if(res.statusCode == STATUS_CODES.Code200){
+    if (res.statusCode == STATUS_CODES.Code200) {
       return res.data;
-    }else{
-      console.log(res)
+    } else {
+      console.log(res);
     }
   }
 
@@ -172,13 +210,13 @@ export class Employees{
    * @param {*} data : keyword
    * @returns: file excel nếu có
    */
-  async exportExcel(data){
-    let endString = '';
-    if(data){
-      endString = '?keyword='+data;
+  async exportExcel(data) {
+    let endString = "";
+    if (data) {
+      endString = "?keyword=" + data;
     }
-    
-    await exportExcel(END_POINTS.EmployeesExportExcel+endString)
+
+    await exportExcel(END_POINTS.EmployeesExportExcel + endString);
   }
 
   /**
@@ -186,16 +224,15 @@ export class Employees{
    * Function: Thêm mới nhân viên
    * @param {*} data : Dữ liệu truyền vào
    */
-  async insertEmployee(data){
-    let res = await insertRecord(END_POINTS.Employees,data);
-    
-    if(res.status == STATUS_CODES.Code200){
+  async insertEmployee(data) {
+    let res = await insertRecord(END_POINTS.Employees, data);
+
+    if (res.status == STATUS_CODES.Code200) {
       return res.data;
-    }else{
+    } else {
       console.log(res);
       console.log("thêm mới thất bại");
     }
-
   }
 
   /**
@@ -203,13 +240,12 @@ export class Employees{
    * Function: Xử lý update nhân viên
    * @param {*} data : Dữ liệu truyền vào
    */
-  async updateEmployee(data){
-    
-    let res = await updateRecord(END_POINTS.Employees,data);
-    
-    if(res.status == STATUS_CODES.Code200){
+  async updateEmployee(data) {
+    let res = await updateRecord(END_POINTS.Employees, data);
+
+    if (res.status == STATUS_CODES.Code200) {
       return res.data;
-    }else{
+    } else {
       console.log("thêm mới thất bại");
     }
   }
@@ -220,63 +256,66 @@ export class Employees{
    * @param {*} data : id nhân viên muốn xóa
    * @returns : response
    */
-  async deleteEmployee(data){
+  async deleteEmployee(data) {
+    if (data) {
+      let res = await deleteRecords(END_POINTS.EmployeesDelete, data);
 
-    if(data){
-      let res = await deleteRecords(END_POINTS.EmployeesDelete,data);
-    
-      if(res.status == STATUS_CODES.Code200){
+      if (res.status == STATUS_CODES.Code200) {
         return res.data;
-      }else{
+      } else {
         console.log(res);
         console.log("Xóa thất bại!");
       }
     }
-    
   }
-
 }
 
 /**
  * Author: Phạm Văn Đạt(19/10/2022)
  * Function: Khởi tạo đối tượng để xử lý xuyên suốt
-*/
+ */
 export let employees = new Employees();
 
 /**
  * Author: Phạm Văn Đạt(23/10/2022)
  * Function: Reset dữ liệu
  */
-export async function resetEmployeeDetail(object,employees) {
+export async function resetEmployeeDetail(object, employees) {
   try {
-
     let newCode = await employees.getMaxCode();
     if (newCode) {
-      object.employeeId = newCode;
+      object.employeeCode = newCode;
     }
 
     // lưu giá trị object null
-    Object.keys(object).forEach(key => {
-
-        // nếu key khác id thì xóa giá trị cũ đi
-        if(key != "id" && key != "employeeId"){
-
-          // giới tính mặc định là nam
-          if(key == "gender"){
-            // 0 là nam
-            object[key] = 0;
-          }else if(key == "isDelete" || key == "isEmployee" || key == "isSuppiler"){
-            // các giá trị boolean trả về false
-            object[key] = false;
-          }else{
-            // các thuộc tính khác trả về null
-            object[key] = null;
-          }
+    Object.keys(object).forEach((key) => {
+      // nếu key khác id thì xóa giá trị cũ đi
+      if (key != "employeeID" && key != "employeeCode") {
+        // giới tính mặc định là nam
+        if (
+          key == "employeeGender" ||
+          key == "wageAgreement" ||
+          key == "coefficientSalary" ||
+          key == "premiumSalary" ||
+          key == "numberOfDependent"
+        ) {
+          // 0 là nam
+          object[key] = 0;
+        } else if (
+          key == "isDelete" ||
+          key == "isEmployee" ||
+          key == "isSuppiler"
+        ) {
+          // các giá trị boolean trả về false
+          object[key] = false;
+        } else {
+          // các thuộc tính khác trả về null
+          object[key] = null;
         }
-      });
+      }
+    });
 
-      return object;
-
+    return object;
   } catch (e) {
     console.log(e);
   }

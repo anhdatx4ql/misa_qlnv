@@ -27,6 +27,13 @@ namespace MISA.AMIS.Common
         public string RulePaymentCode { set; get; }
 
         /// <summary>
+        /// Tên điều khoản thanh toán
+        /// </summary>
+        [AttributeRequired("Mã điều khoản thanh toán không được bỏ trống!")]
+        [AttributePost("")]
+        public string RulePaymentName { set; get; }
+
+        /// <summary>
         /// Số ngày được nợ
         /// </summary>
         [AttributePost("")]

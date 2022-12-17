@@ -23,9 +23,9 @@ namespace MISA.AMIS.Common
         /// <summary>
         /// id bảng liên kết nhà cung cấp và nhóm nhà cung cấp
         /// </summary>
-        [AttributeRequired("Id nhà cung cấp không được bỏ trống.")]
+        [AttributeRequired("Id người dùng.")]
         [AttributePost("")]
-        public Guid SupplierId { set; get; }
+        public Guid UserId { set; get; }
 
         /// <summary>
         /// id bảng liên kết nhà cung cấp và nhóm nhà cung cấp

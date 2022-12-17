@@ -10,7 +10,7 @@ namespace MISA.AMIS.BL
 {
     /// <summary>
     /// Author: Phạm Văn Đạt(08/12/2022)
-    /// Function: xử lý nghiệp vụ tài khoản
+    /// Function: xử lý nghiệp vụ tài khoản công nợ phải trả
     /// </summary>
     public interface IAccountsPayableService : IBaseService<AccountsPayable>
     {

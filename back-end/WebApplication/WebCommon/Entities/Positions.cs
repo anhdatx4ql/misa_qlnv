@@ -13,12 +13,12 @@ namespace MISA.AMIS.Common
         // Id chức danh
         [AttributePrimarykey("Id chức danh không được bỏ trống")]
         [AttributePost("")]
-        public Guid Id { set; get; }
+        public Guid PositionID { set; get; }
 
         // tên Chức danh
         [AttributeRequired("Tên chức danh không được bỏ trống!")]
         [AttributePost("")]
-        public string Name { set; get; }
+        public string PositionName { set; get; }
 
         #endregion
     }

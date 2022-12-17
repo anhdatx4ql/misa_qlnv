@@ -153,7 +153,7 @@ export let TABLE_FIELDS = [
   },
   {
     name: "TÊN NHÂN VIÊN",
-    fieldName: "name",
+    fieldName: "employeeName",
     width: 150,
     isRequired: true,
     class: "left-60 position-sticky",
@@ -167,7 +167,7 @@ export let TABLE_FIELDS = [
   },
   {
     name: "MÃ NHÂN VIÊN",
-    fieldName: "employeeId",
+    fieldName: "employeeCode",
     width: 130,
     isRequired: true,
     nameFilter: "Mã nhân viên",
@@ -180,7 +180,7 @@ export let TABLE_FIELDS = [
   },
   {
     name: "GIỚI TÍNH",
-    fieldName: "gender",
+    fieldName: "employeeGender",
     width: 100,
     formatGender: function (value) {
       value = Number(value);
@@ -204,7 +204,7 @@ export let TABLE_FIELDS = [
   },
   {
     name: "NGÀY SINH",
-    fieldName: "birthDay",
+    fieldName: "employeeBirthDay",
     nameFilter: "Ngày sinh",
     width: 140,
     class: "text-align-center",
@@ -285,44 +285,8 @@ export let TABLE_FIELDS = [
     }
   },
   {
-    name: "SỐ TÀI KHOẢN",
-    fieldName: "bankAccountNumber",
-    width: 190,
-    typeFilter: "Text",
-    nameFilter: "Số tài khoản",
-    isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
-  },
-  {
-    name: "TÊN NGÂN HÀNG",
-    fieldName: "bankName",
-    width: 150,
-    typeFilter: "Text",
-    nameFilter: "Tên ngân hàng",
-    isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
-  },
-  {
-    name: "CHI NHÁNH NGÂN HÀNG",
-    fieldName: "bankAccountBrand",
-    width: 230,
-    typeFilter: "Text",
-    nameFilter: "Chi nhánh ngân hàng",
-    isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
-  },
-  {
     name: "ĐT DI ĐỘNG",
-    fieldName: "numberPhone",
+    fieldName: "employeeNumberPhone",
     width: 150,
     title: "Điện thoại di động",
     typeFilter: "Text",
@@ -335,7 +299,7 @@ export let TABLE_FIELDS = [
   },
   {
     name: "ĐT CỐ ĐỊNH",
-    fieldName: "deskPhone",
+    fieldName: "employeeDeskPhone",
     width: 150,
     title: "Điện thoại cố định",
     typeFilter: "Text",
@@ -348,7 +312,7 @@ export let TABLE_FIELDS = [
   },
   {
     name: "EMAIL",
-    fieldName: "email",
+    fieldName: "employeeEmail",
     width: 200,
     typeFilter: "Text",
     nameFilter: "Email",
@@ -382,7 +346,7 @@ export let TABLE_FIELDS = [
   },
   {
     name: "ĐỊA CHỈ",
-    fieldName: "address",
+    fieldName: "employeeAddress",
     width: 300,
     class: "border-right-none",
     typeFilter: "Text",

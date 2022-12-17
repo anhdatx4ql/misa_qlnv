@@ -505,7 +505,7 @@ export default {
             this.employeeDetail = data;
 
             // tạo guid id mới cho data
-            this.employeeDetail.id = createGuid();
+            this.employeeDetail.employeeID = createGuid();
 
             // hiển thị form
             this.checkShowForm = true;

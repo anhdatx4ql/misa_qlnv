@@ -64,7 +64,7 @@ namespace MISA.AMIS.Application
             services.AddScoped<IRulePaymentsService, RulePaymentsService>();
             services.AddScoped<ISuppliers_GroupSuppliersService, Suppliers_GroupSuppliersService>();
             services.AddScoped<ISuppliersService, SuppliersService>();
-            services.AddScoped<IAccountsPayableService, AccountsPayableService>();
+            services.AddScoped<IAccountsReceivableService, AccountsReceivableService>();
 
             services.AddSwaggerGen(c =>
             {

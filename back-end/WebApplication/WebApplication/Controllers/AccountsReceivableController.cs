@@ -13,16 +13,13 @@ namespace MISA.AMIS.Application
     [ApiController]
     public class AccountsReceivableController : BaseController<AccountsReceivable>
     {
-        #region Fields
-        /// <summary>
-        /// Author: Phạm Văn Đạt(09/12/2022)
-        /// Function: Xử lý khởi tạo service tài khoản
-        /// </summary>
+        #region Field
+
         private readonly IAccountsReceivableService _service;
         #endregion
 
-        #region Constructor
-        public AccountsReceivableController(IAccountsReceivableService service) : base(service)
+        #region constructor
+        public AccountsReceivableController(IAccountsReceivableService service):base(service)
         {
             _service = service;
         }

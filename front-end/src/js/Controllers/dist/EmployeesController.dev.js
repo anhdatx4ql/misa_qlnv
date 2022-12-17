@@ -26,55 +26,76 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+// end point của employees
+// const endPoint = END_POINTS.Employees;
+
+/**
+ * Author: Phạm Văn Đạt(22/10/2022)
+ * Function: Model view khách hàng
+ */
 var employeeModel = {
-  // Địa chỉ
-  address: null,
-  // Chi nhánh ngân hàng
-  bankAccountBrand: null,
-  // Số tài khoản
-  bankAccountNumber: null,
-  // Tên ngân hàng
-  bankName: null,
-  // ngày sinh
-  birthDay: null,
+  // id Tài khoản công nợ phải trả
+  accountPayableId: null,
+  // id Tài khoản công nợ phải thu
+  accountReceivable: null,
+  // Hệ số lương
+  coefficientSalary: 0,
+  // ngày tạo
+  createdAt: null,
   // người tạo
   createdBy: null,
-  // id phòng ban
+  // id đơn vị
   departmentId: null,
-  // tên phòng ban
+  // tên đơn vị
   departmentName: null,
-  // điện thoại bàn
-  deskPhone: null,
+  // Địa chỉ
+  employeeAddress: null,
+  // ngày sinh
+  employeeBirthDay: null,
+  // mã nhân viên
+  employeeCode: null,
+  // số điện thoại bàn
+  employeeDeskPhone: null,
   // email
-  email: null,
-  // mã khách hàng
-  employeeId: null,
-  // giới tính (0-nam, 1-nữ, 2-khác)
-  gender: 0,
+  employeeEmail: null,
+  // giới tính mặc định là nam
+  employeeGender: 0,
   // id
-  id: null,
-  // số chứng minh nhân dân
+  employeeID: null,
+  // tên nhân viên
+  employeeName: null,
+  // số điện thoại di động
+  employeeNumberPhone: null,
+  // Số chứng minh nhân dân
   idNo: null,
   // kiểm tra xóa hay chưa
   isDelete: false,
-  // là khách hàng
+  // là KH
   isEmployee: false,
   // là nhà cung cấp
   isSuppiler: false,
-  // Ngày cấp
+  // ngày cấp
   issuaOn: null,
-  // tên khách hàng
-  name: null,
-  // số điện thoại
-  numberPhone: null,
-  // Nơi cấp
+  // số người phụ thuộc
+  numberOfDependent: 0,
+  // nơi cấp
   placeOfIssue: null,
-  // id chức danh
+  // id chức vụ
   positionId: null,
-  // tên chức danh
+  // tên chức vụ
   positionName: null,
+  // lương đóng bảo hiểm
+  premiumSalary: 0,
+  // mã số thuế
+  taxCode: null,
+  // loại hợp đồng - không được để trống
+  typeOfContract: null,
+  // ngày cập nhật
+  updatedAt: null,
   // người cập nhật
-  updatedBy: null
+  updatedBy: null,
+  // lương thỏa thuận
+  wageAgreement: 0
 };
 /**
  * Author: Phạm Văn Đạt(19/10/2022)
@@ -123,22 +144,22 @@ function () {
               if (this.keyword) {
                 console.log(this.keyword);
                 dataKeyword.push({
-                  name: 'employeeId',
-                  operator: 'like',
+                  name: "employeeId",
+                  operator: "like",
                   value: this.keyword,
-                  typeOperator: 'like',
-                  stringConcatenation: 'OR'
+                  typeOperator: "like",
+                  stringConcatenation: "OR"
                 }, {
-                  name: 'name',
-                  operator: 'like',
+                  name: "name",
+                  operator: "like",
                   value: this.keyword,
-                  typeOperator: 'like',
-                  stringConcatenation: 'OR'
+                  typeOperator: "like",
+                  stringConcatenation: "OR"
                 }, {
-                  name: 'numberPhone',
-                  operator: 'like',
+                  name: "numberPhone",
+                  operator: "like",
                   value: this.keyword,
-                  typeOperator: 'like'
+                  typeOperator: "like"
                 });
               }
 
@@ -221,10 +242,10 @@ function () {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              endString = '';
+              endString = "";
 
               if (data) {
-                endString = '?keyword=' + data;
+                endString = "?keyword=" + data;
               }
 
               _context3.next = 4;
@@ -363,7 +384,7 @@ function () {
 /**
  * Author: Phạm Văn Đạt(19/10/2022)
  * Function: Khởi tạo đối tượng để xử lý xuyên suốt
-*/
+ */
 
 
 exports.Employees = Employees;
@@ -389,15 +410,15 @@ function resetEmployeeDetail(object, employees) {
           newCode = _context7.sent;
 
           if (newCode) {
-            object.employeeId = newCode;
+            object.employeeCode = newCode;
           } // lưu giá trị object null
 
 
           Object.keys(object).forEach(function (key) {
             // nếu key khác id thì xóa giá trị cũ đi
-            if (key != "id" && key != "employeeId") {
+            if (key != "employeeID" && key != "employeeCode") {
               // giới tính mặc định là nam
-              if (key == "gender") {
+              if (key == "employeeGender" || key == "wageAgreement" || key == "coefficientSalary" || key == "premiumSalary" || key == "numberOfDependent") {
                 // 0 là nam
                 object[key] = 0;
               } else if (key == "isDelete" || key == "isEmployee" || key == "isSuppiler") {

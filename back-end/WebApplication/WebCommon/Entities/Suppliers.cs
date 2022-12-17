@@ -84,14 +84,14 @@ namespace MISA.AMIS.Common
         /// </summary>
         [AttributeEmail("Email sai định dạng.")]
         [AttributePost("")]
-        public string SupplierEmail { set; get; }
+        public string SupplierEmailContact { set; get; }
 
         /// <summary>
-        /// Số điện thoại cá nhân
+        /// Số điện thoại người liên hệ
         /// </summary>
         [AttributeEmail("Số điện thoại sai định dạng.")]
         [AttributePost("")]
-        public string SupplierPhoneNumber { set; get; }
+        public string SupplierPhoneNumberContact { set; get; }
 
         /// <summary>
         /// đại diện theo pháp luật
@@ -172,28 +172,21 @@ namespace MISA.AMIS.Common
         public Boolean? IsCustomer { set; get; }
 
         /// <summary>
-        /// là tổ chức( 0 - không phải là tổ chức, 1 - là tổ chức)
+        /// là tổ chức( 0 - là cá nhân, 1 - là tổ chức)
         /// </summary>
         [AttributePost("")]
         public Boolean? IsOrganization { set; get; }
 
         /// <summary>
-        /// là cá nhân( 0 - không phải là cá nhân, 1 - là cá nhân)
-        /// </summary>
-        [AttributePost("")]
-        public Boolean? IsPersonal { set; get; }
-
-        /// <summary>
         /// danh sách id của tài khoản ngân hàng
         /// </summary>
-        [AttributePost("")]
         public string BankAccountIds { set; get; }
 
         /// <summary>
         /// danh sách id các địa chỉ giao hàng của nhà cung cấp
         /// </summary>
         [AttributePost("")]
-        public string DeliveryAddressIds { set; get; }
+        public string DeliveryAddress { set; get; }
 
         /// <summary>
         /// số tiền đã thanh toán
@@ -240,10 +233,73 @@ namespace MISA.AMIS.Common
         public string UserMobileElectronicBill { set; get; }
 
         /// <summary>
-        /// Id số tài khoản công nợ phải thu
+        /// Id tài khoản công nợ phải thu
         /// </summary
         [AttributePost("")]
         public Guid? AccountReceivableId { set; get; }
+
+        /// <summary>
+        /// Tên tài khoản công nợ phải thu
+        /// </summary
+        [AttributePost("")]
+        public string AccountReceivableName { set; get; }
+
+        /// <summary>
+        /// Số tài khoản công nợ phải thu
+        /// </summary
+        [AttributePost("")]
+        public string AccountReceivableNumber { set; get; }
+
+        /// <summary>
+        /// Tên điều khoản thanh toán
+        /// </summary>
+        public string RulePaymentName { set; get; }
+
+        /// <summary>
+        /// Tên tài khoản công nợ phải thu
+        /// </summary>
+        public string AccountPayableName { set; get; }
+
+        /// <summary>
+        /// số tài khoản công nợ phải thu
+        /// </summary>
+        public string AccountPayableNumber { set; get; }
+
+        /// <summary>
+        /// Tên nhân viên
+        /// </summary>
+        public string EmployeeName { set; get; }
+
+        /// <summary>
+        /// id danh sách các nhóm nhà cung cấp
+        /// </summary>
+        public string GroupSupplierIds { set; get; }
+
+        /// <summary>
+        /// id danh sách tên các nhóm nhà cung cấp
+        /// </summary>
+        public string GroupSupplierNames { set; get; }
+
+        /// <summary>
+        /// danh sách các số tài khoản ngân hàng
+        /// </summary>
+        public string BackAccountNumbers { set; get; }
+
+        /// <summary>
+        /// danh sách các tên tài khoản ngân hàng
+        /// </summary>
+        public string BankAccountNames { set; get; }
+
+        /// <summary>
+        /// danh sách các chi nhánh tài khoản ngân hàng
+        /// </summary>
+        public string BankAccountBranchs { set; get; }
+
+        /// <summary>
+        /// danh sách các thành phố tài khoản ngân hàng
+        /// </summary>
+        public string BankAccountCitys { set; get; }
+
         #endregion
     }
 }

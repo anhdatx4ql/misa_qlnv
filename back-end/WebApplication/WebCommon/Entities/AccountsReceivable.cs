@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MISA.AMIS.Common
 {
-    [Table("accountsreceivable")]
+    [Table("AccountsReceivable")]
     public class AccountsReceivable : BaseEntity
     {
         #region Fields

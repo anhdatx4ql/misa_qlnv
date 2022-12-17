@@ -56,43 +56,43 @@
               <base-input-text
                 class="w-40 p-r-6"
                 :isFormatText="false"
-                v-model="currentEmployee.employeeId"
+                v-model="currentEmployee.employeeCode"
                 :errorText="
-                  listErrors.has('employeeId')
-                    ? listErrors.get('employeeId')
+                  listErrors.has('employeeCode')
+                    ? listErrors.get('employeeCode')
                     : null
                 "
                 @errorText="
                   $event
-                    ? !listErrors.has('employeeId')
-                      ? listErrors.set('employeeId', $event)
+                    ? !listErrors.has('employeeCode')
+                      ? listErrors.set('employeeCode', $event)
                       : ''
-                    : listErrors.delete('employeeId')
+                    : listErrors.delete('employeeCode')
                 "
                 fieldLabel="Mã"
                 :iconRed="true"
                 :isRequired="true"
-                :checkFocus="fieldFocusValidate.employeeId"
-                @checkFocus="fieldFocusValidate.employeeId = false"
+                :checkFocus="fieldFocusValidate.employeeCode"
+                @checkFocus="fieldFocusValidate.employeeCode = false"
               ></base-input-text>
               <!-- end mã -->
 
               <!-- start Tên -->
               <base-input-text
                 class="w-60"
-                v-model="currentEmployee.name"
+                v-model="currentEmployee.employeeName"
                 :errorText="
-                  listErrors.has('name') ? listErrors.get('name') : null
+                  listErrors.has('employeeName') ? listErrors.get('employeeName') : null
                 "
                 @errorText="
                   $event
-                    ? !listErrors.has('name')
-                      ? listErrors.set('name', $event)
+                    ? !listErrors.has('employeeName')
+                      ? listErrors.set('employeeName', $event)
                       : ''
-                    : listErrors.delete('name')
+                    : listErrors.delete('employeeName')
                 "
-                :checkFocus="fieldFocusValidate.name"
-                @checkFocus="fieldFocusValidate.name = false"
+                :checkFocus="fieldFocusValidate.employeeName"
+                @checkFocus="fieldFocusValidate.employeeName = false"
                 fieldLabel="Tên"
                 :iconRed="true"
                 :isRequired="true"
@@ -180,9 +180,9 @@
                 <div class="input-date-container">
                   <el-config-provider :locale="locale">
                     <el-date-picker
-                      :class="{ 'input-error': listErrors.has('birthDay') }"
-                      v-model="currentEmployee.birthDay"
-                      @change="handlerDateTime('birthDay', 'Ngày sinh', $event)"
+                      :class="{ 'input-error': listErrors.has('employeeBirthDay') }"
+                      v-model="currentEmployee.employeeBirthDay"
+                      @change="handlerDateTime('employeeBirthDay', 'Ngày sinh', $event)"
                       type="date"
                       placeholder="DD/MM/YYY"
                       format="DD/MM/YYYY"
@@ -191,11 +191,11 @@
                   <!-- start hiển thị lỗi nếu có -->
                   <div
                     class="input-container-error"
-                    v-if="listErrors.has('birthDay')"
+                    v-if="listErrors.has('employeeBirthDay')"
                   >
                     <div></div>
                     <div>
-                      <span>{{ listErrors.get("birthDay") }}</span>
+                      <span>{{ listErrors.get("employeeBirthDay") }}</span>
                     </div>
                   </div>
                   <!-- end hiển thị lỗi nếu có -->
@@ -210,7 +210,7 @@
                   <base-input-radio
                     v-for="(gender, index) in genders"
                     :key="gender.id"
-                    v-model="currentEmployee.gender"
+                    v-model="currentEmployee.employeeGender"
                     :value="gender.id"
                     :checked="index == 0 ? true : false"
                     :text="gender.name"
@@ -301,6 +301,7 @@
               <!-- Start lương thỏa thuận -->
               <base-input-text
                 fieldLabel="Lương thỏa thuận"
+                v-model="currentEmployee.wageAgreement"
                 class="w-1/4 p-r-12"
                 :isFormatNumber="true"
                 :isNumber="true"
@@ -310,6 +311,7 @@
 
               <!-- Start hệ số lương -->
               <base-input-text
+              v-model="currentEmployee.coefficientSalary"
                 fieldLabel="Hệ số lương"
                 class="w-1/6 p-r-12"
                 :isFormatNumber="true"
@@ -320,6 +322,7 @@
 
               <!-- Start Lương đóng bảo hiểm -->
               <base-input-text
+              v-model="currentEmployee.premiumSalary"
                 fieldLabel="Lương đóng bảo hiểm"
                 class="w-1/3 p-r-12 box-sizing-b"
                 :isNumber="true"
@@ -330,6 +333,7 @@
 
               <!-- start mã số thuế -->
               <base-input-text
+              v-model="currentEmployee.taxCode"
                 fieldLabel="Mã số thuế"
                 class="w-1/4 p-r-12"
               ></base-input-text>
@@ -351,8 +355,8 @@
 
               <!-- start người phụ thuộc -->
               <base-input-text
+              v-model="currentEmployee.numberOfDependent"
                 fieldLabel="Số người phụ thuộc"
-                v-model="test"
                 class="w-1/6"
                 type="number"
               ></base-input-text>
@@ -367,7 +371,7 @@
             <base-tab title="Thông tin liên hệ" class="d-flex flex-wrap">
               <!-- Start địa chỉ -->
               <base-input-text
-                v-model="currentEmployee.address"
+                v-model="currentEmployee.employeeAddress"
                 fieldLabel="Địa chỉ"
                 class="w-100"
               ></base-input-text>
@@ -375,21 +379,21 @@
 
               <!-- Start điện thoại di động -->
               <base-input-text
-                :checkFocus="fieldFocusValidate.numberPhone"
-                @checkFocus="fieldFocusValidate.numberPhone = false"
+                :checkFocus="fieldFocusValidate.employeeNumberPhone"
+                @checkFocus="fieldFocusValidate.employeeNumberPhone = false"
                 :isPhoneNumber="true"
-                v-model="currentEmployee.numberPhone"
+                v-model="currentEmployee.employeeNumberPhone"
                 :errorText="
-                  listErrors.has('numberPhone')
-                    ? listErrors.get('numberPhone')
+                  listErrors.has('employeeNumberPhone')
+                    ? listErrors.get('employeeNumberPhone')
                     : null
                 "
                 @errorText="
                   $event
-                    ? !listErrors.has('numberPhone')
-                      ? listErrors.set('numberPhone', $event)
+                    ? !listErrors.has('employeeNumberPhone')
+                      ? listErrors.set('employeeNumberPhone', $event)
                       : ''
-                    : listErrors.delete('numberPhone')
+                    : listErrors.delete('employeeNumberPhone')
                 "
                 fieldLabel="ĐT di động"
                 tooltip="Điện thoại di động"
@@ -399,21 +403,21 @@
 
               <!-- Start điện cố định -->
               <base-input-text
-                :checkFocus="fieldFocusValidate.deskPhone"
-                @checkFocus="fieldFocusValidate.deskPhone = false"
+                :checkFocus="fieldFocusValidate.employeeDeskPhone"
+                @checkFocus="fieldFocusValidate.employeeDeskPhone = false"
                 :isPhoneNumber="true"
-                v-model="currentEmployee.deskPhone"
+                v-model="currentEmployee.employeeDeskPhone"
                 :errorText="
-                  listErrors.has('deskPhone')
-                    ? listErrors.get('deskPhone')
+                  listErrors.has('employeeDeskPhone')
+                    ? listErrors.get('employeeDeskPhone')
                     : null
                 "
                 @errorText="
                   $event
-                    ? !listErrors.has('deskPhone')
-                      ? listErrors.set('deskPhone', $event)
+                    ? !listErrors.has('employeeDeskPhone')
+                      ? listErrors.set('employeeDeskPhone', $event)
                       : ''
-                    : listErrors.delete('deskPhone')
+                    : listErrors.delete('employeeDeskPhone')
                 "
                 fieldLabel="ĐT cố định"
                 tooltip="Điện thoại cố định"
@@ -423,20 +427,20 @@
 
               <!-- Start email -->
               <base-input-text
-                :checkFocus="fieldFocusValidate.email"
-                @checkFocus="fieldFocusValidate.email = false"
+                :checkFocus="fieldFocusValidate.employeeEmail"
+                @checkFocus="fieldFocusValidate.employeeEmail = false"
                 :isEmail="true"
-                v-model="currentEmployee.email"
-                @value="currentEmployee.email = $event"
+                v-model="currentEmployee.employeeEmail"
+                @value="currentEmployee.employeeEmail = $event"
                 :errorText="
-                  listErrors.has('email') ? listErrors.get('email') : null
+                  listErrors.has('employeeEmail') ? listErrors.get('employeeEmail') : null
                 "
                 @errorText="
                   $event
-                    ? !listErrors.has('email')
-                      ? listErrors.set('email', $event)
+                    ? !listErrors.has('employeeEmail')
+                      ? listErrors.set('employeeEmail', $event)
                       : ''
-                    : listErrors.delete('email')
+                    : listErrors.delete('employeeEmail')
                 "
                 fieldLabel="Email"
                 :isFormatText="false"
@@ -525,6 +529,8 @@ import { departments } from "../../../js/Controllers/DepartmentsController";
 
 import { positions } from "../../../js/Controllers/PositionsController.js";
 
+import {groupSuppliers} from "../../../js/Controllers/GroupSuppliersController.js"
+
 import vi from "../../../../node_modules/element-plus/es/locale/lang/vi";
 
 import {
@@ -560,7 +566,6 @@ export default {
   },
   data() {
     return {
-      test: 0,
       //  kiểm tra xem có reload lại dữ liệu sau khi ẩn form không
       checkLoadData: false,
 
@@ -604,10 +609,10 @@ export default {
       // các trường check focus
       fieldFocusValidate: {
         // mã nhân viên
-        employeeId: true,
+        employeeCode: true,
 
         // tên nhân viên
-        name: false,
+        employeeName: false,
 
         // mã đơn vị
         departmentId: false,
@@ -616,32 +621,32 @@ export default {
         positionId: false,
 
         // ngày sinh
-        birthDay: false,
+        employeeBirthDay: false,
 
         // ngày cấp
         issuaOn: false,
 
         // số điện thoại
-        numberPhone: false,
+        employeeNumberPhone: false,
 
         // điện thoại cố định
-        deskPhone: false,
+        employeeDeskPhone: false,
 
         // email
-        email: false,
+        employeeEmail: false,
       },
 
       // thứ tự hiển thị lỗi
       numericalOrder: [
-        "employeeId",
-        "name",
+        "employeeCode",
+        "employeeName",
         "departmentId",
         "positionId",
-        "birthDay",
+        "employeeBirthDay",
         "issuaOn",
-        "numberPhone",
-        "deskPhone",
-        "email",
+        "employeeNumberPhone",
+        "employeeDeskPhone",
+        "employeeEmail",
       ],
 
       // chức năng upload: Lưu, ;lưu và thêm
@@ -659,6 +664,8 @@ export default {
     this.currentEmployee = this.employeeDetail;
 
     console.log(this.currentEmployee);
+
+    console.log(groupSuppliers.pagingGroupSupplier([]));
   },
 
   methods: {
@@ -863,7 +870,7 @@ export default {
         console.log(this.currentEmployee);
 
         //focus vào mã nhân viên
-        this.fieldFocusValidate.employeeId = true;
+        this.fieldFocusValidate.employeeCode = true;
 
         this.checkLoadData = true;
       }
@@ -922,12 +929,12 @@ export default {
     valiDateRequired() {
       try {
         // nếu giá trị là invalid date thì xóa khỏi object
-        formatDate(this.currentEmployee.birthDay, "YYYY-MM-DD") ==
+        formatDate(this.currentEmployee.employeeBirthDay, "YYYY-MM-DD") ==
         "Invalid date"
-          ? delete this.currentEmployee.birthDay
-          : this.currentEmployee.birthDay
-          ? (this.currentEmployee.birthDay = formatDate(
-              this.currentEmployee.birthDay,
+          ? delete this.currentEmployee.employeeBirthDay
+          : this.currentEmployee.employeeBirthDay
+          ? (this.currentEmployee.employeeBirthDay = formatDate(
+              this.currentEmployee.employeeBirthDay,
               "YYYY-MM-DD"
             ))
           : "";
@@ -967,9 +974,6 @@ export default {
     },
   },
   watch: {
-    test(value){
-      console.log(value)
-    },
     /**
      * Author: Phạm Văn Đạt(02/11/2022)
      * Function: XỬ lý focus vào lỗi đầu tiên nếu như có lỗi
