@@ -86,7 +86,7 @@
     width: fit-content !important;
     outline: none;
     height: 24px;
-    border: none;
+    border: none !important;
     background: none;
 }
 
@@ -531,4 +531,10 @@ td.table-hover.table-hover.td.table-function>div>button {
 td.table-hover>.loading {
     background: #F2F2F2;
     height: 14px;
+}
+
+.table-content tbody>tr>td>div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 250px;
 }

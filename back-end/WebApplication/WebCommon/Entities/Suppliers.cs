@@ -183,7 +183,7 @@ namespace MISA.AMIS.Common
         public string BankAccountIds { set; get; }
 
         /// <summary>
-        /// danh sách id các địa chỉ giao hàng của nhà cung cấp
+        /// danh sách  các địa chỉ giao hàng của nhà cung cấp
         /// </summary>
         [AttributePost("")]
         public string DeliveryAddress { set; get; }

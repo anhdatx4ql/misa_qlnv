@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.LIST_CONTRACT = exports.FIELDS_BACKACCOUNT = exports.FIELDS_HEADER_LEFT_SUPPLIER_DETAIL = exports.LIST_TABS_SUPPLIERS = exports.FIELDS_TABLE_COMBOBOX_SUPPLIERS = exports.FIELDS_TABLE_COMBOBOX_EMPLOYEE = exports.RULE_FORM_SUPPLIER_DETAIL = exports.BatchExecution = exports.SUPPLIER_FIELDS = exports.LIST_MENU_PROCESS_BOTTOM = exports.LIST_REPORTS_PROCESS = exports.LIST_CASH_TAB = exports.TITLES_FORM = exports.TEXT_TOAST_MESSAGE = exports.RULE_HANDLER_DATA = exports.TYPE_FILTER = exports.FIELDS_FILTER_NOT_VALUE = exports.FIELDS_FILTER = exports.RULE_FORMAT_DATA = exports.FUNCTION_TABLE = exports.FUNCTION_UPLOAD = exports.FIELDS_REQUIRED = exports.STATUS_CODES = exports.NOTIFY_TEXT = exports.NOTIFY_LIST = exports.GENDERS = exports.PAGING_ITEMS = exports.TABLE_FIELDS = exports.COMPANIES = exports.MENU_ITEMS = void 0;
+exports.LIST_CONTRACT = exports.FIELDS_BACKACCOUNT = exports.FIELDS_HEADER_LEFT_SUPPLIER_DETAIL = exports.LIST_TABS_SUPPLIERS = exports.FIELDS_TABLE_ACCOUNTS_RECEIVABLE = exports.FIELDS_TABLE_ACCOUNTS_PAYABLE = exports.FIELDS_TABLE_COMBOBOX_SUPPLIERS = exports.FIELDS_TABLE_COMBOBOX_EMPLOYEE = exports.RULE_FORM_SUPPLIER_DETAIL = exports.BatchExecution = exports.SUPPLIER_FIELDS = exports.LIST_MENU_PROCESS_BOTTOM = exports.LIST_REPORTS_PROCESS = exports.LIST_CASH_TAB = exports.TITLES_FORM = exports.TEXT_TOAST_MESSAGE = exports.RULE_HANDLER_DATA = exports.TYPE_FILTER = exports.FIELDS_FILTER_NOT_VALUE = exports.FIELDS_FILTER = exports.RULE_FORMAT_DATA = exports.FUNCTION_TABLE = exports.FUNCTION_UPLOAD = exports.FIELDS_REQUIRED = exports.STATUS_CODES = exports.NOTIFY_TEXT = exports.NOTIFY_LIST = exports.GENDERS = exports.PAGING_ITEMS = exports.TABLE_FIELDS = exports.COMPANIES = exports.MENU_ITEMS = void 0;
 
 var _FomatData = require("/src/js/FomatData");
 
@@ -890,7 +890,7 @@ var SUPPLIER_FIELDS = [{
   }
 }, {
   name: "MÃ SỐ THUẾ",
-  fieldName: "TaxCode",
+  fieldName: "taxCode",
   width: 150,
   isRequired: true,
   nameFilter: "Mã số thuế",
@@ -914,7 +914,7 @@ var SUPPLIER_FIELDS = [{
   }
 }, {
   name: "ĐIỆN THOẠI",
-  fieldName: "SupplierDeskPhone",
+  fieldName: "supplierMobile",
   width: 130,
   isRequired: true,
   nameFilter: "Địa chỉ",
@@ -926,8 +926,8 @@ var SUPPLIER_FIELDS = [{
   }
 }, {
   name: "NHÓM KH,NCC",
-  fieldName: "groupSupplierName",
-  width: 250,
+  fieldName: "groupSupplierNames",
+  width: 200,
   isRequired: true,
   nameFilter: "Địa chỉ",
   typeFilter: "Text",
@@ -938,7 +938,7 @@ var SUPPLIER_FIELDS = [{
   }
 }, {
   name: "SỐ CMND",
-  fieldName: "IdNo",
+  fieldName: "idNo",
   width: 250,
   isRequired: true,
   nameFilter: "Số CMND",
@@ -962,7 +962,7 @@ var SUPPLIER_FIELDS = [{
   }
 }, {
   name: "NƠI CẤP",
-  fieldName: "PlaceOfIssue",
+  fieldName: "placeOfIssue",
   width: 250,
   isRequired: true,
   nameFilter: "Nơi cấp",
@@ -974,7 +974,7 @@ var SUPPLIER_FIELDS = [{
   }
 }, {
   name: "Website",
-  fieldName: "Website",
+  fieldName: "website",
   width: 200,
   isRequired: true,
   nameFilter: "Website",
@@ -1022,7 +1022,7 @@ var SUPPLIER_FIELDS = [{
   }
 }, {
   name: "Email",
-  fieldName: "supplierEmail",
+  fieldName: "supplierEmailContact",
   width: 200,
   isRequired: true,
   nameFilter: "Email",
@@ -1034,7 +1034,7 @@ var SUPPLIER_FIELDS = [{
   }
 }, {
   name: "Điện thoại NLH",
-  fieldName: "SupplierMobile",
+  fieldName: "supplierMobile",
   width: 180,
   isRequired: true,
   nameFilter: "Điện thoại NLH",
@@ -1070,7 +1070,7 @@ var SUPPLIER_FIELDS = [{
   }
 }, {
   name: "SỐ NGÀY ĐƯỢC NỢ",
-  fieldName: "DayOwed",
+  fieldName: "dayOwed",
   width: 150,
   isRequired: true,
   nameFilter: "Điều khoản thanh toán",
@@ -1106,7 +1106,7 @@ var SUPPLIER_FIELDS = [{
   }
 }, {
   name: "TK CÔNG NỢ PHẢI TRẢ",
-  fieldName: "accountName",
+  fieldName: "accountPayableName",
   width: 200,
   isRequired: true,
   nameFilter: "TK công nợ phải trả",
@@ -1117,8 +1117,20 @@ var SUPPLIER_FIELDS = [{
     value: null
   }
 }, {
+  name: "TK CÔNG NỢ PHẢI THU",
+  fieldName: "accountReceivableName",
+  width: 200,
+  isRequired: true,
+  nameFilter: "TK công nợ phải thu",
+  typeFilter: "Text",
+  isField: true,
+  filter: {
+    operator: 'like',
+    value: null
+  }
+}, {
   name: "DIỄN GIẢI",
-  fieldName: "",
+  fieldName: "supplierDescription",
   width: 250,
   isRequired: true,
   nameFilter: "Diễn giải",
@@ -1129,20 +1141,8 @@ var SUPPLIER_FIELDS = [{
     value: null
   }
 }, {
-  name: "TK NGÂN HÀNG",
-  fieldName: "",
-  width: 250,
-  isRequired: true,
-  nameFilter: "Tài khoản ngân hàng",
-  typeFilter: "Text",
-  isField: true,
-  filter: {
-    operator: 'like',
-    value: null
-  }
-}, {
   name: "TÊN NGÂN HÀNG",
-  fieldName: "",
+  fieldName: "bankAccountNames",
   width: 250,
   isRequired: true,
   nameFilter: "Tên ngân hàng",
@@ -1154,7 +1154,7 @@ var SUPPLIER_FIELDS = [{
   }
 }, {
   name: "CHI NHÁNH TÀI KHOẢN NGÂN HÀNG",
-  fieldName: "",
+  fieldName: "bankAccountBranchs",
   width: 250,
   isRequired: true,
   nameFilter: "Chi nhánh TK ngân hàng",
@@ -1166,7 +1166,7 @@ var SUPPLIER_FIELDS = [{
   }
 }, {
   name: "TỈNH/THÀNH PHỐ TK NGÂN HÀNG",
-  fieldName: "",
+  fieldName: "bankAccountCitys",
   width: 250,
   isRequired: true,
   nameFilter: "Tỉnh/TP TK ngân hàng",
@@ -1177,20 +1177,8 @@ var SUPPLIER_FIELDS = [{
     value: null
   }
 }, {
-  name: "CHI NHÁNH",
-  fieldName: "",
-  width: 250,
-  isRequired: true,
-  nameFilter: "Chi nhánh",
-  typeFilter: "Text",
-  isField: true,
-  filter: {
-    operator: 'like',
-    value: null
-  }
-}, {
   name: "ĐỊA ĐIỂM GIAO HÀNG",
-  fieldName: "",
+  fieldName: "deliveryAddress",
   width: 250,
   isRequired: true,
   nameFilter: "Địa điểm giao hàng",
@@ -1351,7 +1339,7 @@ exports.RULE_FORM_SUPPLIER_DETAIL = RULE_FORM_SUPPLIER_DETAIL;
 var FIELDS_TABLE_COMBOBOX_EMPLOYEE = [{
   name: "Mã nhân viên",
   fieldName: "employeeId",
-  width: 130
+  width: 150
 }, {
   name: "Tên nhân viên",
   fieldName: "name",
@@ -1368,10 +1356,42 @@ var FIELDS_TABLE_COMBOBOX_SUPPLIERS = [{
   name: "Mã nhóm KH, NCC",
   view: true,
   fieldName: "groupSupplierCode",
-  width: 130
+  width: 150
 }, {
   name: "Tên nhóm KH, NCC",
   fieldName: "groupSupplierName",
+  width: 189
+}];
+/**
+ * Author: Phạm Văn Đạt(13/12/2022)
+ * Function: HIển thị dữ liệu tài khoản công nợ phải trả bảng con
+ */
+
+exports.FIELDS_TABLE_COMBOBOX_SUPPLIERS = FIELDS_TABLE_COMBOBOX_SUPPLIERS;
+var FIELDS_TABLE_ACCOUNTS_PAYABLE = [{
+  name: "Số tài khoản",
+  view: true,
+  fieldName: "accountPayableNumber",
+  width: 100
+}, {
+  name: "Tên tài khoản",
+  fieldName: "accountPayableName",
+  width: 175
+}];
+/**
+ * Author: Phạm Văn Đạt(13/12/2022)
+ * Function: HIển thị dữ liệu tài khoản công nợ phải thu bảng con
+ */
+
+exports.FIELDS_TABLE_ACCOUNTS_PAYABLE = FIELDS_TABLE_ACCOUNTS_PAYABLE;
+var FIELDS_TABLE_ACCOUNTS_RECEIVABLE = [{
+  name: "Số tài khoản",
+  view: true,
+  fieldName: "accountReceivableNumber",
+  width: 100
+}, {
+  name: "Tên tài khoản",
+  fieldName: "accountReceivableName",
   width: 175
 }];
 /**
@@ -1379,7 +1399,7 @@ var FIELDS_TABLE_COMBOBOX_SUPPLIERS = [{
  * Function: Các tabs hiển thị trong form thông tin chi tiết nhà cung cấp
  */
 
-exports.FIELDS_TABLE_COMBOBOX_SUPPLIERS = FIELDS_TABLE_COMBOBOX_SUPPLIERS;
+exports.FIELDS_TABLE_ACCOUNTS_RECEIVABLE = FIELDS_TABLE_ACCOUNTS_RECEIVABLE;
 var LIST_TABS_SUPPLIERS = [{
   title: "Thông tin liên hệ",
   content: "<p>thông tin chi tiết</p>"

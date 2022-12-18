@@ -117,3 +117,6 @@ export class Suppliers {
   }
 
 }
+
+// khởi tạo đối tượng thao tác với nhà cung cấp
+export const suppliers = new Suppliers();

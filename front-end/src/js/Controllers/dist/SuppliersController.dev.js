@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Suppliers = void 0;
+exports.suppliers = exports.Suppliers = void 0;
 
 var _endPoint = require("../axios/endPoint");
 
@@ -188,6 +188,9 @@ function () {
   }]);
 
   return Suppliers;
-}();
+}(); // khởi tạo đối tượng thao tác với nhà cung cấp
+
 
 exports.Suppliers = Suppliers;
+var suppliers = new Suppliers();
+exports.suppliers = suppliers;

@@ -82,7 +82,9 @@
                 class="w-60"
                 v-model="currentEmployee.employeeName"
                 :errorText="
-                  listErrors.has('employeeName') ? listErrors.get('employeeName') : null
+                  listErrors.has('employeeName')
+                    ? listErrors.get('employeeName')
+                    : null
                 "
                 @errorText="
                   $event
@@ -165,6 +167,10 @@
                 class="w-100"
                 :iconSum="true"
                 :isMultiple="true"
+                :listData="dataGroupSuppliers"
+                :listField="FIELDS_TABLE_COMBOBOX_SUPPLIERS"
+                v-model="listDataGroupSupplier"
+                @loadData="loadGroupSupplier($event)"
                 fieldName="Nhóm khách hàng, nhà cung cấp"
               ></base-combobox-multiple>
               <!-- end nhóm khách hàng, nhà cung cấp -->
@@ -180,9 +186,13 @@
                 <div class="input-date-container">
                   <el-config-provider :locale="locale">
                     <el-date-picker
-                      :class="{ 'input-error': listErrors.has('employeeBirthDay') }"
+                      :class="{
+                        'input-error': listErrors.has('employeeBirthDay'),
+                      }"
                       v-model="currentEmployee.employeeBirthDay"
-                      @change="handlerDateTime('employeeBirthDay', 'Ngày sinh', $event)"
+                      @change="
+                        handlerDateTime('employeeBirthDay', 'Ngày sinh', $event)
+                      "
                       type="date"
                       placeholder="DD/MM/YYY"
                       format="DD/MM/YYYY"
@@ -276,7 +286,11 @@
                 class="w-40 p-r-6"
                 :iconSum="false"
                 :isMultiple="false"
+                :listData="dataAccountsReceivable"
                 fieldName="TK công nợ phải thu"
+                :listField="FIELDS_TABLE_ACCOUNTS_RECEIVABLE"
+                v-model="listDataAccountsReceivable"
+                @loadData="loadAccountsReceivable($event)"
               ></base-combobox-multiple>
               <!-- end tài khoản công nợ phải thu -->
 
@@ -286,7 +300,11 @@
                 class="w-40 p-r-6"
                 :iconSum="false"
                 :isMultiple="false"
+                :listData="dataAccountsPayable"
                 fieldName="TK công nợ phải trả"
+                :listField="FIELDS_TABLE_ACCOUNTS_PAYABLE"
+                v-model="listDataAccountsPayable"
+                @loadData="loadAccountsPayable($event)"
               ></base-combobox-multiple>
               <!-- end tài khoản công nợ phải trả -->
             </div>
@@ -311,7 +329,7 @@
 
               <!-- Start hệ số lương -->
               <base-input-text
-              v-model="currentEmployee.coefficientSalary"
+                v-model="currentEmployee.coefficientSalary"
                 fieldLabel="Hệ số lương"
                 class="w-1/6 p-r-12"
                 :isFormatNumber="true"
@@ -322,7 +340,7 @@
 
               <!-- Start Lương đóng bảo hiểm -->
               <base-input-text
-              v-model="currentEmployee.premiumSalary"
+                v-model="currentEmployee.premiumSalary"
                 fieldLabel="Lương đóng bảo hiểm"
                 class="w-1/3 p-r-12 box-sizing-b"
                 :isNumber="true"
@@ -333,7 +351,7 @@
 
               <!-- start mã số thuế -->
               <base-input-text
-              v-model="currentEmployee.taxCode"
+                v-model="currentEmployee.taxCode"
                 fieldLabel="Mã số thuế"
                 class="w-1/4 p-r-12"
               ></base-input-text>
@@ -355,13 +373,12 @@
 
               <!-- start người phụ thuộc -->
               <base-input-text
-              v-model="currentEmployee.numberOfDependent"
+                v-model="currentEmployee.numberOfDependent"
                 fieldLabel="Số người phụ thuộc"
                 class="w-1/6"
                 type="number"
               ></base-input-text>
               <!-- end người phụ thuộc -->
-              
             </base-tab>
 
             <base-tab title="Tài khoản ngân hàng">
@@ -433,7 +450,9 @@
                 v-model="currentEmployee.employeeEmail"
                 @value="currentEmployee.employeeEmail = $event"
                 :errorText="
-                  listErrors.has('employeeEmail') ? listErrors.get('employeeEmail') : null
+                  listErrors.has('employeeEmail')
+                    ? listErrors.get('employeeEmail')
+                    : null
                 "
                 @errorText="
                   $event
@@ -517,6 +536,9 @@ import {
   TEXT_TOAST_MESSAGE,
   TITLES_FORM,
   LIST_CONTRACT,
+  FIELDS_TABLE_COMBOBOX_SUPPLIERS,
+  FIELDS_TABLE_ACCOUNTS_RECEIVABLE,
+  FIELDS_TABLE_ACCOUNTS_PAYABLE,
 } from "../../../js/constants";
 
 import { createKeybindingsHandler } from "tinykeys";
@@ -529,7 +551,11 @@ import { departments } from "../../../js/Controllers/DepartmentsController";
 
 import { positions } from "../../../js/Controllers/PositionsController.js";
 
-import {groupSuppliers} from "../../../js/Controllers/GroupSuppliersController.js"
+import { groupSuppliers } from "../../../js/Controllers/GroupSuppliersController.js";
+
+import { accountsPayable } from "../../../js/Controllers/AccountsPayableController.js";
+
+import { accountsReceivable } from "../../../js/Controllers/AccountsReceivableController.js";
 
 import vi from "../../../../node_modules/element-plus/es/locale/lang/vi";
 
@@ -654,6 +680,33 @@ export default {
 
       // danh sách các loại hợp đồng
       LIST_CONTRACT,
+
+      // danh sách nhà cung cấp, khách hàng
+      dataGroupSuppliers: [],
+
+      // danh sách tài khoản công nợ phải thu
+      dataAccountsReceivable: [],
+
+      // danh sách tài khoản công nợ phải trả
+      dataAccountsPayable: [],
+
+      // hiển thị dữ liệu trong bảng NCC con
+      FIELDS_TABLE_COMBOBOX_SUPPLIERS,
+
+      // hiển thịu dữ liệu tài khoản công nợ phải thu
+      FIELDS_TABLE_ACCOUNTS_PAYABLE,
+
+      // hiển thịu dữ liệu tài khoản công nợ phải trả
+      FIELDS_TABLE_ACCOUNTS_RECEIVABLE,
+
+      // mảng lưu các nhóm nhà cung cấp, khách hàng đã chọn
+      listDataGroupSupplier: [],
+
+      // danh sách lưu tài khoản công nợ phải trả
+      listDataAccountsReceivable: [],
+
+      // danh sách lưu tài khoản công nợ phải thu
+      listDataAccountsPayable: [],
     };
   },
   created() {
@@ -663,12 +716,110 @@ export default {
     // khởi tạo giá trị employee
     this.currentEmployee = this.employeeDetail;
 
-    console.log(this.currentEmployee);
+    // lấy data của nhóm nhà cung cấp, khách hàng
+    this.dataGroupSuppliers =
+      groupSuppliers.currentData != undefined ? groupSuppliers.currentData : [];
 
-    console.log(groupSuppliers.pagingGroupSupplier([]));
+    // lấy data của tài khaorn công nợ phải thu
+    this.dataAccountsPayable =
+      accountsPayable.currentData != undefined
+        ? accountsPayable.currentData
+        : [];
+
+    // lấy data của tài khaorn công nợ phải trả
+    this.dataAccountsReceivable =
+      accountsReceivable.currentData != undefined
+        ? accountsReceivable.currentData
+        : [];
   },
 
   methods: {
+    /**
+     * Author: Phạm Văn Đạt(18/12/2022)
+     * Function: Xử lý load lại dữ liệu nhóm nhà cung cấp
+     * @param {*} checkLoad : true | false
+     */
+    async loadGroupSupplier(checkLoad) {
+      try {
+        if (checkLoad) {
+          if (this.dataGroupSuppliers.length > 0) {
+            groupSuppliers.currentPageNumber++;
+          }
+
+          console.log("load nhóm khách hàng");
+
+          if (this.dataGroupSuppliers.length <= groupSuppliers.totalCount) {
+            await groupSuppliers.pagingGroupSupplier([]);
+
+            if(groupSuppliers.currentData){
+              this.dataGroupSuppliers = [...groupSuppliers.currentData];
+            }
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(18/12/2022)
+     * Function: Xử lý load lại dữ liệu tài khoản công nợ phải trả
+     * @param {*} checkLoad : true | false
+     */
+    async loadAccountsPayable(checkLoad) {
+      try {
+        if (checkLoad) {
+          if (this.dataAccountsPayable.length > 0) {
+            accountsPayable.currentPageNumber++;
+          }
+
+          console.log("load nhóm khách hàng");
+
+          if (this.dataAccountsPayable.length <= accountsPayable.totalCount) {
+            await accountsPayable.pagingAccountsPayable([]);
+
+            this.dataAccountsPayable = [...accountsPayable.currentData];
+          }
+        }
+        console.log("Tài khoản công nợ phải trả");
+        console.log(this.dataAccountsPayable);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(18/12/2022)
+     * Function: Xử lý load lại dữ liệu tài khoản công nợ phải thu
+     * @param {*} checkLoad : true | false
+     */
+    async loadAccountsReceivable(checkLoad) {
+      try {
+        if (checkLoad) {
+          if (this.dataAccountsReceivable.length > 0) {
+            accountsReceivable.currentPageNumber++;
+          }
+
+          console.log("load nhóm khách hàng");
+
+          if (
+            this.dataAccountsReceivable.length <=
+            accountsReceivable.totalCount
+          ) {
+            await accountsReceivable.pagingAccountsReceivable([]);
+
+            this.dataAccountsReceivable = [
+              ...accountsReceivable.currentData,
+            ];
+          }
+        }
+        console.log("Tài khoản công nợ phải thu");
+        console.log(this.listDataAccountsReceivable);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
     /**
      * Author: Phạm Văn Đạt(05/11/2022)
      * Function: Xử lý ẩn form
@@ -741,6 +892,8 @@ export default {
       try {
         await departments.getRecords();
         this.departments = departments.data;
+
+        console.log(departments.data);
       } catch (e) {
         this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
         this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
@@ -997,6 +1150,11 @@ export default {
         this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
         this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
       }
+    },
+
+    listDataGroupSupplier(value) {
+      console.log("nhóm khách hàng, ncc");
+      console.log(value);
     },
   },
   mounted() {

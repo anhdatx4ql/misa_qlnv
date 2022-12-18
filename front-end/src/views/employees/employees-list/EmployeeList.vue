@@ -272,6 +272,9 @@ export default {
      * Function: load dữ liệu
      */
     this.loadData();
+
+
+
   },
   watch: {
     /**
@@ -575,7 +578,7 @@ export default {
         // disable nút reload dữ liệu khi chưa load dữ liệu xong để trách db click
         this.disableButtonResetData = true;
 
-        console.log(123, this.arrFilter);
+        console.log(this.arrFilter);
 
         // gọi api phân trang
         await employees.pagingEmployee(this.arrFilter);

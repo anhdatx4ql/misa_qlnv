@@ -1,14 +1,10 @@
-
 /**
  * Author: Phạm Văn Đạt(17/12/2022)
  * Function: xử lý nghiệp vụ của nhóm nhà cung cấp, khách hàng
  */
 
 import { END_POINTS } from "../axios/endPoint";
-import {
-  insertRecord,
-  paging
-} from "../Controllers/BaseController";
+import { insertRecord, paging } from "../Controllers/BaseController";
 import { STATUS_CODES } from "../constants";
 
 /**
@@ -16,47 +12,48 @@ import { STATUS_CODES } from "../constants";
  * Function: Model view nhóm nhà cung cấp, khách hàng
  */
 export const groupSupplierModel = {
-    //  id nhóm nhà cung cấp, KH
-    groupSupplierID: null,
+  //  id nhóm nhà cung cấp, KH
+  groupSupplierID: null,
 
-    // mã nhóm NCC,KH
-    GroupSupplierCode: null,
+  // mã nhóm NCC,KH
+  GroupSupplierCode: null,
 
-    // Tên nhóm NCC, KH
-    GroupSupplierName: null,
+  // Tên nhóm NCC, KH
+  GroupSupplierName: null,
 
-    // Thông tin chi tiết nhóm khách hàng
-    GroupSupplierDescription: null,
+  // Thông tin chi tiết nhóm khách hàng
+  GroupSupplierDescription: null,
 
-    // id nhóm cha
-    ParentGroupSupplierId: null,
+  // id nhóm cha
+  ParentGroupSupplierId: null,
 
-    // ngày tạo
-    createdAt: null,
+  // ngày tạo
+  createdAt: null,
 
-    // ngày cập nhật
-    updatedAt: null,
+  // ngày cập nhật
+  updatedAt: null,
 
-    //  người tạo
-    createdBy: null,
+  //  người tạo
+  createdBy: null,
 
-    // người cập nhật
-    updatedBy: null,
-}
+  // người cập nhật
+  updatedBy: null,
+};
 
 /**
  * Author: Phạm Văn Đạt(17/12/2022)
  * Function: Class lưu thông tin các nhà cung cấp
  */
 export class GroupSuppliers {
-     // khởi tạo giá trị
+  // khởi tạo giá trị
   constructor(
     data,
     currentData,
     keyword = null,
     currentPageNumber = 1,
     pageSize = 10,
-    totalCount = 0
+    totalCount = 0,
+    countLoadData = 0
   ) {
     this.data = data;
     this.keyword = keyword;
@@ -64,6 +61,7 @@ export class GroupSuppliers {
     this.pageSize = pageSize;
     this.totalCount = totalCount;
     this.currentData = data;
+    this.countLoadData = countLoadData;
   }
 
   /**
@@ -81,14 +79,14 @@ export class GroupSuppliers {
       console.log(this.keyword);
       dataKeyword.push(
         {
-          name: "GroupSupplierCode",
+          name: "groupSupplierCode",
           operator: "like",
           value: this.keyword,
           typeOperator: "like",
           stringConcatenation: "OR",
         },
         {
-          name: "GroupSupplierName",
+          name: "groupSupplierName",
           operator: "like",
           value: this.keyword,
           typeOperator: "like",
@@ -103,29 +101,59 @@ export class GroupSuppliers {
       newData.push(...dataKeyword);
     }
 
-    console.log(newData);
+    let lengthCurrentData = this.currentData ? this.currentData.length : -1;
 
-    let res = await paging(
-      END_POINTS.PagingGroupSuppliers,
-      this.currentPageNumber,
-      this.pageSize,
-      newData
-    );
-    if (res.statusCode == STATUS_CODES.Code200) {
-      this.data = res.data.data;
-      this.currentData = [...this.currentData,...this.data];
-      this.totalCount = res.data.totalCount;
-    } else {
-      console.log(res);
+    if (this.countLoadData > 0) {
+      this.currentPageNumber++;
+    }
+
+    // nếu số bản ghi hiện tại <= tổng số bản ghi => tăng số trang hiện tại lên 1 và load lại. Nếu không thì thôi
+    if (lengthCurrentData != this.totalCount) {
+      // tăng số lần load lên 1
+      this.countLoadData++;
+
+      // gọi đến paging basecontroler
+      let res = await paging(
+        END_POINTS.PagingGroupSuppliers,
+        this.currentPageNumber,
+        this.pageSize,
+        newData
+      );
+
+      // kiểm tra data trả về
+      if (res.statusCode == STATUS_CODES.Code200) {
+        this.data = res.data.data;
+
+        // nếu load dữ liệu thành công
+        if (res.data.data) {
+          if (this.currentData == undefined) {
+            this.currentData = [...res.data.data];
+          } else {
+            this.currentData = [...this.currentData, ...res.data.data];
+          }
+          // load thành công
+        }else{
+          // không có dữ liệu
+          this.currentPageNumber--;
+        }
+
+        console.log(this.currentData);
+        console.log(res.data.data);
+
+        this.totalCount = res.data.totalCount;
+        console.log(this.currentPageNumber);
+      } else {
+        console.log(res);
+      }
     }
   }
 
-   /**
+  /**
    * Author: Phạm Văn Đạt(17/12/2022)
    * Function: Thêm mới nhóm nhà cung cấp
    * @param {*} data : Dữ liệu truyền vào
    */
-   async insertGroupSuppliers(data) {
+  async insertGroupSuppliers(data) {
     let res = await insertRecord(END_POINTS.GroupSuppliers, data);
 
     if (res.status == STATUS_CODES.Code200) {
@@ -135,7 +163,6 @@ export class GroupSuppliers {
       console.log("thêm mới thất bại");
     }
   }
-
 }
 
 /**

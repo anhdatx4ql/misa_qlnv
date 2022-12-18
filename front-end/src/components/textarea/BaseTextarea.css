@@ -23,3 +23,7 @@
 .textarea-container>textarea:hover{
     outline: 1px solid #e2e2e2;
 }
+
+.el-input__wrapper input[type="text"] {
+    padding: 0;
+}

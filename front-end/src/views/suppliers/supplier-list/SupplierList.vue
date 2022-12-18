@@ -13,7 +13,10 @@
       </div>
       <div class="content-header-right">
         <div class="content-header-right-button">
-          <base-button @clickButton="checkShowForm = true" text="Thêm mới nhà cung cấp">
+          <base-button
+            @clickButton="checkShowForm = true"
+            text="Thêm mới nhà cung cấp"
+          >
           </base-button>
         </div>
       </div>
@@ -101,13 +104,24 @@
 
     <div class="content-center-table">
       <!-- startt content table -->
-      <base-table :fieldsTHead="fieldsTHead" :isFilter="true"></base-table>
+      <base-table
+        :fieldsTHead="fieldsTHead"
+        :showFormLoad="checkFormLoad"
+        v-model="listData"
+        :isFilter="true"
+        :listIdDataIn="listIdSuppliers"
+      ></base-table>
       <!-- end content table -->
     </div>
 
     <div class="content-bottom">
       <!-- start paging -->
-      <base-paging totalCount="0" currentPage="1"></base-paging>
+      <base-paging
+        :totalCount="totalCount"
+        @pageSize="pageSize = $event"
+        @currentPage="currentPage = $event"
+        :currentPage="currentPage"
+      ></base-paging>
       <!-- end paging -->
     </div>
 
@@ -118,6 +132,17 @@
       @closeForm="checkShowForm = $event"
     ></supplier-detail>
     <!-- end thông tin chi tiết nhà cung cấp -->
+
+    <!-- start thông báo -->
+    <base-notify
+      @closeForm="handlerCloseNotifi"
+      @checkShowNotify="checkNotify.isShow = $event"
+      v-if="checkNotify.isShow"
+      :type="checkNotify.type"
+      :text="checkNotify.text"
+      @sayYes="$event == true ? handlerDeleteEmployee() : ''"
+    ></base-notify>
+    <!-- end thông báo -->
   </div>
 </template>
 
@@ -127,7 +152,11 @@ import {
   SUPPLIER_FIELDS,
   BatchExecution,
   RULE_FORM_SUPPLIER_DETAIL,
+  PAGING_ITEMS,
+  TEXT_TOAST_MESSAGE,
 } from "../../../js/constants.js";
+
+import { suppliers } from "../../../js/Controllers/SuppliersController";
 
 import SupplierDetail from "../supplier-detail/SupplierDetail.vue";
 
@@ -139,11 +168,25 @@ export default {
   props: {},
   data() {
     return {
+
+      // text hiển thị toast message
+      textToastMessage: null,
+
+      // kiểm tra notify
+      checkNotify: {
+        isShow: false,
+        type: null,
+        text: null,
+      },
+
       // các trường hiển thị thông tin table
       tableField: LIST_CASH_TAB,
 
       // mảng lưu giá trị lọc
       listFilter: new Map(),
+
+      // hiển thị loading khi load lại dữ liệu
+      checkFormLoad: true,
 
       // các trường trong header table
       fieldsTHead: SUPPLIER_FIELDS,
@@ -158,11 +201,40 @@ export default {
       titleForm: RULE_FORM_SUPPLIER_DETAIL,
 
       // kiểm tra ẩn, hiện form chi tiết
-      checkShowForm: false
+      checkShowForm: false,
+
+      // các item của paging
+      pagingItems: [],
+
+      // danh sách khách hàng truyền vào table để hiển thị
+      listData: [],
+
+      // tổng số lượng bản ghi trả về
+      totalCount: 0,
+
+      // số bản ghi / trang
+      pageSize: 10,
+
+      // trang hiện tại đang đứng
+      currentPage: 1,
+
+      // key word dùng để tìm kiếm
+      keyword: null,
+
+      // mảng lưu các giá trị dùng để xóa nhà cung cấp
+      listIdSuppliers: [],
     };
   },
   created() {
+    // lấy thông tin paging trong constants
+    this.pagingItems = PAGING_ITEMS;
     console.log(this.tableField);
+
+    /**
+     * Author: Phạm Văn Đạt(21/10/2022)
+     * Function: load dữ liệu
+     */
+    this.loadSuppliers();
   },
   methods: {
     /**
@@ -172,6 +244,72 @@ export default {
     handlerClick() {
       if (this.checkShowDropdownHandlerMultiple == true) {
         this.checkShowDropdownHandlerMultiple = false;
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(18/12/2022)
+     * Function: Load dữ liệu nhà cung cấp
+     */
+    async loadSuppliers() {
+      // hiển thị form loadding
+      this.checkFormLoad = true;
+
+      // disable nút reload dữ liệu khi chưa load dữ liệu xong để trách db click
+      this.disableButtonResetData = true;
+
+      // gọi api phân trang
+      await suppliers.pagingSuppliers([]);
+
+      // khởi tạo giá trị list dữ liệu
+      this.listData = suppliers.data;
+      this.totalCount = suppliers.totalCount;
+
+      // khi load dữ liệu xong thì trả về nút láy lại dữ liệu ở trang thái bình thường
+      this.disableButtonResetData = false;
+
+      //ẩn form loading
+      this.checkFormLoad = false;
+
+      console.log(this.listData);
+    },
+  },
+  watch: {
+    /**
+     * Author: Phạm Văn Đạt(21/10/2022)
+     * Function: Xử lý thay đổi số bản ghi/ trang => load lại dữ liệu
+     */
+    async pageSize(value) {
+      try {
+        suppliers.pageSize = value;
+
+        // khi thay đổi số bản ghi trên trang thì load lại về trang đầu tiên
+        suppliers.currentPageNumber = 1;
+
+        // gọi hàm load dữ liệu
+        await this.loadSuppliers();
+      } catch (e) {
+        this.textToastMessage = TEXT_TOAST_MESSAGE.Error.text;
+        this.typeToastMessage = TEXT_TOAST_MESSAGE.Error.type;
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(18/12/2022)
+     * Function: Xử lý thay đổi số trang => load lại dữ liệu
+     */
+    async currentPage(newValue, oldValue) {
+      try {
+        if (newValue != oldValue) {
+          // cập nhật lại giá trị hiện tại của current page
+          suppliers.currentPageNumber = newValue;
+
+          //  load lại dưx liệu
+          await this.loadSuppliers();
+        }
+      } catch (e) {
+        this.textToastMessage = TEXT_TOAST_MESSAGE.Error.text;
+        this.typeToastMessage = TEXT_TOAST_MESSAGE.Error.type;
       }
     },
   },

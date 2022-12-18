@@ -443,9 +443,9 @@
             :style="'width:' + field.width + 'px;' + field.style"
             :class="field.class"
           >
-          <div class="loading">
-            <div class="bar"></div>
-          </div>
+            <div class="loading">
+              <div class="bar"></div>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -939,13 +939,15 @@ export default {
       this.listData = value;
       console.log(value);
       if (value.length > 0) {
-        if (
-          this.listIdData.indexOf(value[0].id) > -1 &&
-          this.listIdData.length == value.length
-        ) {
-          this.isCheckedCheckboxHeader = true;
-        } else {
-          this.isCheckedCheckboxHeader = false;
+        if (this.listIdData) {
+          if (
+            this.listIdData.indexOf(value[0].id) > -1 &&
+            this.listIdData.length == value.length
+          ) {
+            this.isCheckedCheckboxHeader = true;
+          } else {
+            this.isCheckedCheckboxHeader = false;
+          }
         }
       } else {
         this.isCheckedCheckboxHeader = false;

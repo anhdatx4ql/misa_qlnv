@@ -1,10 +1,11 @@
+
 <!-- 
   Author: Phạm Văn Đạt(12/12/2022)
   Function: Basecombobox chọn nhiều
  -->
 
 <template>
-  <div class="combobox-multiple-container">
+  <div class="combobox-multiple-container" v-click-away="handlerHideDropdown">
     <!-- start field name -->
     <div v-if="fieldName != null" class="input-container-field-label">
       {{ fieldName }}
@@ -12,7 +13,7 @@
     <!-- end field name -->
 
     <!-- start content -->
-    <div class="combobox-multiple-container-content" :style="'height: '+height+'px;'" v-click-away="handlerHideDropdown">
+    <div class="combobox-multiple-container-content">
       <!-- start input combobox -->
       <div class="combobox-multiple-container-content-input">
         <div
@@ -52,7 +53,7 @@
         <base-button
         :height="height"
         :class="{'dropdown-active':showDropDown}"
-        @clickButton="showDropDown = !showDropDown"
+        @clickButton="loadingData"
           listClass="button-white"
           classButtonIcon="background-icon-arrow-bottom w-24 h-24 flex"
         ></base-button>
@@ -62,8 +63,8 @@
     <!-- end content -->
 
     <!-- start dropdown -->
-    <div v-show="showDropDown" class="combobox-multiple-dropdown" v-if="listData.length > 0">
-      <table>
+    <div v-show="showDropDown" @scroll="handlerscrollDropDown" class="combobox-multiple-dropdown">
+      <table v-if="currentListData.length > 0" >
         <thead>
           <tr>
             <th
@@ -79,7 +80,7 @@
         </thead>
         <tbody>
           <tr
-            v-for="item in listData"
+            v-for="item in currentListData"
             :key="item"
             @click="itemDropdownTable(item)"
           >
@@ -99,6 +100,11 @@
           </tr>
         </tbody>
       </table>
+
+      <div v-else>
+        <p>Loading dữ liệu</p>
+      </div>
+
     </div>
     <!-- end dropdown -->
   </div>
@@ -171,13 +177,17 @@ export default {
       showDropDown: false,
 
       // value input chọn ít
-      valutInput: null
+      valutInput: null,
+
+      // giá trị hiển thị
+      currentListData: []
 
     };
 
   },
   created() {
     console.log(this.listField);
+    console.log(this.currentListData)
   },
   mounted() {},
   watch:{
@@ -188,9 +198,58 @@ export default {
      */
     valutInput(value){
       console.log(value);
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(18/12/2022)
+     * Function: theo dõi giá trị mới đưa vào
+     * @param {*} value :giá trị data truyền vào
+     */
+    listData(value){
+      this.currentListData = value;
+      console.log(this.currentListData)
     }
   },
   methods: {
+
+    /**
+     * Author: Phạm Văn Đạt(18/12/2022)
+     * Function: Xử lý load dữ liệu
+     */
+    loadingData(){
+      try{
+        this.showDropDown = !this.showDropDown;
+        if(this.listData.length == 0){
+          this.$emit('loadData',true);
+        }else{
+          this.$emit('loadData',false);
+        }
+      }catch(e){
+        console.log(e)
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(17/12/2022)
+     * Function: Xử lý load dữ liệu khi cuộn đến cuối trang
+     * @param {*} event : Sự kiện scroll
+     */
+    handlerscrollDropDown(event){
+      try{
+        
+        let scrollHeight = event.target.scrollHeight;
+        let scrollTop = event.target.scrollTop;
+        let clientHeight = event.target.clientHeight;
+
+        if(clientHeight + scrollTop >= scrollHeight){
+          this.$emit('loadData',true);
+        }else{
+          this.$emit('loadData',false);
+        }
+      }catch(e){
+        console.log(e);
+      }
+    },
 
     /**
      * Author: Phạm Văn Đạt(14/12/2022)
@@ -254,6 +313,8 @@ export default {
           }
         }
         
+        console.log( this.showDropDown)
+
       } catch (e) {
         console.log(e);
       }

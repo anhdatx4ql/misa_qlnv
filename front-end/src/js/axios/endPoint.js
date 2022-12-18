@@ -36,6 +36,12 @@ export const END_POINTS= {
     // xóa nhân viên
     EmployeesDelete: "Employees/Delete",
 
+    // tài khoản công nợ phải thu
+    AccountsPayable: "AccountsPayable",
+
+    // tài khoản công nợ phải trả
+    AccountsReceivable:"AccountsReceivable",
+
     // phòng ban
     Departments:"Departments",
 
