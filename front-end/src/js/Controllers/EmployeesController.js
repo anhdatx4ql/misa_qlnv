@@ -120,15 +120,19 @@ export class Employees {
   constructor(
     data,
     keyword = null,
+    currentData,
     currentPageNumber = 1,
     pageSize = 10,
-    totalCount
+    totalCount = 0,
+    countLoadData= 0
   ) {
     this.data = data;
     this.keyword = keyword;
     this.currentPageNumber = currentPageNumber;
     this.pageSize = pageSize;
     this.totalCount = totalCount;
+    this.currentData = data;
+    this.countLoadData = countLoadData;
   }
 
   /**
@@ -146,21 +150,21 @@ export class Employees {
       console.log(this.keyword);
       dataKeyword.push(
         {
-          name: "employeeId",
+          name: "employeeID",
           operator: "like",
           value: this.keyword,
           typeOperator: "like",
           stringConcatenation: "OR",
         },
         {
-          name: "name",
+          name: "employeeName",
           operator: "like",
           value: this.keyword,
           typeOperator: "like",
           stringConcatenation: "OR",
         },
         {
-          name: "numberPhone",
+          name: "employeeNumberPhone",
           operator: "like",
           value: this.keyword,
           typeOperator: "like",
@@ -174,20 +178,55 @@ export class Employees {
       newData.push(...dataKeyword);
     }
 
-    console.log(newData);
+    
+    let lengthCurrentData = this.currentData ? this.currentData.length : -1;
 
-    let res = await paging(
-      END_POINTS.PagingEmployee,
-      this.currentPageNumber,
-      this.pageSize,
-      newData
-    );
-    if (res.statusCode == STATUS_CODES.Code200) {
-      this.data = res.data.data;
-      this.totalCount = res.data.totalCount;
-    } else {
-      console.log(res);
+    if (this.countLoadData > 0) {
+      console.log("vao day")
+      this.currentPageNumber++;
     }
+
+    // nếu số bản ghi hiện tại <= tổng số bản ghi => tăng số trang hiện tại lên 1 và load lại. Nếu không thì thôi
+    if (lengthCurrentData != this.totalCount) {
+      // tăng số lần load lên 1
+      this.countLoadData++;
+
+      // gọi đến paging basecontroler
+      let res = await paging(
+        END_POINTS.PagingEmployee,
+        this.currentPageNumber,
+        this.pageSize,
+        newData
+      );
+
+      // kiểm tra data trả về
+      if (res.statusCode == STATUS_CODES.Code200) {
+
+        console.log(this.currentData);
+        console.log(res.data.data);
+        console.log(this.currentPageNumber);
+
+        this.data = res.data.data;
+
+        // nếu load dữ liệu thành công
+        if (res.data.data != []) {
+          if (this.currentData == undefined) {
+            this.currentData = [...res.data.data];
+          } else {
+            this.currentData = [...this.currentData, ...res.data.data];
+          }
+          // load thành công
+        }else{
+          // không có dữ liệu
+          this.currentPageNumber--;
+        }
+
+        this.totalCount = res.data.totalCount;
+      } else {
+        console.log(res);
+      }
+    }
+
   }
 
   /**

@@ -26,50 +26,6 @@ namespace MISA.AMIS.DL
                 return result.ToList();
             }
         }
-
-
-        /// <summary>
-        /// Phân trang, tìm kiếm
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="sql"></param>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
-        public async Task<PagingModel<T>> Paging<T>(string sql, DynamicParameters parameters = null)
-        {
-            using (IDbConnection db = GetDbConnection())
-            {
-                db.Open();
-                var results = await db.QueryMultipleAsync(sql, parameters);
-
-                if (results != null)
-                {
-                    var TotalRecords = results.Read<int>().FirstOrDefault();
-                    var Entity = results.Read<T>().ToList();
-                    db.Close();
-                    return new PagingModel<T>(TotalRecords, Entity);
-                }
-
-                return new PagingModel<T>(0, null);
-            }
-        }
-
-        /// <summary>
-        /// Author: Phạm Văn Đạt(23/10/2022)
-        /// Function: lấy mã code mới nhất
-        /// </summary>
-        /// <param name="code"></param>
-        /// <returns></returns>
-        public async Task<EmployeeNewCodeViewModel> GetMaxCodeAsync(string sql)
-        {
-            using (IDbConnection db = GetDbConnection())
-            {
-                db.Open();
-                var result = await db.QueryFirstOrDefaultAsync<EmployeeNewCodeViewModel>(sql, commandType: CommandType.StoredProcedure);
-                db.Close();
-                return (EmployeeNewCodeViewModel)result;
-            }
-        }
         #endregion
     }
 }

@@ -46,7 +46,8 @@ export class AccountsPayable {
     keyword = null,
     currentPageNumber = 1,
     pageSize = 10,
-    totalCount = 0
+    totalCount = 0,
+    countLoadData = 0
   ) {
     this.data = data;
     this.keyword = keyword;
@@ -54,6 +55,7 @@ export class AccountsPayable {
     this.pageSize = pageSize;
     this.totalCount = totalCount;
     this.currentData = data;
+    this.countLoadData = countLoadData;
   }
 
   /**
@@ -125,7 +127,7 @@ export class AccountsPayable {
         this.data = res.data.data;
 
         // nếu load dữ liệu thành công
-        if (res.data.data) {
+        if (res.data.data != []) {
           if (this.currentData == undefined) {
             this.currentData = [...res.data.data];
           } else {

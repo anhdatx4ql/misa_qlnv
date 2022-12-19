@@ -241,3 +241,7 @@ input {
 .textarea-container.w-100 textarea {
     width: -webkit-fill-available;
 }
+
+.tab-content .el-input.el-input--prefix.el-input--suffix.el-date-editor.el-date-editor--date.el-tooltip__trigger.el-tooltip__trigger .el-input__wrapper {
+    padding-left: 10px;
+}

@@ -30,7 +30,7 @@ namespace MISA.AMIS.BL
         /// Function: Lấy mã code lớn nhất
         /// </summary>
         /// <returns></returns>
-        Task<ReponsitoryModel> GetMaxCode();
+        //Task<ReponsitoryModel> GetMaxCode();
 
         /// <summary>
         /// Author: Phạm Văn Đạt(26/10/2022)

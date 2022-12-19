@@ -61,6 +61,7 @@ function () {
     var currentPageNumber = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
     var pageSize = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 10;
     var totalCount = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 0;
+    var countLoadData = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 0;
 
     _classCallCheck(this, AccountsPayable);
 
@@ -70,6 +71,7 @@ function () {
     this.pageSize = pageSize;
     this.totalCount = totalCount;
     this.currentData = data;
+    this.countLoadData = countLoadData;
   }
   /**
    * Author: Phạm Văn Đạt(19/10/2022)
@@ -144,7 +146,7 @@ function () {
               if (res.statusCode == _constants.STATUS_CODES.Code200) {
                 this.data = res.data.data; // nếu load dữ liệu thành công
 
-                if (res.data.data) {
+                if (res.data.data != []) {
                   if (this.currentData == undefined) {
                     this.currentData = _toConsumableArray(res.data.data);
                   } else {

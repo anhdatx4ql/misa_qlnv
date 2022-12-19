@@ -14,7 +14,7 @@
       <div class="content-header-right">
         <div class="content-header-right-button">
           <base-button
-            @clickButton="checkShowForm = true"
+            @clickButton="checkShowForm = true; supplierDetail = null"
             text="Thêm mới nhà cung cấp"
           >
           </base-button>
@@ -71,6 +71,29 @@
                 :iconDropDown="true"
               >
               </base-button>
+
+              <div
+                class="content-center-top-left-child text-data text-filter"
+                v-for="(value, key) of listFilter"
+                :key="key"
+              >
+                <span>{{ value[1].text }}</span>
+                <base-button
+                class="button-filter"
+                  listClass="background-unset"
+                  classButtonIcon="button-icon-x"
+                  @clickButton="clickDeleteItemFilter(value)"
+                ></base-button>
+              </div>
+
+              <base-button
+              class="button-filter"
+                v-show="listFilter.size > 0"
+                @clickButton="clickDeleteItemFilter()"
+                text="Xóa điều kiện lọc"
+                listClass="background-unset"
+              >
+              </base-button>
             </div>
           </div>
         </div>
@@ -80,6 +103,7 @@
             placeholder="Nhập từ khóa tìm kiếm"
             classIcon="input-icon-search"
             :isFormatText="false"
+            v-model="keyword"
           >
           </base-input-text>
 
@@ -88,6 +112,7 @@
             listClass="background-unset"
             :disable="disableButtonResetData"
             classButtonIcon="background-icon-reload icon-24 background-flex"
+            @clickButton="loadSuppliers"
           >
           </base-button>
 
@@ -105,12 +130,19 @@
     <div class="content-center-table">
       <!-- startt content table -->
       <base-table
+        @dataDetail="supplierDetail = $event, titleForm = RULE_FORM_SUPPLIER_DETAIL.View"
+        @checkShowForm="checkShowForm = $event"
         :fieldsTHead="fieldsTHead"
         :showFormLoad="checkFormLoad"
         v-model="listData"
         :isFilter="true"
         :listIdDataIn="listIdSuppliers"
-      ></base-table>
+        @listIdData="handlerSelectIdSuppliers($event)"
+        @listFilter="handlerFilter($event)"
+        :listDeleteFilterData="listDeleteFilterData"
+        @listDeleteFilterData="listDeleteFilterData = $event"
+        nameId="supplierID"
+        ></base-table>
       <!-- end content table -->
     </div>
 
@@ -128,8 +160,9 @@
     <!-- start thông tin chi tiết nhà cung cấp  -->
     <supplier-detail
       v-if="checkShowForm"
-      :title="titleForm.View"
+      :title="titleForm"
       @closeForm="checkShowForm = $event"
+      :supplierDetail="supplierDetail"
     ></supplier-detail>
     <!-- end thông tin chi tiết nhà cung cấp -->
 
@@ -156,7 +189,7 @@ import {
   TEXT_TOAST_MESSAGE,
 } from "../../../js/constants.js";
 
-import { suppliers } from "../../../js/Controllers/SuppliersController";
+import { suppliers, supplierModel } from "../../../js/Controllers/SuppliersController";
 
 import SupplierDetail from "../supplier-detail/SupplierDetail.vue";
 
@@ -168,7 +201,6 @@ export default {
   props: {},
   data() {
     return {
-
       // text hiển thị toast message
       textToastMessage: null,
 
@@ -197,11 +229,17 @@ export default {
       // thực hiện hàng loạt
       fieldBatchExecution: BatchExecution,
 
+      // title form chi tiết nhà cung cấp
+      RULE_FORM_SUPPLIER_DETAIL,
+
       // title Form
-      titleForm: RULE_FORM_SUPPLIER_DETAIL,
+      titleForm: RULE_FORM_SUPPLIER_DETAIL.Create,
 
       // kiểm tra ẩn, hiện form chi tiết
       checkShowForm: false,
+
+      // khai báo thông tin chi tiết nhà cung cấp
+      supplierDetail: supplierModel,
 
       // các item của paging
       pagingItems: [],
@@ -223,6 +261,12 @@ export default {
 
       // mảng lưu các giá trị dùng để xóa nhà cung cấp
       listIdSuppliers: [],
+
+      // mảng lưu các trường lọc nhà cung cấp
+      arrFilter: [],
+
+      // mảng lưu các giá trị lọc dùng để xóa
+      listDeleteFilterData: [],
     };
   },
   created() {
@@ -237,6 +281,21 @@ export default {
     this.loadSuppliers();
   },
   methods: {
+
+    /**
+     * Author:Phạm Văn Đạt(19/12/2022)
+     * Function: Xử lý lấy dữ liệu id nhà cung cấp
+     * @param {*} value : id nhân viên
+     */
+     handlerSelectIdSuppliers(value) {
+      try {
+        this.listIdSuppliers = value;
+        console.log(value);
+      } catch (e) {
+        this.textToastMessage = TEXT_TOAST_MESSAGE.Error.text;
+        this.typeToastMessage = TEXT_TOAST_MESSAGE.Error.type;
+      }
+    },
     /**
      * Author: Phạm Văn Đạt(08/12/2022)
      * Function: Xử lý click ẩn dropdown
@@ -259,7 +318,7 @@ export default {
       this.disableButtonResetData = true;
 
       // gọi api phân trang
-      await suppliers.pagingSuppliers([]);
+      await suppliers.pagingSuppliers(this.arrFilter);
 
       // khởi tạo giá trị list dữ liệu
       this.listData = suppliers.data;
@@ -273,8 +332,108 @@ export default {
 
       console.log(this.listData);
     },
+
+    /**
+     * Author: Phạm Văn Đạt(19/12/2022)
+     * Function: Xử lý lọc dữ liệu
+     * @param {*} value : mảng giá trị lọc
+     */
+    async handlerFilter(value) {
+      try {
+        this.listFilter = value;
+        console.log(this.listFilter);
+
+        // tạo mảng lưu giá các object lọc
+        this.arrFilter = [];
+
+        // xử lý thêm dữ liệu vào object lọc
+        this.listFilter.forEach((value, key) => {
+          let valueFilter = "";
+          if (typeof value.value != "string") {
+            valueFilter = value.value ? value.value.toString() : null;
+          } else {
+            valueFilter = value.value;
+          }
+
+          this.arrFilter.push({
+            name: key,
+            operator: value.operator,
+            value: valueFilter,
+            typeOperator:
+              value.typeOperator != null || value.typeOperator != undefined
+                ? value.typeOperator
+                : null,
+          });
+        });
+
+        console.log(this.arrFilter)
+
+        // load lại dữ liệu
+        await this.loadSuppliers();
+      } catch (e) {
+        this.textToastMessage = TEXT_TOAST_MESSAGE.Error.text;
+        this.typeToastMessage = TEXT_TOAST_MESSAGE.Error.type;
+      }
+    },
+    
+
+    /**
+     * Author:Phạm Văn Đạt(19/12/2022)
+     * Function: Xử lý xóa item lọc
+     * @param {*} value : item muốn xóa
+     */
+     clickDeleteItemFilter(value) {
+      try {
+        if (value) {
+          this.listDeleteFilterData = [value[0]];
+        } else {
+          let arrNameFilter = [];
+          this.listFilter.forEach(function (value, key) {
+            arrNameFilter.push(key);
+          });
+
+          this.listDeleteFilterData = [...arrNameFilter];
+        }
+
+        console.log(this.listDeleteFilterData);
+
+        // gọi api lọc
+      } catch (e) {
+        this.textToastMessage = TEXT_TOAST_MESSAGE.Error.text;
+        this.typeToastMessage = TEXT_TOAST_MESSAGE.Error.type;
+      }
+    },
   },
   watch: {
+
+    // Thôn gtin chi tiết nhà cung cấp
+    supplierDetail(value){
+      console.log(value);
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(19/12/2022)
+     * Function: Xử lý tìm kiếm nhà cung cấp theo tên, mã
+     */
+    async keyword(value) {
+      try {
+        // lấy giá trị keyword tìm kiếm lưu vào biến suppliers
+        suppliers.keyword = value;
+
+        // nếu như trang hiện tại không phải là trang đầu tiên thì chuyển currentPageNumber = 1
+        // => chạy watch currentPage() => xử lý load data ở đó
+        if (suppliers.currentPageNumber != 1) {
+          this.currentPage = 1;
+        } else {
+          // nếu current pageNumber =1 thì thực hiện load lại dữ liệu với trang đầu và keyword mới
+          await this.loadSuppliers();
+        }
+      } catch (e) {
+        this.textToastMessage = TEXT_TOAST_MESSAGE.Error.text;
+        this.typeToastMessage = TEXT_TOAST_MESSAGE.Error.type;
+      }
+    },
+
     /**
      * Author: Phạm Văn Đạt(21/10/2022)
      * Function: Xử lý thay đổi số bản ghi/ trang => load lại dữ liệu

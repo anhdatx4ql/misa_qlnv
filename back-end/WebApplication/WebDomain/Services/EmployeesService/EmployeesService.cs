@@ -165,48 +165,48 @@ namespace MISA.AMIS.BL
             }
         }
 
-        /// <summary>
-        /// Author: Phạm Văn Đạt(23/10/2022)
-        /// Function: Lấy mã code mới nhất
-        /// </summary>
-        /// <returns></returns>
-        public async Task<ReponsitoryModel> GetMaxCode()
-        {
-            List<string> message = new List<string>();
-            try
-            {
-                // lấy tên proceduce
-                var nameProceduce = "Proc_Employees_GetMaxCode";
+        ///// <summary>
+        ///// Author: Phạm Văn Đạt(23/10/2022)
+        ///// Function: Lấy mã code mới nhất
+        ///// </summary>
+        ///// <returns></returns>
+        //public async Task<ReponsitoryModel> GetMaxCode()
+        //{
+        //    List<string> message = new List<string>();
+        //    try
+        //    {
+        //        // lấy tên proceduce
+        //        var nameProceduce = "Proc_Employees_GetMaxCode";
 
-                // gọi đến db
-                var code = await _employee.GetMaxCodeAsync(nameProceduce);
+        //        // gọi đến db
+        //        var code = await _employee.GetMaxCodeAsync(nameProceduce);
 
-                if (code == null)
-                {
-                    message.Add(MessageErrors.GetFail);
-                    return new ReponsitoryModel(null, CodeErrors.Code400, message);
-                }
+        //        if (code == null)
+        //        {
+        //            message.Add(MessageErrors.GetFail);
+        //            return new ReponsitoryModel(null, CodeErrors.Code400, message);
+        //        }
 
-                string[] ArrCode = code.EmployeeId.Split('-');
-                long number;
-                var isSuccess = Int64.TryParse(ArrCode[1], out number);
-                if (isSuccess == true)
-                {
-                    var codeNew = ArrCode[0] + "-" + (number + 1).ToString();
-                    message.Add(MessageSuccess.GetSuccess);
-                    return new ReponsitoryModel(codeNew, CodeSuccess.Code200, message);
-                }
+        //        string[] ArrCode = code.EmployeeId.Split('-');
+        //        long number;
+        //        var isSuccess = Int64.TryParse(ArrCode[1], out number);
+        //        if (isSuccess == true)
+        //        {
+        //            var codeNew = ArrCode[0] + "-" + (number + 1).ToString();
+        //            message.Add(MessageSuccess.GetSuccess);
+        //            return new ReponsitoryModel(codeNew, CodeSuccess.Code200, message);
+        //        }
 
-                message.Add(MessageErrors.GetFail);
-                return new ReponsitoryModel(null, CodeErrors.Code400, message);
+        //        message.Add(MessageErrors.GetFail);
+        //        return new ReponsitoryModel(null, CodeErrors.Code400, message);
 
-            }
-            catch(Exception ex)
-            {
-                message.Add(ex.Message);
-                return new ReponsitoryModel(null, CodeErrors.Code500, message);
-            }
-        }
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        message.Add(ex.Message);
+        //        return new ReponsitoryModel(null, CodeErrors.Code500, message);
+        //    }
+        //}
 
         /// <summary>
         /// Author: Phạm Văn Đạt(26/10/2022)

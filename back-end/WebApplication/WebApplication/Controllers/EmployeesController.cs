@@ -66,17 +66,6 @@ namespace MISA.AMIS.Application
         //}
 
         /// <summary>
-        /// Author: Phạm Văn Đạt(23/10/2022)
-        /// Function: Lấy mã code mới nhất
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("GetMaxCode")]
-        public async Task<ReponsitoryModel> GetMaxCode()
-        {
-            return await _employeeService.GetMaxCode();
-        }
-
-        /// <summary>
         /// Author: Phạm Văn Đạt(26/10/2022)
         /// Function: Xử lý xuất excel
         /// </summary>

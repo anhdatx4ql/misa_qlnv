@@ -538,3 +538,11 @@ td.table-hover>.loading {
     text-overflow: ellipsis;
     max-width: 250px;
 }
+
+.table-filter .combobox-container {
+    border: unset !important;
+}
+
+.filter-content.filter-content-check-show .combobox-container-input input {
+    color: #0075c0 !important;
+}

@@ -1470,7 +1470,8 @@ export const BatchExecution = [
  * Function: các titls form nhà cung cấp
  */
 export const RULE_FORM_SUPPLIER_DETAIL = {
-  View: "Thông tin nhà cung cấp"
+  View: "Thông tin nhà cung cấp",
+  Create: "Thêm mới nhà cung cấp"
 }
 
 /**
@@ -1480,14 +1481,14 @@ export const RULE_FORM_SUPPLIER_DETAIL = {
 export const FIELDS_TABLE_COMBOBOX_EMPLOYEE = [
   {
     name: "Mã nhân viên",
-    fieldName: "employeeId",
+    fieldName: "employeeCode",
     width: 150,
   },
   {
     name: "Tên nhân viên",
-    fieldName: "name",
+    fieldName: "employeeName",
     view: true,
-    width: 175,
+    width: 215,
   }
 ];
 
@@ -1505,7 +1506,7 @@ export const FIELDS_TABLE_COMBOBOX_SUPPLIERS = [
   {
     name: "Tên nhóm KH, NCC",
     fieldName: "groupSupplierName",
-    width: 189,
+    width: 215,
   }
 ];
 
@@ -1544,7 +1545,6 @@ export const FIELDS_TABLE_ACCOUNTS_RECEIVABLE = [
     width: 175,
   }
 ];
-
 
 /**
  * Author: Phạm Văn Đạt(14/12/2022)
@@ -1634,4 +1634,40 @@ export const LIST_CONTRACT = [
     id: 3,
     name: "Cư trú và có HĐLĐ từ 3 tháng trở lên",
   }
+]
+
+/**
+ * Author: Phạm Văn Đạt(19/12/2022)
+ * Function: dữ liệu bảng xưng hô
+ */
+export const LIST_VOCATIVE = [
+  {
+    id:1,
+    name: "Anh"
+  },
+  {
+    id:2,
+    name: "Chị"
+  },
+  {
+    id:3,
+    name: "Ông"
+  },
+  {
+    id:4,
+    name: "Bà"
+  },
+]
+
+/**
+ * Author: Phạm Văn Đạt(19/12/2022)
+ * Function: HIển thị dữ liệu xưng hô bảng con
+ */
+export const FIELDS_TABLE_COMBOBOX_VOCATIVE = [
+  {
+    name: "Tên xưng hô",
+    view: true,
+    fieldName: "name",
+    width: 100,
+  },
 ]

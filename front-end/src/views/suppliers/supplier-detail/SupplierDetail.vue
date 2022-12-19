@@ -17,7 +17,7 @@
             <base-input-radio
               v-for="(item, index) in isPersonal"
               :key="item.id"
-              v-model="isCurrentPersonal"
+              v-model="currentSupplier.isOrganization"
               :value="item.id"
               :checked="index == 0 ? true : false"
               :text="item.name"
@@ -30,8 +30,8 @@
           <div class="form-header-left-checkbox">
             <!-- start Check box kiểm tra khách hàng -->
             <base-input-checkbox
-              :checked="isShowCustomer"
-              @checked="isShowCustomer = $event"
+              :checked="currentSupplier.isCustomer"
+              @checked="currentSupplier.isCustomer = $event"
               text="Là khách hàng"
               id="khach-hang"
             >
@@ -60,19 +60,34 @@
           <div class="form-content-top-left">
             <!-- start mã nhà cung cấp là cá nhân -->
             <base-input-text
-              v-if="isCurrentPersonal"
+              v-if="currentSupplier.isOrganization"
               class="w-60 p-r-12"
               fieldLabel="Mã nhà cung cấp"
               :iconRed="true"
               :isRequired="true"
               :isFormatText="false"
+              v-model="currentSupplier.supplierCode"
+              :errorText="
+                listErrors.has('supplierCode')
+                  ? listErrors.get('supplierCode')
+                  : null
+              "
+              @errorText="
+                $event
+                  ? !listErrors.has('supplierCode')
+                    ? listErrors.set('supplierCode', $event)
+                    : ''
+                  : listErrors.delete('supplierCode')
+              "
+              :checkFocus="fieldFocusValidate.supplierCode"
+              @checkFocus="fieldFocusValidate.supplierCode = false"
             ></base-input-text>
             <!-- end mã nhà cung cấp là cá nhân -->
 
             <!-- start mã số thuế -->
             <base-input-text
               class="w-40"
-              :class="{ 'p-r-12': !isCurrentPersonal }"
+              :class="{ 'p-r-12': !currentSupplier.isOrganization }"
               fieldLabel="Mã số thuế"
               :isFormatText="false"
               :width="140"
@@ -81,7 +96,7 @@
 
             <!-- start mã nhà cung cấp -->
             <base-input-text
-              v-if="!isCurrentPersonal"
+              v-if="!currentSupplier.isOrganization"
               class="w-60"
               fieldLabel="Mã nhà cung cấp"
               :iconRed="true"
@@ -92,9 +107,12 @@
 
             <!-- start xưng hô -->
             <base-combobox-multiple
-              v-if="isCurrentPersonal"
+              v-if="currentSupplier.isOrganization"
               class="w-1/3 p-r-12 box-sizing-b"
               placeholder="Xưng hô"
+              :listField="FIELDS_TABLE_COMBOBOX_VOCATIVE"
+              v-model="currentSupplier.supplierVocativeName"
+              :listData="LIST_VOCATIVE"
               fieldName="Xưng hô"
               :iconSum="false"
               :isMultiple="false"
@@ -105,7 +123,7 @@
             <!-- start tên nhà cung cấp -->
             <base-input-text
               class="w-100"
-              :class="{ 'w-2/3': isCurrentPersonal }"
+              :class="{ 'w-2/3': currentSupplier.isOrganization }"
               fieldLabel="Tên nhà cung cấp"
               :iconRed="true"
               :isRequired="true"
@@ -129,7 +147,7 @@
           <div class="form-content-top-right">
             <!-- start mã số thuế -->
             <base-input-text
-              v-if="!isCurrentPersonal"
+              v-if="!currentSupplier.isOrganization"
               class="w-40 p-r-12"
               fieldLabel="Điện thoại"
               :isFormatText="false"
@@ -138,7 +156,7 @@
 
             <!-- start website-->
             <base-input-text
-              v-if="!isCurrentPersonal"
+              v-if="!currentSupplier.isOrganization"
               class="w-60"
               fieldLabel="Webbsite"
               :isFormatText="false"
@@ -151,8 +169,12 @@
               classText="input-container-field-label"
               fieldName="Nhóm nhà cung cấp"
               :iconSum="true"
+              :listData="dataGroupSuppliers"
+              :listField="FIELDS_TABLE_COMBOBOX_SUPPLIERS"
+              v-model="listDataGroupSupplier"
               :isMultiple="true"
               @clickIconSum="showGroupSupplier = true"
+              @loadData="loadGroupSupplier($event)"
             >
             </base-combobox-multiple>
             <!-- end nhóm nhà cung cấp -->
@@ -162,11 +184,13 @@
               class="w-100"
               classText="input-container-field-label"
               fieldName="Nhân viên mua hàng"
+              :listField="FIELDS_TABLE_COMBOBOX_EMPLOYEE"
               @clickIconSum="showEmployee = true"
+              :listData="dataEmployees"
               :iconSum="true"
               :isMultiple="false"
               v-model="listSelectEmployee"
-              @clickItemTable="selectItemEmployeeComboboxMultiple($event)"
+              @loadData="loadEmployees($event)"
             >
             </base-combobox-multiple>
             <!-- end nhóm nhà cung cấp -->
@@ -180,19 +204,25 @@
           <base-tabs>
             <base-tab title="Thông tin liên hệ" class="d-flex">
               <div
-                :class="{ 'w-1/2': isShowCustomer || isCurrentPersonal }"
+                :class="{
+                  'w-1/2':
+                    currentSupplier.isCustomer ||
+                    currentSupplier.isOrganization,
+                }"
                 class="d-flex flex-grow-1"
               >
                 <div class="tab-content-left flex-grow-1 w-1/2 p-r-26">
                   <div class="tab-content-text">
                     {{
-                      isCurrentPersonal ? "Thông tin  liên hệ" : "Người liên hệ"
+                      currentSupplier.isOrganization
+                        ? "Thông tin  liên hệ"
+                        : "Người liên hệ"
                     }}
                   </div>
 
                   <div class="tab-content-left-input tab-content-input">
                     <!-- start xưng hô người liên hệ -->
-                    <div class="w-1/3" v-if="!isCurrentPersonal">
+                    <div class="w-1/3" v-if="!currentSupplier.isOrganization">
                       <base-combobox-multiple
                         class="p-r-6-5"
                         placeholder="Xưng hô"
@@ -204,7 +234,7 @@
                     <!-- end xưng hô người liên hệ -->
 
                     <!-- start họ và tên người liên hệ -->
-                    <div class="w-2/3" v-if="!isCurrentPersonal">
+                    <div class="w-2/3" v-if="!currentSupplier.isOrganization">
                       <base-input-text
                         placeholder="Họ và tên"
                       ></base-input-text>
@@ -218,7 +248,7 @@
                     <!-- end email -->
 
                     <!-- Start số điện thoại -->
-                    <div class="w-1/2" v-if="!isCurrentPersonal">
+                    <div class="w-1/2" v-if="!currentSupplier.isOrganization">
                       <base-input-text
                         placeholder="Số điện thoại"
                       ></base-input-text>
@@ -226,7 +256,10 @@
                     <!-- end số điện thoại -->
 
                     <!-- Start Điện thoại cố định -->
-                    <div class="w-1/2 p-r-6-5" v-if="isCurrentPersonal">
+                    <div
+                      class="w-1/2 p-r-6-5"
+                      v-if="currentSupplier.isOrganization"
+                    >
                       <base-input-text
                         placeholder="Điện thoại cố định"
                       ></base-input-text>
@@ -234,7 +267,10 @@
                     <!-- end điện thoại cố định -->
 
                     <!-- Start Điện thoại di động -->
-                    <div class="w-1/2 p-r-6-5" v-if="isCurrentPersonal">
+                    <div
+                      class="w-1/2 p-r-6-5"
+                      v-if="currentSupplier.isOrganization"
+                    >
                       <base-input-text
                         placeholder="Điện thoại di động"
                       ></base-input-text>
@@ -245,7 +281,9 @@
 
                 <div
                   class="tab-content-right flex-grow-1 w-1/2"
-                  :class="{ 'p-r-26': isShowCustomer || isCurrentPersonal }"
+                  :class="{
+                    'p-r-26': isShowCustomer || !currentSupplier.isOrganization,
+                  }"
                 >
                   <div class="tab-content-text">Đại diện theo pháp luật</div>
 
@@ -261,9 +299,9 @@
 
               <!-- start Thông tin CMND/Thẻ căn cước -->
               <div
-                :class="{ 'w-1/2': isCurrentPersonal }"
+                :class="{ 'w-1/2': currentSupplier.isOrganization }"
                 class="tab-content-employee flex-grow-1"
-                v-if="isCurrentPersonal"
+                v-if="currentSupplier.isOrganization"
               >
                 <div class="tab-content-text">Thông tin CMND/Thẻ căn cước</div>
 
@@ -291,9 +329,9 @@
 
               <!-- start người nhận hóa đơn điện tử -->
               <div
-                :class="{ 'w-1/2': isShowCustomer }"
+                :class="{ 'w-1/2': currentSupplier.isCustomer }"
                 class="tab-content-employee flex-grow-1"
-                v-else-if="isShowCustomer"
+                v-else-if="currentSupplier.isCustomer"
               >
                 <div class="tab-content-text">Người nhận hóa đơn điện tử</div>
 
@@ -550,8 +588,10 @@
     <!-- end hiển thị form nhân viên -->
 
     <!-- start form thêm điều khoản thanh toán -->
-    <rule-payment v-if="showRulePay"
-      @closeForm="showRulePay = $event"></rule-payment>
+    <rule-payment
+      v-if="showRulePay"
+      @closeForm="showRulePay = $event"
+    ></rule-payment>
     <!-- end form thêm điều khoản thanh toán -->
 
     <!-- end content -->
@@ -564,13 +604,23 @@ import {
   LIST_TABS_SUPPLIERS,
   FIELDS_HEADER_LEFT_SUPPLIER_DETAIL,
   FIELDS_BACKACCOUNT,
+  RULE_FORM_SUPPLIER_DETAIL,
+  LIST_VOCATIVE,
+  FIELDS_TABLE_COMBOBOX_VOCATIVE,
+  FIELDS_TABLE_COMBOBOX_SUPPLIERS
 } from "../../../js/constants.js";
 
 import GroupSupplier from "../../group-supplier/GroupSupplier";
 
+import { groupSuppliers } from "../../../js/Controllers/GroupSuppliersController.js";
+
+import {employees} from "../../../js/Controllers/EmployeesController.js"
+
 import EmployeeDetail from "../../employees/employees-detail/EmployeeDetail";
 
-import RulePayment from "../../rule-payment/RulePayment"
+import RulePayment from "../../rule-payment/RulePayment";
+
+import { supplierModel } from "../../../js/Controllers/SuppliersController.js";
 /**
  * Author: Phạm Văn Đạt(12/12/2022)
  * Function: nhúng các các hằng số
@@ -583,15 +633,43 @@ export default {
   setup() {},
 
   props: {
+    // title form
     title: {
       Type: String,
-      default: "Thông tin nhà cung cấp",
+      default: null,
+    },
+
+    // thông tin chi tiết nhà cung cấp
+    supplierDetail: {
+      Type: Object,
+      default: null,
     },
   },
   data() {
     return {
+      // hiển thị dữ liệu trong bảng NCC con
+      FIELDS_TABLE_COMBOBOX_SUPPLIERS,
+
+      // danh sách nhà cung cấp, khách hàng
+      dataGroupSuppliers: [],
+
+      // danh sách nhân viên
+      dataEmployees: [],
+
+      // mảng lưu các nhóm nhà cung cấp, khách hàng đã chọn
+      listDataGroupSupplier: [],
+
+      // dữ liệu xưng hô
+      LIST_VOCATIVE,
+
+      // model dữ liệu xưng hô
+      FIELDS_TABLE_COMBOBOX_VOCATIVE,
+
+      // mảng lưu các lỗi đã có: { field: String, message: String} : chứa object này
+      listErrors: new Map(),
+
       // các trường hiển thị nhân viên trong bảng
-      fieldsEmployee: FIELDS_TABLE_COMBOBOX_EMPLOYEE,
+      FIELDS_TABLE_COMBOBOX_EMPLOYEE,
 
       // các trường hiển thị tab trong bảng chi tiết nhân viên
       fieldTabSuppliers: LIST_TABS_SUPPLIERS,
@@ -630,72 +708,121 @@ export default {
       // các nhân viên được chọn
       listSelectEmployee: [],
 
+      // title form chi tiết nhà cung cấp
+      RULE_FORM_SUPPLIER_DETAIL,
+
+      // thông tin chi tiết nhà cung cấp hiện tại
+      currentSupplier: supplierModel,
+
+      // các trường check focus
+      fieldFocusValidate: {
+        // mã số thuế
+        taxCode: true,
+
+        // mã nhà cung cấp
+        supplierCode: false,
+
+        // tên nhà cung cấp
+        supplierName: false,
+      },
+
+      // thứ tự hiển thị lỗi
+      numericalOrder: ["taxCode", "supplierCode", "supplierName"],
+
       // test
       employees: Array,
 
       isShowCustomer: false,
-
-      isCurrentPersonal: 0,
     };
   },
   created() {
-    console.log(this.fieldTabSuppliers);
-    this.employees = [
-      {
-        id: "123123123",
-        employeeId: "NV001",
-        name: "Phạm Văn Đạt",
-      },
-      {
-        id: "123123123",
-        employeeId: "NV001",
-        name: "Phạm Văn Đạt",
-      },
-      {
-        id: "123123123",
-        employeeId: "NV001",
-        name: "Phạm Văn Đạt",
-      },
-      {
-        id: "123123123",
-        employeeId: "NV001",
-        name: "Phạm Văn Đạt",
-      },
-      {
-        id: "123123123",
-        employeeId: "NV001",
-        name: "Phạm Văn Đạt",
-      },
-      {
-        id: "123123123",
-        employeeId: "NV001",
-        name: "Phạm Văn Đạt",
-      },
-      {
-        id: "123123123",
-        employeeId: "NV001",
-        name: "Phạm Văn Đạt",
-      },
-      {
-        id: "123123123",
-        employeeId: "NV001",
-        name: "Phạm Văn Đạt",
-      },
-    ];
 
-    console.log(this.listSelectEmployee);
+     // lấy data của nhóm nhà cung cấp, khách hàng
+     this.dataGroupSuppliers =
+      groupSuppliers.currentData != undefined ? groupSuppliers.currentData : [];
 
-    console.log(this.bankAccounts[0].backAccountNumber);
+    // lấy data của nhân viên
+    this.dataEmployees =
+      employees.currentData != undefined ? employees.currentData : [];
+    
+      //lấy thông tin chi tiết khách hàng
+    this.selectInfoSupplierDetail();
+
+    console.log(this.currentSupplier);
+
+    console.log(this.currentSupplier.isOrganization);
+
+    console.log(LIST_VOCATIVE);
   },
   methods: {
     /**
-     * Author: Phạm Văn Đạt(12/12/2022)
-     * Function: lấy thông tin khách hàng trong combobox chọn nhiều
-     * @param {*} item : object giá trị nhân viên lấy ra
+     * Author: Phạm Văn Đạt(19/12/2022)
+     * Function: Xử lý load lại dữ liệu nhóm nhà cung cấp
+     * @param {*} checkLoad : true | false
      */
-    selectItemEmployeeComboboxMultiple(item) {
+     async loadGroupSupplier(checkLoad) {
       try {
-        console.log(item);
+        if (checkLoad) {
+          if (this.dataGroupSuppliers.length > 0) {
+            groupSuppliers.currentPageNumber++;
+          }
+
+          console.log("load nhóm khách hàng");
+
+          if (this.dataGroupSuppliers.length <= groupSuppliers.totalCount) {
+            await groupSuppliers.pagingGroupSupplier([]);
+
+            if(groupSuppliers.currentData){
+              this.dataGroupSuppliers = [...groupSuppliers.currentData];
+            }
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(19/12/2022)
+     * Function: Xử lý load lại dữ liệu nhóm nhà cung cấp
+     * @param {*} checkLoad : true | false
+     */
+     async loadEmployees(checkLoad) {
+      try {
+        if (checkLoad) {
+          if (this.dataEmployees.length > 0) {
+            groupSuppliers.currentPageNumber++;
+          }
+
+          if (this.dataEmployees.length <= employees.totalCount) {
+          console.log("load nhóm khách hàng");
+
+            await employees.pagingEmployee([]);
+
+            if(employees.currentData){
+              this.dataEmployees = [...employees.currentData];
+            }
+          }
+        }
+
+
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    /**
+     * Author:  Phạm Văn Đạt(19/12/2022)
+     * Function: lấy thông tin chi tiết khách hàng
+     */
+    selectInfoSupplierDetail() {
+      try {
+        if (this.supplierDetail == null) {
+          console.log("lấy mã khách hàng");
+          this.currentSupplier = supplierModel;
+        } else {
+          this.currentSupplier = this.supplierDetail;
+        }
       } catch (e) {
         console.log(e);
       }
@@ -714,12 +841,15 @@ export default {
     },
   },
   watch: {
-    // test
-    listSelectEmployee(value) {
+    supplierDetail(value) {
       console.log(value);
     },
-    // test
-    isCurrentPersonal(value) {
+
+    listDataGroupSupplier(value){
+      console.log(value);
+    },
+
+    "currentSupplier.supplierVocativeName"(value) {
       console.log(value);
     },
   },

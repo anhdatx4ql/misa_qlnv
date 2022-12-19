@@ -256,7 +256,7 @@ namespace MISA.AMIS.Common
         public string RulePaymentName { set; get; }
 
         /// <summary>
-        /// Tên tài khoản công nợ phải thu
+        /// Tên tài khoản công nợ phải trả
         /// </summary>
         public string AccountPayableName { set; get; }
 

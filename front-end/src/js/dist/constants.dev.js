@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.LIST_CONTRACT = exports.FIELDS_BACKACCOUNT = exports.FIELDS_HEADER_LEFT_SUPPLIER_DETAIL = exports.LIST_TABS_SUPPLIERS = exports.FIELDS_TABLE_ACCOUNTS_RECEIVABLE = exports.FIELDS_TABLE_ACCOUNTS_PAYABLE = exports.FIELDS_TABLE_COMBOBOX_SUPPLIERS = exports.FIELDS_TABLE_COMBOBOX_EMPLOYEE = exports.RULE_FORM_SUPPLIER_DETAIL = exports.BatchExecution = exports.SUPPLIER_FIELDS = exports.LIST_MENU_PROCESS_BOTTOM = exports.LIST_REPORTS_PROCESS = exports.LIST_CASH_TAB = exports.TITLES_FORM = exports.TEXT_TOAST_MESSAGE = exports.RULE_HANDLER_DATA = exports.TYPE_FILTER = exports.FIELDS_FILTER_NOT_VALUE = exports.FIELDS_FILTER = exports.RULE_FORMAT_DATA = exports.FUNCTION_TABLE = exports.FUNCTION_UPLOAD = exports.FIELDS_REQUIRED = exports.STATUS_CODES = exports.NOTIFY_TEXT = exports.NOTIFY_LIST = exports.GENDERS = exports.PAGING_ITEMS = exports.TABLE_FIELDS = exports.COMPANIES = exports.MENU_ITEMS = void 0;
+exports.FIELDS_TABLE_COMBOBOX_VOCATIVE = exports.LIST_VOCATIVE = exports.LIST_CONTRACT = exports.FIELDS_BACKACCOUNT = exports.FIELDS_HEADER_LEFT_SUPPLIER_DETAIL = exports.LIST_TABS_SUPPLIERS = exports.FIELDS_TABLE_ACCOUNTS_RECEIVABLE = exports.FIELDS_TABLE_ACCOUNTS_PAYABLE = exports.FIELDS_TABLE_COMBOBOX_SUPPLIERS = exports.FIELDS_TABLE_COMBOBOX_EMPLOYEE = exports.RULE_FORM_SUPPLIER_DETAIL = exports.BatchExecution = exports.SUPPLIER_FIELDS = exports.LIST_MENU_PROCESS_BOTTOM = exports.LIST_REPORTS_PROCESS = exports.LIST_CASH_TAB = exports.TITLES_FORM = exports.TEXT_TOAST_MESSAGE = exports.RULE_HANDLER_DATA = exports.TYPE_FILTER = exports.FIELDS_FILTER_NOT_VALUE = exports.FIELDS_FILTER = exports.RULE_FORMAT_DATA = exports.FUNCTION_TABLE = exports.FUNCTION_UPLOAD = exports.FIELDS_REQUIRED = exports.STATUS_CODES = exports.NOTIFY_TEXT = exports.NOTIFY_LIST = exports.GENDERS = exports.PAGING_ITEMS = exports.TABLE_FIELDS = exports.COMPANIES = exports.MENU_ITEMS = void 0;
 
 var _FomatData = require("/src/js/FomatData");
 
@@ -1328,7 +1328,8 @@ var BatchExecution = [{
 
 exports.BatchExecution = BatchExecution;
 var RULE_FORM_SUPPLIER_DETAIL = {
-  View: "Thông tin nhà cung cấp"
+  View: "Thông tin nhà cung cấp",
+  Create: "Thêm mới nhà cung cấp"
 };
 /**
  * Author: Phạm Văn Đạt(12/12/2022)
@@ -1338,13 +1339,13 @@ var RULE_FORM_SUPPLIER_DETAIL = {
 exports.RULE_FORM_SUPPLIER_DETAIL = RULE_FORM_SUPPLIER_DETAIL;
 var FIELDS_TABLE_COMBOBOX_EMPLOYEE = [{
   name: "Mã nhân viên",
-  fieldName: "employeeId",
+  fieldName: "employeeCode",
   width: 150
 }, {
   name: "Tên nhân viên",
-  fieldName: "name",
+  fieldName: "employeeName",
   view: true,
-  width: 175
+  width: 215
 }];
 /**
  * Author: Phạm Văn Đạt(13/12/2022)
@@ -1360,7 +1361,7 @@ var FIELDS_TABLE_COMBOBOX_SUPPLIERS = [{
 }, {
   name: "Tên nhóm KH, NCC",
   fieldName: "groupSupplierName",
-  width: 189
+  width: 215
 }];
 /**
  * Author: Phạm Văn Đạt(13/12/2022)
@@ -1470,4 +1471,35 @@ var LIST_CONTRACT = [{
   id: 3,
   name: "Cư trú và có HĐLĐ từ 3 tháng trở lên"
 }];
+/**
+ * Author: Phạm Văn Đạt(19/12/2022)
+ * Function: dữ liệu bảng xưng hô
+ */
+
 exports.LIST_CONTRACT = LIST_CONTRACT;
+var LIST_VOCATIVE = [{
+  id: 1,
+  name: "Anh"
+}, {
+  id: 2,
+  name: "Chị"
+}, {
+  id: 3,
+  name: "Ông"
+}, {
+  id: 4,
+  name: "Bà"
+}];
+/**
+ * Author: Phạm Văn Đạt(19/12/2022)
+ * Function: HIển thị dữ liệu xưng hô bảng con
+ */
+
+exports.LIST_VOCATIVE = LIST_VOCATIVE;
+var FIELDS_TABLE_COMBOBOX_VOCATIVE = [{
+  name: "Tên xưng hô",
+  view: true,
+  fieldName: "name",
+  width: 100
+}];
+exports.FIELDS_TABLE_COMBOBOX_VOCATIVE = FIELDS_TABLE_COMBOBOX_VOCATIVE;

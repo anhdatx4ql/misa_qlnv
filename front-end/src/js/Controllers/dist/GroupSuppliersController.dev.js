@@ -144,7 +144,7 @@ function () {
               if (res.statusCode == _constants.STATUS_CODES.Code200) {
                 this.data = res.data.data; // nếu load dữ liệu thành công
 
-                if (res.data.data) {
+                if (res.data.data != []) {
                   if (this.currentData == undefined) {
                     this.currentData = _toConsumableArray(res.data.data);
                   } else {

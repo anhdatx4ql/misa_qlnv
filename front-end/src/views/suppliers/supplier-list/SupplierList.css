@@ -243,3 +243,75 @@
     justify-content: center;
     margin-left: calc(100px - 19.5px);
 }
+
+
+
+.content-center-top-left-child>div {
+    margin-right: 8px;
+    align-items: center;
+    color: #0075c0;
+}
+
+.content-center-top-left-child>button:not(:first-child):hover {
+    background: none;
+    text-decoration: underline;
+}
+
+.content-center-top-left-child>button:not(:first-child){
+    font-weight: 400;
+    height: fit-content;
+    background: none;
+    color: #0075c0;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.content-center-top-left-child {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.content-center-top-left-child.handler-data>.button {
+    border-radius: 30px;
+    padding: 0 16px;
+    background: white;
+    color: #111;
+    border: 2px solid #3b3c3f;
+}
+
+.content-center-top-left-child.handler-data>.button:hover {
+    background: #D2D3D6;
+}
+
+.content-center-top-left-child.handler-data {
+    position: relative;
+}
+
+.content-center-top-left-child.text-data.text-filter {
+    color: #0075c0;
+    margin-right: 0;
+}
+
+.button-filte{
+    margin-right:0;
+}
+
+.button-filter>button {
+    padding: 0 2px;
+    min-width: 20px !important;
+    margin-left:10px;
+    margin-right: 0;
+    color: #0075c0;
+    background: unset;
+    font-weight: 400;
+}
+
+.button-container.background-unset.button-filter {
+    margin-right: 0;
+}
+
+.button-filter>button:focus {
+    outline: unset;
+    color: #0075c0;
+}

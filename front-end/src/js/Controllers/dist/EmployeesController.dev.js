@@ -110,9 +110,11 @@ function () {
   // khởi tạo giá trị
   function Employees(data) {
     var keyword = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-    var currentPageNumber = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-    var pageSize = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 10;
-    var totalCount = arguments.length > 4 ? arguments[4] : undefined;
+    var currentData = arguments.length > 2 ? arguments[2] : undefined;
+    var currentPageNumber = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
+    var pageSize = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 10;
+    var totalCount = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 0;
+    var countLoadData = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 0;
 
     _classCallCheck(this, Employees);
 
@@ -121,6 +123,8 @@ function () {
     this.currentPageNumber = currentPageNumber;
     this.pageSize = pageSize;
     this.totalCount = totalCount;
+    this.currentData = data;
+    this.countLoadData = countLoadData;
   }
   /**
    * Author: Phạm Văn Đạt(19/10/2022)
@@ -134,7 +138,7 @@ function () {
   _createClass(Employees, [{
     key: "pagingEmployee",
     value: function pagingEmployee(data) {
-      var dataKeyword, newData, res;
+      var dataKeyword, newData, lengthCurrentData, res;
       return regeneratorRuntime.async(function pagingEmployee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -144,19 +148,19 @@ function () {
               if (this.keyword) {
                 console.log(this.keyword);
                 dataKeyword.push({
-                  name: "employeeId",
+                  name: "employeeID",
                   operator: "like",
                   value: this.keyword,
                   typeOperator: "like",
                   stringConcatenation: "OR"
                 }, {
-                  name: "name",
+                  name: "employeeName",
                   operator: "like",
                   value: this.keyword,
                   typeOperator: "like",
                   stringConcatenation: "OR"
                 }, {
-                  name: "numberPhone",
+                  name: "employeeNumberPhone",
                   operator: "like",
                   value: this.keyword,
                   typeOperator: "like"
@@ -169,21 +173,53 @@ function () {
                 newData.push.apply(newData, dataKeyword);
               }
 
-              console.log(newData);
-              _context.next = 7;
+              lengthCurrentData = this.currentData ? this.currentData.length : -1;
+
+              if (this.countLoadData > 0) {
+                console.log("vao day");
+                this.currentPageNumber++;
+              } // nếu số bản ghi hiện tại <= tổng số bản ghi => tăng số trang hiện tại lên 1 và load lại. Nếu không thì thôi
+
+
+              if (!(lengthCurrentData != this.totalCount)) {
+                _context.next = 12;
+                break;
+              }
+
+              // tăng số lần load lên 1
+              this.countLoadData++; // gọi đến paging basecontroler
+
+              _context.next = 10;
               return regeneratorRuntime.awrap((0, _BaseController.paging)(_endPoint.END_POINTS.PagingEmployee, this.currentPageNumber, this.pageSize, newData));
 
-            case 7:
+            case 10:
               res = _context.sent;
 
+              // kiểm tra data trả về
               if (res.statusCode == _constants.STATUS_CODES.Code200) {
-                this.data = res.data.data;
+                console.log(this.currentData);
+                console.log(res.data.data);
+                console.log(this.currentPageNumber);
+                this.data = res.data.data; // nếu load dữ liệu thành công
+
+                if (res.data.data != []) {
+                  if (this.currentData == undefined) {
+                    this.currentData = _toConsumableArray(res.data.data);
+                  } else {
+                    this.currentData = [].concat(_toConsumableArray(this.currentData), _toConsumableArray(res.data.data));
+                  } // load thành công
+
+                } else {
+                  // không có dữ liệu
+                  this.currentPageNumber--;
+                }
+
                 this.totalCount = res.data.totalCount;
               } else {
                 console.log(res);
               }
 
-            case 9:
+            case 12:
             case "end":
               return _context.stop();
           }

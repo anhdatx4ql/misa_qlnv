@@ -372,7 +372,7 @@
       <tbody v-if="!currentShowFormLoad">
         <tr
           v-for="data in listData"
-          :key="data.id"
+          :key="data[nameId]"
           @dblclick="handlerUpdate(data)"
         >
           <td
@@ -403,10 +403,11 @@
             <!-- start hiển thị ô checkbox không thể sửa -->
             <div v-if="field.checkBox == true || field.checkBoxDisable == true">
               <base-input-checkbox
-                :value="data.id"
+              :id="data[nameId]"
+                :value="data[nameId]"
                 :checked="
                   field.checkBox == true
-                    ? listIdData.indexOf(data.id) > -1
+                    ? listIdData.indexOf(data[nameId]) > -1
                       ? true
                       : false
                     : data[field.fieldName]
@@ -474,6 +475,9 @@ export default {
     };
   },
   props: {
+    // tên id để lấy giá trị
+    nameId: String,
+
     // dữ liệu lọc
     listDeleteFilterData: Array,
 
@@ -562,23 +566,22 @@ export default {
      */
     handlerChecked(value, data) {
       try {
+
         if (value) {
           // xử lý thêm dữ liệu vào mảng
           for (let i = 0; i < data.length; i++) {
-            if (this.listIdData.indexOf(data[i].id) == -1)
-              this.listIdData.push(data[i].id);
+            if (this.listIdData.indexOf(data[i][this.nameId]) == -1)
+              this.listIdData.push(data[i][this.nameId]);
           }
         } else {
           for (let i = 0; i < data.length; i++) {
             // xử lý xóa dữ liệu khỏi mảng
-            let index = this.listIdData.indexOf(data[i].id);
+            let index = this.listIdData.indexOf(data[i][this.nameId]);
             if (index > -1) {
               this.listIdData.splice(index, 1);
             }
           }
         }
-        console.log(this.listIdData);
-
         this.$emit("listIdData", this.listIdData);
       } catch (e) {
         console.log(e);
@@ -786,16 +789,21 @@ export default {
             elClick?.getAttribute("id") == "app" &&
             !elClick?.classList.contains("el-popper is-pure")
           ) &&
-          !elClick?.classList.contains("filter-content-bottom-button")
+          !elClick?.classList.contains("filter-content-bottom")
         ) {
           elClick = elClick.parentNode;
         }
 
-        // xử lý hiển thị, ẩn form
+        // xử lý hiển thị, ẩn form. Nếu click vào button bỏ lọc | lọc thì ẩn form đi
         if (el) {
-          if (elClick?.classList.contains("table-filter")) {
-            if (!el[0].classList.contains("filter-content-check-show")) {
-              el[0].classList.add("filter-content-check-show");
+          if (!elClick?.classList.contains("filter-content-bottom")) {
+            if (elClick?.classList.contains("table-filter")) {
+              if (!el[0].classList.contains("filter-content-check-show")) {
+                el[0].classList.add("filter-content-check-show");
+              }
+            } else {
+              if (el[0].classList.contains("filter-content-check-show"))
+                el[0].classList.remove("filter-content-check-show");
             }
           } else {
             if (el[0].classList.contains("filter-content-check-show"))

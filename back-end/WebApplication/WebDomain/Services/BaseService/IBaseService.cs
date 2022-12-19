@@ -24,6 +24,13 @@ namespace MISA.AMIS.BL
         Task<ReponsitoryModel> GetAll();
 
         /// <summary>
+        /// Author: Phạm Văn Đạt(19/12/2022)
+        /// Function: Lấy mã code mới nhất
+        /// </summary>
+        /// <returns></returns>
+        Task<ReponsitoryModel> GetMaxCode();
+
+        /// <summary>
         /// Author: Phạm Văn Đạt
         /// Function: Thêm mới 1 bản ghi vào bảng
         /// </summary>

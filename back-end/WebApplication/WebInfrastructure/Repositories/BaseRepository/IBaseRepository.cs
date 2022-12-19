@@ -6,6 +6,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebCommon;
 
 namespace MISA.AMIS.DL
 {
@@ -41,6 +42,14 @@ namespace MISA.AMIS.DL
         /// <param name="parameters"></param>
         /// <returns></returns>
         Task<int> InsertRecord(string query, DynamicParameters parameters = null);
+
+        /// <summary>
+        /// Author: Phạm Văn Đạt(19/12/2022)
+        /// Function: Lấy mã code lớn nhất
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        Task<MaxCodeModel> GetMaxCodeAsync(string sql);
 
         /// <summary>
         /// Author: Phạm Văn Đạt

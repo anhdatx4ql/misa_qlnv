@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
+using WebCommon;
 
 namespace MISA.AMIS.DL
 {
@@ -133,6 +134,23 @@ namespace MISA.AMIS.DL
                 }
                 db.Close();
                 return result;
+            }
+        }
+
+        /// <summary>
+        /// Author: Phạm Văn Đạt(19/12/2022)
+        /// Function: lấy mã code mới nhất
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public async Task<MaxCodeModel> GetMaxCodeAsync(string sql)
+        {
+            using (IDbConnection db = GetDbConnection())
+            {
+                db.Open();
+                var result = await db.QueryFirstOrDefaultAsync<MaxCodeModel>(sql);
+                db.Close();
+                return (MaxCodeModel)result;
             }
         }
 

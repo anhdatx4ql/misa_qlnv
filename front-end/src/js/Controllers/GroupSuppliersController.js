@@ -125,7 +125,7 @@ export class GroupSuppliers {
         this.data = res.data.data;
 
         // nếu load dữ liệu thành công
-        if (res.data.data) {
+        if (res.data.data != []) {
           if (this.currentData == undefined) {
             this.currentData = [...res.data.data];
           } else {

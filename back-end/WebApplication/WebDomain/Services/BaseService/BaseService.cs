@@ -144,6 +144,99 @@ namespace MISA.AMIS.BL
         }
 
         /// <summary>
+        /// Author: Phạm Văn Đạt(19/12/2022)
+        /// Function: Lấy mã code mới nhất
+        /// </summary>
+        /// <returns></returns>
+        public async Task<ReponsitoryModel> GetMaxCode()
+        {
+            List<string> message = new List<string>();
+            try
+            {
+
+                // lấy tên table
+                var tableName = TableName.GetTableName<T>();
+
+                // lấy tên proceduce
+                var nameProceduce = $"Proc_{tableName}_GetMaxCode";
+
+                // gọi đến db
+                var resultObject = await _baseRepository.GetMaxCodeAsync(nameProceduce);
+
+                string code = "";
+
+                if (resultObject.Code != null)
+                {
+                    code = resultObject.Code;
+                }
+
+                if (code == null)
+                {
+                    message.Add(MessageErrors.GetFail);
+                    return new ReponsitoryModel(null, CodeErrors.Code400, message);
+                }
+
+                // chuyển mã vừa lấy được thành chuỗi
+                char[] charArr = code.ToCharArray();
+
+                // kiểm tra tiền tố
+                bool tiento = false;
+
+                // string lưu các ký tự tiền tố
+                string strtiento = null;
+
+                for (int i = charArr.Length - 1; i >= 0; i--)
+                {
+                    // tạo biến lưu giá trị try parse
+                    int Result;
+
+                    // tạo biến kiểm tra ép kiểu có thành công hay không
+                    bool isSuccess;
+
+                    // nếu là tiền tố kiểm tra đến khi gặp chữ thì dừng lại
+                    if (!tiento)
+                    {
+                        isSuccess = int.TryParse(charArr[i].ToString(), out Result);
+                        if (isSuccess == false)
+                        {
+                            strtiento = code.Substring(0, i + 1);
+                            break;
+                        }
+                    }
+
+                }
+
+                string strNumber = code.Substring(strtiento.Length, code.Length - strtiento.Length);
+
+                int trungto = (Int32.Parse(strNumber) + 1);
+
+                string strTrungto = trungto.ToString();
+                for (int i = 0; i <= strNumber.Length - strTrungto.Length + 1; i++)
+                {
+                    strTrungto = "0" + strTrungto;
+                }
+
+                string result = strtiento + strTrungto;
+
+                if(result.Length == code.Length)
+                {
+                    message.Add(MessageSuccess.GetSuccess);
+                    return new ReponsitoryModel(result, CodeSuccess.Code200, message);
+                }
+
+                message.Add(MessageErrors.GetFail);
+                return new ReponsitoryModel(null, CodeErrors.Code400, message);
+
+            }
+            catch (Exception ex)
+            {
+                message.Add(ex.Message);
+                return new ReponsitoryModel(null, CodeErrors.Code500, message);
+            }
+        }
+
+
+        /// <summary>
         /// Author: Phạm Văn Đạt
         /// Function: Update 1 bản ghi (chưa test)
         /// </summary>

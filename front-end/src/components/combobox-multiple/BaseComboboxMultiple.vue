@@ -186,8 +186,9 @@ export default {
 
   },
   created() {
-    console.log(this.listField);
-    console.log(this.currentListData)
+
+    // khởi tạo giá trị ban đầu
+    this.currentListData = this.listData;
   },
   mounted() {},
   watch:{
@@ -206,8 +207,7 @@ export default {
      * @param {*} value :giá trị data truyền vào
      */
     listData(value){
-      this.currentListData = value;
-      console.log(this.currentListData)
+      this.currentListData = [...value];
     }
   },
   methods: {
