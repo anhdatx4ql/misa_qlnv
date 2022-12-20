@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.FIELDS_TABLE_COMBOBOX_VOCATIVE = exports.LIST_VOCATIVE = exports.LIST_CONTRACT = exports.FIELDS_BACKACCOUNT = exports.FIELDS_HEADER_LEFT_SUPPLIER_DETAIL = exports.LIST_TABS_SUPPLIERS = exports.FIELDS_TABLE_ACCOUNTS_RECEIVABLE = exports.FIELDS_TABLE_ACCOUNTS_PAYABLE = exports.FIELDS_TABLE_COMBOBOX_SUPPLIERS = exports.FIELDS_TABLE_COMBOBOX_EMPLOYEE = exports.RULE_FORM_SUPPLIER_DETAIL = exports.BatchExecution = exports.SUPPLIER_FIELDS = exports.LIST_MENU_PROCESS_BOTTOM = exports.LIST_REPORTS_PROCESS = exports.LIST_CASH_TAB = exports.TITLES_FORM = exports.TEXT_TOAST_MESSAGE = exports.RULE_HANDLER_DATA = exports.TYPE_FILTER = exports.FIELDS_FILTER_NOT_VALUE = exports.FIELDS_FILTER = exports.RULE_FORMAT_DATA = exports.FUNCTION_TABLE = exports.FUNCTION_UPLOAD = exports.FIELDS_REQUIRED = exports.STATUS_CODES = exports.NOTIFY_TEXT = exports.NOTIFY_LIST = exports.GENDERS = exports.PAGING_ITEMS = exports.TABLE_FIELDS = exports.COMPANIES = exports.MENU_ITEMS = void 0;
+exports.FIELDS_TABLE_COMBOBOX_VOCATIVE = exports.LIST_VOCATIVE = exports.LIST_CONTRACT = exports.FIELDS_BACKACCOUNT = exports.FIELDS_HEADER_LEFT_SUPPLIER_DETAIL = exports.LIST_TABS_SUPPLIERS = exports.FIELDS_TABLE_ACCOUNTS_RECEIVABLE = exports.FIELDS_TABLE_ACCOUNTS_PAYABLE = exports.FIELDS_TABLE_COMBOBOX_SUPPLIERS = exports.FIELDS_TABLE_COMBOBOX_RULE_PAYMENTS = exports.FIELDS_TABLE_COMBOBOX_EMPLOYEE = exports.RULE_FORM_SUPPLIER_DETAIL = exports.BatchExecution = exports.SUPPLIER_FIELDS = exports.LIST_MENU_PROCESS_BOTTOM = exports.LIST_REPORTS_PROCESS = exports.LIST_CASH_TAB = exports.TITLES_FORM = exports.TEXT_TOAST_MESSAGE = exports.RULE_HANDLER_DATA = exports.TYPE_FILTER = exports.FIELDS_FILTER_NOT_VALUE = exports.FIELDS_FILTER = exports.RULE_FORMAT_DATA = exports.FUNCTION_TABLE = exports.FUNCTION_UPLOAD = exports.FIELDS_REQUIRED = exports.STATUS_CODES = exports.NOTIFY_TEXT = exports.NOTIFY_LIST = exports.GENDERS = exports.PAGING_ITEMS = exports.TABLE_FIELDS = exports.COMPANIES = exports.MENU_ITEMS = void 0;
 
 var _FomatData = require("/src/js/FomatData");
 
@@ -1338,6 +1338,11 @@ var RULE_FORM_SUPPLIER_DETAIL = {
 
 exports.RULE_FORM_SUPPLIER_DETAIL = RULE_FORM_SUPPLIER_DETAIL;
 var FIELDS_TABLE_COMBOBOX_EMPLOYEE = [{
+  fieldName: "employeeID",
+  width: 0,
+  model: true,
+  style: "display:none;"
+}, {
   name: "Mã nhân viên",
   fieldName: "employeeCode",
   width: 150
@@ -1348,12 +1353,37 @@ var FIELDS_TABLE_COMBOBOX_EMPLOYEE = [{
   width: 215
 }];
 /**
+ * Author: Phạm Văn Đạt(20/12/2022)
+ * Function: HIển thị dữ liệu điều khoản thanh toán trong bảng con
+ */
+
+exports.FIELDS_TABLE_COMBOBOX_EMPLOYEE = FIELDS_TABLE_COMBOBOX_EMPLOYEE;
+var FIELDS_TABLE_COMBOBOX_RULE_PAYMENTS = [{
+  fieldName: "rulePaymentID",
+  width: 0,
+  model: true
+}, {
+  name: "Mã điều khoản thanh toán",
+  fieldName: "rulePaymentCode",
+  width: 150
+}, {
+  name: "Tên điều khoản thanh toán",
+  fieldName: "rulePaymentName",
+  view: true,
+  width: 215
+}];
+/**
  * Author: Phạm Văn Đạt(13/12/2022)
  * Function: HIển thị dữ liệu nhà cung cấp trong bảng con
  */
 
-exports.FIELDS_TABLE_COMBOBOX_EMPLOYEE = FIELDS_TABLE_COMBOBOX_EMPLOYEE;
+exports.FIELDS_TABLE_COMBOBOX_RULE_PAYMENTS = FIELDS_TABLE_COMBOBOX_RULE_PAYMENTS;
 var FIELDS_TABLE_COMBOBOX_SUPPLIERS = [{
+  fieldName: "groupSupplierID",
+  width: 0,
+  model: true,
+  style: "display:none;"
+}, {
   name: "Mã nhóm KH, NCC",
   view: true,
   fieldName: "groupSupplierCode",

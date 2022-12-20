@@ -1480,6 +1480,12 @@ export const RULE_FORM_SUPPLIER_DETAIL = {
  */
 export const FIELDS_TABLE_COMBOBOX_EMPLOYEE = [
   {
+    fieldName: "employeeID",
+    width: 0,
+    model: true,
+    style:"display:none;"
+  },
+  {
     name: "Mã nhân viên",
     fieldName: "employeeCode",
     width: 150,
@@ -1493,10 +1499,39 @@ export const FIELDS_TABLE_COMBOBOX_EMPLOYEE = [
 ];
 
 /**
+ * Author: Phạm Văn Đạt(20/12/2022)
+ * Function: HIển thị dữ liệu điều khoản thanh toán trong bảng con
+ */
+export const FIELDS_TABLE_COMBOBOX_RULE_PAYMENTS = [
+  {
+    fieldName: "rulePaymentID",
+    width: 0,
+    model: true
+  },
+  {
+    name: "Mã điều khoản thanh toán",
+    fieldName: "rulePaymentCode",
+    width: 150,
+  },
+  {
+    name: "Tên điều khoản thanh toán",
+    fieldName: "rulePaymentName",
+    view: true,
+    width: 215,
+  }
+];
+
+/**
  * Author: Phạm Văn Đạt(13/12/2022)
  * Function: HIển thị dữ liệu nhà cung cấp trong bảng con
  */
 export const FIELDS_TABLE_COMBOBOX_SUPPLIERS = [
+  {
+    fieldName: "groupSupplierID",
+    width: 0,
+    model: true,
+    style:"display:none;"
+  },
   {
     name: "Mã nhóm KH, NCC",
     view: true,

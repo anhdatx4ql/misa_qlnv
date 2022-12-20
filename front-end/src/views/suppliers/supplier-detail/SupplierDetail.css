@@ -245,3 +245,19 @@ input {
 .tab-content .el-input.el-input--prefix.el-input--suffix.el-date-editor.el-date-editor--date.el-tooltip__trigger.el-tooltip__trigger .el-input__wrapper {
     padding-left: 10px;
 }
+
+.combobox-multiple-container {
+    position: relative;
+}
+
+.tab-content.flex-wrap .combobox-multiple-dropdown {
+    min-width: 411px;
+}
+
+.tab-content.flex-wrap .combobox-multiple-dropdown th,.tab-content.flex-wrap .combobox-multiple-dropdown td {
+    border: unset;
+}
+
+.tab-content.flex-wrap .combobox-multiple-dropdown td {
+    background: unset;
+}

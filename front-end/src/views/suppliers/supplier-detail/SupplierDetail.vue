@@ -363,7 +363,11 @@
                   fieldName="Điều khoản thanh toán"
                   :iconSum="true"
                   :isMultiple="false"
+                  :listData="dataRulePayments"
+                  v-model="test"
+                  :listField="FIELDS_TABLE_COMBOBOX_RULE_PAYMENTS"
                   @clickIconSum="showRulePay = true"
+                  @loadData="loadRulePayments($event)"
                 >
                 </base-combobox-multiple>
               </div>
@@ -607,14 +611,17 @@ import {
   RULE_FORM_SUPPLIER_DETAIL,
   LIST_VOCATIVE,
   FIELDS_TABLE_COMBOBOX_VOCATIVE,
-  FIELDS_TABLE_COMBOBOX_SUPPLIERS
+  FIELDS_TABLE_COMBOBOX_SUPPLIERS,
+  FIELDS_TABLE_COMBOBOX_RULE_PAYMENTS
 } from "../../../js/constants.js";
 
 import GroupSupplier from "../../group-supplier/GroupSupplier";
 
 import { groupSuppliers } from "../../../js/Controllers/GroupSuppliersController.js";
 
-import {employees} from "../../../js/Controllers/EmployeesController.js"
+import { reluPayments } from "../../../js/Controllers/RulePaymentsController.js";
+
+import { employees } from "../../../js/Controllers/EmployeesController.js";
 
 import EmployeeDetail from "../../employees/employees-detail/EmployeeDetail";
 
@@ -647,6 +654,13 @@ export default {
   },
   data() {
     return {
+      test: null,
+      // dữ liệu điều khoản thanh toán
+      dataRulePayments: [],
+
+      // hiển thị dữ liệu điều khoản thanh toán trong bảng điều khoản thanh toán
+      FIELDS_TABLE_COMBOBOX_RULE_PAYMENTS,
+
       // hiển thị dữ liệu trong bảng NCC con
       FIELDS_TABLE_COMBOBOX_SUPPLIERS,
 
@@ -736,16 +750,19 @@ export default {
     };
   },
   created() {
-
-     // lấy data của nhóm nhà cung cấp, khách hàng
-     this.dataGroupSuppliers =
+    // lấy data của nhóm nhà cung cấp, khách hàng
+    this.dataGroupSuppliers =
       groupSuppliers.currentData != undefined ? groupSuppliers.currentData : [];
 
     // lấy data của nhân viên
     this.dataEmployees =
       employees.currentData != undefined ? employees.currentData : [];
-    
-      //lấy thông tin chi tiết khách hàng
+
+    // lấy data của nhân viên
+    this.dataRulePayments =
+      reluPayments.currentData != undefined ? reluPayments.currentData : [];
+
+    //lấy thông tin chi tiết khách hàng
     this.selectInfoSupplierDetail();
 
     console.log(this.currentSupplier);
@@ -760,7 +777,7 @@ export default {
      * Function: Xử lý load lại dữ liệu nhóm nhà cung cấp
      * @param {*} checkLoad : true | false
      */
-     async loadGroupSupplier(checkLoad) {
+    async loadGroupSupplier(checkLoad) {
       try {
         if (checkLoad) {
           if (this.dataGroupSuppliers.length > 0) {
@@ -772,7 +789,7 @@ export default {
           if (this.dataGroupSuppliers.length <= groupSuppliers.totalCount) {
             await groupSuppliers.pagingGroupSupplier([]);
 
-            if(groupSuppliers.currentData){
+            if (groupSuppliers.currentData) {
               this.dataGroupSuppliers = [...groupSuppliers.currentData];
             }
           }
@@ -784,10 +801,10 @@ export default {
 
     /**
      * Author: Phạm Văn Đạt(19/12/2022)
-     * Function: Xử lý load lại dữ liệu nhóm nhà cung cấp
+     * Function: Xử lý load lại dữ liệu nhân viên
      * @param {*} checkLoad : true | false
      */
-     async loadEmployees(checkLoad) {
+    async loadEmployees(checkLoad) {
       try {
         if (checkLoad) {
           if (this.dataEmployees.length > 0) {
@@ -795,17 +812,44 @@ export default {
           }
 
           if (this.dataEmployees.length <= employees.totalCount) {
-          console.log("load nhóm khách hàng");
+            console.log("load nhân viên");
 
             await employees.pagingEmployee([]);
 
-            if(employees.currentData){
+            if (employees.currentData) {
               this.dataEmployees = [...employees.currentData];
             }
           }
         }
+      } catch (e) {
+        console.log(e);
+      }
+    },
 
+    
 
+    /**
+     * Author: Phạm Văn Đạt(19/12/2022)
+     * Function: Xử lý load lại dữ liệu điều khoản thanh toán
+     * @param {*} checkLoad : true | false
+     */
+     async loadRulePayments(checkLoad) {
+      try {
+        if (checkLoad) {
+          if (this.dataRulePayments.length > 0) {
+            reluPayments.currentPageNumber++;
+          }
+
+          if (this.dataRulePayments.length <= reluPayments.totalCount) {
+            console.log("load điều khoản thanh toán");
+
+            await reluPayments.pagingRulePayments([]);
+
+            if (reluPayments.currentData) {
+              this.dataRulePayments = [...reluPayments.currentData];
+            }
+          }
+        }
       } catch (e) {
         console.log(e);
       }
@@ -845,11 +889,11 @@ export default {
       console.log(value);
     },
 
-    listDataGroupSupplier(value){
+    listDataGroupSupplier(value) {
       console.log(value);
     },
 
-    "currentSupplier.supplierVocativeName"(value) {
+    "test"(value) {
       console.log(value);
     },
   },
