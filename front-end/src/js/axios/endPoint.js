@@ -33,6 +33,9 @@ export const END_POINTS= {
     // lấy max code nhân viên
     EmployeesMaxCode: "Employees/GetMaxCode",
 
+    // lấy max code nhà cung cấp
+    SuppliersMaxCode: "Suppliers/GetMaxCode",
+
     // xóa nhân viên
     EmployeesDelete: "Employees/Delete",
 
@@ -41,6 +44,9 @@ export const END_POINTS= {
 
     // tài khoản công nợ phải trả
     AccountsReceivable:"AccountsReceivable",
+
+    // tài khoản ngân hàng
+    GetBankAccounts:"BankAccounts/GetDataByIds",
 
     // phòng ban
     Departments:"Departments",

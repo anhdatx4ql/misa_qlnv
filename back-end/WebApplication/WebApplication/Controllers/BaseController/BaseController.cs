@@ -49,6 +49,19 @@ namespace MISA.AMIS.Application
             return await _baseService.InsertRecord(entity);
         }
 
+
+        /// <summary>
+        /// Author: Phạm Văn Đạt(13/10/2022)
+        /// Function: Xử lý thêm mới nhiều bản ghi
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        [HttpPost("InsertRecords")]
+        public async Task<ReponsitoryModel> InsertRecords([FromBody] List<T> entities)
+        {
+            return await _baseService.InsertRecords(entities);
+        }
+
         /// <summary>
         /// Author: Phạm Văn Đạt(23/10/2022)
         /// Function: Lấy mã code mới nhất
@@ -71,6 +84,18 @@ namespace MISA.AMIS.Application
         public async Task<ReponsitoryModel> UpdateRecord([FromBody] T entity)
         {
             return await _baseService.UpdateRecord(entity);
+        }
+
+        /// <summary>
+        /// Author: Phạm Văn Đạt(21/10/2022)
+        /// Function: base lấy dữ liệu theo id truyền vào
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        [HttpPost("GetDataByIds")]
+        public async Task<ReponsitoryModel> GetDataByIds(List<Guid> ids)
+        {
+            return await _baseService.GetDataByIds(ids);
         }
 
         /// <summary>

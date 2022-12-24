@@ -33,13 +33,13 @@ var groupSupplierModel = {
   //  id nhóm nhà cung cấp, KH
   groupSupplierID: null,
   // mã nhóm NCC,KH
-  GroupSupplierCode: null,
+  groupSupplierCode: null,
   // Tên nhóm NCC, KH
-  GroupSupplierName: null,
+  groupSupplierName: null,
   // Thông tin chi tiết nhóm khách hàng
-  GroupSupplierDescription: null,
+  groupSupplierDescription: null,
   // id nhóm cha
-  ParentGroupSupplierId: null,
+  parentGroupSupplierId: null,
   // ngày tạo
   createdAt: null,
   // ngày cập nhật

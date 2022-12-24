@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.exportExcel = exports.getMaxCode = exports.insertRecord = exports.updateRecord = exports.deleteRecords = exports.paging = exports.getAll = void 0;
+exports.exportExcel = exports.getMaxCode = exports.insertRecord = exports.updateRecord = exports.getDataByIds = exports.deleteRecords = exports.paging = exports.getAll = void 0;
 
 var _endPoint = require("../axios/endPoint");
 
@@ -88,10 +88,6 @@ var paging = function paging(endPoint, currentPageNumber, pageSize, data) {
   });
 };
 /**
-
- */
-
-/**
  * Author: Phạm Văn Đạt(19/10/2022)
  * Function: Xử lý xóa 1 hoặc nhiều bản ghi
  * @param {*} endPoint : điểm cuối api
@@ -127,27 +123,25 @@ var deleteRecords = function deleteRecords(endPoint, ids) {
   });
 };
 /**
- * Author: Phạm Văn Đạt(19/10/2022)
- * Function: Xứ lý update bản ghi
- * @param {A} endPoint: đầu cuối api
- * @param {*} data: dữ liệu update 
- * @returns:  trả về response hoặc lỗi 
+ * Author: Phạm Văn Đạt(22/12/2022)
+ * Function: Xử lý lấy danh sách bản ghi theo ids truyền vào
+ * @param {*} endPoint : điểm cuối api
+ * @param {*} ids : danh sách id khách hàng muốn xóa
+ * @returns : response hoặc lỗi nếu có
  */
 
 
 exports.deleteRecords = deleteRecords;
 
-var updateRecord = function updateRecord(endPoint, data) {
+var getDataByIds = function getDataByIds(endPoint, ids) {
   var result;
-  return regeneratorRuntime.async(function updateRecord$(_context4) {
+  return regeneratorRuntime.async(function getDataByIds$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
           result = {};
           _context4.next = 3;
-          return regeneratorRuntime.awrap(_axios["default"].put(_endPoint.ROOT_API + endPoint, data, {
-            header: headers
-          }).then(function (response) {
+          return regeneratorRuntime.awrap(_axios["default"].post(_endPoint.ROOT_API + endPoint, ids).then(function (response) {
             result = response;
           })["catch"](function (e) {
             result = e;
@@ -164,24 +158,25 @@ var updateRecord = function updateRecord(endPoint, data) {
   });
 };
 /**
- * 
- * @param {*} endPoint : Điểm cuối api
- * @param {*} data : dữ liệu truyền vào
- * @returns : trả về response hoặc lỗi 
+ * Author: Phạm Văn Đạt(19/10/2022)
+ * Function: Xứ lý update bản ghi
+ * @param {A} endPoint: đầu cuối api
+ * @param {*} data: dữ liệu update 
+ * @returns:  trả về response hoặc lỗi 
  */
 
 
-exports.updateRecord = updateRecord;
+exports.getDataByIds = getDataByIds;
 
-var insertRecord = function insertRecord(endPoint, data) {
+var updateRecord = function updateRecord(endPoint, data) {
   var result;
-  return regeneratorRuntime.async(function insertRecord$(_context5) {
+  return regeneratorRuntime.async(function updateRecord$(_context5) {
     while (1) {
       switch (_context5.prev = _context5.next) {
         case 0:
           result = {};
           _context5.next = 3;
-          return regeneratorRuntime.awrap(_axios["default"].post(_endPoint.ROOT_API + endPoint, data, {
+          return regeneratorRuntime.awrap(_axios["default"].put(_endPoint.ROOT_API + endPoint, data, {
             header: headers
           }).then(function (response) {
             result = response;
@@ -200,24 +195,27 @@ var insertRecord = function insertRecord(endPoint, data) {
   });
 };
 /**
- * Author: Phạm Văn Đạt(23/10/2022)
- * Function: Lấy tất cả dữ liệu nằm trong bảng
- * @param {*} endPoint: điểm cuối truyền vào 
+ * 
+ * @param {*} endPoint : Điểm cuối api
+ * @param {*} data : dữ liệu truyền vào
+ * @returns : trả về response hoặc lỗi 
  */
 
 
-exports.insertRecord = insertRecord;
+exports.updateRecord = updateRecord;
 
-var getMaxCode = function getMaxCode(endPoint) {
+var insertRecord = function insertRecord(endPoint, data) {
   var result;
-  return regeneratorRuntime.async(function getMaxCode$(_context6) {
+  return regeneratorRuntime.async(function insertRecord$(_context6) {
     while (1) {
       switch (_context6.prev = _context6.next) {
         case 0:
           result = {};
           _context6.next = 3;
-          return regeneratorRuntime.awrap(_axios["default"].get(_endPoint.ROOT_API + endPoint).then(function (response) {
-            result = response.data;
+          return regeneratorRuntime.awrap(_axios["default"].post(_endPoint.ROOT_API + endPoint, data, {
+            header: headers
+          }).then(function (response) {
+            result = response;
           })["catch"](function (e) {
             result = e;
           }));
@@ -233,6 +231,39 @@ var getMaxCode = function getMaxCode(endPoint) {
   });
 };
 /**
+ * Author: Phạm Văn Đạt(23/10/2022)
+ * Function: Lấy tất cả dữ liệu nằm trong bảng
+ * @param {*} endPoint: điểm cuối truyền vào 
+ */
+
+
+exports.insertRecord = insertRecord;
+
+var getMaxCode = function getMaxCode(endPoint) {
+  var result;
+  return regeneratorRuntime.async(function getMaxCode$(_context7) {
+    while (1) {
+      switch (_context7.prev = _context7.next) {
+        case 0:
+          result = {};
+          _context7.next = 3;
+          return regeneratorRuntime.awrap(_axios["default"].get(_endPoint.ROOT_API + endPoint).then(function (response) {
+            result = response.data;
+          })["catch"](function (e) {
+            result = e;
+          }));
+
+        case 3:
+          return _context7.abrupt("return", result);
+
+        case 4:
+        case "end":
+          return _context7.stop();
+      }
+    }
+  });
+};
+/**
  * Author: Phạm Văn Đạt(08/11/2022)
  * Function: Xử lý xuất excel
  * @param {*} endPoint : điểm cuối của api
@@ -243,11 +274,11 @@ var getMaxCode = function getMaxCode(endPoint) {
 exports.getMaxCode = getMaxCode;
 
 var exportExcel = function exportExcel(endPoint) {
-  return regeneratorRuntime.async(function exportExcel$(_context7) {
+  return regeneratorRuntime.async(function exportExcel$(_context8) {
     while (1) {
-      switch (_context7.prev = _context7.next) {
+      switch (_context8.prev = _context8.next) {
         case 0:
-          _context7.next = 2;
+          _context8.next = 2;
           return regeneratorRuntime.awrap((0, _axios["default"])({
             url: _endPoint.ROOT_API + endPoint,
             method: "get",
@@ -266,11 +297,11 @@ var exportExcel = function exportExcel(endPoint) {
           }));
 
         case 2:
-          return _context7.abrupt("return", _context7.sent);
+          return _context8.abrupt("return", _context8.sent);
 
         case 3:
         case "end":
-          return _context7.stop();
+          return _context8.stop();
       }
     }
   });

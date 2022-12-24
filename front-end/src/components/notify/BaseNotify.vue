@@ -57,7 +57,7 @@
             tabindex="1"
             @clickButton="
               $emit('checkShowNotify', false);
-              $emit('checkFocusCloseNotify', fieldNameFocus);
+              $emit('checkFocusCloseNotify', currentFieldNameFocus);
             "
             text="Đóng"
           >
@@ -76,7 +76,7 @@
             tabindex="1"
             @clickButton="
               $emit('checkShowNotify', false);
-              $emit('checkFocusCloseNotify', fieldNameFocus);
+              $emit('checkFocusCloseNotify', currentFieldNameFocus);
             "
             text="Không"
           >
@@ -118,10 +118,26 @@ export default {
     // lưu lại focus sau khi tắt form
     fieldNameFocus: String,
   },
-  created() {},
+  data(){
+    return {
+      // tên input focus
+      currentFieldNameFocus: null
+    }
+  },
+  created() {
+    this.currentFieldNameFocus = this.fieldNameFocus;
+  },
   mounted() {
   },
-  watch: {},
+  watch: {
+    fieldNameFocus(value){
+      try{
+        this.currentFieldNameFocus = value;
+      }catch(e){
+        console.log(e);
+      }
+    }
+  },
   methods: {
     
   },

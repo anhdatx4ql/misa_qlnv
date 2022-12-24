@@ -33,12 +33,16 @@ var END_POINTS = {
   PagingGroupSuppliers: "GroupSuppliers/Paging?",
   // lấy max code nhân viên
   EmployeesMaxCode: "Employees/GetMaxCode",
+  // lấy max code nhà cung cấp
+  SuppliersMaxCode: "Suppliers/GetMaxCode",
   // xóa nhân viên
   EmployeesDelete: "Employees/Delete",
   // tài khoản công nợ phải thu
   AccountsPayable: "AccountsPayable",
   // tài khoản công nợ phải trả
   AccountsReceivable: "AccountsReceivable",
+  // tài khoản ngân hàng
+  GetBankAccounts: "BankAccounts/GetDataByIds",
   // phòng ban
   Departments: "Departments",
   // nhóm nhà cung cấp

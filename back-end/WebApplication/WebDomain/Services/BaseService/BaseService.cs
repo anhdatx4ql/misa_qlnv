@@ -112,14 +112,156 @@ namespace MISA.AMIS.BL
                         
                 }
 
-                parameters.Add($"@_CreatedAt", DateTime.Now);
-                parameters.Add($"@_UpdatedAt", DateTime.Now);
+                parameters.Add($"@_CreatedAt", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                parameters.Add($"@_UpdatedAt", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
                 // nếu validate thành công
                 var storeName = $"Proc_{tableName}_Insert";
 
                 // gọi hàm thêm dữ liệu vào db
                 var result = await _baseRepository.InsertRecord(storeName, parameters);
+
+                if (result == 0)
+                {
+                    message.Add(MessageErrors.CreatedFail);
+
+                    return new ReponsitoryModel(null, CodeErrors.Code400, message);
+                }
+
+                message.Add(MessageSuccess.CreatedSuccess);
+
+                return new ReponsitoryModel(result, CodeSuccess.Code201, message);
+
+
+            }
+            catch (Exception ex)
+            {
+                message.Add(ex.Message);
+                return new ReponsitoryModel(null, CodeErrors.Code500, message);
+            }
+
+
+        }
+
+        /// <summary>
+        /// Author: Phạm Văn Đạt
+        /// Function: Thêm mới nhiều bản ghi vào bảng
+        /// </summary>
+        /// <param name="entity">các dữ liệu truyền vào</param>
+        /// <returns></returns>
+        public virtual async Task<ReponsitoryModel> InsertRecords(List<T> entities)
+        {
+            List<string> message = new List<string>();
+
+            try
+            {
+                // lấy tên table
+                var tableName = TableName.GetTableName<T>();
+
+                // lấy các thuộc tính của entity
+                var properties = typeof(T).GetProperties();
+
+                var keyName = GetKeyName(properties);
+
+                // xóa hết dữ liệu cũ rồi mới thêm vào
+                var keyUserId = GetUserKey(properties);
+
+                var strNameValue = new List<string>();
+
+                string UserId = null;
+
+                // lấy giá trị thuộc tính
+                foreach (PropertyInfo property in properties)
+                {
+                    if(property.Name == keyUserId)
+                    {
+                        UserId = property.GetValue(entities[0]).ToString();
+                    }
+                    var attributePost = (AttributePost)Attribute.GetCustomAttribute(property, typeof(AttributePost));
+
+                    strNameValue.Add(property.Name);
+
+                }
+
+                if(UserId == null || keyUserId == null)
+                {
+                    message.Add(MessageErrors.CreatedFail);
+                    return new ReponsitoryModel(null, CodeErrors.Code400, message);
+                }
+
+                // xóa dữ liệu cũ
+                var sqlDetele = $"DELETE FROM {tableName} WHERE {keyUserId} = @UserId;";
+
+                var parameter = new DynamicParameters();
+                parameter.Add("UserId", UserId);
+
+                var resultDelete = await _baseRepository.DeleteRecord(query: sqlDetele, parameter);
+
+                var sql = $"INSERT INTO {tableName} ";
+
+                sql += "(" + string.Join(",", strNameValue) + ") VALUES ";
+
+                var id = (Guid)this.GetIdByRecord(entities[0], properties, keyName);
+
+                //xử lý validate dữ liệu
+                foreach(T entity in entities)
+                {
+                    // validate
+                    var errValidate = await this.Validate(entities[0], properties, id, tableName);
+
+                    if (errValidate.FieldsDupcaty.Count > 0)
+                    {
+                        return new ReponsitoryModel(errValidate.FieldsDupcaty, CodeErrors.Code400, errValidate.Message);
+                    }
+                }
+
+                int dem = 0;
+                foreach(T entity in entities)
+                {
+                    dem++;
+                    sql += "( ";
+
+                    int countProperties = 0;
+                    // lấy giá trị thuộc tính
+                    foreach (PropertyInfo property in properties)
+                    {
+                        countProperties++;
+                        // lấy giá trị
+                        var propertyValue = property.GetValue(entity);
+
+                        // xóa các kí tự đặc biệt => tránh sql injection
+                        propertyValue = CheckSpecialCharacters.CheckSpecial(propertyValue.ToString());
+   
+                        if (property.Name == "CreatedAt" || property.Name == "UpdatedAt")
+                        {
+                            sql +="'"+ DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'";
+                        }
+                        else
+                        {
+                            var attributePost = (AttributePost)Attribute.GetCustomAttribute(property, typeof(AttributePost));
+                            if (attributePost != null)
+                            {
+                                sql += "'" + propertyValue.ToString() + "'";
+                            }
+                        }
+
+                        if(countProperties != properties.Count())
+                        {
+                            sql += " , ";
+                        }
+
+                    }
+
+                    sql += ") ";
+                    if(entities.Count() != dem )
+                    {
+                        sql += ", ";
+                    }
+
+                }
+
+                // gọi hàm thêm dữ liệu vào db
+                var result = await _baseRepository.InsertRecords(sql);
 
                 if (result == 0)
                 {
@@ -289,7 +431,7 @@ namespace MISA.AMIS.BL
                     }
 
                     // thêm thời gian hiện tại 
-                    parameters.Add($"@_UpdatedAt", DateTime.Now);
+                    parameters.Add($"@_UpdatedAt", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
                     // lấy tên proceduce update
                     var sql = $"Proc_{tableName}_Update";
@@ -316,6 +458,52 @@ namespace MISA.AMIS.BL
             {
                 message.Add(ex.Message);
                 return new ReponsitoryModel(null, CodeErrors.Code500, message);
+            }
+        }
+
+        /// <summary>
+        /// Author: Phạm Văn Đạt(21/12/2022)
+        /// Function: Xử lý lấy dữ liệu theo danh sách id truyền vào
+        /// </summary>
+        /// <param name="ids">danh sách id</param>
+        /// <returns></returns>
+        public virtual async Task<ReponsitoryModel> GetDataByIds(List<Guid> ids)
+        {
+            var messages = new List<string>();
+            try
+            {
+                // kiểm tra xem mảng id truyền vào có tồn tại không
+                if (ids.Count == 0)
+                {
+                    messages.Add(MessageErrors.DuplicateExists);
+                    return new ReponsitoryModel(null, CodeErrors.Code400, messages);
+                }
+                var tableName = TableName.GetTableName<T>();
+
+                // lấy các thuộc tính public của entity
+                var properties = typeof(T).GetProperties();
+
+                var keyName = GetKeyName(properties);
+
+                var sql = $"select * from view_{tableName} WHERE " + keyName + " IN @ids;";
+                var parameter = new DynamicParameters();
+                parameter.Add("ids", ids);
+
+                var result = await _baseRepository.GetDataByIds(sql, parameter);
+
+                if (result.Count == 0)
+                {
+                    messages.Add(MessageErrors.GetFail);
+                    return new ReponsitoryModel(null, CodeErrors.Code400, messages);
+                }
+
+                messages.Add(MessageSuccess.GetSuccess);
+                return new ReponsitoryModel(result, CodeSuccess.Code200, messages);
+            }
+            catch (Exception ex)
+            {
+                messages.Add(ex.Message);
+                return new ReponsitoryModel(null, CodeErrors.Code500, messages);
             }
         }
 
@@ -553,6 +741,27 @@ namespace MISA.AMIS.BL
         }
 
         /// <summary>
+        /// Author: Phạm Văn Đạt(09/12/2022)
+        /// Function: Xử lý lấy tên khóa ngoại
+        /// </summary>
+        /// <param name="entity">bảng</param>
+        /// <param name="properties">properties truyền vào</param>
+        /// <returns></returns>
+        private string GetUserKey(PropertyInfo[] properties)
+       {
+            foreach (var property in properties)
+            {
+                var attributeUserId = (AttributeUserId)Attribute.GetCustomAttribute(property, typeof(AttributeUserId));
+                // xử lý validate
+                if (attributeUserId != null)
+                {
+                    return property.Name;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Author: Phạm Văn Đạt
         /// Function: Xử lý validate base
         /// </summary>
@@ -628,7 +837,6 @@ namespace MISA.AMIS.BL
                     messageValidateFields.Add(attributePrimarykey.ErrorMessage);
                     checkSelectMessage = true;
                 }
-
 
             }
             else if (attributeRequired != null && propertyValue == null)
@@ -769,6 +977,6 @@ namespace MISA.AMIS.BL
             return id;
         }
         #endregion
-
+        
     }
 }

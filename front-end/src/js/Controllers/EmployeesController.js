@@ -167,7 +167,7 @@ export class Employees {
           name: "employeeNumberPhone",
           operator: "like",
           value: this.keyword,
-          typeOperator: "like",
+          stringConcatenation: "like",
         }
       );
     }
@@ -182,7 +182,6 @@ export class Employees {
     let lengthCurrentData = this.currentData ? this.currentData.length : -1;
 
     if (this.countLoadData > 0) {
-      console.log("vao day")
       this.currentPageNumber++;
     }
 
@@ -201,10 +200,6 @@ export class Employees {
 
       // kiểm tra data trả về
       if (res.statusCode == STATUS_CODES.Code200) {
-
-        console.log(this.currentData);
-        console.log(res.data.data);
-        console.log(this.currentPageNumber);
 
         this.data = res.data.data;
 

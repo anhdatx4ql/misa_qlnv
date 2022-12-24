@@ -83,6 +83,34 @@ namespace MISA.AMIS.DL
         }
 
         /// <summary>
+        /// Author: Phạm Văn Đạt
+        /// Function: Thêm mới nhiều bản ghi
+        /// </summary>
+        /// <param name="query">Câu truy vấn</param>
+        /// <param name="parameters">biến truyền vào</param>
+        /// <returns></returns>
+        public async Task<int> InsertRecords(string query, DynamicParameters parameters = null)
+        {
+            using(IDbConnection db = GetDbConnection())
+            {
+                db.Open();
+                var transaction = db.BeginTransaction();
+                int result = 0;
+                try
+                {
+                    result = await db.ExecuteAsync(query, parameters);
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                }
+                db.Close();
+                return result;
+            }
+        }
+
+        /// <summary>
         /// Phân trang, tìm kiếm
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -151,6 +179,24 @@ namespace MISA.AMIS.DL
                 var result = await db.QueryFirstOrDefaultAsync<MaxCodeModel>(sql);
                 db.Close();
                 return (MaxCodeModel)result;
+            }
+        }
+
+        /// <summary>
+        /// Author: Phạm Văn Đạt(21/12/2022)
+        /// Function: lấy danh sách dữ liệu theo id
+        /// </summary>
+        /// <param name="sql">chuỗi sql</param>
+        /// <param name="parameters">tham số truyền vào</param>
+        /// <returns></returns>
+        public async Task<List<T>> GetDataByIds(string sql, DynamicParameters parameters = null)
+        {
+            using (IDbConnection db = GetDbConnection())
+            {
+                db.Open();
+                var result = await db.QueryAsync<T>(sql, parameters);
+                db.Close();
+                return result.ToList<T>();
             }
         }
 

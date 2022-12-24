@@ -48,6 +48,7 @@ namespace MISA.AMIS.Common
         /// <summary>
         /// mã id của người dùng có tài khoản ngân hàng này
         /// </summary>
+        [AttributeUserId("")]
         [AttributePost("")]
         public Guid? UserId { set; get; }
         #endregion

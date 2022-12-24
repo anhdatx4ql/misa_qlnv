@@ -266,6 +266,7 @@ span.background-icon-sum.w-24.flex {
     min-height: 30px;
     max-height: 64px;
     box-sizing: border-box;
+    height: 32px;
 }
 
 .combobox-multiple-container-content-input>.combobox-multiple-container-content input {
@@ -406,7 +407,6 @@ span.background-icon-sum.w-24.flex {
 .combobox-multiple-dropdown>table>tbody>tr>td:last-Child {
     position: sticky;
     right: 0;
-    display: flex;
     align-items: center;
     justify-content: center;
 }

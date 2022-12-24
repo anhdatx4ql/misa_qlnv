@@ -790,6 +790,9 @@ export default {
             !elClick?.classList.contains("el-popper is-pure")
           ) &&
           !elClick?.classList.contains("filter-content-bottom")
+          && !elClick?.classList.contains("main-container")
+          && !elClick?.classList.contains("main")
+          && !elClick?.classList.contains("menu")
         ) {
           elClick = elClick.parentNode;
         }

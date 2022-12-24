@@ -68,6 +68,7 @@ function () {
     this.currentPageNumber = currentPageNumber;
     this.pageSize = pageSize;
     this.totalCount = totalCount;
+    this.currentData = data;
     this.countLoadData = countLoadData;
   }
   /**

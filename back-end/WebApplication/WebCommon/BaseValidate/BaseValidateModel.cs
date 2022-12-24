@@ -7,6 +7,26 @@ using System.Threading.Tasks;
 
 namespace MISA.AMIS.Common
 {
+
+    /// <summary>
+    /// Author: Phạm Văn Đạt(13/10/2022)
+    /// Function: required attribute
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Property)]
+    public class AttributeUserId : Attribute
+    {
+        #region Fields
+        public string ErrorMessage;
+        #endregion
+
+        #region Constructor
+        public AttributeUserId(string message)
+        {
+            ErrorMessage = message;
+        }
+        #endregion
+    }
+
     /// <summary>
     /// Author: Phạm Văn Đạt(13/10/2022)
     /// Function: required attribute
@@ -186,7 +206,7 @@ namespace MISA.AMIS.Common
     public static class CheckSpecialCharacters
     {
         #region Fields
-        public static readonly List<String> SpecialCharacters = new List<string> { "/", "*", "-", "+", "@", "&", "$", "#", "%" };
+        public static readonly List<String> SpecialCharacters = new List<string> { "/", "*", "--", "+", "@", "&", "$", "#", "%" };
         #endregion
 
         #region Methods

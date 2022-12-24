@@ -25,6 +25,7 @@ namespace MISA.AMIS.Common
         /// </summary>
         [AttributeRequired("Id người dùng.")]
         [AttributePost("")]
+        [AttributeUserId("")]
         public Guid UserId { set; get; }
 
         /// <summary>

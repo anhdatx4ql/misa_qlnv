@@ -25,6 +25,7 @@ namespace MISA.AMIS.Common
         /// </summary>
         [AttributeRequired("Mã nhà cung cấp không được bỏ trống.")]
         [AttributePost("")]
+        [AttributeExists("Mã nhà cung cấp ")]
         public string SupplierCode { set; get; }
 
         /// <summary>
@@ -241,13 +242,11 @@ namespace MISA.AMIS.Common
         /// <summary>
         /// Tên tài khoản công nợ phải thu
         /// </summary
-        [AttributePost("")]
         public string AccountReceivableName { set; get; }
 
         /// <summary>
         /// Số tài khoản công nợ phải thu
         /// </summary
-        [AttributePost("")]
         public string AccountReceivableNumber { set; get; }
 
         /// <summary>

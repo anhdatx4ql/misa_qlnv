@@ -163,6 +163,8 @@
       :title="titleForm"
       @closeForm="checkShowForm = $event"
       :supplierDetail="supplierDetail"
+      @textToastMessage="textToastMessage = $event"
+      @typeToastMessage="typeToastMessage = $event"
     ></supplier-detail>
     <!-- end thông tin chi tiết nhà cung cấp -->
 
@@ -176,6 +178,15 @@
       @sayYes="$event == true ? handlerDeleteEmployee() : ''"
     ></base-notify>
     <!-- end thông báo -->
+
+    <!-- start toast message -->
+    <base-toast-message
+      :text="textToastMessage"
+      :type="typeToastMessage"
+      @textToastMessage="textToastMessage = $event"
+    ></base-toast-message>
+    <!-- end toast message -->
+
   </div>
 </template>
 

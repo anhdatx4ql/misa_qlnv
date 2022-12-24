@@ -30,7 +30,7 @@
         :placeholder="placeholder"
         :name="name"
         @keypress="isNumber ? isNumberKey($event) : ''"
-        @focusout="handlerValidate"
+        @focusout.prevent="handlerValidate"
         @input="handlerInput"
       />
 
@@ -177,10 +177,10 @@ export default {
     },
 
     // cho phép format số
-    isFormatNumber:{
+    isFormatNumber: {
       Type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
@@ -192,8 +192,8 @@ export default {
     };
   },
   created() {
-    this.currentValue = this.modelValue;
-    if (this.type == "number") console.log(this.modelValue);
+    this.currentValue =
+      this.isFormatNumber == true ? decimal(this.modelValue) : this.modelValue;
   },
   mounted() {
     /**
@@ -245,6 +245,7 @@ export default {
      * Function: Xử lý focus input
      */
     checkFocus(value) {
+      console.log(value);
       if (value == true) {
         this.handlerFocus();
       }
@@ -268,9 +269,10 @@ export default {
      * Author: Phạm Văn Đạt(15/12/2022)
      * Function: Xử lý click giảm giá trị input type = number
      */
-     reduceValue() {
+    reduceValue() {
       try {
-        this.currentValue = (this.currentValue > 0)?this.currentValue-1:this.currentValue;
+        this.currentValue =
+          this.currentValue > 0 ? this.currentValue - 1 : this.currentValue;
         this.$emit("update:modelValue", this.currentValue);
       } catch (e) {
         console.log(e);
@@ -312,7 +314,6 @@ export default {
 
         this.handlerFormat();
 
-        console.log(this.currentValue);
         // gọi đến hàm xử lý validate
         this.handlerValidate(event);
 
@@ -353,8 +354,10 @@ export default {
      */
     handlerFocus() {
       try {
+        console.log('focus input ')
+        console.log(this.checkFocus);
         this.$refs.input?.focus();
-        this.$emit("checkFocus", false);
+        this.$emit("checkFocus",false);
       } catch (e) {
         console.log(e);
       }
@@ -366,10 +369,18 @@ export default {
      */
     handlerValidate(event) {
       try {
+        //  lấy tên hiển thị lỗi
+        let nameError = this.fieldLabel
+          ? this.fieldLabel
+          : this.tooltip
+          ? this.tooltip
+          : this.placeholder;
+
         // nếu tồn tại isRequired thì xử lý validate required
         if (this.isRequired == true) {
+
           if (!event.target.value) {
-            this.currentErrorText = NOTIFY_TEXT.requiredField(this.fieldLabel);
+            this.currentErrorText = NOTIFY_TEXT.requiredField(nameError);
             this.$emit("errorText", this.currentErrorText);
           } else {
             this.currentErrorText = null;
@@ -380,7 +391,7 @@ export default {
         if (this.isPhoneNumber == true) {
           this.handlerFormatData(
             event.target.value,
-            this.tooltip,
+            nameError,
             RULE_FORMAT_DATA.PhoneNumber
           );
         }
@@ -388,10 +399,13 @@ export default {
         if (this.isEmail == true && event.target.value) {
           this.handlerFormatData(
             event.target.value,
-            this.fieldLabel,
+            nameError,
             RULE_FORMAT_DATA.Email
           );
         }
+
+        console.log("focus out input")
+
       } catch (e) {
         console.log(e);
       }

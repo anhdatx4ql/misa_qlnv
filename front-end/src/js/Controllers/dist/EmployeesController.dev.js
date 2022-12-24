@@ -163,7 +163,7 @@ function () {
                   name: "employeeNumberPhone",
                   operator: "like",
                   value: this.keyword,
-                  typeOperator: "like"
+                  stringConcatenation: "like"
                 });
               }
 
@@ -176,7 +176,6 @@ function () {
               lengthCurrentData = this.currentData ? this.currentData.length : -1;
 
               if (this.countLoadData > 0) {
-                console.log("vao day");
                 this.currentPageNumber++;
               } // nếu số bản ghi hiện tại <= tổng số bản ghi => tăng số trang hiện tại lên 1 và load lại. Nếu không thì thôi
 
@@ -197,9 +196,6 @@ function () {
 
               // kiểm tra data trả về
               if (res.statusCode == _constants.STATUS_CODES.Code200) {
-                console.log(this.currentData);
-                console.log(res.data.data);
-                console.log(this.currentPageNumber);
                 this.data = res.data.data; // nếu load dữ liệu thành công
 
                 if (res.data.data != []) {

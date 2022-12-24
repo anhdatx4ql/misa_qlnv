@@ -17,6 +17,7 @@
       :class="classButton"
       :value="value"
       :disabled="disable"
+      @focusout.prevent="handlerFocusForm"
     >
       <span v-if="text">{{ text }}</span>
       <span v-if="classButtonIcon" :class="classButtonIcon"></span>
@@ -104,6 +105,18 @@ export default {
   created() {},
   mounted() {},
   methods: {
+
+    /**
+     * Author: Phạm Văn Đạt(23/12/2022)
+     * Function: Xử lý focus out button
+     */
+    handlerFocusForm(){
+      try{
+        this.$emit("focusOut");
+      }catch(e){
+        console.log(e);
+      }
+    },
     /**
      * Author: Phạm Văn Đạt(11/12/2022)
      * Functioin: kiểm tra click button hiển thị dropdown

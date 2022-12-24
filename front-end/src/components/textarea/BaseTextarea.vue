@@ -4,67 +4,89 @@
  -->
 <template>
   <div class="textarea-container">
+    <p v-if="text != null" class="input-container-field-label">{{ text }}</p>
 
-   <p v-if="text!=null" class="input-container-field-label">{{text}}</p>
-
-   <textarea @input="changeValueInput" :style="'height: '+height+'px;'" :placeholder="textPlaceholder"></textarea>
- 
+    <textarea
+      v-model="currentValue"
+      :style="'height: ' + height + 'px;'"
+      :placeholder="textPlaceholder"
+    ></textarea>
   </div>
-   
 </template>
 
 <script>
-import _ from "lodash";
 
 export default {
-  name: 'BaseTextarea',
+  name: "BaseTextarea",
   props: {
+    // dữ liệu đưa vào
+    modelValue: {
+      Type: String,
+      default: null,
+    },
+
     // text hiển thị
-   text:{
-    Type: String,
-    default: null
-   },
+    text: {
+      Type: String,
+      default: null,
+    },
 
-   // nhắc nhở
-   textPlaceholder:{
-    Type: String,
-    default: null
-   },
+    // nhắc nhở
+    textPlaceholder: {
+      Type: String,
+      default: null,
+    },
 
-   // chiều cao
-   height:{
-    Type: Number,
-    default: 56
-   }
-
+    // chiều cao
+    height: {
+      Type: Number,
+      default: 56,
+    },
   },
-  data(){
-    return{
-     
-    }
+  data() {
+    return {
+      // text hiện tại
+      currentValue: null
+    };
   },
-  created(){
+  created() {
+    this.currentValue = this.modelValue;
   },
-  methods:{
+  methods: {
+   
+  },
+  watch:{
+    /**
+     * Author: Phạm Văn Đạt(21/12/2022)
+     * Function: Theo dõi gán giá trị model value
+     * @param {*} value : giá trị text
+     */
+    modelValue(value){
+      try{
+        this.currentValue = value;
+      }
+      catch(e){
+        console.log(e)
+      }
+    },
 
     /**
-     * Author: Phạm Văn Đạt(14/12/2022)
-     * Function: Xử lý trả về dữ liệu sau 300ms
+     * Author: Phạm Văn Đạt(21/12/2022)
+     * Function: truyền dữ liệu vừa nhập ra component cha
+     * @param {*} value : giá trị text
      */
-     changeValueInput: _.debounce(function (event) {
+    currentValue(value){
       try {
         // truyền lại dữ liệu cho cha gọi đến nó
-        this.$emit('update:modelValue', event.target?.value?.trim());
-        this.$emit('valueChange', true);
-        console.log(event.target?.value?.trim())
+        this.$emit("update:modelValue", value.trim());
       } catch (e) {
         console.log(e);
       }
-    }, 300),
+    } 
   }
-}
+};
 </script>
 
 <style scoped>
-@import url(BaseTextarea.css)
+@import url(BaseTextarea.css);
 </style>

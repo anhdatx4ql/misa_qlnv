@@ -52,9 +52,6 @@ export const paging = async function(endPoint, currentPageNumber, pageSize,data)
 }
 
 /**
-
- */
-/**
  * Author: Phạm Văn Đạt(19/10/2022)
  * Function: Xử lý xóa 1 hoặc nhiều bản ghi
  * @param {*} endPoint : điểm cuối api
@@ -62,6 +59,25 @@ export const paging = async function(endPoint, currentPageNumber, pageSize,data)
  * @returns : response hoặc lỗi nếu có
  */
 export const deleteRecords = async function(endPoint, ids){
+  let result = {};
+  await axios.post(ROOT_API+endPoint, ids)
+    .then(response =>{
+      result= response;
+    })
+    .catch(e =>{
+      result = e;
+    });
+    return result;
+}
+
+/**
+ * Author: Phạm Văn Đạt(22/12/2022)
+ * Function: Xử lý lấy danh sách bản ghi theo ids truyền vào
+ * @param {*} endPoint : điểm cuối api
+ * @param {*} ids : danh sách id khách hàng muốn xóa
+ * @returns : response hoặc lỗi nếu có
+ */
+export const getDataByIds = async function(endPoint, ids){
   let result = {};
   await axios.post(ROOT_API+endPoint, ids)
     .then(response =>{

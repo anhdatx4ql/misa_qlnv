@@ -160,10 +160,10 @@ export let TABLE_FIELDS = [
     nameFilter: "Tên nhân viên",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "MÃ NHÂN VIÊN",
@@ -173,10 +173,10 @@ export let TABLE_FIELDS = [
     nameFilter: "Mã nhân viên",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "GIỚI TÍNH",
@@ -196,11 +196,11 @@ export let TABLE_FIELDS = [
     typeFilter: "Gender",
     nameFilter: "Giới tính",
     isField: true,
-    filter:{
-      operator: '=',
+    filter: {
+      operator: "=",
       value: null,
-      name:null
-    }
+      name: null,
+    },
   },
   {
     name: "NGÀY SINH",
@@ -213,10 +213,10 @@ export let TABLE_FIELDS = [
     },
     typeFilter: "DateTime",
     isField: true,
-    filter:{
-      operator: '=',
-      value: null
-    }
+    filter: {
+      operator: "=",
+      value: null,
+    },
   },
   {
     name: "SỐ CMND",
@@ -226,10 +226,10 @@ export let TABLE_FIELDS = [
     typeFilter: "Text",
     nameFilter: "Số CMND",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "NGÀY CẤP",
@@ -242,10 +242,10 @@ export let TABLE_FIELDS = [
     },
     nameFilter: "Ngày cấp",
     isField: true,
-    filter:{
-      operator: '=',
-      value: null
-    }
+    filter: {
+      operator: "=",
+      value: null,
+    },
   },
   {
     name: "NƠI CẤP",
@@ -254,10 +254,10 @@ export let TABLE_FIELDS = [
     typeFilter: "Text",
     nameFilter: "Nơi cấp",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "CHỨC DANH",
@@ -266,10 +266,10 @@ export let TABLE_FIELDS = [
     typeFilter: "Text",
     nameFilter: "Chức danh",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "TÊN ĐƠN VỊ",
@@ -279,10 +279,10 @@ export let TABLE_FIELDS = [
     typeFilter: "Text",
     nameFilter: "Đơn vị",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "ĐT DI ĐỘNG",
@@ -292,10 +292,10 @@ export let TABLE_FIELDS = [
     typeFilter: "Text",
     nameFilter: "ĐT di động",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "ĐT CỐ ĐỊNH",
@@ -305,10 +305,10 @@ export let TABLE_FIELDS = [
     typeFilter: "Text",
     nameFilter: "ĐT cố định",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "EMAIL",
@@ -316,11 +316,11 @@ export let TABLE_FIELDS = [
     width: 200,
     typeFilter: "Text",
     nameFilter: "Email",
-    isField: true ,
-    filter:{
-      operator: 'like',
-      value: null
-    } 
+    isField: true,
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "LÀ KHÁCH HÀNG",
@@ -331,7 +331,7 @@ export let TABLE_FIELDS = [
     checkBoxDisable: true,
     typeFilter: "Boolean",
     nameFilter: "Là khách hàng",
-    isField: true
+    isField: true,
   },
   {
     name: "LÀ NHÀ CUNG CẤP",
@@ -342,7 +342,7 @@ export let TABLE_FIELDS = [
     checkBoxDisable: true,
     typeFilter: "Boolean",
     nameFilter: "Là nhà cung cấp",
-    isField: true
+    isField: true,
   },
   {
     name: "ĐỊA CHỈ",
@@ -352,10 +352,10 @@ export let TABLE_FIELDS = [
     typeFilter: "Text",
     nameFilter: "Địa chỉ",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     width: 120,
@@ -370,7 +370,7 @@ export let TABLE_FIELDS = [
       {
         id: 2,
         name: "Xóa",
-      },  
+      },
       {
         id: 3,
         name: "Ngưng sử dụng",
@@ -574,205 +574,203 @@ export const RULE_FORMAT_DATA = {
  * AUthor: Phạm Văn Đạt(11/11/2022)
  * Function: enum gender
  */
-const GENDER_OBJECT= {
-  MALE:0,
-  FEMALE:1,
-  OTHER:2
-}
+const GENDER_OBJECT = {
+  MALE: 0,
+  FEMALE: 1,
+  OTHER: 2,
+};
 
 /**
  * AUthor: Phạm Văn Đạt(10/11/2022)
  * Function: Các trường trong lọc dữ liệu
  */
 export const FIELDS_FILTER = {
-  Text:[
+  Text: [
     {
-      id:1,
-      name:"(Trống)",
+      id: 1,
+      name: "(Trống)",
       operator: "IS NULL",
       isDisableInput: true,
-      value: (value)=>{
-        return (value)?null:null;
-      }
+      value: (value) => {
+        return value ? null : null;
+      },
     },
     {
-      id:2,
-      name:"(Không trống)",
+      id: 2,
+      name: "(Không trống)",
       operator: "IS NOT NULL",
       isDisableInput: true,
-      value: (value)=>{
-        return (value)?null:null;
-      }
+      value: (value) => {
+        return value ? null : null;
+      },
     },
     {
-      id:3,
-      name:"Bằng",
+      id: 3,
+      name: "Bằng",
       operator: "=",
-      value: (value)=>{
+      value: (value) => {
         return value;
-      }
+      },
     },
     {
-      id:4,
-      name:"Khác",
+      id: 4,
+      name: "Khác",
       operator: "<>",
-      value: (value)=>{
+      value: (value) => {
         return value;
-      }
+      },
     },
     {
-      id:5,
-      name:"Chứa",
-      fieldName: 'like',
-      operator: 'like',
-      value:(value)=>{
+      id: 5,
+      name: "Chứa",
+      fieldName: "like",
+      operator: "like",
+      value: (value) => {
         return value;
-      }
+      },
     },
     {
-      id:6,
-      name:"Không chứa",
-      fieldName: 'notLike',
-      operator: 'not like',
-      value:(value)=>{
+      id: 6,
+      name: "Không chứa",
+      fieldName: "notLike",
+      operator: "not like",
+      value: (value) => {
         return value;
-      }
+      },
     },
     {
-      id:7,
-      name:"Bắt đầu với",
-      fieldName: 'firstLike',
-      operator: 'like',
-      value:(value)=>{
+      id: 7,
+      name: "Bắt đầu với",
+      fieldName: "firstLike",
+      operator: "like",
+      value: (value) => {
         return value;
-      }
+      },
     },
     {
-      id:8,
-      name:"Kết thúc với",
-      fieldName: 'lastLike',
-      operator:'like',
-      value:(value)=>{
+      id: 8,
+      name: "Kết thúc với",
+      fieldName: "lastLike",
+      operator: "like",
+      value: (value) => {
         return value;
-      }
+      },
     },
   ],
-  Boolean:[
+  Boolean: [
     {
       id: 1,
       name: "Là",
-      operator: '=',
-      value: 'true'
+      operator: "=",
+      value: "true",
     },
     {
       id: 2,
       name: "Không là",
-      operator: '=',
-      value: 'false'
-    }
+      operator: "=",
+      value: "false",
+    },
   ],
-  DateTime:[
+  DateTime: [
     {
-      id:1,
+      id: 1,
       name: "Bằng",
-      operator: '=',
-      value:(value)=>{
-        return (value)?formatDate(value, "YYYY/MM/DD"):null;
-      }
+      operator: "=",
+      value: (value) => {
+        return value ? formatDate(value, "YYYY/MM/DD") : null;
+      },
     },
     {
-      id:2,
+      id: 2,
       name: "Khác",
-      operator: '<>',
-      value:(value)=>{
-        return (value)?formatDate(value, "YYYY/MM/DD"):null;
-      }
+      operator: "<>",
+      value: (value) => {
+        return value ? formatDate(value, "YYYY/MM/DD") : null;
+      },
     },
     {
-      id:3,
+      id: 3,
       name: "Nhỏ hơn",
-      operator: '<',
-      value:(value)=>{
-        return (value)?formatDate(value, "YYYY/MM/DD"):null;
-      }
+      operator: "<",
+      value: (value) => {
+        return value ? formatDate(value, "YYYY/MM/DD") : null;
+      },
     },
     {
-      id:4,
+      id: 4,
       name: "Nhỏ hơn hoặc Bằng",
-      operator: '<=',
-      value:(value)=>{
-        return (value)?formatDate(value,"YYYY/MM/DD"):null;
-      }
+      operator: "<=",
+      value: (value) => {
+        return value ? formatDate(value, "YYYY/MM/DD") : null;
+      },
     },
     {
-      id:5,
+      id: 5,
       name: "Lớn hơn",
-      operator: '>',
-      value:(value)=>{
-        return (value)?formatDate(value, "YYYY/MM/DD"):null;
-      }
+      operator: ">",
+      value: (value) => {
+        return value ? formatDate(value, "YYYY/MM/DD") : null;
+      },
     },
-    
+
     {
-      id:6,
+      id: 6,
       name: "Lớn hơn hoặc bằng",
-      operator: '>=',
-      value:(value)=>{
-        return (value)?formatDate(value, "YYYY/MM/DD"):null;
-      }
+      operator: ">=",
+      value: (value) => {
+        return value ? formatDate(value, "YYYY/MM/DD") : null;
+      },
     },
-    
+
     {
-      id:7,
+      id: 7,
       name: "(Trống)",
-      operator: 'IS NULL',
-      value:(value)=>{
-        return (value)?null:null;
+      operator: "IS NULL",
+      value: (value) => {
+        return value ? null : null;
       },
       isDisableInput: true,
     },
     {
-      id:8,
+      id: 8,
       name: "(Không trống)",
-      operator: 'IS NOT NULL',
-      value:(value)=>{
-        return (value)?null:null;
+      operator: "IS NOT NULL",
+      value: (value) => {
+        return value ? null : null;
       },
       isDisableInput: true,
-    }
+    },
   ],
-  Gender:[
+  Gender: [
     {
       id: 0,
       name: "Nam",
       operator: "=",
-      fieldName: 'gender',
-      value:GENDER_OBJECT.MALE
+      fieldName: "gender",
+      value: GENDER_OBJECT.MALE,
     },
     {
       id: 1,
       name: "Nữ",
       operator: "=",
-      fieldName: 'gender',
-      value:GENDER_OBJECT.FEMALE
+      fieldName: "gender",
+      value: GENDER_OBJECT.FEMALE,
     },
     {
       id: 2,
       name: "Khác",
       operator: "=",
-      fieldName: 'gender',
-      value:GENDER_OBJECT.OTHER
-    }
-  ]
-}
+      fieldName: "gender",
+      value: GENDER_OBJECT.OTHER,
+    },
+  ],
+};
 
 /**
  * AUthor: Phạm Văn Đạt(10/11/2022)
  * Function: Các trường không có value trong lọc
  */
-export const FIELDS_FILTER_NOT_VALUE = [
-  "IS NULL", "IS NOT NULL"
-]
+export const FIELDS_FILTER_NOT_VALUE = ["IS NULL", "IS NOT NULL"];
 
 /**
  * AUtho: Phạm Văn Đạt(11/11/2022)
@@ -783,7 +781,7 @@ export const TYPE_FILTER = {
   Boolean: "Boolean",
   DateTime: "DateTime",
   Gender: "Gender",
-}
+};
 
 /**
  * AUtho: Phạm Văn Đạt(18/11/2022)
@@ -791,10 +789,10 @@ export const TYPE_FILTER = {
  */
 export const RULE_HANDLER_DATA = [
   {
-    name: 'Delete',
-    text: "Xóa"
-  }
-]
+    name: "Delete",
+    text: "Xóa",
+  },
+];
 
 /**
  * Author: Phạm Văn Đạt(28/11/2022)
@@ -803,18 +801,17 @@ export const RULE_HANDLER_DATA = [
 export const TEXT_TOAST_MESSAGE = {
   Error: {
     text: "Có lỗi xảy ra.",
-    type: "error"
+    type: "error",
   },
-  CreateFail:{
+  CreateFail: {
     text: "Thêm mới thất bại.",
-    type: "error"
+    type: "error",
   },
-  UpdateFail:{
+  UpdateFail: {
     text: "Cập nhật thất bại",
-    type: "error"
+    type: "error",
   },
-
-}
+};
 
 /**
  * Author: Phạm Văn Đạt(28/11/2022)
@@ -822,8 +819,8 @@ export const TEXT_TOAST_MESSAGE = {
  */
 export const TITLES_FORM = {
   Create: "Thêm mới nhân viên",
-  Update: "Sửa nhân viên"
-}
+  Update: "Sửa nhân viên",
+};
 
 /**
  * Author: Phạm Văn Đạt(07/12/2022)
@@ -838,7 +835,7 @@ export const LIST_CASH_TAB = [
     activeClass: "cash-header-tab-active",
 
     // điều hướng item
-    route: "tien-mat/quy-trinh"
+    route: "tien-mat/quy-trinh",
   },
   {
     // tên item
@@ -848,7 +845,7 @@ export const LIST_CASH_TAB = [
     activeClass: "cash-header-tab-active",
 
     // điều hướng item
-    route: "/thu-chi-tien"
+    route: "/thu-chi-tien",
   },
   {
     // tên item
@@ -858,9 +855,9 @@ export const LIST_CASH_TAB = [
     activeClass: "cash-header-tab-active",
 
     // điều hướng item
-    route: "kiem-ke"
+    route: "kiem-ke",
   },
-  
+
   {
     // tên item
     title: "Dự báo dòng tiền",
@@ -869,7 +866,7 @@ export const LIST_CASH_TAB = [
     activeClass: "cash-header-tab-active",
 
     // điều hướng item
-    route: "du-bao-dong-tien"
+    route: "du-bao-dong-tien",
   },
   {
     // tên item
@@ -879,7 +876,7 @@ export const LIST_CASH_TAB = [
     activeClass: "cash-header-tab-active",
 
     // điều hướng item
-    route: "bao-cao"
+    route: "bao-cao",
   },
 ];
 
@@ -908,8 +905,7 @@ export const LIST_REPORTS_PROCESS = [
     // tên báo cáo
     title: "S03a2-DN: Sổ nhật ký chi tiền",
   },
-
-]
+];
 
 /**
  * Author: Phạm Văn Đạt(07/12/2022)
@@ -919,26 +915,24 @@ export const LIST_MENU_PROCESS_BOTTOM = [
   {
     title: "Khách hàng",
     class: "background-icon-customer w-h-24",
-    route:"/khach-hang"
+    route: "/khach-hang",
   },
   {
     title: "Nhà cung cấp",
     class: "background-icon-supplier w-h-24",
-    route:"/nha-cung-cap"
+    route: "/nha-cung-cap",
   },
   {
     title: "Nhân viên",
     class: "background-icon-employee w-h-24",
-    route:"/nhan-vien"
+    route: "/nhan-vien",
   },
   {
     title: "Tùy chọn",
     class: "background-icon-setting w-h-24",
-    route:"/tuy-chon"
+    route: "/tuy-chon",
   },
 ];
-
-
 
 /**
  * Author: Phạm Văn Đạt(18/10/2022)
@@ -972,10 +966,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Mã nhà cung cấp",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "TÊN NHÀ CUNG CẤP",
@@ -985,10 +979,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Tên nhà cung cấp",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "MÃ SỐ THUẾ",
@@ -998,10 +992,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Mã số thuế",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "ĐỊA CHỈ",
@@ -1011,10 +1005,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Địa chỉ",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "ĐIỆN THOẠI",
@@ -1024,10 +1018,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Địa chỉ",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "NHÓM KH,NCC",
@@ -1037,10 +1031,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Địa chỉ",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "SỐ CMND",
@@ -1050,10 +1044,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Số CMND",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "NGÀY CẤP",
@@ -1063,10 +1057,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Ngày cấp",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "NƠI CẤP",
@@ -1076,10 +1070,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Nơi cấp",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "Website",
@@ -1089,10 +1083,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Website",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "TÊN NHÂN VIÊN",
@@ -1102,10 +1096,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Tên nhân viên",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "XƯNG HÔ",
@@ -1115,10 +1109,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Xưng hô",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "NGƯỜI LIÊN HỆ",
@@ -1128,10 +1122,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Người liên hệ",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "Email",
@@ -1141,10 +1135,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Email",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "Điện thoại NLH",
@@ -1154,10 +1148,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Điện thoại NLH",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "NGƯỜI ĐẠI DIỆN PL",
@@ -1167,10 +1161,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Người đại diện PL",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "ĐIỀU KHOẢN THANH TOÁN",
@@ -1180,10 +1174,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Điều khoản thanh toán",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "SỐ NGÀY ĐƯỢC NỢ",
@@ -1193,10 +1187,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Điều khoản thanh toán",
     typeFilter: "DateTime",
     isField: true,
-    filter:{
-      operator: '=',
-      value: null
-    }
+    filter: {
+      operator: "=",
+      value: null,
+    },
   },
   {
     name: "SỐ NỢ TỐI ĐA",
@@ -1206,10 +1200,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Số nợ tối đa",
     typeFilter: "DateTime",
     isField: true,
-    filter:{
-      operator: '=',
-      value: null
-    }
+    filter: {
+      operator: "=",
+      value: null,
+    },
   },
   {
     name: "CÔNG NỢ",
@@ -1219,10 +1213,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Công nợ",
     typeFilter: "DateTime",
     isField: true,
-    filter:{
-      operator: '=',
-      value: null
-    }
+    filter: {
+      operator: "=",
+      value: null,
+    },
   },
   {
     name: "TK CÔNG NỢ PHẢI TRẢ",
@@ -1232,10 +1226,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "TK công nợ phải trả",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "TK CÔNG NỢ PHẢI THU",
@@ -1245,10 +1239,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "TK công nợ phải thu",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "DIỄN GIẢI",
@@ -1258,10 +1252,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Diễn giải",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "TÊN NGÂN HÀNG",
@@ -1271,10 +1265,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Tên ngân hàng",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "CHI NHÁNH TÀI KHOẢN NGÂN HÀNG",
@@ -1284,10 +1278,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Chi nhánh TK ngân hàng",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "TỈNH/THÀNH PHỐ TK NGÂN HÀNG",
@@ -1297,10 +1291,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Tỉnh/TP TK ngân hàng",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "ĐỊA ĐIỂM GIAO HÀNG",
@@ -1310,10 +1304,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Địa điểm giao hàng",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "QUỐC GIA",
@@ -1323,10 +1317,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Quốc gia",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "TỈNH/THÀNH PHỐ",
@@ -1336,10 +1330,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "TỈnh/thành phố",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "QUẬN/HUYỆN",
@@ -1349,10 +1343,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Quận/huyện",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "XÃ/PHƯỜNG",
@@ -1362,10 +1356,10 @@ export let SUPPLIER_FIELDS = [
     nameFilter: "Xã/phường",
     typeFilter: "Text",
     isField: true,
-    filter:{
-      operator: 'like',
-      value: null
-    }
+    filter: {
+      operator: "like",
+      value: null,
+    },
   },
   {
     name: "TRẠNG THÁI",
@@ -1376,7 +1370,7 @@ export let SUPPLIER_FIELDS = [
     checkBoxDisable: true,
     typeFilter: "Boolean",
     nameFilter: "Đang hoạt động",
-    isField: true
+    isField: true,
   },
   {
     name: "LÀ KHÁCH HÀNG",
@@ -1387,29 +1381,18 @@ export let SUPPLIER_FIELDS = [
     checkBoxDisable: true,
     typeFilter: "Boolean",
     nameFilter: "Là khách hàng",
-    isField: true
+    isField: true,
   },
   {
-    name: "LÀ TỔ CHỨC",
+    name: "LÀ  KHÁCH HÀNG",
     fieldName: "isOrganization",
     width: 170,
     disabled: true,
     class: "text-align-center",
     checkBoxDisable: true,
     typeFilter: "Boolean",
-    nameFilter: "Là tổ chức",
-    isField: true
-  },
-  {
-    name: "LÀ CÁ NHÂN",
-    fieldName: "isPersonal",
-    width: 170,
-    disabled: true,
-    class: "text-align-center",
-    checkBoxDisable: true,
-    typeFilter: "Boolean",
-    nameFilter: "Là cá nhân",
-    isField: true
+    nameFilter: "là khách hàng",
+    isField: true,
   },
   {
     width: 120,
@@ -1424,7 +1407,7 @@ export let SUPPLIER_FIELDS = [
       {
         id: 2,
         name: "Xóa",
-      },  
+      },
       {
         id: 3,
         name: "Ngưng sử dụng",
@@ -1457,13 +1440,14 @@ export let SUPPLIER_FIELDS = [
  */
 export const BatchExecution = [
   {
-    name: 'Delete',
-    text: "Xóa"
-  },{
-    name: 'Sum',
-    text: "Gộp"
-  }
-]
+    name: "Delete",
+    text: "Xóa",
+  },
+  {
+    name: "Sum",
+    text: "Gộp",
+  },
+];
 
 /**
  * Author: Phạm Văn Đạt(12/12/2022)
@@ -1471,8 +1455,8 @@ export const BatchExecution = [
  */
 export const RULE_FORM_SUPPLIER_DETAIL = {
   View: "Thông tin nhà cung cấp",
-  Create: "Thêm mới nhà cung cấp"
-}
+  Create: "Thêm mới nhà cung cấp",
+};
 
 /**
  * Author: Phạm Văn Đạt(12/12/2022)
@@ -1483,7 +1467,7 @@ export const FIELDS_TABLE_COMBOBOX_EMPLOYEE = [
     fieldName: "employeeID",
     width: 0,
     model: true,
-    style:"display:none;"
+    style: "display:none;",
   },
   {
     name: "Mã nhân viên",
@@ -1495,7 +1479,55 @@ export const FIELDS_TABLE_COMBOBOX_EMPLOYEE = [
     fieldName: "employeeName",
     view: true,
     width: 215,
-  }
+  },
+];
+
+/**
+ * Author: Phạm Văn Đạt(20/12/2022)
+ * Function: HIển thị dữ liệu tài khoản công nợ phải trả trong bảng con
+ */
+export const FIELDS_TABLE_COMBOBOX_ACCOUNTS_PAYABLE = [
+  {
+    fieldName: "accountPayableID",
+    width: 0,
+    model: true,
+    style: "display:none;",
+  },
+  {
+    name: "Số tài khoản",
+    fieldName: "accountPayableNumber",
+    width: 150,
+  },
+  {
+    name: "Tên tài khoản",
+    fieldName: "accountPayableName",
+    view: true,
+    width: 215,
+  },
+];
+
+/**
+ * Author: Phạm Văn Đạt(20/12/2022)
+ * Function: HIển thị dữ liệu tài khoản công nợ phải thu trong bảng con
+ */
+export const FIELDS_TABLE_COMBOBOX_ACCOUNTS_RECEIABLE = [
+  {
+    fieldName: "accountReceivableID",
+    width: 0,
+    model: true,
+    style: "display:none;",
+  },
+  {
+    name: "Số tài khoản",
+    fieldName: "accountReceivableNumber",
+    width: 150,
+  },
+  {
+    name: "Tên tài khoản",
+    fieldName: "accountReceivableName",
+    view: true,
+    width: 215,
+  },
 ];
 
 /**
@@ -1506,7 +1538,8 @@ export const FIELDS_TABLE_COMBOBOX_RULE_PAYMENTS = [
   {
     fieldName: "rulePaymentID",
     width: 0,
-    model: true
+    model: true,
+    style: "display:none;",
   },
   {
     name: "Mã điều khoản thanh toán",
@@ -1518,7 +1551,7 @@ export const FIELDS_TABLE_COMBOBOX_RULE_PAYMENTS = [
     fieldName: "rulePaymentName",
     view: true,
     width: 215,
-  }
+  },
 ];
 
 /**
@@ -1530,7 +1563,7 @@ export const FIELDS_TABLE_COMBOBOX_SUPPLIERS = [
     fieldName: "groupSupplierID",
     width: 0,
     model: true,
-    style:"display:none;"
+    style: "display:none;",
   },
   {
     name: "Mã nhóm KH, NCC",
@@ -1542,7 +1575,7 @@ export const FIELDS_TABLE_COMBOBOX_SUPPLIERS = [
     name: "Tên nhóm KH, NCC",
     fieldName: "groupSupplierName",
     width: 215,
-  }
+  },
 ];
 
 /**
@@ -1550,6 +1583,12 @@ export const FIELDS_TABLE_COMBOBOX_SUPPLIERS = [
  * Function: HIển thị dữ liệu tài khoản công nợ phải trả bảng con
  */
 export const FIELDS_TABLE_ACCOUNTS_PAYABLE = [
+  {
+    fieldName: "accountPayableID",
+    width: 0,
+    model: true,
+    style: "display:none;",
+  },
   {
     name: "Số tài khoản",
     view: true,
@@ -1560,7 +1599,7 @@ export const FIELDS_TABLE_ACCOUNTS_PAYABLE = [
     name: "Tên tài khoản",
     fieldName: "accountPayableName",
     width: 175,
-  }
+  },
 ];
 
 /**
@@ -1568,6 +1607,12 @@ export const FIELDS_TABLE_ACCOUNTS_PAYABLE = [
  * Function: HIển thị dữ liệu tài khoản công nợ phải thu bảng con
  */
 export const FIELDS_TABLE_ACCOUNTS_RECEIVABLE = [
+  {
+    fieldName: "accountReceivableID",
+    width: 0,
+    model: true,
+    style: "display:none;",
+  },
   {
     name: "Số tài khoản",
     view: true,
@@ -1578,7 +1623,7 @@ export const FIELDS_TABLE_ACCOUNTS_RECEIVABLE = [
     name: "Tên tài khoản",
     fieldName: "accountReceivableName",
     width: 175,
-  }
+  },
 ];
 
 /**
@@ -1605,8 +1650,8 @@ export const LIST_TABS_SUPPLIERS = [
   {
     title: "Ghi chú",
     content: "<p>thông tin chi tiết 4</p>",
-  }
-]
+  },
+];
 
 /**
  * Author: Phạm Văn Đạt(14/12/2022)
@@ -1616,14 +1661,14 @@ export const FIELDS_HEADER_LEFT_SUPPLIER_DETAIL = [
   {
     id: 0,
     name: "Tổ chức",
-    field: "isOrganization"
+    field: "isOrganization",
   },
   {
     id: 1,
     name: "Cá nhân",
-    field:"isPersonal"
+    field: "isPersonal",
   },
-]
+];
 
 /**
  * Author: Phạm Văn Đạt(14/12/2022)
@@ -1633,22 +1678,22 @@ export const FIELDS_BACKACCOUNT = [
   {
     name: "backAccountNumber",
     fieldName: "SỐ TÀI KHOẢN",
-    width: 150
+    width: 150,
   },
   {
-    name: "backAccountName",
+    name: "bankAccountName",
     fieldName: "TÊN NGÂN HÀNG",
-    width: 200
+    width: 200,
   },
   {
-    name: "backAccountBrand",
+    name: "bankAccountBranch",
     fieldName: "CHI NHÁNH",
-    width: 180
+    width: 180,
   },
   {
-    name: "backAccountAddress",
+    name: "bankAccountCity",
     fieldName: "TỈNH/TP CỦA NGÂN HÀNG",
-    width: 236
+    width: 236,
   },
 ];
 
@@ -1668,8 +1713,8 @@ export const LIST_CONTRACT = [
   {
     id: 3,
     name: "Cư trú và có HĐLĐ từ 3 tháng trở lên",
-  }
-]
+  },
+];
 
 /**
  * Author: Phạm Văn Đạt(19/12/2022)
@@ -1677,22 +1722,26 @@ export const LIST_CONTRACT = [
  */
 export const LIST_VOCATIVE = [
   {
-    id:1,
-    name: "Anh"
+    id: 1,
+    supplierVocativeName: "Anh",
   },
   {
-    id:2,
-    name: "Chị"
+    id: 2,
+    supplierVocativeName: "Chị",
   },
   {
-    id:3,
-    name: "Ông"
+    id: 3,
+    supplierVocativeName: "Ông",
   },
   {
-    id:4,
-    name: "Bà"
+    id: 4,
+    supplierVocativeName: "Bà",
   },
-]
+  {
+    id: 5,
+    supplierVocativeName: "Mẹ",
+  },
+];
 
 /**
  * Author: Phạm Văn Đạt(19/12/2022)
@@ -1702,7 +1751,75 @@ export const FIELDS_TABLE_COMBOBOX_VOCATIVE = [
   {
     name: "Tên xưng hô",
     view: true,
-    fieldName: "name",
+    model: true,
+    fieldName: "supplierVocativeName",
     width: 100,
   },
+];
+
+/**
+ * Author: Phạm Văn Đạt(22/12/2022)
+ * Function: HIển thị dữ liệu địa chỉ bảng con
+ */
+export const FIELDS_TABLE_COMBOBOX_ADDRESS = [
+  {
+    name: "",
+    view: true,
+    model: true,
+    fieldName: "name",
+    width: 135,
+  },
+];
+
+/**
+ * Author: Phạm Văn Đạt(22/12/2022)
+ * Function: HIển thị dữ liệu địa chỉ bảng con
+ */
+export const FIELDS_TABLE_COMBOBOX_ADDRESS_TWO = [
+  {
+    name: "",
+    view: true,
+    model: true,
+    fieldName: "name",
+    width: 147,
+  },
+];
+
+/**
+ * Author: Phạm Văn Đạt(22/12/2022)
+ * Function: dữ liệu quốc gia
+ */
+export const LIST_COUNTRY = [
+  {
+    code: 1,
+    name: "Việt Nam",
+  },
+];
+
+/**
+ * Author: Phạm Văn Đạt(22/12/2022)
+ * Function: Các trường xử lý required trong bảng nhà cung cấp
+ */
+export const FIELDS_SUPPLIERS_REQUIRED = [
+  {
+    fielName: "supplierCode",
+    fieldText: "Mã nhà cung cấp",
+  },
+  {
+    fielName: "supplierName",
+    fieldText: "Tên nhà cung cấp",
+  },
+];
+
+/**
+ * Author: Phạm Văn Đạt(23/12/2022)
+ * Function: model bank Account
+ */
+export const BANK_ACCOUNTS_MODEL = [
+  {
+    backAccountNumber: null,
+    bankAccountName: null,
+    bankAccountBranch: null,
+    bankAccountCity: null,
+  }
 ]

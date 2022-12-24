@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.FIELDS_TABLE_COMBOBOX_VOCATIVE = exports.LIST_VOCATIVE = exports.LIST_CONTRACT = exports.FIELDS_BACKACCOUNT = exports.FIELDS_HEADER_LEFT_SUPPLIER_DETAIL = exports.LIST_TABS_SUPPLIERS = exports.FIELDS_TABLE_ACCOUNTS_RECEIVABLE = exports.FIELDS_TABLE_ACCOUNTS_PAYABLE = exports.FIELDS_TABLE_COMBOBOX_SUPPLIERS = exports.FIELDS_TABLE_COMBOBOX_RULE_PAYMENTS = exports.FIELDS_TABLE_COMBOBOX_EMPLOYEE = exports.RULE_FORM_SUPPLIER_DETAIL = exports.BatchExecution = exports.SUPPLIER_FIELDS = exports.LIST_MENU_PROCESS_BOTTOM = exports.LIST_REPORTS_PROCESS = exports.LIST_CASH_TAB = exports.TITLES_FORM = exports.TEXT_TOAST_MESSAGE = exports.RULE_HANDLER_DATA = exports.TYPE_FILTER = exports.FIELDS_FILTER_NOT_VALUE = exports.FIELDS_FILTER = exports.RULE_FORMAT_DATA = exports.FUNCTION_TABLE = exports.FUNCTION_UPLOAD = exports.FIELDS_REQUIRED = exports.STATUS_CODES = exports.NOTIFY_TEXT = exports.NOTIFY_LIST = exports.GENDERS = exports.PAGING_ITEMS = exports.TABLE_FIELDS = exports.COMPANIES = exports.MENU_ITEMS = void 0;
+exports.BANK_ACCOUNTS_MODEL = exports.FIELDS_SUPPLIERS_REQUIRED = exports.LIST_COUNTRY = exports.FIELDS_TABLE_COMBOBOX_ADDRESS_TWO = exports.FIELDS_TABLE_COMBOBOX_ADDRESS = exports.FIELDS_TABLE_COMBOBOX_VOCATIVE = exports.LIST_VOCATIVE = exports.LIST_CONTRACT = exports.FIELDS_BACKACCOUNT = exports.FIELDS_HEADER_LEFT_SUPPLIER_DETAIL = exports.LIST_TABS_SUPPLIERS = exports.FIELDS_TABLE_ACCOUNTS_RECEIVABLE = exports.FIELDS_TABLE_ACCOUNTS_PAYABLE = exports.FIELDS_TABLE_COMBOBOX_SUPPLIERS = exports.FIELDS_TABLE_COMBOBOX_RULE_PAYMENTS = exports.FIELDS_TABLE_COMBOBOX_ACCOUNTS_RECEIABLE = exports.FIELDS_TABLE_COMBOBOX_ACCOUNTS_PAYABLE = exports.FIELDS_TABLE_COMBOBOX_EMPLOYEE = exports.RULE_FORM_SUPPLIER_DETAIL = exports.BatchExecution = exports.SUPPLIER_FIELDS = exports.LIST_MENU_PROCESS_BOTTOM = exports.LIST_REPORTS_PROCESS = exports.LIST_CASH_TAB = exports.TITLES_FORM = exports.TEXT_TOAST_MESSAGE = exports.RULE_HANDLER_DATA = exports.TYPE_FILTER = exports.FIELDS_FILTER_NOT_VALUE = exports.FIELDS_FILTER = exports.RULE_FORMAT_DATA = exports.FUNCTION_TABLE = exports.FUNCTION_UPLOAD = exports.FIELDS_REQUIRED = exports.STATUS_CODES = exports.NOTIFY_TEXT = exports.NOTIFY_LIST = exports.GENDERS = exports.PAGING_ITEMS = exports.TABLE_FIELDS = exports.COMPANIES = exports.MENU_ITEMS = void 0;
 
 var _FomatData = require("/src/js/FomatData");
 
@@ -144,7 +144,7 @@ var TABLE_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -156,7 +156,7 @@ var TABLE_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -177,7 +177,7 @@ var TABLE_FIELDS = [{
   nameFilter: "Giới tính",
   isField: true,
   filter: {
-    operator: '=',
+    operator: "=",
     value: null,
     name: null
   }
@@ -193,7 +193,7 @@ var TABLE_FIELDS = [{
   typeFilter: "DateTime",
   isField: true,
   filter: {
-    operator: '=',
+    operator: "=",
     value: null
   }
 }, {
@@ -205,7 +205,7 @@ var TABLE_FIELDS = [{
   nameFilter: "Số CMND",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -220,7 +220,7 @@ var TABLE_FIELDS = [{
   nameFilter: "Ngày cấp",
   isField: true,
   filter: {
-    operator: '=',
+    operator: "=",
     value: null
   }
 }, {
@@ -231,7 +231,7 @@ var TABLE_FIELDS = [{
   nameFilter: "Nơi cấp",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -242,7 +242,7 @@ var TABLE_FIELDS = [{
   nameFilter: "Chức danh",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -254,7 +254,7 @@ var TABLE_FIELDS = [{
   nameFilter: "Đơn vị",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -266,7 +266,7 @@ var TABLE_FIELDS = [{
   nameFilter: "ĐT di động",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -278,7 +278,7 @@ var TABLE_FIELDS = [{
   nameFilter: "ĐT cố định",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -289,7 +289,7 @@ var TABLE_FIELDS = [{
   nameFilter: "Email",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -321,7 +321,7 @@ var TABLE_FIELDS = [{
   nameFilter: "Địa chỉ",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -575,32 +575,32 @@ var FIELDS_FILTER = {
   }, {
     id: 5,
     name: "Chứa",
-    fieldName: 'like',
-    operator: 'like',
+    fieldName: "like",
+    operator: "like",
     value: function value(_value6) {
       return _value6;
     }
   }, {
     id: 6,
     name: "Không chứa",
-    fieldName: 'notLike',
-    operator: 'not like',
+    fieldName: "notLike",
+    operator: "not like",
     value: function value(_value7) {
       return _value7;
     }
   }, {
     id: 7,
     name: "Bắt đầu với",
-    fieldName: 'firstLike',
-    operator: 'like',
+    fieldName: "firstLike",
+    operator: "like",
     value: function value(_value8) {
       return _value8;
     }
   }, {
     id: 8,
     name: "Kết thúc với",
-    fieldName: 'lastLike',
-    operator: 'like',
+    fieldName: "lastLike",
+    operator: "like",
     value: function value(_value9) {
       return _value9;
     }
@@ -608,60 +608,60 @@ var FIELDS_FILTER = {
   Boolean: [{
     id: 1,
     name: "Là",
-    operator: '=',
-    value: 'true'
+    operator: "=",
+    value: "true"
   }, {
     id: 2,
     name: "Không là",
-    operator: '=',
-    value: 'false'
+    operator: "=",
+    value: "false"
   }],
   DateTime: [{
     id: 1,
     name: "Bằng",
-    operator: '=',
+    operator: "=",
     value: function value(_value10) {
       return _value10 ? (0, _FomatData.formatDate)(_value10, "YYYY/MM/DD") : null;
     }
   }, {
     id: 2,
     name: "Khác",
-    operator: '<>',
+    operator: "<>",
     value: function value(_value11) {
       return _value11 ? (0, _FomatData.formatDate)(_value11, "YYYY/MM/DD") : null;
     }
   }, {
     id: 3,
     name: "Nhỏ hơn",
-    operator: '<',
+    operator: "<",
     value: function value(_value12) {
       return _value12 ? (0, _FomatData.formatDate)(_value12, "YYYY/MM/DD") : null;
     }
   }, {
     id: 4,
     name: "Nhỏ hơn hoặc Bằng",
-    operator: '<=',
+    operator: "<=",
     value: function value(_value13) {
       return _value13 ? (0, _FomatData.formatDate)(_value13, "YYYY/MM/DD") : null;
     }
   }, {
     id: 5,
     name: "Lớn hơn",
-    operator: '>',
+    operator: ">",
     value: function value(_value14) {
       return _value14 ? (0, _FomatData.formatDate)(_value14, "YYYY/MM/DD") : null;
     }
   }, {
     id: 6,
     name: "Lớn hơn hoặc bằng",
-    operator: '>=',
+    operator: ">=",
     value: function value(_value15) {
       return _value15 ? (0, _FomatData.formatDate)(_value15, "YYYY/MM/DD") : null;
     }
   }, {
     id: 7,
     name: "(Trống)",
-    operator: 'IS NULL',
+    operator: "IS NULL",
     value: function value(_value16) {
       return _value16 ? null : null;
     },
@@ -669,7 +669,7 @@ var FIELDS_FILTER = {
   }, {
     id: 8,
     name: "(Không trống)",
-    operator: 'IS NOT NULL',
+    operator: "IS NOT NULL",
     value: function value(_value17) {
       return _value17 ? null : null;
     },
@@ -679,19 +679,19 @@ var FIELDS_FILTER = {
     id: 0,
     name: "Nam",
     operator: "=",
-    fieldName: 'gender',
+    fieldName: "gender",
     value: GENDER_OBJECT.MALE
   }, {
     id: 1,
     name: "Nữ",
     operator: "=",
-    fieldName: 'gender',
+    fieldName: "gender",
     value: GENDER_OBJECT.FEMALE
   }, {
     id: 2,
     name: "Khác",
     operator: "=",
-    fieldName: 'gender',
+    fieldName: "gender",
     value: GENDER_OBJECT.OTHER
   }]
 };
@@ -721,7 +721,7 @@ var TYPE_FILTER = {
 
 exports.TYPE_FILTER = TYPE_FILTER;
 var RULE_HANDLER_DATA = [{
-  name: 'Delete',
+  name: "Delete",
   text: "Xóa"
 }];
 /**
@@ -873,7 +873,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -885,7 +885,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -897,7 +897,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -909,7 +909,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -921,7 +921,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -933,7 +933,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -945,7 +945,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -957,7 +957,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -969,7 +969,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -981,7 +981,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -993,7 +993,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -1005,7 +1005,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -1017,7 +1017,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -1029,7 +1029,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -1041,7 +1041,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -1053,7 +1053,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -1065,7 +1065,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -1077,7 +1077,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "DateTime",
   isField: true,
   filter: {
-    operator: '=',
+    operator: "=",
     value: null
   }
 }, {
@@ -1089,7 +1089,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "DateTime",
   isField: true,
   filter: {
-    operator: '=',
+    operator: "=",
     value: null
   }
 }, {
@@ -1101,7 +1101,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "DateTime",
   isField: true,
   filter: {
-    operator: '=',
+    operator: "=",
     value: null
   }
 }, {
@@ -1113,7 +1113,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -1125,7 +1125,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -1137,7 +1137,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -1149,7 +1149,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -1161,7 +1161,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -1173,7 +1173,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -1185,7 +1185,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -1197,7 +1197,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -1209,7 +1209,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -1221,7 +1221,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -1233,7 +1233,7 @@ var SUPPLIER_FIELDS = [{
   typeFilter: "Text",
   isField: true,
   filter: {
-    operator: 'like',
+    operator: "like",
     value: null
   }
 }, {
@@ -1257,24 +1257,14 @@ var SUPPLIER_FIELDS = [{
   nameFilter: "Là khách hàng",
   isField: true
 }, {
-  name: "LÀ TỔ CHỨC",
+  name: "LÀ  KHÁCH HÀNG",
   fieldName: "isOrganization",
   width: 170,
   disabled: true,
   "class": "text-align-center",
   checkBoxDisable: true,
   typeFilter: "Boolean",
-  nameFilter: "Là tổ chức",
-  isField: true
-}, {
-  name: "LÀ CÁ NHÂN",
-  fieldName: "isPersonal",
-  width: 170,
-  disabled: true,
-  "class": "text-align-center",
-  checkBoxDisable: true,
-  typeFilter: "Boolean",
-  nameFilter: "Là cá nhân",
+  nameFilter: "là khách hàng",
   isField: true
 }, {
   width: 120,
@@ -1315,10 +1305,10 @@ var SUPPLIER_FIELDS = [{
 
 exports.SUPPLIER_FIELDS = SUPPLIER_FIELDS;
 var BatchExecution = [{
-  name: 'Delete',
+  name: "Delete",
   text: "Xóa"
 }, {
-  name: 'Sum',
+  name: "Sum",
   text: "Gộp"
 }];
 /**
@@ -1354,14 +1344,57 @@ var FIELDS_TABLE_COMBOBOX_EMPLOYEE = [{
 }];
 /**
  * Author: Phạm Văn Đạt(20/12/2022)
- * Function: HIển thị dữ liệu điều khoản thanh toán trong bảng con
+ * Function: HIển thị dữ liệu tài khoản công nợ phải trả trong bảng con
  */
 
 exports.FIELDS_TABLE_COMBOBOX_EMPLOYEE = FIELDS_TABLE_COMBOBOX_EMPLOYEE;
+var FIELDS_TABLE_COMBOBOX_ACCOUNTS_PAYABLE = [{
+  fieldName: "accountPayableID",
+  width: 0,
+  model: true,
+  style: "display:none;"
+}, {
+  name: "Số tài khoản",
+  fieldName: "accountPayableNumber",
+  width: 150
+}, {
+  name: "Tên tài khoản",
+  fieldName: "accountPayableName",
+  view: true,
+  width: 215
+}];
+/**
+ * Author: Phạm Văn Đạt(20/12/2022)
+ * Function: HIển thị dữ liệu tài khoản công nợ phải thu trong bảng con
+ */
+
+exports.FIELDS_TABLE_COMBOBOX_ACCOUNTS_PAYABLE = FIELDS_TABLE_COMBOBOX_ACCOUNTS_PAYABLE;
+var FIELDS_TABLE_COMBOBOX_ACCOUNTS_RECEIABLE = [{
+  fieldName: "accountReceivableID",
+  width: 0,
+  model: true,
+  style: "display:none;"
+}, {
+  name: "Số tài khoản",
+  fieldName: "accountReceivableNumber",
+  width: 150
+}, {
+  name: "Tên tài khoản",
+  fieldName: "accountReceivableName",
+  view: true,
+  width: 215
+}];
+/**
+ * Author: Phạm Văn Đạt(20/12/2022)
+ * Function: HIển thị dữ liệu điều khoản thanh toán trong bảng con
+ */
+
+exports.FIELDS_TABLE_COMBOBOX_ACCOUNTS_RECEIABLE = FIELDS_TABLE_COMBOBOX_ACCOUNTS_RECEIABLE;
 var FIELDS_TABLE_COMBOBOX_RULE_PAYMENTS = [{
   fieldName: "rulePaymentID",
   width: 0,
-  model: true
+  model: true,
+  style: "display:none;"
 }, {
   name: "Mã điều khoản thanh toán",
   fieldName: "rulePaymentCode",
@@ -1400,6 +1433,11 @@ var FIELDS_TABLE_COMBOBOX_SUPPLIERS = [{
 
 exports.FIELDS_TABLE_COMBOBOX_SUPPLIERS = FIELDS_TABLE_COMBOBOX_SUPPLIERS;
 var FIELDS_TABLE_ACCOUNTS_PAYABLE = [{
+  fieldName: "accountPayableID",
+  width: 0,
+  model: true,
+  style: "display:none;"
+}, {
   name: "Số tài khoản",
   view: true,
   fieldName: "accountPayableNumber",
@@ -1416,6 +1454,11 @@ var FIELDS_TABLE_ACCOUNTS_PAYABLE = [{
 
 exports.FIELDS_TABLE_ACCOUNTS_PAYABLE = FIELDS_TABLE_ACCOUNTS_PAYABLE;
 var FIELDS_TABLE_ACCOUNTS_RECEIVABLE = [{
+  fieldName: "accountReceivableID",
+  width: 0,
+  model: true,
+  style: "display:none;"
+}, {
   name: "Số tài khoản",
   view: true,
   fieldName: "accountReceivableNumber",
@@ -1473,15 +1516,15 @@ var FIELDS_BACKACCOUNT = [{
   fieldName: "SỐ TÀI KHOẢN",
   width: 150
 }, {
-  name: "backAccountName",
+  name: "bankAccountName",
   fieldName: "TÊN NGÂN HÀNG",
   width: 200
 }, {
-  name: "backAccountBrand",
+  name: "bankAccountBranch",
   fieldName: "CHI NHÁNH",
   width: 180
 }, {
-  name: "backAccountAddress",
+  name: "bankAccountCity",
   fieldName: "TỈNH/TP CỦA NGÂN HÀNG",
   width: 236
 }];
@@ -1509,16 +1552,19 @@ var LIST_CONTRACT = [{
 exports.LIST_CONTRACT = LIST_CONTRACT;
 var LIST_VOCATIVE = [{
   id: 1,
-  name: "Anh"
+  supplierVocativeName: "Anh"
 }, {
   id: 2,
-  name: "Chị"
+  supplierVocativeName: "Chị"
 }, {
   id: 3,
-  name: "Ông"
+  supplierVocativeName: "Ông"
 }, {
   id: 4,
-  name: "Bà"
+  supplierVocativeName: "Bà"
+}, {
+  id: 5,
+  supplierVocativeName: "Mẹ"
 }];
 /**
  * Author: Phạm Văn Đạt(19/12/2022)
@@ -1529,7 +1575,69 @@ exports.LIST_VOCATIVE = LIST_VOCATIVE;
 var FIELDS_TABLE_COMBOBOX_VOCATIVE = [{
   name: "Tên xưng hô",
   view: true,
-  fieldName: "name",
+  model: true,
+  fieldName: "supplierVocativeName",
   width: 100
 }];
+/**
+ * Author: Phạm Văn Đạt(22/12/2022)
+ * Function: HIển thị dữ liệu địa chỉ bảng con
+ */
+
 exports.FIELDS_TABLE_COMBOBOX_VOCATIVE = FIELDS_TABLE_COMBOBOX_VOCATIVE;
+var FIELDS_TABLE_COMBOBOX_ADDRESS = [{
+  name: "",
+  view: true,
+  model: true,
+  fieldName: "name",
+  width: 135
+}];
+/**
+ * Author: Phạm Văn Đạt(22/12/2022)
+ * Function: HIển thị dữ liệu địa chỉ bảng con
+ */
+
+exports.FIELDS_TABLE_COMBOBOX_ADDRESS = FIELDS_TABLE_COMBOBOX_ADDRESS;
+var FIELDS_TABLE_COMBOBOX_ADDRESS_TWO = [{
+  name: "",
+  view: true,
+  model: true,
+  fieldName: "name",
+  width: 147
+}];
+/**
+ * Author: Phạm Văn Đạt(22/12/2022)
+ * Function: dữ liệu quốc gia
+ */
+
+exports.FIELDS_TABLE_COMBOBOX_ADDRESS_TWO = FIELDS_TABLE_COMBOBOX_ADDRESS_TWO;
+var LIST_COUNTRY = [{
+  code: 1,
+  name: "Việt Nam"
+}];
+/**
+ * Author: Phạm Văn Đạt(22/12/2022)
+ * Function: Các trường xử lý required trong bảng nhà cung cấp
+ */
+
+exports.LIST_COUNTRY = LIST_COUNTRY;
+var FIELDS_SUPPLIERS_REQUIRED = [{
+  fielName: "supplierCode",
+  fieldText: "Mã nhà cung cấp"
+}, {
+  fielName: "supplierName",
+  fieldText: "Tên nhà cung cấp"
+}];
+/**
+ * Author: Phạm Văn Đạt(23/12/2022)
+ * Function: model bank Account
+ */
+
+exports.FIELDS_SUPPLIERS_REQUIRED = FIELDS_SUPPLIERS_REQUIRED;
+var BANK_ACCOUNTS_MODEL = [{
+  backAccountNumber: null,
+  bankAccountName: null,
+  bankAccountBranch: null,
+  bankAccountCity: null
+}];
+exports.BANK_ACCOUNTS_MODEL = BANK_ACCOUNTS_MODEL;

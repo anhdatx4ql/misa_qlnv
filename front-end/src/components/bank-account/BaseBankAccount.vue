@@ -23,11 +23,7 @@
           :key="item"
           :style="'width: ' + item.width + 'px;'"
         >
-          <base-textarea
-            @valueChange="flowbankAccounts = $event"
-            v-model.trim="bankAccounts[item.name]"
-            :height="31"
-          ></base-textarea>
+          <base-textarea v-model="i[item?.name]" :height="31"></base-textarea>
         </td>
         <td style="width: 40px">
           <div
@@ -40,6 +36,7 @@
               class="background-unset"
               classButtonIcon="background-icon background-position-delete w-h-16 d-flex"
               v-tooltip="'Ctrl + Delete'"
+              @clickButton="deleteItemBankAccounts(i)"
             ></base-button>
           </div>
         </td>
@@ -55,14 +52,7 @@
       text="Thêm dòng"
       :frontSize="12"
       :height="24"
-      @clickButton="
-        bankAccounts.push({
-          backAccountNumber: null,
-          backAccountName: null,
-          backAccountBrand: null,
-          backAccountAddress: null,
-        })
-      "
+      @clickButton="insertItemBackAccount"
     ></base-button>
 
     <base-button
@@ -70,13 +60,14 @@
       text="Xóa hết dòng"
       :frontSize="12"
       :height="24"
+      @clickButton="removeBankAccounts"
     ></base-button>
   </div>
 </template>
 
 <script>
-import { FIELDS_BACKACCOUNT } from "../../js/constants.js";
-
+import { FIELDS_BACKACCOUNT, BANK_ACCOUNTS_MODEL } from "../../js/constants.js";
+import { bankAccounts } from "../../js/Controllers/BankAccountsController.js";
 export default {
   name: "BaseBankAccount",
   props: {
@@ -99,14 +90,15 @@ export default {
 
       // theo dõi giá trị bankAccounts bj thay dodoir
       flowbankAccounts: false,
+
+      // danh sách lưu thông tin tài khoản ngân hàng,
+      BANK_ACCOUNTS_MODEL,
     };
   },
-  created() {
+  async created() {
     // gán giá trị
-    this.bankAccounts = this.modelValue;
-
-    // lấy số lượng cột
-    this.bankAccountRow = this.rowCount;
+    //modelValue là chuỗi nhiều id của tài khoản ngân hàng. Get data
+    await this.getDataBankAccounts(this.modelValue);
   },
   watch: {
     /**
@@ -114,10 +106,9 @@ export default {
      * Function: THeo dõi sự thay đổi của list dữ liệu đưa vào
      * @param {*} value : giá trị model đưa vào
      */
-    modelValue(value) {
+    async modelValue(value) {
       try {
-        console.log(value);
-        this.bankAccounts = value;
+        await this.getDataBankAccounts(value);
       } catch (e) {
         console.log(e);
       }
@@ -126,41 +117,109 @@ export default {
     /**
      * Author: Phạm Văn Đạt(15/12/2022)
      * Function: Theo dõi giá trị
-     * @param {*} value : giá trị mảng tài khoản nh
+     * @param {*} value : giá trị mảng tài khoản ngân hàng
      */
     bankAccounts: {
-      handler(vewValue) {
-        this.$emit('update:modelValue',vewValue);
+      handler(newValue) {
+        this.$emit("data", newValue);
       },
       deep: true,
     },
+  },
+  methods: {
     /**
-     * Author: Phạm Văn Đạt(15/12/2022)
-     * Function: kiểm tra xem giá trị trong object có thay đổi hay không
-     * @param {*} value : true | false
+     * Author: Phạm Văn Đạt(22/12/2022)
+     * Function: xthêm 1 item trong danh sách
      */
-    flowbankAccounts(value) {
+    insertItemBackAccount() {
       try {
-        if (value == true) {
+        this.bankAccounts = [
+          ...this.bankAccounts,
+          {
+            backAccountNumber: null,
+            bankAccountName: null,
+            bankAccountBranch: null,
+            bankAccountCity: null,
+          },
+        ];
+      } catch (e) {
+        console.log(e);
+      }
+    },
 
-          this.$emit('update:modelValue',this.bankAccounts);
+    /**
+     * Author: Phạm Văn Đạt(21/12/2022)
+     * Function: xóa hết item trong danh sách
+     */
+    removeBankAccounts() {
+      try {
+        this.bankAccounts = [
+          {
+            backAccountNumber: null,
+            bankAccountName: null,
+            bankAccountBranch: null,
+            bankAccountCity: null,
+          },
+        ];
+        this.bankAccountRow = 1;
 
-          this.flowbankAccounts = false;
+        console.log(this.bankAccounts);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(21/12/2022)
+     * Function: Xóa item khỏi danh sách
+     */
+    deleteItemBankAccounts(value) {
+      try {
+        let index = this.bankAccounts.findIndex((val) => val === value);
+
+        if (index != null) {
+          this.bankAccounts.splice(index, 1);
         }
       } catch (e) {
         console.log(e);
       }
     },
-  },
-  methods: {
+
+    /**
+     * Author: Phạm Văn Đạt(21/12/2022)
+     * Function: Xử lý lấy dữ liệu bankaccount
+     */
+    async getDataBankAccounts(value) {
+      try {
+        let arr = [];
+
+        // tách chuỗi thành mảng id để lấy dữ liệu
+        if (value) {
+          arr = value.split(";");
+        }
+
+        // lấy dữ liệu tài khoản ngân hàng
+        let result = await bankAccounts.getDataByIds(arr);
+
+        // gán giữ liệu vừa lấy được
+        if (result != null && result != []) {
+          this.bankAccounts = result;
+          this.bankAccountRow = result.length;
+        } else {
+          this.bankAccounts = BANK_ACCOUNTS_MODEL;
+          this.bankAccountRow = 1;
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
     /**
      * Author: Phạm Văn Đạt(15/12/2022)
      * Function: Xử lý click thêm bankaccount
      */
     clickAddbankAccount() {
       this.bankAccountRow = this.bankAccountRow + 1;
-
-      this.console.log(this.bankAccounts);
     },
   },
 };

@@ -82,13 +82,13 @@ var supplierModel = {
   /// là tổ chức( 0 - là cá nhân, 1 - là tổ chức)
   isOrganization: false,
   /// danh sách id của tài khoản ngân hàng
-  bankAccountIds: false,
+  bankAccountIds: null,
   /// danh sách  các địa chỉ giao hàng của nhà cung cấp
-  deliveryAddress: false,
+  deliveryAddress: null,
   /// số tiền đã thanh toán
   paid: 0,
   /// Số CMND
-  idNo: false,
+  idNo: null,
   /// Ngày cấp
   issueOn: null,
   /// nơi cấp
@@ -177,13 +177,13 @@ function () {
                   operator: "like",
                   value: this.keyword,
                   typeOperator: "like",
-                  Concatenation: "OR"
+                  stringConcatenation: "OR"
                 }, {
                   name: "supplierName",
                   operator: "like",
                   value: this.keyword,
                   typeOperator: "like",
-                  Concatenation: "OR"
+                  stringConcatenation: "OR"
                 });
               }
 
@@ -221,10 +221,10 @@ function () {
      */
 
   }, {
-    key: "insertEmployee",
-    value: function insertEmployee(data) {
+    key: "insertSupplier",
+    value: function insertSupplier(data) {
       var res;
-      return regeneratorRuntime.async(function insertEmployee$(_context2) {
+      return regeneratorRuntime.async(function insertSupplier$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
@@ -235,17 +235,18 @@ function () {
               res = _context2.sent;
 
               if (!(res.status == _constants.STATUS_CODES.Code200)) {
-                _context2.next = 7;
+                _context2.next = 8;
                 break;
               }
 
+              console.log(res);
               return _context2.abrupt("return", res.data);
 
-            case 7:
+            case 8:
               console.log(res);
               console.log("thêm mới thất bại");
 
-            case 9:
+            case 10:
             case "end":
               return _context2.stop();
           }
@@ -259,10 +260,10 @@ function () {
      */
 
   }, {
-    key: "updateEmployee",
-    value: function updateEmployee(data) {
+    key: "updateSupplier",
+    value: function updateSupplier(data) {
       var res;
-      return regeneratorRuntime.async(function updateEmployee$(_context3) {
+      return regeneratorRuntime.async(function updateSupplier$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
@@ -273,18 +274,57 @@ function () {
               res = _context3.sent;
 
               if (!(res.status == _constants.STATUS_CODES.Code200)) {
-                _context3.next = 7;
+                _context3.next = 8;
                 break;
               }
 
+              console.log(res);
               return _context3.abrupt("return", res.data);
 
-            case 7:
+            case 8:
               console.log("thêm mới thất bại");
 
-            case 8:
+            case 9:
             case "end":
               return _context3.stop();
+          }
+        }
+      });
+    }
+    /**
+     * Author: Phạm Văn Đạt(20/12/2022)
+     * Function: Lấy mã code mới nhất
+     * @returns trả về dữ liệu nếu thành công.
+     */
+
+  }, {
+    key: "getMaxCode",
+    value: function getMaxCode() {
+      var res;
+      return regeneratorRuntime.async(function getMaxCode$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.next = 2;
+              return regeneratorRuntime.awrap((0, _BaseController.getMaxCode)(_endPoint.END_POINTS.SuppliersMaxCode));
+
+            case 2:
+              res = _context4.sent;
+
+              if (!(res.statusCode == _constants.STATUS_CODES.Code200)) {
+                _context4.next = 8;
+                break;
+              }
+
+              console.log(res.data);
+              return _context4.abrupt("return", res.data);
+
+            case 8:
+              console.log(res);
+
+            case 9:
+            case "end":
+              return _context4.stop();
           }
         }
       });

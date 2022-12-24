@@ -7,6 +7,7 @@ import {
   insertRecord,
   updateRecord,
   paging,
+  getMaxCode
 } from "../Controllers/BaseController";
 
 import { STATUS_CODES } from "../constants";
@@ -94,17 +95,16 @@ export const supplierModel = {
   isOrganization: false,
 
   /// danh sách id của tài khoản ngân hàng
-  bankAccountIds: false,
+  bankAccountIds: null,
 
   /// danh sách  các địa chỉ giao hàng của nhà cung cấp
-
-  deliveryAddress: false,
+  deliveryAddress: null,
 
   /// số tiền đã thanh toán
   paid: 0,
 
   /// Số CMND
-  idNo: false,
+  idNo: null,
 
   /// Ngày cấp
   issueOn: null,
@@ -113,7 +113,6 @@ export const supplierModel = {
   placeOfIssue: null,
 
   /// Họ và tên người nhận hóa đơn điện tử
-
   userNameElectronicBill: null,
 
   /// email người nhận hóa đơn điện tử
@@ -202,14 +201,14 @@ export class Suppliers {
           operator: "like",
           value: this.keyword,
           typeOperator: "like",
-          Concatenation: "OR",
+          stringConcatenation: "OR",
         },
         {
           name: "supplierName",
           operator: "like",
           value: this.keyword,
           typeOperator: "like",
-          Concatenation: "OR",
+          stringConcatenation: "OR",
         }
       );
     }
@@ -241,10 +240,11 @@ export class Suppliers {
    * Function: Thêm mới nhà cung cấp
    * @param {*} data : Dữ liệu truyền vào
    */
-  async insertEmployee(data) {
+  async insertSupplier(data) {
     let res = await insertRecord(END_POINTS.Suppliers, data);
 
     if (res.status == STATUS_CODES.Code200) {
+      console.log(res);
       return res.data;
     } else {
       console.log(res);
@@ -257,13 +257,29 @@ export class Suppliers {
    * Function: Xử lý update nhà cung cấp
    * @param {*} data : Dữ liệu truyền vào
    */
-  async updateEmployee(data) {
+  async updateSupplier(data) {
     let res = await updateRecord(END_POINTS.Suppliers, data);
 
     if (res.status == STATUS_CODES.Code200) {
+      console.log(res);
       return res.data;
     } else {
       console.log("thêm mới thất bại");
+    }
+  }
+
+  /**
+   * Author: Phạm Văn Đạt(20/12/2022)
+   * Function: Lấy mã code mới nhất
+   * @returns trả về dữ liệu nếu thành công.
+   */
+   async getMaxCode() {
+    let res = await getMaxCode(END_POINTS.SuppliersMaxCode);
+    if (res.statusCode == STATUS_CODES.Code200) {
+      console.log(res.data);
+      return res.data;
+    } else {
+      console.log(res);
     }
   }
 }

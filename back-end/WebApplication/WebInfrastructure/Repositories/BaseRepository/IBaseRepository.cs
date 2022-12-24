@@ -44,6 +44,15 @@ namespace MISA.AMIS.DL
         Task<int> InsertRecord(string query, DynamicParameters parameters = null);
 
         /// <summary>
+        /// Author: Phạm Văn Đạt
+        /// Function: Xử lý thêm mới nhiều bản ghi
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        Task<int> InsertRecords(string query, DynamicParameters parameters = null);
+
+        /// <summary>
         /// Author: Phạm Văn Đạt(19/12/2022)
         /// Function: Lấy mã code lớn nhất
         /// </summary>
@@ -94,6 +103,16 @@ namespace MISA.AMIS.DL
         /// <param name="parameters">tham số truyền vào</param>
         /// <returns></returns>
         Task<dynamic> CheckExists(string sql, DynamicParameters parameters);
+
+
+        /// <summary>
+        /// Author: Phạm Văn Đạt(21/12/2022)
+        /// Function: lấy danh sách dữ liệu theo id
+        /// </summary>
+        /// <param name="sql">chuỗi sql</param>
+        /// <param name="parameters">tham số truyền vào</param>
+        /// <returns></returns>
+        Task<List<T>> GetDataByIds(string sql, DynamicParameters parameters = null);
         #endregion
     }
 }

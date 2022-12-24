@@ -20,28 +20,41 @@
           v-for="item in currentItemValue"
           :key="item"
           class="combobox-multiple-container-content-item"
-          :class="{'select-item-multiple':isMultiple}"
+          :class="{ 'select-item-multiple': isMultiple }"
         >
-
           <!-- nếu chọn nhiều -->
           <span v-for="field in listField" :key="field">
-            {{ field.view && isMultiple? item[field.fieldName] : "" }}</span
+            {{ field.view && isMultiple ? item[field.fieldName] : "" }}</span
           >
-          <span v-if="isMultiple" class="background-icon-close-small w-h-16 flex" @click="deleteItemData(item)"></span>
-
+          <span
+            v-if="isMultiple"
+            class="background-icon-close-small w-h-16 flex"
+            @click="deleteItemData(item)"
+          ></span>
         </div>
 
         <!-- input chọn nhiều -->
-        <base-input-text :placeholder="placeholder" v-if="isMultiple"></base-input-text>
+        <base-input-text
+          :placeholder="placeholder"
+          v-if="isMultiple"
+          ref="inputMultiple"
+        ></base-input-text>
 
         <!-- input chọn ít -->
-        <base-input-text v-else :placeholder="placeholder" v-model="valutInput"></base-input-text>
-
+        <base-input-text
+          v-else
+          ref="input"
+          :placeholder="placeholder"
+          v-model="valueInput"
+        ></base-input-text>
       </div>
       <!-- end input combobox -->
 
       <!-- start input button -->
-      <div class="combobox-multiple-container-content-actions" :class="position" >
+      <div
+        class="combobox-multiple-container-content-actions"
+        :class="position"
+      >
         <base-button
           v-if="iconSum"
           @clickButton="clickIconSum"
@@ -51,9 +64,9 @@
         ></base-button>
 
         <base-button
-        :height="height"
-        :class="{'dropdown-active':showDropDown}"
-        @clickButton="loadingData"
+          :height="height"
+          :class="{ 'dropdown-active': showDropDown }"
+          @clickButton="loadData"
           listClass="button-white"
           classButtonIcon="background-icon-arrow-bottom w-24 h-24 flex"
         ></base-button>
@@ -63,9 +76,13 @@
     <!-- end content -->
 
     <!-- start dropdown -->
-    <div v-show="showDropDown" @scroll="handlerscrollDropDown" class="combobox-multiple-dropdown">
-      <table v-if="currentListData.length > 0" >
-        <thead>
+    <div
+      v-show="showDropDown"
+      @scroll="handlerscrollDropDown"
+      class="combobox-multiple-dropdown"
+    >
+      <table v-if="currentListData.length > 0">
+        <thead v-show="isTHead">
           <tr>
             <th
               v-for="field in listField"
@@ -75,7 +92,7 @@
             >
               {{ field.name }}
             </th>
-            <th style="width: 36px" ></th>
+            <th style="width: 36px"></th>
           </tr>
         </thead>
         <tbody>
@@ -104,7 +121,6 @@
       <div v-else>
         <p>Loading dữ liệu</p>
       </div>
-
     </div>
     <!-- end dropdown -->
   </div>
@@ -114,9 +130,17 @@
 export default {
   name: "BaseComboboxMultiple",
   props: {
+    // kiểm tra có focus hay không
+    checkFocus: Boolean,
+
+    // hiển thị thead
+    isTHead: {
+      Type: Boolean,
+      default: true,
+    },
 
     // nhắc nhở trong input
-    placeholder:{
+    placeholder: {
       Type: String,
       default: null,
     },
@@ -154,30 +178,31 @@ export default {
     // vị trí hiển thị drop down
     position: {
       Type: String,
-      default: 'bottom'
+      default: "bottom",
     },
 
     // đưuọc chọn nhiều
-    isMultiple:{
+    isMultiple: {
       Type: Boolean,
-      default: true
+      default: true,
     },
 
     // chiều cao combobox mặc định
-    height:{
+    height: {
       Type: Number,
-      default: 32
-    }
+      default: 32,
+    },
   },
   data() {
-
-    return{
+    return {
+      // tên trường hiển thị
+      fieldNameView: null,
 
       // hien thi dropdown
       showDropDown: false,
 
       // value input chọn ít
-      valutInput: null,
+      valueInput: null,
 
       // giá trị hiển thị
       currentListData: [],
@@ -189,29 +214,54 @@ export default {
       currentItemValue: [],
 
       // tên trường id
-      fieldNameModel: null
-
+      fieldNameModel: null,
     };
-
   },
   created() {
-
     // khởi tạo giá trị ban đầu
     this.currentListData = this.listData;
 
     // gán giá trị hiển thị
-    this.currentModelValue = (this.modelValue != [])?this.modelValue: [];
+    if (
+      typeof this.modelValue == "string" ||
+      typeof this.modelValue == "number" ||
+      typeof this.modelValue == "object"
+    ) {
+      this.currentModelValue = [this.modelValue];
+    } else {
+      this.currentModelValue =
+        this.modelValue == [] ? [] : [...this.modelValue];
+    }
 
+    console.log(typeof this.modelValue);
+    console.log(this.modelValue);
+    console.log(this.currentModelValue);
+
+    // lấy tên trường dữ liệu id
     this.selectFieldNameModel();
+
+    //lấy tên trường hiển thị
+    this.selectFieldNameView();
+
+    // lấy field hiển thị
+    this.selectCurrentData(this.currentModelValue);
   },
-  mounted() {},
-  watch:{
+  mounted() {
+    /**
+     * Author: Phạm Văn Đạt(23/12/2022)
+     * Function: kiểm tra focus
+     */
+    if (this.checkFocus == true) {
+      this.handlerFocus();
+    }
+  },
+  watch: {
     /**
      * Author: Phạm Văn Đạt(13/12/2022)
      * Function: Xử lý tìm kiếm giá trị
      * @param {*} value : giá trị text tìm kiếm
      */
-    valutInput(value){
+    valueInput(value) {
       console.log(value);
     },
 
@@ -220,8 +270,13 @@ export default {
      * Function: theo dõi giá trị mới đưa vào
      * @param {*} value :giá trị data truyền vào
      */
-    listData(value){
+    listData(value) {
       this.currentListData = [...value];
+
+      // lấy item hiển thị
+      if (this.modelValue != []) {
+        this.selectCurrentData(this.currentModelValue);
+      }
     },
 
     /**
@@ -231,31 +286,94 @@ export default {
      */
     modelValue: {
       handler(val) {
-        this.currentModelValue = val;
-        this.selectCurrentData();
-        console.log(val)
+        this.currentModelValue = val != [] ? val : [];
+        this.selectCurrentData(this.currentModelValue);
       },
-    deep: true
-    }
+      deep: true,
+    },
   },
   methods: {
+    /**
+     * Author: Phạm Văn Đạt(23/12/2022)
+     * Function: focus input
+     */
+    handlerFocus() {
+      try {
+        if (this.isMultiple) {
+          this.$refs.inputMultiple?.focus();
+        } else {
+          this.$refs.input?.focus();
+        }
+        this.$emit("checkFocus", false);
+      } catch (e) {
+        console.log(e);
+      }
+    },
 
-    selectCurrentData(){
-      try{
+    /**
+     * Author: Phạm Văn Đạt(21/12/2022)
+     * Function: Lấy item hiển thị
+     * @param {*} currentModelValue :  danh sách item hiện tại
+     */
+    selectCurrentData(currentModelValue) {
+      try {
         let arr = [];
+
+        // nếu giá trị đưa vào không phải là mảng => chuyển nó về mảng
+        if (typeof currentModelValue[0] == "string") {
+          if (this.isMultiple == true) {
+            currentModelValue = [...currentModelValue];
+          } else {
+            currentModelValue = [currentModelValue];
+          }
+        }
+
+        if (this.isMultiple == true) {
+          currentModelValue = [...currentModelValue[0]];
+        }
+
+
         // lấy item hiển thị lên input
-        for(let i=0;i<this.currentModelValue.length; i ++){
-          for(let j=0;j<this.currentListData.length;j++){
-            if(this.currentModelValue[i] == this.currentListData[j][this.fieldNameModel]){
-              arr = [...arr,this.currentListData[j]]
+        // currentModelValue: mảng hiển thị dữ liệu
+        // this.currentListData: dữ liệu đưa vào
+        for (let i = 0; i < currentModelValue.length; i++) {
+          for (let j = 0; j < this.currentListData.length; j++) {
+            if (
+              currentModelValue[i] ==
+              this.currentListData[j][this.fieldNameModel]
+            ) {
+              arr = [...arr, this.currentListData[j]];
             }
           }
         }
-        // gán giá trị hiển thị
-        this.currentItemValue = arr;
-        console.log(this.currentItemValue)
 
-      }catch(e){
+        // gán giá trị hiển thị
+        this.currentItemValue = [...arr];
+
+        console.log(this.currentItemValue);
+
+        //  kiểm tra xem mảng đưa vào có giá trị không
+        if (!(currentModelValue[0] == null)) {
+          // kiểm tra load dữ liệu item
+          // nếu măng lưu giá trị hiện tại tồn tại và dữ liệu ban đầu rỗng hoặc không
+          //tìm thấy item trong listDAta => load lại dữ liệu
+          if (
+            (currentModelValue.length > 0 && this.listData.length == 0) ||
+            (this.listData.length > 0 &&
+              this.currentItemValue.length != currentModelValue.length)
+          ) {
+            console.log("load dữ liệu");
+            this.$emit("loadData", true);
+          }
+        }
+
+        // lấy input hiển thị
+        if (this.currentItemValue != []) {
+          this.valueInput = this.currentItemValue[0]
+            ? this.currentItemValue[0][this.fieldNameView]
+            : null;
+        }
+      } catch (e) {
         console.log(e);
       }
     },
@@ -264,18 +382,31 @@ export default {
      * Author: Phạm Văn Đạt(20/12/2022)
      * Function: lấy tên trường id
      */
-    selectFieldNameModel(){
-      try{
+    selectFieldNameModel() {
+      try {
+        let fieldName = this.listField.filter((l) => l.model == true);
 
-        let fieldName = this.listField.filter(l => l.model  == true);
-
-        console.log(fieldName)
-
-        if(fieldName != []){
-          this.fieldNameModel = [fieldName[0].fieldName]
+        if (fieldName != []) {
+          this.fieldNameModel = fieldName[0]?.fieldName;
         }
+      } catch (e) {
+        console.log(e);
+      }
+    },
 
-      }catch(e){
+    /**
+     * Author: Phạm Văn Đạt(20/12/2022)
+     * Function: lấy tên trường hiển thị
+     */
+    selectFieldNameView() {
+      try {
+        let fieldName = this.listField.filter((l) => l.view == true);
+
+        if (fieldName != []) {
+          this.fieldNameView = fieldName[0]?.fieldName;
+          console.log(this.fieldNameView);
+        }
+      } catch (e) {
         console.log(e);
       }
     },
@@ -284,16 +415,16 @@ export default {
      * Author: Phạm Văn Đạt(18/12/2022)
      * Function: Xử lý load dữ liệu
      */
-    loadingData(){
-      try{
+    loadData() {
+      try {
         this.showDropDown = !this.showDropDown;
-        if(this.listData.length == 0){
-          this.$emit('loadData',true);
-        }else{
-          this.$emit('loadData',false);
+        if (this.listData.length == 0) {
+          this.$emit("loadData", true);
+        } else {
+          this.$emit("loadData", false);
         }
-      }catch(e){
-        console.log(e)
+      } catch (e) {
+        console.log(e);
       }
     },
 
@@ -302,19 +433,18 @@ export default {
      * Function: Xử lý load dữ liệu khi cuộn đến cuối trang
      * @param {*} event : Sự kiện scroll
      */
-    handlerscrollDropDown(event){
-      try{
-        
+    handlerscrollDropDown(event) {
+      try {
         let scrollHeight = event.target.scrollHeight;
         let scrollTop = event.target.scrollTop;
         let clientHeight = event.target.clientHeight;
 
-        if(clientHeight + scrollTop >= scrollHeight){
-          this.$emit('loadData',true);
-        }else{
-          this.$emit('loadData',false);
+        if (clientHeight + scrollTop >= scrollHeight) {
+          this.$emit("loadData", true);
+        } else {
+          this.$emit("loadData", false);
         }
-      }catch(e){
+      } catch (e) {
         console.log(e);
       }
     },
@@ -324,10 +454,10 @@ export default {
      * Function: Xử lý click icon sum
      * @param {*} e : Sự kiện click
      */
-    clickIconSum(){
-      try{  
-        this.$emit('clickIconSum');
-      }catch(e){
+    clickIconSum() {
+      try {
+        this.$emit("clickIconSum");
+      } catch (e) {
         console.log(e);
       }
     },
@@ -336,7 +466,7 @@ export default {
      * Author: Phạm Văn Đạt(13/12/2022)
      * Function: Xử lý ẩn DropDown
      */
-     handlerHideDropdown() {
+    handlerHideDropdown() {
       this.showDropDown = false;
     },
 
@@ -347,52 +477,49 @@ export default {
      */
     itemDropdownTable(item) {
       try {
-
         //  tạo mảng lưu giá trị
         let arr = [];
 
         // xử lý chọn nhiều
-        if(this.isMultiple == true){
+        if (this.isMultiple == true) {
           // kiểm tra xem item vừa chọn đã chọn trước đó hay chưa
           let checkExistsItem = this.checkExistItemData(item);
 
+          console.log(checkExistsItem);
+
           // nếu chưa chọn thì thêm vào
           if (checkExistsItem == false) {
-            console.log("thêm vào")
+            console.log("thêm vào");
             arr = [...this.modelValue, item[this.fieldNameModel]];
           }
           // nếu chọn rồi thì xóa đi
           else {
-            console.log("xóa đi")
+            console.log("xóa đi");
             this.deleteItemData(item);
             arr = [...this.modelValue];
           }
 
           console.log(this.modelValue);
-        }else{
+        } else {
+          arr = item[this.fieldNameModel];
+          console.log(this.fieldNameModel);
+          console.log(item);
 
-          arr = [item[this.fieldNameModel]];
           // xử lý chọn 1
           this.showDropDown = false;
-          
-          // lấy text hiển thị
-          const result = this.listField.filter(l => l.view  == true);
 
-          if(result){
-            
-            this.valutInput = item[result[0].fieldName];
-            
+          // lấy text hiển thị
+          const result = this.listField.filter((l) => l.view == true);
+
+          if (result) {
+            this.valueInput = item[result[0].fieldName];
           }
         }
 
-        console.log(arr)
+        // lấy giá trị hiển thị
+        this.selectCurrentData(arr);
 
         this.$emit("update:modelValue", arr);
-
-        // lấy giá trị hiển thị
-        this.selectCurrentData();
-        console.log( this.showDropDown)
-
       } catch (e) {
         console.log(e);
       }
@@ -403,10 +530,10 @@ export default {
      * Function: Xử lý xóa item truyền vào
      * @param {*} item : giá trị item đưa vào
      */
-    deleteItemData(item){
-      try{
+    deleteItemData(item) {
+      try {
         // chọn nhiều mới có chức năng này
-        if(this.isMultiple == true){
+        if (this.isMultiple == true) {
           let index = null;
 
           // kiểm tra phần tử nằm ở vị trí nào
@@ -417,7 +544,7 @@ export default {
             }
           }
 
-          console.log(index)
+          console.log(index);
 
           // nếu tồn tại index tương tự với item thì xóa đi
           if (index != null) {
@@ -426,13 +553,12 @@ export default {
             // không thể thao tác trực tiếp với biến v-model => tạo biến trung gian
             arrCurent.splice(index, 1);
 
-            console.log(arrCurent)
+            console.log(arrCurent);
 
             this.$emit("update:modelValue", arrCurent);
           }
         }
-        
-      }catch(e){
+      } catch (e) {
         console.log(e);
       }
     },
@@ -444,9 +570,13 @@ export default {
      */
     checkExistItemData(item) {
       try {
-        
-        if(this.modelValue){
-          const arr = [...this.modelValue]
+        if (this.modelValue) {
+          let arr = [];
+          if (typeof this.modelValue == "string") {
+            arr = [this.modelValue];
+          } else {
+            arr = [...this.modelValue];
+          }
 
           for (let i = 0; i < arr.length; i++) {
             if (item[this.fieldNameModel] == arr[i]) {

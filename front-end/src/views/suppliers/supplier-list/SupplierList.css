@@ -315,3 +315,19 @@
     outline: unset;
     color: #0075c0;
 }
+
+.vocative-combobox .combobox-multiple-dropdown {
+    min-width: 146px;
+    overflow-y: scroll;
+}
+
+.vocative-combobox .combobox-multiple-dropdown th,.vocative-combobox .combobox-multiple-dropdown td {
+    border-right: 0 !important;
+    height: 32px !important;
+}
+
+.vocative-combobox .combobox-multiple-dropdown td {
+    background: unset;
+    box-sizing: border-box;
+    border-bottom: 0;
+}

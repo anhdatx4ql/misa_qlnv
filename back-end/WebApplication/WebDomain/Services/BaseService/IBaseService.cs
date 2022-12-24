@@ -31,12 +31,29 @@ namespace MISA.AMIS.BL
         Task<ReponsitoryModel> GetMaxCode();
 
         /// <summary>
+        /// Author: Phạm Văn Đạt(21/12/2022)
+        /// Function: Xử lý lấy dữ liệu theo danh sách id truyền vào
+        /// </summary>
+        /// <param name="ids">danh sách id</param>
+        /// <returns></returns>
+        Task<ReponsitoryModel> GetDataByIds(List<Guid> ids);
+
+        /// <summary>
         /// Author: Phạm Văn Đạt
         /// Function: Thêm mới 1 bản ghi vào bảng
         /// </summary>
         /// <param name="entity">dữ liệu truyển vào T</param>
         /// <returns></returns>
         Task<ReponsitoryModel> InsertRecord(T entity);
+
+
+        /// <summary>
+        /// Author: Phạm Văn Đạt(23/12/2022)
+        /// Function: Thêm mới nhiều bản ghi vào bảng
+        /// </summary>
+        /// <param name="entity">các bảng truyền vào</param>
+        /// <returns></returns>
+        Task<ReponsitoryModel> InsertRecords(List<T> entitys);
 
         /// <summary>
         /// Author: Phạm Văn Đạt
