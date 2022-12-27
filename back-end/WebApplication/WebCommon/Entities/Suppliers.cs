@@ -204,8 +204,9 @@ namespace MISA.AMIS.Common
         /// <summary>
         /// Ngày cấp
         /// </summary>
+        [AttributeDateTime("Ngày tháng không vượt quá ngày tháng hiện tại.")]
         [AttributePost("")]
-        public string IssueOn { set; get; }
+        public DateTime? IssueOn { set; get; }
 
         /// <summary>
         /// nơi cấp

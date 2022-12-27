@@ -77,6 +77,44 @@ function () {
         }
       });
     }
+    /**
+    * Author: Phạm Văn Đạt(25/12/2022)
+    * Function: Thêm mới nhóm nhà cung cấp
+    * @param {*} data : Dữ liệu truyền vào
+    */
+
+  }, {
+    key: "insert",
+    value: function insert(data) {
+      var res;
+      return regeneratorRuntime.async(function insert$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return regeneratorRuntime.awrap((0, _BaseController.insertRecord)(_endPoint.END_POINTS.BankAccountsInserts, data));
+
+            case 2:
+              res = _context2.sent;
+
+              if (!(res.status == _constants.STATUS_CODES.Code200)) {
+                _context2.next = 7;
+                break;
+              }
+
+              return _context2.abrupt("return", res.data);
+
+            case 7:
+              console.log(res);
+              console.log("thêm mới thất bại");
+
+            case 9:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      });
+    }
   }]);
 
   return BankAccounts;

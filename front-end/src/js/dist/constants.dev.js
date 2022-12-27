@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.BANK_ACCOUNTS_MODEL = exports.FIELDS_SUPPLIERS_REQUIRED = exports.LIST_COUNTRY = exports.FIELDS_TABLE_COMBOBOX_ADDRESS_TWO = exports.FIELDS_TABLE_COMBOBOX_ADDRESS = exports.FIELDS_TABLE_COMBOBOX_VOCATIVE = exports.LIST_VOCATIVE = exports.LIST_CONTRACT = exports.FIELDS_BACKACCOUNT = exports.FIELDS_HEADER_LEFT_SUPPLIER_DETAIL = exports.LIST_TABS_SUPPLIERS = exports.FIELDS_TABLE_ACCOUNTS_RECEIVABLE = exports.FIELDS_TABLE_ACCOUNTS_PAYABLE = exports.FIELDS_TABLE_COMBOBOX_SUPPLIERS = exports.FIELDS_TABLE_COMBOBOX_RULE_PAYMENTS = exports.FIELDS_TABLE_COMBOBOX_ACCOUNTS_RECEIABLE = exports.FIELDS_TABLE_COMBOBOX_ACCOUNTS_PAYABLE = exports.FIELDS_TABLE_COMBOBOX_EMPLOYEE = exports.RULE_FORM_SUPPLIER_DETAIL = exports.BatchExecution = exports.SUPPLIER_FIELDS = exports.LIST_MENU_PROCESS_BOTTOM = exports.LIST_REPORTS_PROCESS = exports.LIST_CASH_TAB = exports.TITLES_FORM = exports.TEXT_TOAST_MESSAGE = exports.RULE_HANDLER_DATA = exports.TYPE_FILTER = exports.FIELDS_FILTER_NOT_VALUE = exports.FIELDS_FILTER = exports.RULE_FORMAT_DATA = exports.FUNCTION_TABLE = exports.FUNCTION_UPLOAD = exports.FIELDS_REQUIRED = exports.STATUS_CODES = exports.NOTIFY_TEXT = exports.NOTIFY_LIST = exports.GENDERS = exports.PAGING_ITEMS = exports.TABLE_FIELDS = exports.COMPANIES = exports.MENU_ITEMS = void 0;
+exports.FIELDS_TABLE_POSITIONS = exports.FIELDS_TABLE_DEPARTMENTS = exports.FIELDS_POSITION = exports.BANK_ACCOUNTS_MODEL = exports.FIELDS_GROUP_SUPPLIERS_REQUIRED = exports.FIELDS_RULE_PAYMENTS_REQUIRED = exports.FIELDS_SUPPLIERS_REQUIRED = exports.LIST_COUNTRY = exports.FIELDS_TABLE_COMBOBOX_ADDRESS_TWO = exports.FIELDS_TABLE_COMBOBOX_ADDRESS = exports.FIELDS_TABLE_COMBOBOX_VOCATIVE = exports.LIST_VOCATIVE = exports.LIST_CONTRACT = exports.FIELDS_BACKACCOUNT = exports.FIELDS_HEADER_LEFT_SUPPLIER_DETAIL = exports.LIST_TABS_SUPPLIERS = exports.FIELDS_TABLE_ACCOUNTS_RECEIVABLE = exports.FIELDS_TABLE_COMBOBOX_CONTRACT = exports.FIELDS_TABLE_ACCOUNTS_PAYABLE = exports.FIELDS_TABLE_COMBOBOX_SUPPLIERS_ONE = exports.FIELDS_TABLE_COMBOBOX_SUPPLIERS = exports.FIELDS_TABLE_COMBOBOX_RULE_PAYMENTS = exports.FIELDS_TABLE_COMBOBOX_ACCOUNTS_RECEIABLE = exports.FIELDS_TABLE_COMBOBOX_ACCOUNTS_PAYABLE = exports.FIELDS_TABLE_COMBOBOX_EMPLOYEE = exports.RULE_FORM_SUPPLIER_DETAIL = exports.BatchExecution = exports.SUPPLIER_FIELDS = exports.LIST_MENU_PROCESS_BOTTOM = exports.LIST_REPORTS_PROCESS = exports.LIST_CASH_TAB = exports.TITLES_FORM = exports.TEXT_TOAST_MESSAGE = exports.RULE_HANDLER_DATA = exports.TYPE_FILTER = exports.FIELDS_FILTER_NOT_VALUE = exports.FIELDS_FILTER = exports.RULE_FORMAT_DATA = exports.FUNCTION_TABLE = exports.FUNCTION_UPLOAD = exports.FIELDS_REQUIRED = exports.STATUS_CODES = exports.NOTIFY_TEXT = exports.NOTIFY_LIST = exports.GENDERS = exports.PAGING_ITEMS = exports.TABLE_FIELDS = exports.COMPANIES = exports.MENU_ITEMS = void 0;
 
 var _FomatData = require("/src/js/FomatData");
 
@@ -469,13 +469,13 @@ var NOTIFY_TEXT = {
 
 exports.NOTIFY_TEXT = NOTIFY_TEXT;
 var STATUS_CODES = {
-  Code200: 200,
+  Code200: "200",
   // lấy dữ liệu thành công
-  Code201: 201,
+  Code201: "201",
   // thêm thành công
-  Code400: 400,
+  Code400: "400",
   // lỗi dữ liệu không đúng
-  Code500: 500 // lỗi server
+  Code500: "500" // lỗi server
 
 };
 /**
@@ -485,14 +485,17 @@ var STATUS_CODES = {
 
 exports.STATUS_CODES = STATUS_CODES;
 var FIELDS_REQUIRED = [{
-  fielName: "employeeId",
+  fielName: "employeeCode",
   fieldText: "Mã"
 }, {
-  fielName: "name",
+  fielName: "employeeName",
   fieldText: "Tên"
 }, {
   fielName: "departmentId",
   fieldText: "Đơn vị"
+}, {
+  fielName: "typeOfContract",
+  fieldText: "Loại hợp đồng"
 }];
 /**
  * Author: Phạm Văn Đạt(03/11/2022)
@@ -742,6 +745,18 @@ var TEXT_TOAST_MESSAGE = {
   UpdateFail: {
     text: "Cập nhật thất bại",
     type: "error"
+  },
+  CreateSuccess: {
+    text: "Thêm mới thành công.",
+    type: "success"
+  },
+  UpdateSuccess: {
+    text: "Cập nhật thành công.",
+    type: "success"
+  },
+  DeleteSuccess: {
+    text: "Xóa thành công.",
+    type: "success"
   }
 };
 /**
@@ -1428,10 +1443,31 @@ var FIELDS_TABLE_COMBOBOX_SUPPLIERS = [{
 }];
 /**
  * Author: Phạm Văn Đạt(13/12/2022)
- * Function: HIển thị dữ liệu tài khoản công nợ phải trả bảng con
+ * Function: HIển thị dữ liệu nhà cung cấp trong bảng con
  */
 
 exports.FIELDS_TABLE_COMBOBOX_SUPPLIERS = FIELDS_TABLE_COMBOBOX_SUPPLIERS;
+var FIELDS_TABLE_COMBOBOX_SUPPLIERS_ONE = [{
+  fieldName: "groupSupplierID",
+  width: 0,
+  model: true,
+  style: "display:none;"
+}, {
+  name: "Mã nhóm KH, NCC",
+  fieldName: "groupSupplierCode",
+  width: 185
+}, {
+  name: "Tên nhóm KH, NCC",
+  fieldName: "groupSupplierName",
+  view: true,
+  width: 283
+}];
+/**
+ * Author: Phạm Văn Đạt(13/12/2022)
+ * Function: HIển thị dữ liệu tài khoản công nợ phải trả bảng con
+ */
+
+exports.FIELDS_TABLE_COMBOBOX_SUPPLIERS_ONE = FIELDS_TABLE_COMBOBOX_SUPPLIERS_ONE;
 var FIELDS_TABLE_ACCOUNTS_PAYABLE = [{
   fieldName: "accountPayableID",
   width: 0,
@@ -1449,10 +1485,23 @@ var FIELDS_TABLE_ACCOUNTS_PAYABLE = [{
 }];
 /**
  * Author: Phạm Văn Đạt(13/12/2022)
- * Function: HIển thị dữ liệu tài khoản công nợ phải thu bảng con
+ * Function: HIển thị dữ liệu điều khoản thanh toán bảng con
  */
 
 exports.FIELDS_TABLE_ACCOUNTS_PAYABLE = FIELDS_TABLE_ACCOUNTS_PAYABLE;
+var FIELDS_TABLE_COMBOBOX_CONTRACT = [{
+  name: "Tên hợp đồng",
+  view: true,
+  model: true,
+  fieldName: "name",
+  width: 100
+}];
+/**
+ * Author: Phạm Văn Đạt(13/12/2022)
+ * Function: HIển thị dữ liệu tài khoản công nợ phải thu bảng con
+ */
+
+exports.FIELDS_TABLE_COMBOBOX_CONTRACT = FIELDS_TABLE_COMBOBOX_CONTRACT;
 var FIELDS_TABLE_ACCOUNTS_RECEIVABLE = [{
   fieldName: "accountReceivableID",
   width: 0,
@@ -1629,15 +1678,85 @@ var FIELDS_SUPPLIERS_REQUIRED = [{
   fieldText: "Tên nhà cung cấp"
 }];
 /**
+ * Author: Phạm Văn Đạt(22/12/2022)
+ * Function: Các trường xử lý required trong bảng nhà cung cấp
+ */
+
+exports.FIELDS_SUPPLIERS_REQUIRED = FIELDS_SUPPLIERS_REQUIRED;
+var FIELDS_RULE_PAYMENTS_REQUIRED = [{
+  fielName: "rulePaymentCode",
+  fieldText: "Mã điều khoản thanh toán"
+}, {
+  fielName: "rulePaymentName",
+  fieldText: "Tên điều khoản thanh toán"
+}];
+/**
+ * Author: Phạm Văn Đạt(22/12/2022)
+ * Function: Các trường xử lý required trong bảng nhà cung cấp
+ */
+
+exports.FIELDS_RULE_PAYMENTS_REQUIRED = FIELDS_RULE_PAYMENTS_REQUIRED;
+var FIELDS_GROUP_SUPPLIERS_REQUIRED = [{
+  fielName: "groupSupplierCode",
+  fieldText: "Mã nhóm nhà cung cấp"
+}, {
+  fielName: "groupSupplierName",
+  fieldText: "Tên nhóm nhà cung cấp"
+}];
+/**
  * Author: Phạm Văn Đạt(23/12/2022)
  * Function: model bank Account
  */
 
-exports.FIELDS_SUPPLIERS_REQUIRED = FIELDS_SUPPLIERS_REQUIRED;
+exports.FIELDS_GROUP_SUPPLIERS_REQUIRED = FIELDS_GROUP_SUPPLIERS_REQUIRED;
 var BANK_ACCOUNTS_MODEL = [{
   backAccountNumber: null,
   bankAccountName: null,
   bankAccountBranch: null,
   bankAccountCity: null
 }];
+/**
+ * Author: Phạm Văn Đạt(27/12/2022)
+ * Function: vị trí hiển thị 
+ */
+
 exports.BANK_ACCOUNTS_MODEL = BANK_ACCOUNTS_MODEL;
+var FIELDS_POSITION = {
+  Bottom: "bottom",
+  Top: "top"
+};
+/**
+ * Author: Phạm Văn Đạt(27/12/2022)
+ * Function: HIển thị dữ liệu phòng ban bảng con
+ */
+
+exports.FIELDS_POSITION = FIELDS_POSITION;
+var FIELDS_TABLE_DEPARTMENTS = [{
+  fieldName: "departmentID",
+  width: 0,
+  model: true,
+  style: "display:none;"
+}, {
+  name: "Tên phòng ban",
+  view: true,
+  fieldName: "departmentName",
+  width: 349
+}];
+/**
+ * Author: Phạm Văn Đạt(27/12/2022)
+ * Function: HIển thị dữ liệu phòng ban bảng con
+ */
+
+exports.FIELDS_TABLE_DEPARTMENTS = FIELDS_TABLE_DEPARTMENTS;
+var FIELDS_TABLE_POSITIONS = [{
+  fieldName: "positionID",
+  width: 0,
+  model: true,
+  style: "display:none;"
+}, {
+  name: "Tên chức danh",
+  view: true,
+  fieldName: "positionName",
+  width: 349
+}];
+exports.FIELDS_TABLE_POSITIONS = FIELDS_TABLE_POSITIONS;

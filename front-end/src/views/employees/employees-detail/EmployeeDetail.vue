@@ -12,14 +12,14 @@
             {{ title }}
           </div>
           <!-- start Check box kiểm tra khách hàng -->
+          <!-- start Check box kiểm tra nhà cung cấp -->
           <base-input-checkbox
             :value="currentEmployee.isEmployee"
             :checked="currentEmployee.isEmployee"
             @checked="currentEmployee.isEmployee = $event"
-            text="Là khách hàng"
-            id="khach-hang"
-          >
-          </base-input-checkbox>
+            text="Là khach hàng"
+            id="khach-hang-checkbox"
+          ></base-input-checkbox>
           <!-- end Check box kiểm tra khách hàng -->
 
           <!-- start Check box kiểm tra nhà cung cấp -->
@@ -102,63 +102,35 @@
               <!-- end tên-->
 
               <!-- start đơn vị -->
-              <base-combobox
-                :checkFocus="fieldFocusValidate.departmentId"
-                @checkFocus="fieldFocusValidate.departmentId = false"
-                :isRequired="true"
-                :isValidate="true"
-                :value="{
-                  id: currentEmployee.departmentId,
-                  name: currentEmployee.departmentName,
-                }"
-                @newValueId="currentEmployee.departmentId = $event"
-                @newValueName="currentEmployee.departmentName = $event"
-                :errorText="
-                  listErrors.has('departmentId')
-                    ? listErrors.get('departmentId')
-                    : null
-                "
-                @errorText="
-                  $event
-                    ? listErrors.set('departmentId', $event)
-                    : listErrors.delete('departmentId')
-                "
-                @checkLoadDataCombobox="loadDepartments"
-                comboboxField="Đơn vị"
-                :listValues="departments"
-                position="top"
+              <base-combobox-multiple
+                class="w-100"
+                fieldName="Đơn vị"
+                :iconSum="false"
+                :isMultiple="false"
+                :position="FIELDS_POSITION.Bottom"
+                :listData="dataDepartments"
                 :iconRed="true"
+                :isRequired="true"
+                v-model="currentEmployee.departmentId"
+                :listField="FIELDS_TABLE_DEPARTMENTS"
+                @loadData="loadDepartments($event)"
               >
-              </base-combobox>
+              </base-combobox-multiple>
               <!-- end đơn vị -->
 
               <!-- start chức vụ -->
-              <base-combobox
-                :checkFocus="fieldFocusValidate.positionId"
-                @checkFocus="fieldFocusValidate.positionId = false"
-                :value="{
-                  id: currentEmployee.positionId,
-                  name: currentEmployee.positionName,
-                }"
-                :errorText="
-                  listErrors.has('positionId')
-                    ? listErrors.get('positionId')
-                    : null
-                "
-                @errorText="
-                  $event
-                    ? listErrors.set('positionId', $event)
-                    : listErrors.delete('positionId')
-                "
-                :isValidate="true"
-                @newValueId="currentEmployee.positionId = $event"
-                @newValueName="currentEmployee.positionName = $event"
-                @checkLoadDataCombobox="loadPositions"
-                comboboxField="Chức vụ"
-                :listValues="positions"
-                position="top"
+              <base-combobox-multiple
+                class="w-100"
+                fieldName="Chức vụ"
+                :iconSum="false"
+                :isMultiple="false"
+                :position="FIELDS_POSITION.Bottom"
+                :listData="dataPositions"
+                v-model="currentEmployee.positionId"
+                :listField="FIELDS_TABLE_POSITIONS"
+                @loadData="loadPositions($event)"
               >
-              </base-combobox>
+              </base-combobox-multiple>
               <!-- end chức vụ -->
 
               <!-- start nhóm khách hàng, nhà cung cấp -->
@@ -171,6 +143,7 @@
                 :listField="FIELDS_TABLE_COMBOBOX_SUPPLIERS"
                 v-model="listDataGroupSupplier"
                 @loadData="loadGroupSupplier($event)"
+                @clickIconSum="showGroupSupplier = true"
                 fieldName="Nhóm khách hàng, nhà cung cấp"
               ></base-combobox-multiple>
               <!-- end nhóm khách hàng, nhà cung cấp -->
@@ -289,7 +262,7 @@
                 :listData="dataAccountsReceivable"
                 fieldName="TK công nợ phải thu"
                 :listField="FIELDS_TABLE_ACCOUNTS_RECEIVABLE"
-                v-model="listDataAccountsReceivable"
+                v-model="currentEmployee.accountReceivable"
                 @loadData="loadAccountsReceivable($event)"
               ></base-combobox-multiple>
               <!-- end tài khoản công nợ phải thu -->
@@ -303,7 +276,7 @@
                 :listData="dataAccountsPayable"
                 fieldName="TK công nợ phải trả"
                 :listField="FIELDS_TABLE_ACCOUNTS_PAYABLE"
-                v-model="listDataAccountsPayable"
+                v-model="currentEmployee.accountPayableId"
                 @loadData="loadAccountsPayable($event)"
               ></base-combobox-multiple>
               <!-- end tài khoản công nợ phải trả -->
@@ -359,15 +332,19 @@
 
               <!-- start loại hợp đồng -->
               <div class="w-1/2 p-r-12">
-                <base-combobox
+                <base-combobox-multiple
                   :isRequired="true"
-                  :isValidate="true"
-                  comboboxField="Loại hợp đồng"
-                  :listValues="LIST_CONTRACT"
+                  :iconSum="false"
+                  :isMultiple="false"
+                  :isFormatText="true"
+                  fieldName="Loại hợp đồng"
+                  :listField="FIELDS_TABLE_COMBOBOX_CONTRACT"
+                  :listData="LIST_CONTRACT"
+                  v-model="currentEmployee.typeOfContract"
                   position="bottom"
                   :iconRed="true"
                 >
-                </base-combobox>
+                </base-combobox-multiple>
               </div>
               <!-- end loại hợp đồng -->
 
@@ -382,7 +359,10 @@
             </base-tab>
 
             <base-tab title="Tài khoản ngân hàng">
-              <base-bank-account v-model="bankAccounts"></base-bank-account>
+              <base-bank-account
+                v-model="bankAccounts"
+                @data="dataBankAccount = $event"
+              ></base-bank-account>
             </base-tab>
 
             <base-tab title="Thông tin liên hệ" class="d-flex flex-wrap">
@@ -478,9 +458,9 @@
       <div class="form-bottom">
         <div class="form-bottom-right">
           <base-button
-            v-tooltip="'Cất và thêm(Ctrl + Shift +S)'"
+            v-tooltip="'Cất và Thêm(Ctrl + Shift +S)'"
             @clickButton="handlerUploadData(functionUpload.SaveAndInsert)"
-            text="Cất và thêm"
+            text="Cất và Thêm"
           >
           </base-button>
           <base-button
@@ -507,6 +487,15 @@
     <!-- end content -->
   </div>
 
+  <!-- start hiển thị form thêm nhóm nhà cung cấp, khách hàng -->
+  <group-supplier
+    v-if="showGroupSupplier"
+    @closeForm="showGroupSupplier = $event"
+    @toastMessage="showToastMessage($event)"
+    @newItem="selectNewGroupSupplier($event)"
+  ></group-supplier>
+  <!-- end hiển thị form thêm nhóm nhà cung cấp, khách hàng -->
+
   <!-- start thông báo -->
   <base-notify
     @closeForm="handlerCloseNotifi"
@@ -527,6 +516,9 @@
  * Function: nhúng các các hằng số
  */
 import {
+  FIELDS_TABLE_COMBOBOX_CONTRACT,
+  FIELDS_TABLE_DEPARTMENTS,
+  FIELDS_POSITION,
   FIELDS_REQUIRED,
   GENDERS,
   NOTIFY_LIST,
@@ -539,7 +531,12 @@ import {
   FIELDS_TABLE_COMBOBOX_SUPPLIERS,
   FIELDS_TABLE_ACCOUNTS_RECEIVABLE,
   FIELDS_TABLE_ACCOUNTS_PAYABLE,
+  FIELDS_TABLE_POSITIONS,
 } from "../../../js/constants";
+
+import { bankAccounts } from "../../../js/Controllers/BankAccountsController.js";
+
+import { supplierGroupSuppliers } from "../../../js/Controllers/SupplierGroupSupplier.js";
 
 import { createKeybindingsHandler } from "tinykeys";
 
@@ -550,6 +547,8 @@ import { formatDate, lowerCaseFirst } from "../../../js/FomatData.js";
 import { departments } from "../../../js/Controllers/DepartmentsController";
 
 import { positions } from "../../../js/Controllers/PositionsController.js";
+
+import GroupSupplier from "../../group-supplier/GroupSupplier";
 
 import { groupSuppliers } from "../../../js/Controllers/GroupSuppliersController.js";
 
@@ -567,7 +566,7 @@ import {
 
 export default {
   name: "EmployeeDetail",
-
+  components: { GroupSupplier },
   setup() {
     return {
       locale: vi,
@@ -592,6 +591,28 @@ export default {
   },
   data() {
     return {
+      FIELDS_TABLE_COMBOBOX_CONTRACT,
+      // dữ liệu mới của tài khoản ngân hàng
+      dataBankAccount: null,
+
+      // hiển thị form thêm nhóm nhà cung cấp, khách hàng
+      showGroupSupplier: false,
+
+      // các trường hiển thị chức vụ
+      FIELDS_TABLE_POSITIONS,
+
+      // danh sách dữ liệu bảng chức vụ
+      dataPositions: [],
+
+      // các trường hiển thị phòng ban
+      FIELDS_TABLE_DEPARTMENTS,
+
+      // các filed vị trí: top, bottom
+      FIELDS_POSITION,
+
+      // danh sách phòng ban
+      dataDepartments: [],
+
       //  kiểm tra xem có reload lại dữ liệu sau khi ẩn form không
       checkLoadData: false,
 
@@ -701,20 +722,14 @@ export default {
 
       // mảng lưu các nhóm nhà cung cấp, khách hàng đã chọn
       listDataGroupSupplier: [],
-
-      // danh sách lưu tài khoản công nợ phải trả
-      listDataAccountsReceivable: [],
-
-      // danh sách lưu tài khoản công nợ phải thu
-      listDataAccountsPayable: [],
     };
   },
-  created() {
+  async created() {
     // lấy danh sách giưới tính
     this.genders = GENDERS;
 
     // khởi tạo giá trị employee
-    this.currentEmployee = this.employeeDetail;
+    this.currentEmployee = await resetEmployeeDetail(employeeModel, employees);
 
     // lấy data của nhóm nhà cung cấp, khách hàng
     this.dataGroupSuppliers =
@@ -731,9 +746,46 @@ export default {
       accountsReceivable.currentData != undefined
         ? accountsReceivable.currentData
         : [];
+
   },
 
   methods: {
+    /**
+     * Author: Phạm Văn Đạt(27/12/2022)
+     * Function: Lấy dữ liệu sau khi thêm mới nhóm nhà cung cấp
+     * @param {*} item : item sau khi thêm vào trong dữ liệu
+     */
+    selectNewGroupSupplier(item) {
+      try {
+        // cập nhật lại danh sách hiển thị
+        this.dataGroupSuppliers = groupSuppliers.currentData;
+
+        // lấy ra item thêm vào danh sách nhóm nhà cung cấp
+        this.listDataGroupSupplier.unshift(item);
+
+        console.log(groupSuppliers.currentData);
+      } catch (e) {
+        console.log(e);
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(27/12/2022)
+     * Function: Xử lý hiển thị toast message
+     * @param {*} value : text,  type toast mesage
+     */
+    showToastMessage(value) {
+      try {
+        this.$emit("textToastMessage", value?.textToastMessage);
+        this.$emit("typeToastMessage", value?.typeToastMessafge);
+      } catch (e) {
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
+      }
+    },
+
     /**
      * Author: Phạm Văn Đạt(18/12/2022)
      * Function: Xử lý load lại dữ liệu nhóm nhà cung cấp
@@ -751,7 +803,7 @@ export default {
           if (this.dataGroupSuppliers.length <= groupSuppliers.totalCount) {
             await groupSuppliers.pagingGroupSupplier([]);
 
-            if(groupSuppliers.currentData){
+            if (groupSuppliers.currentData) {
               this.dataGroupSuppliers = [...groupSuppliers.currentData];
             }
           }
@@ -803,14 +855,11 @@ export default {
           console.log("load nhóm khách hàng");
 
           if (
-            this.dataAccountsReceivable.length <=
-            accountsReceivable.totalCount
+            this.dataAccountsReceivable.length <= accountsReceivable.totalCount
           ) {
             await accountsReceivable.pagingAccountsReceivable([]);
 
-            this.dataAccountsReceivable = [
-              ...accountsReceivable.currentData,
-            ];
+            this.dataAccountsReceivable = [...accountsReceivable.currentData];
           }
         }
         console.log("Tài khoản công nợ phải thu");
@@ -888,12 +937,12 @@ export default {
      * Author: Phạm Văn Đạt(21/10/2022)
      * Function: Xử lý load dữ liệu phòng ban
      */
-    async loadDepartments() {
+    async loadDepartments(checkLoad) {
       try {
-        await departments.getRecords();
-        this.departments = departments.data;
-
-        console.log(departments.data);
+        if (checkLoad == true) {
+          await departments.getRecords();
+          this.dataDepartments = departments.data;
+        }
       } catch (e) {
         this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
         this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
@@ -904,15 +953,45 @@ export default {
      * Author: Phạm Văn Đạt(21/10/2022)
      * Function: Xử lý load dữ liệu Chức vụ
      */
-    async loadPositions() {
+    async loadPositions(checkLoad) {
       try {
-        await positions.getRecords();
-        console.log(positions);
+        if (checkLoad == true) {
+          await positions.getRecords();
 
-        this.positions = positions.data;
+          this.dataPositions = positions.data;
+        }
       } catch (e) {
         this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
         this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
+      }
+    },
+
+    
+
+    /**
+     * Author: Phạm Văn Đạt(19/12/2022)
+     * Function: Xử lý load lại dữ liệu nhân viên
+     * @param {*} checkLoad : true | false
+     */
+    async loadEmployees(checkLoad) {
+      try {
+        if (checkLoad) {
+          if (this.dataEmployees.length > 0) {
+            groupSuppliers.currentPageNumber++;
+          }
+
+          if (this.dataEmployees.length <= employees.totalCount) {
+            console.log("load nhân viên");
+
+            await employees.pagingEmployee([]);
+
+            if (employees.currentData) {
+              this.dataEmployees = [...employees.currentData];
+            }
+          }
+        }
+      } catch (e) {
+        console.log(e);
       }
     },
 
@@ -922,16 +1001,20 @@ export default {
      */
     async handlerUploadData(functionUpload) {
       try {
-        // xóa tên trường focus lỗi đầu tiên đã có trước đó
-        this.firstFocus = null;
+        console.log(this.currentEmployee);
 
+        // validaate dữ liệu
         this.valiDateRequired();
+
+        console.log(this.listErrors);
 
         // nếu không có lỗi => thực hiện thêm hoặc update
         if (this.listErrors.size == 0) {
+          let checkInsertSupplier = false;
           if (this.title == TITLES_FORM.Create) {
+            console.log("thêm");
             // lấy id mới
-            this.currentEmployee.id = createGuid();
+            this.currentEmployee.employeeID = createGuid();
 
             // gọi đến db thêm dữ liệu
             let result = await employees.insertEmployee(this.currentEmployee);
@@ -943,20 +1026,34 @@ export default {
             } else if (result?.statusCode == STATUS_CODES.Code201) {
               // nếu thêm mới thành công
               this.handlerFunctionForm(functionUpload, "Thêm mới thành công.");
+
+              // thêm phần tử vừa tạo vào đầu mảng
+              employees.currentData = [
+                this.currentEmployee,
+                ...employees.currentData,
+              ];
+              employees.totalCount++; 
+
+              // đưa dữ liệu ra suppliers
+              const item = this.currentEmployee?.employeeID;
+
+              this.$emit("newItem", item);
+              console.log(item);
+
+              checkInsertSupplier = true;
+
+              this.$emit("closeForm", false);
             } else {
-              this.$emit(
-                "textToastMessage",
-                TEXT_TOAST_MESSAGE.CreateFail.text
-              );
-              this.$emit(
-                "typeToastMessage",
-                TEXT_TOAST_MESSAGE.CreateFail.type
-              );
+              this.$emit("toastMessage", {
+                textToastMessage: TEXT_TOAST_MESSAGE.CreateFail.text,
+                typeToastMessage: TEXT_TOAST_MESSAGE.CreateFail.type,
+              });
             }
           } else {
             console.log(this.currentEmployee);
             // gọi đến db thêm dữ liệu
             let result = await employees.updateEmployee(this.currentEmployee);
+            checkInsertSupplier = true;
 
             console.log(result);
             if (result?.statusCode == STATUS_CODES.Code400) {
@@ -966,15 +1063,20 @@ export default {
             } else if (result?.statusCode == STATUS_CODES.Code200) {
               this.handlerFunctionForm(functionUpload, "Cập nhật thành công.");
             } else {
-              this.$emit(
-                "textToastMessage",
-                TEXT_TOAST_MESSAGE.UpdateFail.text
-              );
-              this.$emit(
-                "typeToastMessage",
-                TEXT_TOAST_MESSAGE.UpdateFail.type
-              );
+              this.$emit("toastMessage", {
+                textToastMessage: TEXT_TOAST_MESSAGE.UpdateFail.text,
+                typeToastMessage: TEXT_TOAST_MESSAGE.UpdateFail.type,
+              });
             }
+          }
+
+          // nếu thêm mới hoặc cập nhật thành công
+          if (checkInsertSupplier == true) {
+            // xử lý thêm mới nhóm nhà cung cấp_nhà cung cấp
+            await this.insertGroupSupplier();
+
+            // xử lý thêm mới tài khoản ngân hàng
+            await this.insertBankAccounts();
           }
         } else {
           // xử lý hiển thị lỗi
@@ -992,8 +1094,78 @@ export default {
           }
         }
       } catch (e) {
-        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
-        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
+        console.log(e);
+        this.$emit("toastMessage", {
+          textToastMessage: TEXT_TOAST_MESSAGE.Error.text,
+          typeToastMessage: TEXT_TOAST_MESSAGE.Error.type,
+        });
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(125/12/2022)
+     * Function: Xử lý thêm mới tài khoản ngân hàng
+     */
+    async insertBankAccounts() {
+      // xử lý thêm mới tài khoản ngân hàng
+      // lấy thông tin tài khoản ngân hàng => thêm riêng
+      let modelBankAccount = [];
+
+      if (modelBankAccount.length > 0) {
+        // lấy id nhóm nhà cung cấp => thêm riêng
+        this.dataBankAccount.forEach((item) => {
+          if (
+            item?.backAccountNumber != null ||
+            item?.bankAccountBranch != null ||
+            item?.bankAccountCity != null ||
+            item?.bankAccountName != null
+          ) {
+            modelBankAccount.push({
+              backAccountID: createGuid(),
+              backAccountNumber: item?.backAccountNumber,
+              bankAccountName: item?.bankAccountName,
+              bankAccountBranch: item?.bankAccountBranch,
+              bankAccountCity: item?.bankAccountCity,
+              userId: this.currentEmployee.employeeID,
+            });
+          }
+        });
+        let result = await bankAccounts.insert(modelBankAccount);
+
+        if (result?.statusCode == STATUS_CODES.Code400) {
+          this.$emit("toastMessage", {
+            textToastMessage: TEXT_TOAST_MESSAGE.CreateFail.text,
+            typeToastMessage: TEXT_TOAST_MESSAGE.CreateFail.type,
+          });
+        }
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(25/12/2022)
+     * Function: Xử lý thêm mới nhà cung cấp-nhóm nhà cung cấp
+     */
+    async insertGroupSupplier() {
+      // xử lý thêm mới nhóm nhà cung cấp_nhà cung cấp
+      let modelGroupSupplier = [];
+
+      if (modelGroupSupplier.length > 0) {
+        // lấy id nhóm nhà cung cấp => thêm riêng
+        this.listDataGroupSupplier.forEach((item) => {
+          modelGroupSupplier.push({
+            supplierGroupSupplierID: createGuid(),
+            userId: this.currentEmployee.employeeID,
+            groupSupplierId: item,
+          });
+        });
+        let result = await supplierGroupSuppliers.insert(modelGroupSupplier);
+
+        if (result?.statusCode == STATUS_CODES.Code400) {
+          this.$emit("toastMessage", {
+            textToastMessage: TEXT_TOAST_MESSAGE.CreateFail.text,
+            typeToastMessage: TEXT_TOAST_MESSAGE.CreateFail.type,
+          });
+        }
       }
     },
 
@@ -1003,22 +1175,112 @@ export default {
      */
     async handlerFunctionForm(functionUpload, message) {
       // hiển thị thông báo thêm/upload thành công
-      this.$emit("textToastMessage", message);
-      this.$emit("typeToastMessage", "success");
+      this.$emit("toastMessage", {
+        textToastMessage: message,
+        typeToastMessage: "success",
+      });
 
-      if (functionUpload == this.functionUpload.Save) {
-        // Nếu click "Cất" => ẩn form, load lại dữ liệu
-
+      if (functionUpload == FUNCTION_UPLOAD.Save) {
         // ẩn form nếu thành công
         this.$emit("closeForm", false);
 
-        // load lại dữ liệu
-        this.$emit("loadData", true);
+        // thêm dữ liệu vào mảng mới, auto chọn
       } else {
-        this.currentEmployee = await resetEmployeeDetail(
-          employeeModel,
-          employees
-        );
+        // gán lại giá trị
+        this.currentEmployee = {
+          // id Tài khoản công nợ phải trả
+          accountPayableId: null,
+
+          // id Tài khoản công nợ phải thu
+          AccountReceivableId: null,
+
+          // Hệ số lương
+          coefficientSalary: 0,
+
+          // người tạo
+          createdBy: null,
+
+          // id đơn vị
+          departmentId: null,
+
+          // tên đơn vị
+          departmentName: null,
+
+          // Địa chỉ
+          employeeAddress: null,
+
+          // ngày sinh
+          employeeBirthDay: null,
+
+          // mã nhân viên
+          employeeCode: null,
+
+          // số điện thoại bàn
+          employeeDeskPhone: null,
+
+          // email
+          employeeEmail: null,
+
+          // giới tính mặc định là nam
+          employeeGender: 0,
+
+          // id
+          employeeID: null,
+
+          // tên nhân viên
+          employeeName: null,
+
+          // số điện thoại di động
+          employeeNumberPhone: null,
+
+          // Số chứng minh nhân dân
+          idNo: null,
+
+          // kiểm tra xóa hay chưa
+          isDelete: false,
+
+          // là KH
+          isEmployee: false,
+
+          // là nhà cung cấp
+          isSuppiler: false,
+
+          // ngày cấp
+          issuaOn: null,
+
+          // số người phụ thuộc
+          numberOfDependent: 0,
+
+          // nơi cấp
+          placeOfIssue: null,
+
+          // id chức vụ
+          positionId: null,
+
+          // tên chức vụ
+          positionName: null,
+
+          // lương đóng bảo hiểm
+          premiumSalary: 0,
+
+          // mã số thuế
+          taxCode: null,
+
+          // loại hợp đồng - không được để trống
+          typeOfContract: null,
+
+          // người cập nhật
+          updatedBy: null,
+
+          // lương thỏa thuận
+          wageAgreement: 0,
+        };
+
+        // lấy mã code mới
+        let newCode = await employees.getMaxCode();
+        if (newCode) {
+          employees.employeeCode = newCode;
+        }
 
         console.log(this.currentEmployee);
 
@@ -1065,13 +1327,18 @@ export default {
             this.listErrors.set(fieldName, data[keyResult][key]);
 
             // emit lỗi ra cho employeelist nhận
-            this.$emit("textToastMessage", data[keyResult][key]);
-            this.$emit("typeToastMessage", "error");
+
+            this.$emit("toastMessage", {
+              textToastMessage: data[keyResult][key],
+              typeToastMessage: TEXT_TOAST_MESSAGE.Error.type,
+            });
           }
         }
       } catch (e) {
-        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
-        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
+        this.$emit("toastMessage", {
+          textToastMessage: TEXT_TOAST_MESSAGE.Error.text,
+          typeToastMessage: TEXT_TOAST_MESSAGE.Error.type,
+        });
       }
     },
 
@@ -1081,6 +1348,7 @@ export default {
      */
     valiDateRequired() {
       try {
+        this.listErrors = new Map();
         // nếu giá trị là invalid date thì xóa khỏi object
         formatDate(this.currentEmployee.employeeBirthDay, "YYYY-MM-DD") ==
         "Invalid date"
@@ -1121,8 +1389,11 @@ export default {
           }
         });
       } catch (e) {
-        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
-        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
+        console.log(e);
+        this.$emit("toastMessage", {
+          textToastMessage: TEXT_TOAST_MESSAGE.Error.text,
+          typeToastMessage: TEXT_TOAST_MESSAGE.Error.type,
+        });
       }
     },
   },
@@ -1132,11 +1403,20 @@ export default {
      * Function: XỬ lý focus vào lỗi đầu tiên nếu như có lỗi
      */
     checkFocusCloseNotify(value) {
-      // chuyển trạng thái focus true ở lỗi đầu tiên
-      this.fieldFocusValidate[value] = true;
+      try {
+        console.log(value);
+        // chuyển trạng thái focus true ở lỗi đầu tiên
+        this.fieldFocusValidate[value] = true;
 
-      // set lại giá trị null cho check focus sau khi ẩn form thông tbaos
-      this.checkFocusCloseNotify = null;
+        // set lại giá trị null cho check focus sau khi ẩn form thông tbaos
+        this.checkFocusCloseNotify = null;
+      } catch (e) {
+        console.log(e);
+        this.$emit("toastMessage", {
+          textToastMessage: TEXT_TOAST_MESSAGE.Error.text,
+          typeToastMessage: TEXT_TOAST_MESSAGE.Error.type,
+        });
+      }
     },
 
     /**
@@ -1147,8 +1427,10 @@ export default {
       try {
         this.currentEmployee = value;
       } catch (e) {
-        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
-        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
+        this.$emit("toastMessage", {
+          textToastMessage: TEXT_TOAST_MESSAGE.Error.text,
+          typeToastMessage: TEXT_TOAST_MESSAGE.Error.type,
+        });
       }
     },
 

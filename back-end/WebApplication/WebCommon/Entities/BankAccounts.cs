@@ -17,12 +17,12 @@ namespace MISA.AMIS.Common
         /// </summary>
         [AttributePrimarykey("Id không được bỏ trống")]
         [AttributePost("")]
+        [AttributeExists("Id đã được sử dụng.")]
         public Guid BackAccountID { set; get; }
 
         /// <summary>
         /// Số tài khoản ngân hàng
         /// </summary>
-        [AttributeRequired("Số tài khoản ngân hàng không được bỏ trống!")]
         [AttributePost("")]
         public string BackAccountNumber { set; get; }
 
@@ -30,7 +30,6 @@ namespace MISA.AMIS.Common
         /// tên tài khoản ngân hàng
         /// </summary>
         [AttributePost("")]
-        [AttributeRequired("Tên tài khoản ngân hàng không được bỏ trống!")]
         public string BankAccountName { set; get; }
 
         /// <summary>
@@ -49,6 +48,7 @@ namespace MISA.AMIS.Common
         /// mã id của người dùng có tài khoản ngân hàng này
         /// </summary>
         [AttributeUserId("")]
+        [AttributeRequired("Id chủ thể không được bỏ trống!")]
         [AttributePost("")]
         public Guid? UserId { set; get; }
         #endregion

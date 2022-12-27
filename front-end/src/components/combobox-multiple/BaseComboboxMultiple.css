@@ -490,6 +490,14 @@ span.background-icon-sum.w-24.flex {
     transform: rotate(180deg);
 }
 
-.combobox-multiple-container-content-item:first-child {
+/* .combobox-multiple-container-content-item:first-child {
     padding-left: 10px;
+} */
+
+.combobox-multiple-dropdown.top {
+    bottom: calc(100% - 19px);
+}
+
+.combobox-multiple-dropdown.bottom {
+    transform: translateY(2px);
 }

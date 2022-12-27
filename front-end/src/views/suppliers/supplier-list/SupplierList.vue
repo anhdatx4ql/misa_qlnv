@@ -14,8 +14,11 @@
       <div class="content-header-right">
         <div class="content-header-right-button">
           <base-button
-            @clickButton="checkShowForm = true; supplierDetail = null"
-            text="Thêm mới nhà cung cấp"
+            @clickButton="
+              checkShowForm = true;
+              supplierDetail = null;
+            "
+            text="Thêm"
           >
           </base-button>
         </div>
@@ -61,6 +64,7 @@
                 listClass="btn-secondary"
                 text="Thực hiện hàng loạt"
                 :listDropDown="fieldBatchExecution"
+                @clickButtonDropDown="handlerMultiple($event)"
                 :iconDropDown="true"
               >
               </base-button>
@@ -79,7 +83,7 @@
               >
                 <span>{{ value[1].text }}</span>
                 <base-button
-                class="button-filter"
+                  class="button-filter"
                   listClass="background-unset"
                   classButtonIcon="button-icon-x"
                   @clickButton="clickDeleteItemFilter(value)"
@@ -87,7 +91,7 @@
               </div>
 
               <base-button
-              class="button-filter"
+                class="button-filter"
                 v-show="listFilter.size > 0"
                 @clickButton="clickDeleteItemFilter()"
                 text="Xóa điều kiện lọc"
@@ -130,7 +134,11 @@
     <div class="content-center-table">
       <!-- startt content table -->
       <base-table
-        @dataDetail="supplierDetail = $event, titleForm = RULE_FORM_SUPPLIER_DETAIL.View"
+        @dataDetail="
+          (supplierDetail = $event),
+            (titleForm = RULE_FORM_SUPPLIER_DETAIL.View),
+            isUpdate=true
+        "
         @checkShowForm="checkShowForm = $event"
         :fieldsTHead="fieldsTHead"
         :showFormLoad="checkFormLoad"
@@ -142,7 +150,12 @@
         :listDeleteFilterData="listDeleteFilterData"
         @listDeleteFilterData="listDeleteFilterData = $event"
         nameId="supplierID"
-        ></base-table>
+        @functionTable="
+          $event.data.id != null && $event.value
+            ? handlerFunctionTable($event.value, $event.data)
+            : ''
+        "
+      ></base-table>
       <!-- end content table -->
     </div>
 
@@ -161,6 +174,8 @@
     <supplier-detail
       v-if="checkShowForm"
       :title="titleForm"
+      :isUpdate="isUpdate"
+      @isUpdate="isUpdate = $event"
       @closeForm="checkShowForm = $event"
       :supplierDetail="supplierDetail"
       @textToastMessage="textToastMessage = $event"
@@ -186,7 +201,6 @@
       @textToastMessage="textToastMessage = $event"
     ></base-toast-message>
     <!-- end toast message -->
-
   </div>
 </template>
 
@@ -198,9 +212,15 @@ import {
   RULE_FORM_SUPPLIER_DETAIL,
   PAGING_ITEMS,
   TEXT_TOAST_MESSAGE,
+  FUNCTION_TABLE,
+  RULE_HANDLER_DATA,
+  STATUS_CODES
 } from "../../../js/constants.js";
 
-import { suppliers, supplierModel } from "../../../js/Controllers/SuppliersController";
+import {
+  suppliers,
+  supplierModel,
+} from "../../../js/Controllers/SuppliersController";
 
 import SupplierDetail from "../supplier-detail/SupplierDetail.vue";
 
@@ -212,6 +232,14 @@ export default {
   props: {},
   data() {
     return {
+
+      // kiểm tra cập nhật hay thêm
+      isUpdate: false,
+
+      RULE_HANDLER_DATA,
+      // các chức năng trong table
+      FUNCTION_TABLE,
+
       // text hiển thị toast message
       textToastMessage: null,
 
@@ -292,13 +320,41 @@ export default {
     this.loadSuppliers();
   },
   methods: {
+    /**
+     * Author: Phạm Văn Đạt(25/12/2022)
+     * Function: Xử lý xóa, gộp
+     * @param {*} item : item xóa, hoặc gộp
+     */
+    async handlerMultiple(item) {
+      try {
+        
+        //  hỏi xem có chắc chắn muốn xóa hay không
+        
+        if (item == RULE_HANDLER_DATA[0].name) {
+          let result = await suppliers.delete(this.listIdSuppliers);
+
+          if (result.statusCode == STATUS_CODES.Code200) {
+            // hiển thị toast message xóa thành công
+            this.textToastMessage = result.message[0];
+            this.typeToastMessage = "success";
+
+            // load lại dữ liệu
+            await this.loadSuppliers();
+          }
+        }
+      } catch (e) {
+        console.log(e);
+        this.textToastMessage = TEXT_TOAST_MESSAGE.Error.text;
+        this.typeToastMessage = TEXT_TOAST_MESSAGE.Error.type;
+      }
+    },
 
     /**
      * Author:Phạm Văn Đạt(19/12/2022)
      * Function: Xử lý lấy dữ liệu id nhà cung cấp
      * @param {*} value : id nhân viên
      */
-     handlerSelectIdSuppliers(value) {
+    handlerSelectIdSuppliers(value) {
       try {
         this.listIdSuppliers = value;
         console.log(value);
@@ -377,7 +433,7 @@ export default {
           });
         });
 
-        console.log(this.arrFilter)
+        console.log(this.arrFilter);
 
         // load lại dữ liệu
         await this.loadSuppliers();
@@ -386,14 +442,13 @@ export default {
         this.typeToastMessage = TEXT_TOAST_MESSAGE.Error.type;
       }
     },
-    
 
     /**
      * Author:Phạm Văn Đạt(19/12/2022)
      * Function: Xử lý xóa item lọc
      * @param {*} value : item muốn xóa
      */
-     clickDeleteItemFilter(value) {
+    clickDeleteItemFilter(value) {
       try {
         if (value) {
           this.listDeleteFilterData = [value[0]];
@@ -416,9 +471,8 @@ export default {
     },
   },
   watch: {
-
     // Thôn gtin chi tiết nhà cung cấp
-    supplierDetail(value){
+    supplierDetail(value) {
       console.log(value);
     },
 

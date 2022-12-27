@@ -37,11 +37,9 @@ var employeeModel = {
   // id Tài khoản công nợ phải trả
   accountPayableId: null,
   // id Tài khoản công nợ phải thu
-  accountReceivable: null,
+  AccountReceivableId: null,
   // Hệ số lương
   coefficientSalary: 0,
-  // ngày tạo
-  createdAt: null,
   // người tạo
   createdBy: null,
   // id đơn vị
@@ -90,8 +88,6 @@ var employeeModel = {
   taxCode: null,
   // loại hợp đồng - không được để trống
   typeOfContract: null,
-  // ngày cập nhật
-  updatedAt: null,
   // người cập nhật
   updatedBy: null,
   // lương thỏa thuận
@@ -176,7 +172,7 @@ function () {
               lengthCurrentData = this.currentData ? this.currentData.length : -1;
 
               if (this.countLoadData > 0) {
-                this.currentPageNumber++;
+                this.currentPageNumber = this.currentPageNumber + 1;
               } // nếu số bản ghi hiện tại <= tổng số bản ghi => tăng số trang hiện tại lên 1 và load lại. Nếu không thì thôi
 
 
@@ -451,7 +447,6 @@ function resetEmployeeDetail(object, employees) {
             if (key != "employeeID" && key != "employeeCode") {
               // giới tính mặc định là nam
               if (key == "employeeGender" || key == "wageAgreement" || key == "coefficientSalary" || key == "premiumSalary" || key == "numberOfDependent") {
-                // 0 là nam
                 object[key] = 0;
               } else if (key == "isDelete" || key == "isEmployee" || key == "isSuppiler") {
                 // các giá trị boolean trả về false
@@ -462,17 +457,18 @@ function resetEmployeeDetail(object, employees) {
               }
             }
           });
+          console.log(object);
           return _context7.abrupt("return", object);
 
-        case 9:
-          _context7.prev = 9;
+        case 10:
+          _context7.prev = 10;
           _context7.t0 = _context7["catch"](0);
           console.log(_context7.t0);
 
-        case 12:
+        case 13:
         case "end":
           return _context7.stop();
       }
     }
-  }, null, null, [[0, 9]]);
+  }, null, null, [[0, 10]]);
 }

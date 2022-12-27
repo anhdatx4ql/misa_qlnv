@@ -80,6 +80,8 @@
       v-show="showDropDown"
       @scroll="handlerscrollDropDown"
       class="combobox-multiple-dropdown"
+      :class="position"
+      :style="(fieldName == null)?'transform: translateY(-21px)':''"
     >
       <table v-if="currentListData.length > 0">
         <thead v-show="isTHead">
@@ -127,6 +129,10 @@
 </template>
 
 <script>
+
+import { FIELDS_POSITION } from "../../js/constants";
+
+
 export default {
   name: "BaseComboboxMultiple",
   props: {
@@ -175,12 +181,6 @@ export default {
       default: [],
     },
 
-    // vị trí hiển thị drop down
-    position: {
-      Type: String,
-      default: "bottom",
-    },
-
     // đưuọc chọn nhiều
     isMultiple: {
       Type: Boolean,
@@ -192,6 +192,12 @@ export default {
       Type: Number,
       default: 32,
     },
+
+    // vị trí hiển thị
+    position:{
+      Type: String,
+      default: FIELDS_POSITION.Bottom
+    }
   },
   data() {
     return {
@@ -220,18 +226,6 @@ export default {
   created() {
     // khởi tạo giá trị ban đầu
     this.currentListData = this.listData;
-
-    // gán giá trị hiển thị
-    if (
-      typeof this.modelValue == "string" ||
-      typeof this.modelValue == "number" ||
-      typeof this.modelValue == "object"
-    ) {
-      this.currentModelValue = [this.modelValue];
-    } else {
-      this.currentModelValue =
-        this.modelValue == [] ? [] : [...this.modelValue];
-    }
 
     console.log(typeof this.modelValue);
     console.log(this.modelValue);
@@ -285,8 +279,7 @@ export default {
      * @param {*} value :giá trị data truyền vào
      */
     modelValue: {
-      handler(val) {
-        this.currentModelValue = val != [] ? val : [];
+      handler() {
         this.selectCurrentData(this.currentModelValue);
       },
       deep: true,
@@ -319,19 +312,14 @@ export default {
       try {
         let arr = [];
 
-        // nếu giá trị đưa vào không phải là mảng => chuyển nó về mảng
-        if (typeof currentModelValue[0] == "string") {
-          if (this.isMultiple == true) {
-            currentModelValue = [...currentModelValue];
-          } else {
-            currentModelValue = [currentModelValue];
-          }
+        // // gán giá trị hiển thị
+        if(this.isMultiple){
+          currentModelValue = [...this.modelValue];
+        }else{
+          currentModelValue = (this.modelValue)?[this.modelValue]:[];
         }
 
-        if (this.isMultiple == true) {
-          currentModelValue = [...currentModelValue[0]];
-        }
-
+        console.log(currentModelValue);
 
         // lấy item hiển thị lên input
         // currentModelValue: mảng hiển thị dữ liệu
@@ -350,21 +338,13 @@ export default {
         // gán giá trị hiển thị
         this.currentItemValue = [...arr];
 
-        console.log(this.currentItemValue);
-
         //  kiểm tra xem mảng đưa vào có giá trị không
-        if (!(currentModelValue[0] == null)) {
-          // kiểm tra load dữ liệu item
-          // nếu măng lưu giá trị hiện tại tồn tại và dữ liệu ban đầu rỗng hoặc không
-          //tìm thấy item trong listDAta => load lại dữ liệu
-          if (
-            (currentModelValue.length > 0 && this.listData.length == 0) ||
-            (this.listData.length > 0 &&
-              this.currentItemValue.length != currentModelValue.length)
-          ) {
-            console.log("load dữ liệu");
-            this.$emit("loadData", true);
-          }
+        // kiểm tra load dữ liệu item
+        // nếu măng lưu giá trị hiện tại tồn tại và dữ liệu ban đầu rỗng hoặc không
+        //tìm thấy item trong listDAta => load lại dữ liệu
+        if ((currentModelValue.length > 0 && this.listData.length == 0)) {
+          console.log("load dữ liệu");
+          this.$emit("loadData", true);
         }
 
         // lấy input hiển thị

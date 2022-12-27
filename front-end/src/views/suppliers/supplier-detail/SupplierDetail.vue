@@ -223,7 +223,7 @@
               :iconSum="true"
               :listData="dataGroupSuppliers"
               :listField="FIELDS_TABLE_COMBOBOX_SUPPLIERS"
-              v-model="test"
+              v-model="listDataGroupSupplier"
               :isMultiple="true"
               @clickIconSum="showGroupSupplier = true"
               @loadData="loadGroupSupplier($event)"
@@ -237,7 +237,7 @@
               classText="input-container-field-label"
               fieldName="Nhân viên mua hàng"
               :listField="FIELDS_TABLE_COMBOBOX_EMPLOYEE"
-              @clickIconSum="showEmployee = true"
+              @clickIconSum="clickIconSumEmployee"
               :listData="dataEmployees"
               :iconSum="true"
               :isMultiple="false"
@@ -280,6 +280,7 @@
                         :listField="FIELDS_TABLE_COMBOBOX_VOCATIVE"
                         v-model="currentSupplier.supplierVocativeName"
                         placeholder="Xưng hô"
+                        :position="FIELDS_POSITION.Top"
                         :listData="LIST_VOCATIVE"
                         :iconSum="false"
                         :isMultiple="false"
@@ -536,6 +537,7 @@
                   fieldName="Điều khoản thanh toán"
                   :iconSum="true"
                   :isMultiple="false"
+                  :position="FIELDS_POSITION.Top"
                   :listData="dataRulePayments"
                   v-model="currentSupplier.rulePaymentId"
                   :listField="FIELDS_TABLE_COMBOBOX_RULE_PAYMENTS"
@@ -573,6 +575,7 @@
                   :listField="FIELDS_TABLE_COMBOBOX_ACCOUNTS_RECEIABLE"
                   :iconSum="false"
                   :isMultiple="false"
+                  :position="FIELDS_POSITION.Top"
                   :listData="dataAccountsReceiable"
                   v-model="currentSupplier.accountReceivableId"
                   @loadData="loadAccountsReceiable($event)"
@@ -588,6 +591,7 @@
                   :listField="FIELDS_TABLE_COMBOBOX_ACCOUNTS_PAYABLE"
                   :iconSum="false"
                   :isMultiple="false"
+                  :position="FIELDS_POSITION.Top"
                   :listData="dataAccountsPayable"
                   v-model="currentSupplier.accountPayableId"
                   @loadData="loadAccountsPayable($event)"
@@ -764,9 +768,9 @@
       <div class="form-bottom">
         <div class="form-bottom-right">
           <base-button
-            v-tooltip="'Cất và thêm(Ctrl + Shift +S)'"
+            v-tooltip="'Cất và Thêm(Ctrl + Shift +S)'"
             @clickButton="handlerUpdateData(FUNCTION_UPLOAD.SaveAndInsert)"
-            text="Cất và thêm"
+            text="Cất và Thêm"
           >
           </base-button>
           <base-button
@@ -795,8 +799,8 @@
     <group-supplier
       v-if="showGroupSupplier"
       @closeForm="showGroupSupplier = $event"
-      @textToastMessage="emit('textToastMessage', $event)"
-      @typeToastMessage="emit('typeToastMessage', $event)"
+      @toastMessage="showToastMessage($event)"
+      @newItem="selectNewGroupSupplier($event)"
     ></group-supplier>
     <!-- end hiển thị form thêm nhóm nhà cung cấp, khách hàng -->
 
@@ -804,6 +808,10 @@
     <employee-detail
       v-if="showEmployee"
       @closeForm="showEmployee = $event"
+      :title="titleCreateEmployee"
+      :employeeDetail="employeeDetail"
+      @toastMessage="showToastMessage($event)"
+      @newItem="selectNewEmployee($event)"
     ></employee-detail>
     <!-- end hiển thị form nhân viên -->
 
@@ -811,6 +819,8 @@
     <rule-payment
       v-if="showRulePay"
       @closeForm="showRulePay = $event"
+      @toastMessage="showToastMessage($event)"
+      @newItem="selectNewRulePayment($event)"
     ></rule-payment>
     <!-- end form thêm điều khoản thanh toán -->
 
@@ -833,6 +843,8 @@
 
 <script>
 import {
+  TITLES_FORM,
+  FIELDS_POSITION,
   FIELDS_TABLE_COMBOBOX_EMPLOYEE,
   LIST_TABS_SUPPLIERS,
   FIELDS_HEADER_LEFT_SUPPLIER_DETAIL,
@@ -855,6 +867,8 @@ import {
   FIELDS_SUPPLIERS_REQUIRED,
 } from "../../../js/constants.js";
 
+import { formatDate, lowerCaseFirst } from "../../../js/FomatData.js";
+
 import { createGuid } from "../../../js/GuidId.js";
 
 import { address } from "../../../js/Controllers/AddressController.js";
@@ -865,11 +879,18 @@ import { groupSuppliers } from "../../../js/Controllers/GroupSuppliersController
 
 import { reluPayments } from "../../../js/Controllers/RulePaymentsController.js";
 
-import { employees } from "../../../js/Controllers/EmployeesController.js";
+import {
+  employees,
+  employeeModel,
+} from "../../../js/Controllers/EmployeesController.js";
 
 import { accountsPayable } from "../../../js/Controllers/AccountsPayableController.js";
 
 import { accountsReceivable } from "../../../js/Controllers/AccountsReceivableController.js";
+
+import { supplierGroupSuppliers } from "../../../js/Controllers/SupplierGroupSupplier.js";
+
+import { bankAccounts } from "../../../js/Controllers/BankAccountsController.js";
 
 import EmployeeDetail from "../../employees/employees-detail/EmployeeDetail";
 
@@ -891,6 +912,12 @@ export default {
   setup() {},
 
   props: {
+    // kiểm tra xem cập nhật hay thêm
+    isUpdate: {
+      Type: Boolean,
+      default: false,
+    },
+
     // title form
     title: {
       Type: String,
@@ -905,11 +932,13 @@ export default {
   },
   data() {
     return {
+      // title form thêm nhân viên
+      titleCreateEmployee: TITLES_FORM.Create,
 
-      test: [
-        "707de3be-287e-1d9c-9928-186a78c3f39e",
-        "3247100d-5018-5366-7440-2c126cc94c2f"
-      ],
+      // khai báo thông tin chi tiết khách hàng
+      employeeDetail: employeeModel,
+
+      FIELDS_POSITION,
 
       //chuỗi hiển thị thông báo
       NOTIFY_TEXT,
@@ -1123,6 +1152,135 @@ export default {
     await this.selectInfoSupplierDetail();
   },
   methods: {
+
+     /**
+     * Author: Phạm Văn Đạt(26/12/2022)
+     * Function: Xử lý click thêm nhân viên
+     */
+    async clickIconSumEmployee(){
+      try{
+
+        if(this.dataEmployees.length == 0){
+          await this.loadEmployees(true);
+        }
+
+        this.showEmployee = true
+
+      }catch(e){
+        console.log(e);
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(26/12/2022)
+     * Function: Lấy dữ liệu sau khi thêm điều khoản thanh toán
+     * @param {*} item : item sau khi thêm vào trong dữ liệu
+     */
+    selectNewRulePayment(item) {
+      try {
+        // cập nhật lại danh sách hiển thị
+        this.dataRulePayments = reluPayments.currentData;
+
+        // lấy ra item thêm vào danh sách nhóm nhà cung cấp
+        this.currentSupplier.rulePaymentId = item;
+
+        console.log(groupSuppliers.currentData);
+      } catch (e) {
+        console.log(e);
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
+      }
+    },
+    
+    /**
+     * Author: Phạm Văn Đạt(26/12/2022)
+     * Function: Lấy dữ liệu sau khi thêm mới nhóm nhà cung cấp
+     * @param {*} item : item sau khi thêm vào trong dữ liệu
+     */
+     selectNewEmployee(item) {
+      try {
+        // cập nhật lại danh sách hiển thị
+        this.dataEmployees = employees.currentData;
+
+        // lấy ra item thêm vào danh sách nhóm nhà cung cấp
+        this.currentSupplier.employeeId = item;
+
+        console.log(employees.currentData);
+      } catch (e) {
+        console.log(e);
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(26/12/2022)
+     * Function: Lấy dữ liệu sau khi thêm mới nhóm nhà cung cấp
+     * @param {*} item : item sau khi thêm vào trong dữ liệu
+     */
+    selectNewGroupSupplier(item) {
+      try {
+        // cập nhật lại danh sách hiển thị
+        this.dataGroupSuppliers = groupSuppliers.currentData;
+
+        // lấy ra item thêm vào danh sách nhóm nhà cung cấp
+        this.listDataGroupSupplier.unshift(item);
+
+        console.log(groupSuppliers.currentData);
+      } catch (e) {
+        console.log(e);
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(26/12/2022)
+     * Function: Xử lý hiển thị toast message
+     * @param {*} value : text,  type toast mesage
+     */
+    showToastMessage(value) {
+      try {
+        this.$emit("textToastMessage", value?.textToastMessage);
+        this.$emit("typeToastMessage", value?.typeToastMessage);
+      } catch (e) {
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
+      }
+    },
+    /**
+     * Author: Phạm Văn Đạt(03/11/2022)
+     * Function: Xử lý lỗi khi click upload form
+     */
+    handlerErrorUploadForm(data) {
+      try {
+        for (const keyResult in data) {
+          for (let key in data[keyResult]) {
+            let fieldName = lowerCaseFirst(key);
+            // xử lý focus lỗi đầu tiên
+            if (keyResult == 0) {
+              this.fieldFocusValidate[fieldName] = true;
+              console.log(this.fieldFocusValidate[fieldName]);
+            }
+
+            // lấy lỗi đưa vào list lỗi
+            this.listErrors.set(fieldName, data[keyResult][key]);
+
+            console.log(this.listErrors);
+            console.log(data[keyResult][key]);
+
+            // emit lỗi ra cho employeelist nhận
+
+            this.$emit("textToastMessage", data[keyResult][key]);
+            this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
+          }
+        }
+      } catch (e) {
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
+      }
+    },
+
     /**
      * Author: Phạm Văn Đạt(22/12/2022)
      * Function: XỬ lý focus vào lỗi đầu tiên nếu như có lỗi
@@ -1171,6 +1329,19 @@ export default {
      */
     valiDateRequired() {
       try {
+        this.currentSupplier.isOrganization =
+          this.currentSupplier.isOrganization == 1 ? true : false;
+
+        // nếu giá trị là invalid date thì xóa khỏi object
+        formatDate(this.currentSupplier.issueOn, "YYYY-MM-DD") == "Invalid date"
+          ? delete this.currentSupplier.issueOn
+          : this.currentSupplier.issueOn
+          ? (this.currentSupplier.issueOn = formatDate(
+              this.currentSupplier.issueOn,
+              "YYYY-MM-DD"
+            ))
+          : "";
+
         // xử lý bấm nút cất, cất và thêm validate các lỗi required
         FIELDS_SUPPLIERS_REQUIRED.forEach((value) => {
           // kiểm tra giá trị có null không
@@ -1205,46 +1376,77 @@ export default {
 
         console.log(this.listErrors);
 
+        console.log(this.isUpdate);
+
         // nếu không có lỗi => thực hiện thêm hoặc update
         if (this.listErrors.size == 0) {
           let result;
 
-          //kiểm tra xem cất || cất và thêm
-          if (functionUpload == this.FUNCTION_UPLOAD.Save) {
-            console.log("Thêm nhà cung cấp");
+          // kiểm tra xem gọi api thêm | sửa
+          // gọi api thêm mới dữ liệu
+          this.currentSupplier.supplierID = createGuid();
+          result = await suppliers.insertSupplier(this.currentSupplier);
 
-            // lấy guid mới
-            this.currentSupplier.supplierID = createGuid();
+          // gọi api sửa
+          // result = await suppliers.updateSupplier(this.currentSupplier);
 
-            // gọi api thêm mới dữ liệu
-            result = await suppliers.insertSupplier(this.currentSupplier);
-            console.log(result);
-
-            // kiểm tra thêm mới thành công hay không
-          } else {
-            console.log("Cất và thêm và thêm");
-            // gọi api thêm mới dữ liệu
-            result = await suppliers.updateSupplier(this.currentSupplier);
-          }
+          let checkInsertSupplier = false;
+          console.log(result);
 
           // thêm mới || cập nhật thất bại
           if (result?.statusCode == STATUS_CODES.Code400) {
-            this.$emit("textToastMessage", result.message);
-            this.$emit("typeToastMessage", result.message);
-          } else if (result?.statusCode == STATUS_CODES.Code201) {
-            console.log("thêm mới thành công");
-          } else if (result?.statusCode == STATUS_CODES.Code200) {
-            console.log("cập nhật thành công");
+            if (result?.data) {
+              this.handlerErrorUploadForm(result.data);
+            }
+          } else if (
+            result?.statusCode == STATUS_CODES.Code201 ||
+            result?.statusCode == STATUS_CODES.Code200
+          ) {
+            checkInsertSupplier = true;
           }
           console.log(result.data);
 
+          // nếu thêm mới hoặc cập nhật thành công
+          if (checkInsertSupplier == true) {
+            // xử lý thêm mới nhóm nhà cung cấp_nhà cung cấp
+            await this.insertGroupSupplier();
+
+            // xử lý thêm mới tài khoản ngân hàng
+            await this.insertBankAccounts();
+          }
+
+          // nếu không có lỗi
+          if (this.listErrors.size == 0) {
+            // hiển thị thông báo thêm mới thành công| cập nhật thành công
+            if (functionUpload == FUNCTION_UPLOAD.Save) {
+              // thêm mới thành công
+              this.$emit(
+                "textToastMessage",
+                TEXT_TOAST_MESSAGE.CreateSuccess.text
+              );
+              this.$emit(
+                "typeToastMessage",
+                TEXT_TOAST_MESSAGE.CreateSuccess.type
+              );
+
+              // ẩn form
+              this.$emit("closeForm", false);
+            } else if (functionUpload == FUNCTION_UPLOAD.SaveAndInsert) {
+              // cập nhật thành công
+              this.$emit(
+                "textToastMessage",
+                TEXT_TOAST_MESSAGE.UpdateSuccess.text
+              );
+              this.$emit(
+                "typeToastMessage",
+                TEXT_TOAST_MESSAGE.UpdateSuccess.type
+              );
+
+              // reset dữ liệu
+            }
+          }
+
           console.log(this.currentSupplier);
-
-          // lấy id nhóm nhà cung cấp => thêm riêng
-          console.log(this.listDataGroupSupplier);
-
-          // lấy thông tin tài khoản ngân hàng => thêm riêng
-          console.log(this.dataBankAccount);
         } else {
           // nếu có lỗi => xử lý hiển thị lỗi
 
@@ -1262,10 +1464,75 @@ export default {
         }
 
         this.listDataGroupSupplier = [];
+        this.$emit("isUpdate", false);
       } catch (e) {
         console.log(e);
         this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
         this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(125/12/2022)
+     * Function: Xử lý thêm mới tài khoản ngân hàng
+     */
+    async insertBankAccounts() {
+      // xử lý thêm mới tài khoản ngân hàng
+      // lấy thông tin tài khoản ngân hàng => thêm riêng
+      let modelBankAccount = [];
+      // lấy id nhóm nhà cung cấp => thêm riêng
+      this.dataBankAccount.forEach((item) => {
+        if (
+          item?.backAccountNumber != null ||
+          item?.bankAccountBranch != null ||
+          item?.bankAccountCity != null ||
+          item?.bankAccountName != null
+        ) {
+          modelBankAccount.push({
+            backAccountID: createGuid(),
+            backAccountNumber: item?.backAccountNumber,
+            bankAccountName: item?.bankAccountName,
+            bankAccountBranch: item?.bankAccountBranch,
+            bankAccountCity: item?.bankAccountCity,
+            userId: this.currentSupplier.supplierID,
+          });
+        }
+      });
+
+      if (modelBankAccount.length > 0) {
+        let result = await bankAccounts.insert(modelBankAccount);
+
+        if (result?.statusCode == STATUS_CODES.Code400) {
+          this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.CreateFail.text);
+          this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.CreateFail.type);
+          console.log("có lỗi");
+        }
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(25/12/2022)
+     * Function: Xử lý thêm mới nhà cung cấp-nhóm nhà cung cấp
+     */
+    async insertGroupSupplier() {
+      // xử lý thêm mới nhóm nhà cung cấp_nhà cung cấp
+      let modelGroupSupplier = [];
+      // lấy id nhóm nhà cung cấp => thêm riêng
+      this.listDataGroupSupplier.forEach((item) => {
+        modelGroupSupplier.push({
+          supplierGroupSupplierID: createGuid(),
+          userId: this.currentSupplier.supplierID,
+          groupSupplierId: item,
+        });
+      });
+
+      if (modelGroupSupplier.length > 0) {
+        let result = await supplierGroupSuppliers.insert(modelGroupSupplier);
+
+        if (result?.statusCode == STATUS_CODES.Code400) {
+          this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.CreateFail.text);
+          this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.CreateFail.type);
+        }
       }
     },
 
@@ -1326,10 +1593,6 @@ export default {
     async loadGroupSupplier(checkLoad) {
       try {
         if (checkLoad) {
-          if (this.dataGroupSuppliers.length > 0) {
-            groupSuppliers.currentPageNumber++;
-          }
-
           console.log("load nhóm khách hàng");
 
           if (this.dataGroupSuppliers.length <= groupSuppliers.totalCount) {
@@ -1451,7 +1714,8 @@ export default {
           }
         }
       } catch (e) {
-        console.log(e);
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
       }
     },
 
@@ -1462,7 +1726,8 @@ export default {
     async selectInfoSupplierDetail() {
       try {
         if (this.supplierDetail == null) {
-          this.currentSupplier = supplierModel;
+          // khởi tạo lại giá trị nhóm nhà cung cấp
+          this.resetSupplier();
 
           // hiển thị loading
           console.log("hiển thị loading");
@@ -1503,6 +1768,63 @@ export default {
     },
 
     /**
+     * Author: Phạm Văn Đạt(28/12/2022)
+     * Function: Reset lại giá trị nhà cung cấp
+     */
+    resetSupplier(){
+      this.currentSupplier = {
+            supplierID: null,
+            supplierCode: null,
+            supplierName: null,
+            taxCode: null,
+            supplierAddress: null,
+            supplierMobile: null,
+            website: null,
+            employeeId: null,
+            supplierVocativeName: null,
+            supplierNameContact: null,
+            supplierEmailContact: null,
+            supplierPhoneNumberContact: null,
+            legaRrepresentative: null,
+            rulePaymentId: null,
+            dayOwed: 0,
+            debitAmountMax: 0,
+            debt: 0,
+            accountPayableId: null,
+            supplierDescription: null,
+            supplierCountry: null,
+            supplierCity: null,
+            supplierDistrict: null,
+            supplierWard: null,
+            isActive: false,
+            isCustomer: false,
+            isOrganization: false,
+            bankAccountIds: null,
+            deliveryAddress: null,
+            paid: 0,
+            idNo: null,
+            issueOn: null,
+            placeOfIssue: null,
+            userNameElectronicBill: null,
+            userEmailElectronicBill: null,
+            userMobileElectronicBill: null,
+            accountReceivableId: null,
+            accountReceivableName: null,
+            accountReceivableNumber: null,
+            rulePaymentName: null,
+            accountPayableName: null,
+            accountPayableNumber: null,
+            employeeName: null,
+            groupSupplierIds: null,
+            groupSupplierNames: null,
+            backAccountNumbers: null,
+            bankAccountNames: null,
+            bankAccountBranchs: null,
+            bankAccountCitys: null,
+          };
+    },
+
+    /**
      * Author: Phạm Văn Đath(14/12/2022)
      * Function: Xử lý ẩn form
      */
@@ -1524,10 +1846,6 @@ export default {
         console.log(newValue);
       },
       deep: true,
-    },
-
-    showGroupSupplier(value) {
-      console.log(value);
     },
 
     /**

@@ -69,8 +69,9 @@ function titleCase(string) {
 
 function decimal(value) {
   // chuyển chuỗi text về dạng số
-  var val = value.replace('.', '');
-  val = val.replace(',', '.');
-  val = (val / 1).toFixed(2).replace('.', ',');
-  return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  // let val = value.ToString().replace('.', '');
+  // val = val.replace(',', '.');
+  // val = (val/1).toFixed(2).replace('.', ',')
+  // return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+  return value;
 }

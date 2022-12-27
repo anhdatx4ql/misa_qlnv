@@ -30,7 +30,7 @@
         :placeholder="placeholder"
         :name="name"
         @keypress="isNumber ? isNumberKey($event) : ''"
-        @focusout.prevent="handlerValidate"
+        @focusout="handlerValidate"
         @input="handlerInput"
       />
 
@@ -341,12 +341,13 @@ export default {
      */
     handlerChangeValueInput: _.debounce(function (event) {
       try {
+        let value = event.target?.value?.trim();
         // truyền lại dữ liệu cho cha gọi đến nó
-        this.$emit("update:modelValue", event.target?.value?.trim());
+        this.$emit("update:modelValue", (value)?value:null);
       } catch (e) {
         console.log(e);
       }
-    }, 500),
+    }, 200),
 
     /**
      * Author: Phạm Văn Đạt(25/10/2022)
@@ -354,8 +355,6 @@ export default {
      */
     handlerFocus() {
       try {
-        console.log('focus input ')
-        console.log(this.checkFocus);
         this.$refs.input?.focus();
         this.$emit("checkFocus",false);
       } catch (e) {
@@ -403,8 +402,6 @@ export default {
             RULE_FORMAT_DATA.Email
           );
         }
-
-        console.log("focus out input")
 
       } catch (e) {
         console.log(e);

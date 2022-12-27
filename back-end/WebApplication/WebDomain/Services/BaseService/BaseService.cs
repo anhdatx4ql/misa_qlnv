@@ -168,14 +168,14 @@ namespace MISA.AMIS.BL
 
                 var strNameValue = new List<string>();
 
-                string UserId = null;
+                Guid UserId = Guid.Empty;
 
                 // lấy giá trị thuộc tính
                 foreach (PropertyInfo property in properties)
                 {
                     if(property.Name == keyUserId)
                     {
-                        UserId = property.GetValue(entities[0]).ToString();
+                        UserId = (Guid)property.GetValue(entities[0]);
                     }
                     var attributePost = (AttributePost)Attribute.GetCustomAttribute(property, typeof(AttributePost));
 
@@ -229,31 +229,38 @@ namespace MISA.AMIS.BL
                         // lấy giá trị
                         var propertyValue = property.GetValue(entity);
 
-                        // xóa các kí tự đặc biệt => tránh sql injection
-                        propertyValue = CheckSpecialCharacters.CheckSpecial(propertyValue.ToString());
-   
                         if (property.Name == "CreatedAt" || property.Name == "UpdatedAt")
                         {
-                            sql +="'"+ DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'";
+                            sql += "'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'";
                         }
                         else
                         {
                             var attributePost = (AttributePost)Attribute.GetCustomAttribute(property, typeof(AttributePost));
                             if (attributePost != null)
                             {
-                                sql += "'" + propertyValue.ToString() + "'";
+                                if(propertyValue != null)
+                                {
+                                    sql += "'" + propertyValue + "'";
+                                }
+                                else
+                                {
+                                    sql += " null";
+                                }
                             }
                         }
 
-                        if(countProperties != properties.Count())
+                        if (countProperties < properties.Count())
                         {
-                            sql += " , ";
+                            sql = $"{sql} , ";
+                        }
+                        else
+                        {
+                            sql = $"{sql} ) ";
                         }
 
                     }
-
-                    sql += ") ";
-                    if(entities.Count() != dem )
+                    
+                    if(entities.Count() > dem )
                     {
                         sql += ", ";
                     }

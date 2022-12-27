@@ -4,7 +4,7 @@
  */
 
 import { END_POINTS } from "../axios/endPoint";
-import { getDataByIds } from "../Controllers/BaseController";
+import { getDataByIds, insertRecord } from "../Controllers/BaseController";
 import { STATUS_CODES } from "../constants";
 
 /**
@@ -35,6 +35,22 @@ export class BankAccounts {
       console.log("lấy danh sách khách hàng thất bại!");
     }
   }
+
+    /**
+   * Author: Phạm Văn Đạt(25/12/2022)
+   * Function: Thêm mới nhóm nhà cung cấp
+   * @param {*} data : Dữ liệu truyền vào
+   */
+    async insert(data) {
+      let res = await insertRecord(END_POINTS.BankAccountsInserts, data);
+  
+      if (res.status == STATUS_CODES.Code200) {
+        return res.data;
+      } else {
+        console.log(res);
+        console.log("thêm mới thất bại");
+      }
+    }
 
 }
 

@@ -517,10 +517,10 @@ export const NOTIFY_TEXT = {
  * Function: Các statusCode so sánh với db trả về
  */
 export const STATUS_CODES = {
-  Code200: 200, // lấy dữ liệu thành công
-  Code201: 201, // thêm thành công
-  Code400: 400, // lỗi dữ liệu không đúng
-  Code500: 500, // lỗi server
+  Code200: "200", // lấy dữ liệu thành công
+  Code201: "201", // thêm thành công
+  Code400: "400", // lỗi dữ liệu không đúng
+  Code500: "500", // lỗi server
 };
 
 /**
@@ -529,17 +529,21 @@ export const STATUS_CODES = {
  */
 export const FIELDS_REQUIRED = [
   {
-    fielName: "employeeId",
+    fielName: "employeeCode",
     fieldText: "Mã",
   },
   {
-    fielName: "name",
+    fielName: "employeeName",
     fieldText: "Tên",
   },
   {
     fielName: "departmentId",
     fieldText: "Đơn vị",
   },
+  {
+    fielName: "typeOfContract",
+    fieldText: "Loại hợp đồng",
+  }
 ];
 
 /**
@@ -811,6 +815,18 @@ export const TEXT_TOAST_MESSAGE = {
     text: "Cập nhật thất bại",
     type: "error",
   },
+  CreateSuccess:{
+    text: "Thêm mới thành công.",
+    type: "success",
+  },
+  UpdateSuccess:{
+    text: "Cập nhật thành công.",
+    type: "success",
+  },
+  DeleteSuccess: {
+    text: "Xóa thành công.",
+    type: "success",
+  }
 };
 
 /**
@@ -1578,6 +1594,32 @@ export const FIELDS_TABLE_COMBOBOX_SUPPLIERS = [
   },
 ];
 
+
+
+/**
+ * Author: Phạm Văn Đạt(13/12/2022)
+ * Function: HIển thị dữ liệu nhà cung cấp trong bảng con
+ */
+export const FIELDS_TABLE_COMBOBOX_SUPPLIERS_ONE = [
+  {
+    fieldName: "groupSupplierID",
+    width: 0,
+    model: true,
+    style: "display:none;",
+  },
+  {
+    name: "Mã nhóm KH, NCC",
+    fieldName: "groupSupplierCode",
+    width: 185,
+  },
+  {
+    name: "Tên nhóm KH, NCC",
+    fieldName: "groupSupplierName",
+    view: true,
+    width: 283,
+  },
+];
+
 /**
  * Author: Phạm Văn Đạt(13/12/2022)
  * Function: HIển thị dữ liệu tài khoản công nợ phải trả bảng con
@@ -1599,6 +1641,20 @@ export const FIELDS_TABLE_ACCOUNTS_PAYABLE = [
     name: "Tên tài khoản",
     fieldName: "accountPayableName",
     width: 175,
+  },
+];
+
+/**
+ * Author: Phạm Văn Đạt(13/12/2022)
+ * Function: HIển thị dữ liệu điều khoản thanh toán bảng con
+ */
+export const FIELDS_TABLE_COMBOBOX_CONTRACT = [
+  {
+    name: "Tên hợp đồng",
+    view: true,
+    model: true,
+    fieldName: "name",
+    width: 100,
   },
 ];
 
@@ -1811,6 +1867,40 @@ export const FIELDS_SUPPLIERS_REQUIRED = [
   },
 ];
 
+
+/**
+ * Author: Phạm Văn Đạt(22/12/2022)
+ * Function: Các trường xử lý required trong bảng nhà cung cấp
+ */
+export const FIELDS_RULE_PAYMENTS_REQUIRED = [
+  {
+    fielName: "rulePaymentCode",
+    fieldText: "Mã điều khoản thanh toán",
+  },
+  {
+    fielName: "rulePaymentName",
+    fieldText: "Tên điều khoản thanh toán",
+  },
+];
+
+
+
+
+/**
+ * Author: Phạm Văn Đạt(22/12/2022)
+ * Function: Các trường xử lý required trong bảng nhà cung cấp
+ */
+export const FIELDS_GROUP_SUPPLIERS_REQUIRED = [
+  {
+    fielName: "groupSupplierCode",
+    fieldText: "Mã nhóm nhà cung cấp",
+  },              
+  {
+    fielName: "groupSupplierName",
+    fieldText: "Tên nhóm nhà cung cấp",
+  }
+];
+
 /**
  * Author: Phạm Văn Đạt(23/12/2022)
  * Function: model bank Account
@@ -1823,3 +1913,50 @@ export const BANK_ACCOUNTS_MODEL = [
     bankAccountCity: null,
   }
 ]
+
+/**
+ * Author: Phạm Văn Đạt(27/12/2022)
+ * Function: vị trí hiển thị 
+ */
+export const FIELDS_POSITION = {
+  Bottom: "bottom",
+  Top: "top"
+}
+
+/**
+ * Author: Phạm Văn Đạt(27/12/2022)
+ * Function: HIển thị dữ liệu phòng ban bảng con
+ */
+export const FIELDS_TABLE_DEPARTMENTS = [
+  {
+    fieldName: "departmentID",
+    width: 0,
+    model: true,
+    style: "display:none;",
+  },
+  {
+    name: "Tên phòng ban",
+    view: true,
+    fieldName: "departmentName",
+    width: 349,
+  },
+];
+
+/**
+ * Author: Phạm Văn Đạt(27/12/2022)
+ * Function: HIển thị dữ liệu phòng ban bảng con
+ */
+export const FIELDS_TABLE_POSITIONS = [
+  {
+    fieldName: "positionID",
+    width: 0,
+    model: true,
+    style: "display:none;",
+  },
+  {
+    name: "Tên chức danh",
+    view: true,
+    fieldName: "positionName",
+    width: 349,
+  },
+];

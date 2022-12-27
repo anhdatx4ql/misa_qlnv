@@ -292,6 +292,50 @@ function () {
       });
     }
     /**
+     * Author: Phạm Văn Đạt(03/11/2022)
+     * Function: Xử lý xóa nhân viên
+     * @param {*} data : id nhân viên muốn xóa
+     * @returns : response
+     */
+
+  }, {
+    key: "delete",
+    value: function _delete(data) {
+      var res;
+      return regeneratorRuntime.async(function _delete$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              if (!data) {
+                _context4.next = 10;
+                break;
+              }
+
+              _context4.next = 3;
+              return regeneratorRuntime.awrap((0, _BaseController.deleteRecords)(_endPoint.END_POINTS.DeleteSuppliers, data));
+
+            case 3:
+              res = _context4.sent;
+
+              if (!(res.status == _constants.STATUS_CODES.Code200)) {
+                _context4.next = 8;
+                break;
+              }
+
+              return _context4.abrupt("return", res.data);
+
+            case 8:
+              console.log(res);
+              console.log("Xóa thất bại!");
+
+            case 10:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      });
+    }
+    /**
      * Author: Phạm Văn Đạt(20/12/2022)
      * Function: Lấy mã code mới nhất
      * @returns trả về dữ liệu nếu thành công.
@@ -301,30 +345,30 @@ function () {
     key: "getMaxCode",
     value: function getMaxCode() {
       var res;
-      return regeneratorRuntime.async(function getMaxCode$(_context4) {
+      return regeneratorRuntime.async(function getMaxCode$(_context5) {
         while (1) {
-          switch (_context4.prev = _context4.next) {
+          switch (_context5.prev = _context5.next) {
             case 0:
-              _context4.next = 2;
+              _context5.next = 2;
               return regeneratorRuntime.awrap((0, _BaseController.getMaxCode)(_endPoint.END_POINTS.SuppliersMaxCode));
 
             case 2:
-              res = _context4.sent;
+              res = _context5.sent;
 
               if (!(res.statusCode == _constants.STATUS_CODES.Code200)) {
-                _context4.next = 8;
+                _context5.next = 8;
                 break;
               }
 
               console.log(res.data);
-              return _context4.abrupt("return", res.data);
+              return _context5.abrupt("return", res.data);
 
             case 8:
               console.log(res);
 
             case 9:
             case "end":
-              return _context4.stop();
+              return _context5.stop();
           }
         }
       });

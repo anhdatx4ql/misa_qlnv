@@ -4,7 +4,7 @@
  */
 
 import { END_POINTS } from "../axios/endPoint";
-import { insertRecord, paging } from "../Controllers/BaseController";
+import { insertRecord, paging, getMaxCode } from "../Controllers/BaseController";
 import { STATUS_CODES } from "../constants";
 
 /**
@@ -26,18 +26,6 @@ export const groupSupplierModel = {
 
   // id nhóm cha
   parentGroupSupplierId: null,
-
-  // ngày tạo
-  createdAt: null,
-
-  // ngày cập nhật
-  updatedAt: null,
-
-  //  người tạo
-  createdBy: null,
-
-  // người cập nhật
-  updatedBy: null,
 };
 
 /**
@@ -104,7 +92,7 @@ export class GroupSuppliers {
     let lengthCurrentData = this.currentData ? this.currentData.length : -1;
 
     if (this.countLoadData > 0) {
-      this.currentPageNumber++;
+      this.currentPageNumber = this.currentPageNumber+1;
     }
 
     // nếu số bản ghi hiện tại <= tổng số bản ghi => tăng số trang hiện tại lên 1 và load lại. Nếu không thì thôi
@@ -136,12 +124,7 @@ export class GroupSuppliers {
           // không có dữ liệu
           this.currentPageNumber--;
         }
-
-        console.log(this.currentData);
-        console.log(res.data.data);
-
         this.totalCount = res.data.totalCount;
-        console.log(this.currentPageNumber);
       } else {
         console.log(res);
       }
@@ -163,6 +146,21 @@ export class GroupSuppliers {
       console.log("thêm mới thất bại");
     }
   }
+  
+  /**
+   * Author: Phạm Văn Đạt(26/12/2022)
+   * Function: Lấy mã code mới nhất
+   * @returns trả về dữ liệu nếu thành công.
+   */
+  async getMaxCode() {
+    let res = await getMaxCode(END_POINTS.GroupSuppliersMaxCode);
+    if (res.statusCode == STATUS_CODES.Code200) {
+      console.log(res.data);
+      return res.data;
+    } else {
+      console.log(res);
+    }
+  }
 }
 
 /**
@@ -170,3 +168,30 @@ export class GroupSuppliers {
  * Function: Khởi tạo đối tượng để xử lý xuyên suốt
  */
 export let groupSuppliers = new GroupSuppliers();
+
+
+/**
+ * Author: Phạm Văn Đạt(26/12/2022)
+ * Function: Reset dữ liệu
+ */
+export function reset(object) {
+  try {
+    // let newCode = await groupSuppliers.getMaxCode();
+    // if (newCode) {
+    //   object.groupSupplierCode = newCode;
+    // }
+
+    // lưu giá trị object null
+    Object.keys(object).forEach((key) => {
+      // if(key != "groupSupplierCode")
+          // các thuộc tính khác trả về null
+          object[key] = null;
+    });
+
+    console.log(object)
+
+    return object;
+  } catch (e) {
+    console.log(e);
+  }
+}

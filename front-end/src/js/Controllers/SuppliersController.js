@@ -7,7 +7,8 @@ import {
   insertRecord,
   updateRecord,
   paging,
-  getMaxCode
+  getMaxCode,
+  deleteRecords
 } from "../Controllers/BaseController";
 
 import { STATUS_CODES } from "../constants";
@@ -265,6 +266,25 @@ export class Suppliers {
       return res.data;
     } else {
       console.log("thêm mới thất bại");
+    }
+  }
+
+  /**
+   * Author: Phạm Văn Đạt(03/11/2022)
+   * Function: Xử lý xóa nhân viên
+   * @param {*} data : id nhân viên muốn xóa
+   * @returns : response
+   */
+  async delete(data) {
+    if (data) {
+      let res = await deleteRecords(END_POINTS.DeleteSuppliers, data);
+
+      if (res.status == STATUS_CODES.Code200) {
+        return res.data;
+      } else {
+        console.log(res);
+        console.log("Xóa thất bại!");
+      }
     }
   }
 

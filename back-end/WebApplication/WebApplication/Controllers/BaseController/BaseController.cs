@@ -56,6 +56,18 @@ namespace MISA.AMIS.Application
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
+        [HttpPost("Delete")]
+        public async Task<ReponsitoryModel> InsertRecords([FromBody] List<Guid> ids)
+        {
+            return await _baseService.DeleteRecords(ids);
+        }
+
+        /// <summary>
+        /// Author: Phạm Văn Đạt(25/12/2022)
+        /// Function: Xử lý xóa nhiều bản ghi
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         [HttpPost("InsertRecords")]
         public async Task<ReponsitoryModel> InsertRecords([FromBody] List<T> entities)
         {

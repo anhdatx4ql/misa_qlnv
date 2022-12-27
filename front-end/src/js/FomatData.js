@@ -53,9 +53,11 @@ export function titleCase(string) {
 export function decimal(value) {
 
   // chuyển chuỗi text về dạng số
-  let val = value.replace('.', '');
-  val = val.replace(',', '.');
+  // let val = value.ToString().replace('.', '');
+  // val = val.replace(',', '.');
 
-  val = (val/1).toFixed(2).replace('.', ',')
-  return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+  // val = (val/1).toFixed(2).replace('.', ',')
+  // return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+
+  return value;
 }

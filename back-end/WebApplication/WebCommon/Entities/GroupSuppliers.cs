@@ -23,6 +23,7 @@ namespace MISA.AMIS.Common
         /// </summary>
         [AttributeRequired("Mã nhóm khách hàng không được bỏ trống!")]
         [AttributePost("")]
+        [AttributeExists("Nhóm nhà cung cấp")]
         public string GroupSupplierCode { set; get; }
 
         /// <summary>

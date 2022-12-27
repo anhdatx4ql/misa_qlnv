@@ -13,130 +13,132 @@ namespace MISA.AMIS.Common
     public class Employees:BaseEntity
     {
         #region Fields
-        // Id khách hàng
+        // Id khách hàng 1
         [AttributePrimarykey("Id không hợp lệ.")]
         [AttributePost("")]
         public Guid EmployeeID { set; get; }
 
-        // mã khách hàng
+        // mã khách hàng 2
         [AttributeRequired("Mã khách hàng không được bỏ trống.")]
         [AttributePost("")]
         public string EmployeeCode { set; get; }
 
-        // tên khách hàng
+        // tên khách hàng 3
         [AttributeRequired("Tên khách hàng không được bỏ trống.")]
         [AttributePost("")]
         public string EmployeeName { set; get; }
 
-        // Giới tính
+        // Giới tính 4
         [AttributeGender("Giới tính sai định dạng.")]
         [AttributePost("")]
-        public int EmployeeGender { set; get; }
+        public int? EmployeeGender { set; get; }
 
-        // Ngày sinh
+        // Ngày sinh 5
         [AttributeDateTime("Ngày tháng không vượt quá ngày tháng hiện tại.")]
         [AttributePost("")]
-        public string EmployeeBirthDay { set; get; }
+        public DateTime? EmployeeBirthDay { set; get; }
 
-        // Số chứng minh nhân dân
+        // Số chứng minh nhân dân 6
         [AttributePost("")]
         public string IdNo { set; get; }
 
-        // Ngày cấp
+        // Ngày cấp 7
         [AttributePost("")]
-        public string IssuaOn { set; get; }
+        [AttributeDateTime("Ngày tháng không vượt quá ngày tháng hiện tại.")]
+        public DateTime? IssuaOn { set; get; }
 
-        // Nơi cấp
+        // Nơi cấp 8
         [AttributePost("")]
         public string PlaceOfIssue { set; get; }
 
-        // Địa chỉ
+        // Địa chỉ 9
         [AttributePost("")]
         public string EmployeeAddress { set; get; }
 
-        // số điện thoại di động
+        // số điện thoại di động 10
         [AttributePost("")]
         [AttributePhone("Số điện thoại di động không hợp lệ.")]
         public string EmployeeNumberPhone { set; get; }
 
-        // số điện thoại bàn
+        // số điện thoại bàn 11 
         [AttributePost("")]
         [AttributePhone("Số điện thoại bàn không hợp lệ.")]
         public string EmployeeDeskPhone { set; get; }
 
-        // email
+        // email 12
         [AttributePost("")]
         [AttributeEmail("Email không hợp lệ.")]
         public string EmployeeEmail { set; get; }
 
-        // id phòng ban
+        // id phòng ban 13
         [AttributeRequired("Mã phòng ban không được để trống.")]
         [AttributePost("")]
         public Guid? DepartmentId { set; get; }
 
-        // id chức danh
+        // id chức danh 14
         [AttributePost("")]
         public Guid? PositionId { set; get; }
 
-        // là khách hàng
+        // là khách hàng 
         [AttributePost("")]
-        public bool IsEmployee { set; get; }
+        public bool? IsEmployee { set; get; }
 
         /// <summary>
-        /// tên phòng ban
+        /// tên phòng ban 
         /// </summary>
         public string DepartmentName { set; get; }
 
         /// <summary>
-        /// Tên vị trí
+        /// Tên vị trí 17
         /// </summary>
         public string PositionName { set; get; }
 
-        // là nhà cung cấp
+        // là nhà cung cấp 18
         [AttributePost("")]
-        public bool IsSuppiler { set; get; }
+        public bool? IsSuppiler { set; get; }
 
-        //Đã xóa hay chưa
+        //Đã xóa hay chưa 19
         [AttributePost("")]
-        public bool IsDelete { set; get; }
+        public bool? IsDelete { set; get; }
 
-        // Lương thỏa thuận
+        // Lương thỏa thuận 20
         [AttributePost("")]
-        public decimal WageAgreement { set; get; }
+        public decimal? WageAgreement { set; get; }
 
-        // Hệ số lương
+        // Hệ số lương 21
         [AttributePost("")]
-        public decimal CoefficientSalary { set; get; }
+        public decimal? CoefficientSalary { set; get; }
 
-        // lương đóng bảo hiểm
+        // lương đóng bảo hiểm 22
         [AttributePost("")]
-        public decimal PremiumSalary { set; get; }
+        public decimal? PremiumSalary { set; get; }
 
-        // mã số thuế
+        // mã số thuế 23
         [AttributeTaxCode("")]
         [AttributeExists("Mã số thuế không được trùng.")]
+        [AttributePost("")]
         public string TaxCode { set; get; }
 
-        // loại hợp đồng
+        // loại hợp đồng 24
         [AttributePost("")]
-        [AttributeRequired("Loại hợp đồng không được trùng.")]
+        [AttributeRequired("Loại hợp đồng không được bỏ trống.")]
         public string TypeOfContract { set; get; }
 
-        // số người phụ thuộc
+        // số người phụ thuộc 25
         [AttributePost("")]
-        public int NumberOfDependent { set; get; }
+        public int? NumberOfDependent { set; get; }
 
         /// <summary>
-        /// Tài khoản công nợ phải trả
+        /// Tài khoản công nợ phải trả 26
         /// </summary>
         [AttributePost("")]
         public Guid? AccountPayableId { set; get; }
 
         /// <summary>
-        /// Tài khoản công nợ phải thu
+        /// Tài khoản công nợ phải thu 25
         /// </summary>
         [AttributePost("")]
-        public Guid? AccountReceivable { set; get; }
+        public Guid? AccountReceivableId { set; get; }
         #endregion
     }
 }

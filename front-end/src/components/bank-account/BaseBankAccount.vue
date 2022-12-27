@@ -23,7 +23,7 @@
           :key="item"
           :style="'width: ' + item.width + 'px;'"
         >
-          <base-textarea v-model="i[item?.name]" :height="31"></base-textarea>
+          <base-textarea :isFormat="true" v-model="i[item?.name]" :height="31"></base-textarea>
         </td>
         <td style="width: 40px">
           <div
@@ -197,18 +197,22 @@ export default {
         if (value) {
           arr = value.split(";");
         }
+        console.log(arr)
+        // nếu mảng không rỗng=> lấy dữ liệu
+        if(arr.length > 0){
+          // lấy dữ liệu tài khoản ngân hàng
+          let result = await bankAccounts.getDataByIds(arr);
 
-        // lấy dữ liệu tài khoản ngân hàng
-        let result = await bankAccounts.getDataByIds(arr);
-
-        // gán giữ liệu vừa lấy được
-        if (result != null && result != []) {
-          this.bankAccounts = result;
-          this.bankAccountRow = result.length;
-        } else {
-          this.bankAccounts = BANK_ACCOUNTS_MODEL;
-          this.bankAccountRow = 1;
+          // gán giữ liệu vừa lấy được
+          if (result != null && result != []) {
+            this.bankAccounts = result;
+            this.bankAccountRow = result.length;
+          } else {
+            this.bankAccounts = BANK_ACCOUNTS_MODEL;
+            this.bankAccountRow = 1;
+          }
         }
+       
       } catch (e) {
         console.log(e);
       }

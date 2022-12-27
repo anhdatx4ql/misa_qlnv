@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { titleCase } from "../../js/FomatData";
 
 export default {
   name: "BaseTextarea",
@@ -23,6 +24,12 @@ export default {
     modelValue: {
       Type: String,
       default: null,
+    },
+
+    // in hoa chữ cái đầu hay không
+    isFormat:{
+      Type: Boolean,
+      default: false
     },
 
     // text hiển thị
@@ -77,8 +84,11 @@ export default {
      */
     currentValue(value){
       try {
+        if (this.isFormatText == true) {
+          value = titleCase(value);
+        }
         // truyền lại dữ liệu cho cha gọi đến nó
-        this.$emit("update:modelValue", value.trim());
+        this.$emit("update:modelValue", (value)?value.trim():null);
       } catch (e) {
         console.log(e);
       }

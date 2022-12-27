@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.reset = reset;
 exports.groupSuppliers = exports.GroupSuppliers = exports.groupSupplierModel = void 0;
 
 var _endPoint = require("../axios/endPoint");
@@ -39,15 +40,7 @@ var groupSupplierModel = {
   // Thông tin chi tiết nhóm khách hàng
   groupSupplierDescription: null,
   // id nhóm cha
-  parentGroupSupplierId: null,
-  // ngày tạo
-  createdAt: null,
-  // ngày cập nhật
-  updatedAt: null,
-  //  người tạo
-  createdBy: null,
-  // người cập nhật
-  updatedBy: null
+  parentGroupSupplierId: null
 };
 /**
  * Author: Phạm Văn Đạt(17/12/2022)
@@ -122,7 +115,7 @@ function () {
               lengthCurrentData = this.currentData ? this.currentData.length : -1;
 
               if (this.countLoadData > 0) {
-                this.currentPageNumber++;
+                this.currentPageNumber = this.currentPageNumber + 1;
               } // nếu số bản ghi hiện tại <= tổng số bản ghi => tăng số trang hiện tại lên 1 và load lại. Nếu không thì thôi
 
 
@@ -156,10 +149,7 @@ function () {
                   this.currentPageNumber--;
                 }
 
-                console.log(this.currentData);
-                console.log(res.data.data);
                 this.totalCount = res.data.totalCount;
-                console.log(this.currentPageNumber);
               } else {
                 console.log(res);
               }
@@ -209,6 +199,44 @@ function () {
         }
       });
     }
+    /**
+     * Author: Phạm Văn Đạt(26/12/2022)
+     * Function: Lấy mã code mới nhất
+     * @returns trả về dữ liệu nếu thành công.
+     */
+
+  }, {
+    key: "getMaxCode",
+    value: function getMaxCode() {
+      var res;
+      return regeneratorRuntime.async(function getMaxCode$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return regeneratorRuntime.awrap((0, _BaseController.getMaxCode)(_endPoint.END_POINTS.GroupSuppliersMaxCode));
+
+            case 2:
+              res = _context3.sent;
+
+              if (!(res.statusCode == _constants.STATUS_CODES.Code200)) {
+                _context3.next = 8;
+                break;
+              }
+
+              console.log(res.data);
+              return _context3.abrupt("return", res.data);
+
+            case 8:
+              console.log(res);
+
+            case 9:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      });
+    }
   }]);
 
   return GroupSuppliers;
@@ -221,4 +249,28 @@ function () {
 
 exports.GroupSuppliers = GroupSuppliers;
 var groupSuppliers = new GroupSuppliers();
+/**
+ * Author: Phạm Văn Đạt(26/12/2022)
+ * Function: Reset dữ liệu
+ */
+
 exports.groupSuppliers = groupSuppliers;
+
+function reset(object) {
+  try {
+    // let newCode = await groupSuppliers.getMaxCode();
+    // if (newCode) {
+    //   object.groupSupplierCode = newCode;
+    // }
+    // lưu giá trị object null
+    Object.keys(object).forEach(function (key) {
+      // if(key != "groupSupplierCode")
+      // các thuộc tính khác trả về null
+      object[key] = null;
+    });
+    console.log(object);
+    return object;
+  } catch (e) {
+    console.log(e);
+  }
+}

@@ -32,7 +32,6 @@
           class="w-1/3 p-r-12 box-sizing-b"
           fieldLabel="Mã"
           :iconRed="true"
-          ref="firstFocus"
           :isRequired="true"
           :isFormatText="false"
           v-model="currentGroupSupplier.groupSupplierCode"
@@ -49,7 +48,7 @@
               : listErrors.delete('groupSupplierCode')
           "
           :checkFocus="fieldFocusValidate.groupSupplierCode"
-          @checkFocus.prevent="fieldFocusValidate.groupSupplierCode = false"
+          @checkFocus="fieldFocusValidate.groupSupplierCode = false"
         ></base-input-text>
         <!-- end mã nhóm nhà cung cấp, khách hàng -->
 
@@ -84,8 +83,11 @@
           classText="input-container-field-label"
           fieldName="Thuộc"
           :iconSum="false"
-          :isMultiple="true"
+          :isMultiple="false"
+          :listField="FIELDS_TABLE_COMBOBOX_SUPPLIERS_ONE"
+          :listData="dataGroupSuppliers"
           v-model="currentGroupSupplier.parentGroupSupplierId"
+          @loadData="loadGroupSupplier($event)"
           :errorText="
             listErrors.has('parentGroupSupplierId')
               ? listErrors.get('parentGroupSupplierId')
@@ -110,20 +112,6 @@
           text="Diễn giải"
           :height="56"
           v-model="currentGroupSupplier.groupSupplierDescription"
-          :errorText="
-            listErrors.has('groupSupplierDescription')
-              ? listErrors.get('groupSupplierDescription')
-              : null
-          "
-          @errorText="
-            $event
-              ? !listErrors.has('groupSupplierDescription')
-                ? listErrors.set('groupSupplierDescription', $event)
-                : ''
-              : listErrors.delete('groupSupplierDescription')
-          "
-          :checkFocus="fieldFocusValidate.groupSupplierDescription"
-          @checkFocus="fieldFocusValidate.groupSupplierDescription = false"
         ></base-textarea>
         <!-- start diễn giải -->
 
@@ -137,7 +125,7 @@
           <base-button
             v-tooltip="'Cất và thêm(Ctrl + Shift +S)'"
             text="Cất và thêm"
-            @clickButton="handlerUploadData(functionUpload.SaveAndInsert)"
+            @clickButton="handlerUploadData(FUNCTION_UPLOAD.SaveAndInsert)"
           >
           </base-button>
           <base-button
@@ -145,13 +133,18 @@
             v-tooltip="'Cất(Ctrl + S)'"
             style="margin: 0 0.75rem"
             text="Cất"
-            @clickButton="handlerUploadData(functionUpload.Save)"
+            @clickButton="handlerUploadData(FUNCTION_UPLOAD.Save)"
           >
           </base-button>
         </div>
 
         <div class="form-buttom-left">
-          <base-button classButton="button-white" text="Hủy" @focusout="handlerFocusForm()"> </base-button>
+          <base-button
+            classButton="button-white"
+            text="Hủy"
+            @focusout="handlerFocusForm()"
+          >
+          </base-button>
         </div>
       </div>
       <!-- end bottom -->
@@ -175,13 +168,26 @@
 <script>
 /**
  * Author: Phạm Văn Đạt(14/12/2022)
- * Function: nhúng các các hằng số
+ * Function: nhúng các các hằng scurrentRulePaymentố
  */
 import {
   groupSupplierModel,
+  groupSuppliers,
 } from "../../js/Controllers/GroupSuppliersController.js";
 
-import { FUNCTION_UPLOAD, NOTIFY_LIST, TEXT_TOAST_MESSAGE } from "../../js/constants"
+import { createGuid } from "../../js/GuidId.js";
+
+import { lowerCaseFirst } from "../../js/FomatData.js";
+
+import {
+  FUNCTION_UPLOAD,
+  FIELDS_TABLE_COMBOBOX_SUPPLIERS_ONE,
+  NOTIFY_LIST,
+  TEXT_TOAST_MESSAGE,
+  FIELDS_GROUP_SUPPLIERS_REQUIRED,
+  NOTIFY_TEXT,
+  STATUS_CODES,
+} from "../../js/constants";
 
 export default {
   components: {},
@@ -195,6 +201,23 @@ export default {
   },
   data() {
     return {
+      FIELDS_TABLE_COMBOBOX_SUPPLIERS_ONE,
+      FUNCTION_UPLOAD,
+
+      // danh sách nhà cung cấp, khách hàng
+      dataGroupSuppliers: [],
+
+      // các trường check focus
+      fieldFocusValidate: {
+        // mã nhóm khách hàng
+        groupSupplierCode: true,
+
+        // tên nhóm khách hàng
+        groupSupplierName: false,
+      },
+
+      // thứ tự hiển thị lỗi
+      numericalOrder: ["groupSupplierCode", "groupSupplierName"],
 
       // kiểm tra notify
       checkNotify: {
@@ -207,80 +230,183 @@ export default {
       listErrors: new Map(),
 
       NOTIFY_LIST,
-      //  các chức năng cất form: cất, cất và thêm
-      FUNCTION_UPLOAD,
 
       // khởi tạo đối tượng lưu giá trị của nhóm nhà cung cấp
       currentGroupSupplier: groupSupplierModel,
 
-      // các trường check focus
-      fieldFocusValidate: {
-        // mã nhóm nhà cung cấp
-        groupSupplierCode: true,
-
-        // tên nhóm nhà cung cấp
-        groupSupplierName: false,
-
-        // thông tin chi tiết nhà cung cáp
-        groupSupplierDescription: false,
-
-        // id nhóm cha
-        parentGroupSupplierId: false,
-      },
-
-      // thứ tự hiển thị lỗi
-      numericalOrder: [
-        "employeeCode",
-        "employeeName",
-        "departmentId",
-        "positionId",
-        "employeeBirthDay",
-        "issuaOn",
-        "employeeNumberPhone",
-        "employeeDeskPhone",
-        "employeeEmail",
-      ],
-
       // name field focus
-      firstFocus: null
+      firstFocus: null,
     };
   },
-  created() {},
+  async created() {
+    // lấy data của nhóm nhà cung cấp, khách hàng
+    this.dataGroupSuppliers =
+      groupSuppliers.currentData != undefined ? groupSuppliers.currentData : [];
+
+    // await this.selectMaxCode();
+
+    // lấy mã nhóm nhà cung cấp
+    this.resetData();
+
+    console.log(this.currentGroupSupplier);
+  },
   methods: {
+    /**
+     * Author: Phạm Văn Đạt(26/12/2022)
+     * Function: Xử lý load lại dữ liệu nhóm nhà cung cấp
+     * @param {*} checkLoad : true | false
+     */
+    async loadGroupSupplier(checkLoad) {
+      try {
+        if (checkLoad) {
+          if (this.dataGroupSuppliers.length > 0) {
+            groupSuppliers.currentPageNumber++;
+          }
+
+          console.log("load nhóm khách hàng");
+
+          if (this.dataGroupSuppliers.length <= groupSuppliers.totalCount) {
+            await groupSuppliers.pagingGroupSupplier([]);
+
+            if (groupSuppliers.currentData) {
+              this.dataGroupSuppliers = [...groupSuppliers.currentData];
+            }
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(26/12/2022)
+     * Function: Lấy mã code mới nhất
+     */
+    async selectMaxCode() {
+      try {
+        // hiển thị loading
+        console.log("hiển thị loading");
+        this.currentGroupSupplier.groupSupplierCode =
+          await groupSuppliers.getMaxCode();
+
+        // ẩn loading
+        console.log("ẩn loading");
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(26/12/2022)
+     * Function: XỬ lý focus vào lỗi đầu tiên nếu như có lỗi
+     */
+    checkFocusCloseNotify(value) {
+      Object.keys(this.fieldFocusValidate).forEach((key) => {
+        this.fieldFocusValidate[key] = false;
+      });
+
+      // chuyển trạng thái focus true ở lỗi đầu tiên
+      this.fieldFocusValidate[value] = true;
+    },
 
     /**
      * Author: Phạm Văn Đạt(23/12/2022)
      * Function: Xử lý focus out button hủy xoay vòng
      */
-    handlerFocusForm(){
-      try{
+    handlerFocusForm() {
+      try {
         this.fieldFocusValidate.groupSupplierCode = true;
-
-        console.log(this.fieldFocusValidate.groupSupplierCode)
-
-      }catch(e){
+      } catch (e) {
         console.log(e);
       }
     },
+
+    /**
+     * Author: Phạm Văn Đạt(22/12/2022)
+     * Function: Xử lý validate dữ liệu khi click nút cất, cất và thêm
+     */
+    valiDateRequired() {
+      try {
+        // xử lý bấm nút cất, cất và thêm validate các lỗi required
+        FIELDS_GROUP_SUPPLIERS_REQUIRED.forEach((value) => {
+          // kiểm tra giá trị có null không
+          if (!this.currentGroupSupplier[value.fielName]) {
+            // thêm tên trường và message lỗi vào danh sách lỗi nếu chưa có lỗi đó
+            if (!this.listErrors.has(value.fielName)) {
+              this.listErrors.set(
+                value.fielName,
+                NOTIFY_TEXT.requiredField(value.fieldText)
+              );
+            }
+
+            // nếu chưa lấy trường nào thì mới nhận dữ liệu
+            this.firstFocus = value.fielName;
+          }
+        });
+      } catch (e) {
+        this.$emit("toastMessage", {
+          textToastMessage: TEXT_TOAST_MESSAGE.Error.text,
+          typeToastMessage: TEXT_TOAST_MESSAGE.Error.type,
+        });
+      }
+    },
+
     /**
      * Author: Phạm Văn Đạt(28/10/2022)
      * Function: Xử lý upload dữ liệu
      */
     async handlerUploadData(functionUpload) {
       try {
-        console.log(functionUpload);
         //xử lý validate
         this.valiDateRequired();
 
+        console.log(this.listErrors);
+
         // nếu không có lỗi => thực hiện thêm hoặc update
         if (this.listErrors.size == 0) {
+          // lấy guid mới
+          this.currentGroupSupplier.groupSupplierID = createGuid();
 
-          // xử lý cất
-          if(functionUpload == FUNCTION_UPLOAD.Save){
-            console.log("cất");
-          }else{
-            // xử lý cất và thêm
-            console.log("cất và thêm");
+          //gọi api thêm dữ liệu
+          const result = await groupSuppliers.insertGroupSuppliers(
+            this.currentGroupSupplier
+          );
+
+          // thêm mới || cập nhật thất bại
+          if (result?.statusCode == STATUS_CODES.Code400) {
+            if (result?.data) {
+              this.handlerErrorUploadForm(result.data);
+            }
+          } else if (result?.statusCode == STATUS_CODES.Code201) {
+            // hiển thị loading
+
+            // thêm phần tử vào đầu mảng
+            groupSuppliers.currentData = [
+              this.currentGroupSupplier,
+              ...groupSuppliers.currentData,
+            ];
+            groupSuppliers.totalCount++;
+            this.dataGroupSuppliers = groupSuppliers.currentData;
+
+            const item = this.currentGroupSupplier.groupSupplierID;
+
+            this.$emit("newItem", item);
+
+            // hiển thị thông báo thêm mới thành công| cập nhật thành công
+            if (functionUpload == FUNCTION_UPLOAD.Save) {
+              // ẩn form
+              this.$emit("closeForm", false);
+            } else {
+              // cất và thêm
+              this.resetData();
+            }
+            // thêm mới thành công
+            this.$emit("toastMessage", {
+              textToastMessage: TEXT_TOAST_MESSAGE.CreateSuccess.text,
+              typeToastMessage: TEXT_TOAST_MESSAGE.CreateSuccess.type,
+            });
+
+            // ẩn loading
           }
         } else {
           // xử lý hiển thị lỗi
@@ -298,8 +424,59 @@ export default {
           }
         }
       } catch (e) {
-        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
-        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
+        console.log(e);
+        // hiển thị lỗi
+        this.$emit("toastMessage", {
+          textToastMessage: TEXT_TOAST_MESSAGE.Error.text,
+          typeToastMessage: TEXT_TOAST_MESSAGE.Error.type,
+        });
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(26/12/2022)
+     * Function: Xử lý reset dữ liệu
+     */
+    resetData() {
+      this.currentGroupSupplier = {
+        groupSupplierCode: null,
+        groupSupplierName: null,
+        parentGroupSupplierId: null,
+        groupSupplierDescription: null,
+      };
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(26/12/2022)
+     * Function: Xử lý lỗi khi click upload form
+     */
+    handlerErrorUploadForm(data) {
+      try {
+        for (const keyResult in data) {
+          for (let key in data[keyResult]) {
+            let fieldName = lowerCaseFirst(key);
+            // xử lý focus lỗi đầu tiên
+            if (keyResult == 0) {
+              this.fieldFocusValidate[fieldName] = true;
+              console.log(this.fieldFocusValidate[fieldName]);
+            }
+
+            // lấy lỗi đưa vào list lỗi
+            this.listErrors.set(fieldName, data[keyResult][key]);
+
+            // emit lỗi ra cho supplierDetial nhận
+            this.$emit("toastMessage", {
+              textToastMessage: data[keyResult][key],
+              typeToastMessage:TEXT_TOAST_MESSAGE.Error.type,
+            });
+          }
+        }
+      } catch (e) {
+        // hiển thị lỗi
+        this.$emit("toastMessage", {
+          textToastMessage: TEXT_TOAST_MESSAGE.Error.text,
+          typeToastMessage: TEXT_TOAST_MESSAGE.Error.type,
+        });
       }
     },
 
@@ -307,7 +484,7 @@ export default {
      * Author: Phạm Văn Đạt(23/12/2022)
      * Function: Xử lý lấy lỗi đầu tiên trong mảng lỗi
      */
-     selectErrorTextFirst() {
+    selectErrorTextFirst() {
       // lấy lỗi theo thứ tự: mã, tên, phòng ban
       for (let i = 0; i < this.numericalOrder.length; i++) {
         if (this.listErrors.has(this.numericalOrder[i])) {
@@ -328,15 +505,15 @@ export default {
       try {
         this.$emit("closeForm", false);
       } catch (e) {
-        console.log(e);
+        // hiển thị lỗi
+        this.$emit("toastMessage", {
+          textToastMessage: TEXT_TOAST_MESSAGE.Error.text,
+          typeToastMessage: TEXT_TOAST_MESSAGE.Error.type,
+        });
       }
     },
   },
-  watch: {
-    "fieldFocusValidate.groupSupplierCode"(value){
-        console.log(value)
-    }
-  },
+  watch: {},
 };
 </script>
 

@@ -31,17 +31,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  */
 var rulePaymentModel = {
   // id điều khoản thanh toán
-  RulePaymentID: null,
+  rulePaymentID: null,
   // mã điều khoản thanh toán
-  RulePaymentCode: null,
+  rulePaymentCode: null,
   // tên điềuk hoản thanh toán
-  RulePaymentName: null,
+  rulePaymentName: null,
   // số ngày được nợ
-  DayOwed: 0,
+  dayOwed: 0,
   //Thời hạn hưởng chiết khấu theo ngày
-  AwardDeadline: 0,
+  awardDeadline: 0,
   // Tỉ lệ chiết khấu
-  DepreciationRate: null
+  depreciationRate: null
 };
 /**
  * Author: Phạm Văn Đạt(17/12/2022)

@@ -21,13 +21,10 @@ export const employeeModel = {
   accountPayableId: null,
 
   // id Tài khoản công nợ phải thu
-  accountReceivable: null,
+  AccountReceivableId: null,
 
   // Hệ số lương
   coefficientSalary: 0,
-
-  // ngày tạo
-  createdAt: null,
 
   // người tạo
   createdBy: null,
@@ -100,9 +97,6 @@ export const employeeModel = {
 
   // loại hợp đồng - không được để trống
   typeOfContract: null,
-
-  // ngày cập nhật
-  updatedAt: null,
 
   // người cập nhật
   updatedBy: null,
@@ -178,11 +172,10 @@ export class Employees {
       newData.push(...dataKeyword);
     }
 
-    
     let lengthCurrentData = this.currentData ? this.currentData.length : -1;
-
+    
     if (this.countLoadData > 0) {
-      this.currentPageNumber++;
+      this.currentPageNumber = this.currentPageNumber+1;
     }
 
     // nếu số bản ghi hiện tại <= tổng số bản ghi => tăng số trang hiện tại lên 1 và load lại. Nếu không thì thôi
@@ -333,7 +326,6 @@ export async function resetEmployeeDetail(object, employees) {
           key == "premiumSalary" ||
           key == "numberOfDependent"
         ) {
-          // 0 là nam
           object[key] = 0;
         } else if (
           key == "isDelete" ||
@@ -348,6 +340,8 @@ export async function resetEmployeeDetail(object, employees) {
         }
       }
     });
+
+    console.log(object);
 
     return object;
   } catch (e) {

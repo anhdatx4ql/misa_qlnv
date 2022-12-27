@@ -45,11 +45,11 @@ namespace MISA.AMIS.Application
         /// </summary>
         /// <param name="ids">danh sách id</param>
         /// <returns></returns>
-        [HttpPost("Delete")]
-        public async Task<ReponsitoryModel> DeleteRecords([FromBody] List<Guid> ids)
-        {
-            return await _employeeService.DeleteRecords(ids);
-        }
+        //[HttpPost("Delete")]
+        //public async Task<ReponsitoryModel> DeleteRecords([FromBody] List<Guid> ids)
+        //{
+        //    return await _employeeService.DeleteRecords(ids);
+        //}
 
         /// <summary>
         /// Author: Phạm Văn Đạt(23/10/2022)

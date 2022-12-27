@@ -35,6 +35,8 @@ var END_POINTS = {
   EmployeesMaxCode: "Employees/GetMaxCode",
   // lấy max code nhà cung cấp
   SuppliersMaxCode: "Suppliers/GetMaxCode",
+  // lấy max code nhà cung cấp
+  GroupSuppliersMaxCode: "GroupSuppliers/GetMaxCode",
   // xóa nhân viên
   EmployeesDelete: "Employees/Delete",
   // tài khoản công nợ phải thu
@@ -47,6 +49,12 @@ var END_POINTS = {
   Departments: "Departments",
   // nhóm nhà cung cấp
   GroupSuppliers: "GroupSuppliers",
+  // thêm mới nhà cung cấp- nhóm nhà cung cấp
+  SupplierGroupSupplierInserts: "Suppliers_GroupSuppliers/InsertRecords",
+  // thêm mới nhà cung cấp- nhóm nhà cung cấp
+  BankAccountsInserts: "BankAccounts/InsertRecords",
+  // xóa nhà cung cấp
+  DeleteSuppliers: "Suppliers/Delete",
   // nhà cung cấp
   Suppliers: "Suppliers",
   // chức danh
