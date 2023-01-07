@@ -40,8 +40,8 @@ function () {
             case 0:
               _context.prev = 0;
               _context.next = 3;
-              return regeneratorRuntime.awrap(_axios["default"].get("https://provinces.open-api.vn/api/").then(function (res) {
-                return res;
+              return regeneratorRuntime.awrap(_axios["default"].get("https://vn-public-apis.fpo.vn/provinces/getAll?limit=-1").then(function (res) {
+                return res.data;
               })["catch"](function (e) {
                 console.log(e);
               }));
@@ -75,8 +75,8 @@ function () {
             case 0:
               _context2.prev = 0;
               _context2.next = 3;
-              return regeneratorRuntime.awrap(_axios["default"].get("https://provinces.open-api.vn/api/p/" + code + "?depth=2").then(function (res) {
-                return res;
+              return regeneratorRuntime.awrap(_axios["default"].get("https://vn-public-apis.fpo.vn/districts/getByProvince?provinceCode=" + code + "&limit=-1").then(function (res) {
+                return res.data;
               })["catch"](function (e) {
                 console.log(e);
               }));
@@ -110,8 +110,8 @@ function () {
             case 0:
               _context3.prev = 0;
               _context3.next = 3;
-              return regeneratorRuntime.awrap(_axios["default"].get("https://provinces.open-api.vn/api/d/" + code + "?depth=2").then(function (res) {
-                return res;
+              return regeneratorRuntime.awrap(_axios["default"].get("https://vn-public-apis.fpo.vn/wards/getByDistrict?districtCode=" + code + "&limit=-1").then(function (res) {
+                return res.data;
               })["catch"](function (e) {
                 console.log(e);
               }));

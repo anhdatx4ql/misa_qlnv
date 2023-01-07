@@ -17,7 +17,7 @@
             :value="currentEmployee.isEmployee"
             :checked="currentEmployee.isEmployee"
             @checked="currentEmployee.isEmployee = $event"
-            text="Là khach hàng"
+            text="Là khách hàng"
             id="khach-hang-checkbox"
           ></base-input-checkbox>
           <!-- end Check box kiểm tra khách hàng -->
@@ -56,6 +56,7 @@
               <base-input-text
                 class="w-40 p-r-6"
                 :isFormatText="false"
+                ref="firstFocus"
                 v-model="currentEmployee.employeeCode"
                 :errorText="
                   listErrors.has('employeeCode')
@@ -114,6 +115,20 @@
                 v-model="currentEmployee.departmentId"
                 :listField="FIELDS_TABLE_DEPARTMENTS"
                 @loadData="loadDepartments($event)"
+                :errorText="
+                listErrors.has('departmentId')
+                  ? listErrors.get('departmentId')
+                  : null
+              "
+              @errorText="
+                $event
+                  ? !listErrors.has('departmentId')
+                    ? listErrors.set('departmentId', $event)
+                    : ''
+                  : listErrors.delete('departmentId')
+              "
+              :checkFocus="fieldFocusValidate.departmentId"
+              @checkFocus="fieldFocusValidate.departmentId = false"
               >
               </base-combobox-multiple>
               <!-- end đơn vị -->
@@ -294,8 +309,8 @@
                 fieldLabel="Lương thỏa thuận"
                 v-model="currentEmployee.wageAgreement"
                 class="w-1/4 p-r-12"
-                :isFormatNumber="true"
                 :isNumber="true"
+                :isCash="true"
                 :maxlength="15"
               ></base-input-text>
               <!-- End lương thỏa thuận -->
@@ -317,13 +332,26 @@
                 fieldLabel="Lương đóng bảo hiểm"
                 class="w-1/3 p-r-12 box-sizing-b"
                 :isNumber="true"
-                :isFormatNumber="true"
+                :isCash="true"
                 :maxlength="15"
               ></base-input-text>
               <!-- End Lương đóng bảo hiểm -->
 
               <!-- start mã số thuế -->
               <base-input-text
+                :checkFocus="fieldFocusValidate.taxCode"
+                @checkFocus="fieldFocusValidate.taxCode = false"
+                :errorText="
+                  listErrors.has('taxCode') ? listErrors.get('taxCode') : null
+                "
+                @errorText="
+                  $event
+                    ? !listErrors.has('taxCode')
+                      ? listErrors.set('taxCode', $event)
+                      : ''
+                    : listErrors.delete('taxCode')
+                "
+                :isTaxCode="true"
                 v-model="currentEmployee.taxCode"
                 fieldLabel="Mã số thuế"
                 class="w-1/4 p-r-12"
@@ -337,11 +365,11 @@
                   :iconSum="false"
                   :isMultiple="false"
                   :isFormatText="true"
+                  :position="FIELDS_POSITION.Top"
                   fieldName="Loại hợp đồng"
                   :listField="FIELDS_TABLE_COMBOBOX_CONTRACT"
                   :listData="LIST_CONTRACT"
                   v-model="currentEmployee.typeOfContract"
-                  position="bottom"
                   :iconRed="true"
                 >
                 </base-combobox-multiple>
@@ -378,8 +406,6 @@
               <base-input-text
                 :checkFocus="fieldFocusValidate.employeeNumberPhone"
                 @checkFocus="fieldFocusValidate.employeeNumberPhone = false"
-                :isPhoneNumber="true"
-                v-model="currentEmployee.employeeNumberPhone"
                 :errorText="
                   listErrors.has('employeeNumberPhone')
                     ? listErrors.get('employeeNumberPhone')
@@ -392,6 +418,8 @@
                       : ''
                     : listErrors.delete('employeeNumberPhone')
                 "
+                :isPhoneNumber="true"
+                v-model="currentEmployee.employeeNumberPhone"
                 fieldLabel="ĐT di động"
                 tooltip="Điện thoại di động"
                 class="w-25 p-r-6"
@@ -478,6 +506,7 @@
             classButton="button-white"
             @clickButton="$emit('closeForm', false)"
             text="Hủy"
+            @keydown.tab.prevent="fieldFocusValidate.employeeCode = true"
           >
           </base-button>
         </div>
@@ -508,6 +537,10 @@
     @sayYes="$event == true ? handlerUploadData(functionUpload.Save) : ''"
   ></base-notify>
   <!-- end thông báo -->
+
+  <!-- start loading -->
+  <base-loading v-show="isLoading"></base-loading>
+  <!-- end loading -->
 </template>
 
 <script>
@@ -542,7 +575,12 @@ import { createKeybindingsHandler } from "tinykeys";
 
 import { createGuid } from "../../../js/GuidId.js";
 
-import { formatDate, lowerCaseFirst } from "../../../js/FomatData.js";
+import {
+  ConvertTodouble,
+  ConvertToNumber,
+  formatDate,
+  lowerCaseFirst,
+} from "../../../js/FomatData.js";
 
 import { departments } from "../../../js/Controllers/DepartmentsController";
 
@@ -591,6 +629,8 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
+
       FIELDS_TABLE_COMBOBOX_CONTRACT,
       // dữ liệu mới của tài khoản ngân hàng
       dataBankAccount: null,
@@ -673,6 +713,8 @@ export default {
         // ngày cấp
         issuaOn: false,
 
+        taxCode: false,
+
         // số điện thoại
         employeeNumberPhone: false,
 
@@ -691,6 +733,7 @@ export default {
         "positionId",
         "employeeBirthDay",
         "issuaOn",
+        "taxCode",
         "employeeNumberPhone",
         "employeeDeskPhone",
         "employeeEmail",
@@ -746,10 +789,10 @@ export default {
       accountsReceivable.currentData != undefined
         ? accountsReceivable.currentData
         : [];
-
   },
 
   methods: {
+
     /**
      * Author: Phạm Văn Đạt(27/12/2022)
      * Function: Lấy dữ liệu sau khi thêm mới nhóm nhà cung cấp
@@ -794,13 +837,11 @@ export default {
     async loadGroupSupplier(checkLoad) {
       try {
         if (checkLoad) {
-          if (this.dataGroupSuppliers.length > 0) {
-            groupSuppliers.currentPageNumber++;
-          }
-
-          console.log("load nhóm khách hàng");
-
+          // kiểm tra xem có load dữ liệu nữa không
           if (this.dataGroupSuppliers.length <= groupSuppliers.totalCount) {
+            // tăng số trang lên 1
+            groupSuppliers.currentPageNumber++;
+
             await groupSuppliers.pagingGroupSupplier([]);
 
             if (groupSuppliers.currentData) {
@@ -810,6 +851,8 @@ export default {
         }
       } catch (e) {
         console.log(e);
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
       }
     },
 
@@ -821,22 +864,20 @@ export default {
     async loadAccountsPayable(checkLoad) {
       try {
         if (checkLoad) {
-          if (this.dataAccountsPayable.length > 0) {
-            accountsPayable.currentPageNumber++;
-          }
-
-          console.log("load nhóm khách hàng");
-
+          //  kiểm tra xem có load dư liệu được hay không
           if (this.dataAccountsPayable.length <= accountsPayable.totalCount) {
+            // tăng số trang lên 1 để lấy dữ liệu mới
+            accountsPayable.currentPageNumber++;
+
             await accountsPayable.pagingAccountsPayable([]);
 
             this.dataAccountsPayable = [...accountsPayable.currentData];
           }
         }
-        console.log("Tài khoản công nợ phải trả");
-        console.log(this.dataAccountsPayable);
       } catch (e) {
         console.log(e);
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
       }
     },
 
@@ -848,22 +889,16 @@ export default {
     async loadAccountsReceivable(checkLoad) {
       try {
         if (checkLoad) {
-          if (this.dataAccountsReceivable.length > 0) {
-            accountsReceivable.currentPageNumber++;
-          }
-
-          console.log("load nhóm khách hàng");
-
           if (
             this.dataAccountsReceivable.length <= accountsReceivable.totalCount
           ) {
+            // tăng số trang lên 1
+            accountsReceivable.currentPageNumber++;
             await accountsReceivable.pagingAccountsReceivable([]);
 
             this.dataAccountsReceivable = [...accountsReceivable.currentData];
           }
         }
-        console.log("Tài khoản công nợ phải thu");
-        console.log(this.listDataAccountsReceivable);
       } catch (e) {
         console.log(e);
       }
@@ -937,9 +972,9 @@ export default {
      * Author: Phạm Văn Đạt(21/10/2022)
      * Function: Xử lý load dữ liệu phòng ban
      */
-    async loadDepartments(checkLoad) {
+    async loadDepartments(item) {
       try {
-        if (checkLoad == true) {
+        if (item.checkLoad == true) {
           await departments.getRecords();
           this.dataDepartments = departments.data;
         }
@@ -959,39 +994,13 @@ export default {
           await positions.getRecords();
 
           this.dataPositions = positions.data;
+
+          console.log(this.dataPositions);
+
         }
       } catch (e) {
         this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
         this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
-      }
-    },
-
-    
-
-    /**
-     * Author: Phạm Văn Đạt(19/12/2022)
-     * Function: Xử lý load lại dữ liệu nhân viên
-     * @param {*} checkLoad : true | false
-     */
-    async loadEmployees(checkLoad) {
-      try {
-        if (checkLoad) {
-          if (this.dataEmployees.length > 0) {
-            groupSuppliers.currentPageNumber++;
-          }
-
-          if (this.dataEmployees.length <= employees.totalCount) {
-            console.log("load nhân viên");
-
-            await employees.pagingEmployee([]);
-
-            if (employees.currentData) {
-              this.dataEmployees = [...employees.currentData];
-            }
-          }
-        }
-      } catch (e) {
-        console.log(e);
       }
     },
 
@@ -1001,48 +1010,70 @@ export default {
      */
     async handlerUploadData(functionUpload) {
       try {
-        console.log(this.currentEmployee);
 
         // validaate dữ liệu
         this.valiDateRequired();
 
-        console.log(this.listErrors);
-
         // nếu không có lỗi => thực hiện thêm hoặc update
         if (this.listErrors.size == 0) {
           let checkInsertSupplier = false;
+
           if (this.title == TITLES_FORM.Create) {
-            console.log("thêm");
+
             // lấy id mới
             this.currentEmployee.employeeID = createGuid();
 
+            // chuyển string về number
+            this.currentEmployee.wageAgreement = ConvertToNumber(
+              this.currentEmployee.wageAgreement
+            );
+            this.currentEmployee.coefficientSalary = ConvertTodouble(
+              this.currentEmployee.coefficientSalary
+            );
+            this.currentEmployee.premiumSalary = ConvertToNumber(
+              this.currentEmployee.premiumSalary
+            );
+
+            //hiển thị loading
+            this.isLoading = true;
+
             // gọi đến db thêm dữ liệu
             let result = await employees.insertEmployee(this.currentEmployee);
-            console.log(result);
+
+            // ẩn loading
+            this.isLoading = false;
+
+            // kiểm tra dữ liệu trả về
             if (result?.statusCode == STATUS_CODES.Code400) {
               if (result?.data) {
                 this.handlerErrorUploadForm(result.data);
               }
             } else if (result?.statusCode == STATUS_CODES.Code201) {
-              // nếu thêm mới thành công
-              this.handlerFunctionForm(functionUpload, "Thêm mới thành công.");
+
+              console.log(" thêm mới thành công!")
 
               // thêm phần tử vừa tạo vào đầu mảng
               employees.currentData = [
                 this.currentEmployee,
-                ...employees.currentData,
+                ...employees.currentData
               ];
-              employees.totalCount++; 
+              employees.totalCount++;
 
               // đưa dữ liệu ra suppliers
-              const item = this.currentEmployee?.employeeID;
+              const item = this.currentEmployee.employeeID;
 
               this.$emit("newItem", item);
-              console.log(item);
 
               checkInsertSupplier = true;
 
               this.$emit("closeForm", false);
+
+              // nếu thêm mới thành công
+              await this.handlerFunctionForm(
+                functionUpload,
+                "Thêm mới thành công."
+              );
+
             } else {
               this.$emit("toastMessage", {
                 textToastMessage: TEXT_TOAST_MESSAGE.CreateFail.text,
@@ -1061,7 +1092,10 @@ export default {
                 this.handlerErrorUploadForm(result.data);
               }
             } else if (result?.statusCode == STATUS_CODES.Code200) {
-              this.handlerFunctionForm(functionUpload, "Cập nhật thành công.");
+              await this.handlerFunctionForm(
+                functionUpload,
+                "Cập nhật thành công."
+              );
             } else {
               this.$emit("toastMessage", {
                 textToastMessage: TEXT_TOAST_MESSAGE.UpdateFail.text,
@@ -1158,6 +1192,7 @@ export default {
             groupSupplierId: item,
           });
         });
+
         let result = await supplierGroupSuppliers.insert(modelGroupSupplier);
 
         if (result?.statusCode == STATUS_CODES.Code400) {
@@ -1348,7 +1383,6 @@ export default {
      */
     valiDateRequired() {
       try {
-        this.listErrors = new Map();
         // nếu giá trị là invalid date thì xóa khỏi object
         formatDate(this.currentEmployee.employeeBirthDay, "YYYY-MM-DD") ==
         "Invalid date"
@@ -1398,18 +1432,20 @@ export default {
     },
   },
   watch: {
+    listErrors: {
+      handler(value) {
+        console.log(value);
+      },
+      deep: true,
+    },
     /**
      * Author: Phạm Văn Đạt(02/11/2022)
      * Function: XỬ lý focus vào lỗi đầu tiên nếu như có lỗi
      */
     checkFocusCloseNotify(value) {
       try {
-        console.log(value);
         // chuyển trạng thái focus true ở lỗi đầu tiên
         this.fieldFocusValidate[value] = true;
-
-        // set lại giá trị null cho check focus sau khi ẩn form thông tbaos
-        this.checkFocusCloseNotify = null;
       } catch (e) {
         console.log(e);
         this.$emit("toastMessage", {

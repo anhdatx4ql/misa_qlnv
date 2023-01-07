@@ -403,9 +403,9 @@ namespace MISA.AMIS.BL
                 // lấy các thuộc tính public của entity
                 var properties = typeof(T).GetProperties();
 
-                var id = (Guid)this.GetIdByRecord(entity, properties);
-
                 var keyName = GetKeyName(properties);
+
+                var id = (Guid)this.GetIdByRecord(entity, properties, keyName);
 
                 // validate dữ liệu
                 var validateErrors = await this.Validate(entity, properties, id, tableName);
@@ -422,7 +422,7 @@ namespace MISA.AMIS.BL
                 }
 
                 // lấy ra id, lấy dữ liệu cũ theo Id
-                var oldEntity = await _baseRepository.GetById(id, tableName);
+                var oldEntity = await _baseRepository.GetById(id, keyName, tableName);
 
                 // nếu tồn tại bản ghi thì mới update
                 if (oldEntity != null)
@@ -431,10 +431,16 @@ namespace MISA.AMIS.BL
                     // truyền các giá trị mới vào parameters
                     foreach (var property in properties)
                     {
-                        var propertyValue = property.GetValue(entity);
-                        var value = (propertyValue?.ToString() != "" && propertyValue?.ToString() != null) ? propertyValue : null;
-                        if (property.Name != "UpdatedAt")
-                            parameters.Add($"@_{property.Name}", value);
+                        //  kiểm tra xem thuộc tính có được thêm vào hay không
+                        var attributePost = (AttributePost)Attribute.GetCustomAttribute(property, typeof(AttributePost));
+
+                        if(attributePost != null)
+                        {
+                            var propertyValue = property.GetValue(entity);
+                            if (property.Name != "UpdatedAt" || property.Name != "CreatedAt" || property.Name != "CreatedBy")
+                                parameters.Add($"@_{property.Name}", propertyValue);
+                        }
+                       
                     }
 
                     // thêm thời gian hiện tại 
@@ -901,7 +907,7 @@ namespace MISA.AMIS.BL
                 // truyền tên table, tên trường cần check, giá trị của trường cần check, id khách hàng cần check
                 var sql = $"SELECT {propertyName} FROM {tableName} WHERE {propertyName} = @propertyValue AND "+ keyName + " Not IN (@id) LIMIT 1";
                 var parameters = new DynamicParameters();
-                parameters.Add("@propertyValue", propertyValue.ToString().Trim());
+                parameters.Add("@propertyValue", propertyValue);
                 parameters.Add("@id", id);
 
                 var result = await _baseRepository.CheckExists(sql, parameters);

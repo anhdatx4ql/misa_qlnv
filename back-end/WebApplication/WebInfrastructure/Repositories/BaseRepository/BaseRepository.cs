@@ -37,12 +37,12 @@ namespace MISA.AMIS.DL
         /// <param name="id"></param>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        public async Task<T> GetById(Guid id,string tableName = null)
+        public async Task<T> GetById(Guid id, string keyName = null,string tableName = null)
         {
             if(tableName == null)
                 tableName = TableName.GetTableName<T>();
 
-            var sql = $"SELECT * FROM {tableName} WHERE Id IN (@id) LIMIT 1;";
+            var sql = $"SELECT * FROM {tableName} WHERE {keyName} IN (@id) LIMIT 1;";
             var parameters = new DynamicParameters();
             parameters.Add("@id", id);
             using (IDbConnection db = GetDbConnection())
@@ -149,18 +149,21 @@ namespace MISA.AMIS.DL
             {
                 db.Open();
                 var transaction = db.BeginTransaction();
-                int result = 0;
+                var result = 0;
                 try
                 {
                     result = await db.ExecuteAsync(proceduceName, parameters, commandType: CommandType.StoredProcedure);
 
                     transaction.Commit();
                 }
-                catch
+                catch(Exception ex)
                 {
                     transaction.Rollback();
                 }
-                db.Close();
+                finally
+                {
+                    db.Close();
+                }
                 return result;
             }
         }

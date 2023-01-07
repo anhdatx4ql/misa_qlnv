@@ -369,7 +369,7 @@
       <!-- end header table -->
 
       <!-- start body table -->
-      <tbody v-if="!currentShowFormLoad">
+      <tbody v-if="!currentShowFormLoad && !isNullData">
         <tr
           v-for="data in listData"
           :key="data[nameId]"
@@ -382,28 +382,12 @@
             :style="'width:' + field.width + 'px;' + field.style"
             :class="field.class"
           >
-            <base-button
-              v-if="field.button == 'Sửa'"
-              @clickButton="handlerUpdate(data)"
-              listClass="background-unset"
-              :text="field.button"
-            ></base-button>
-            <base-combobox
-              v-if="!!field.combobox"
-              :listValues="field.combobox"
-              :input="field.inputCombobox"
-              :icon="field.iconCombobox"
-              :position="field.positionCombobox"
-              :width="120"
-              @newValueId="handlerFunctionTable($event, data)"
-            >
-            </base-combobox>
 
             <!-- hiển thị checkbox có thể sửa -->
             <!-- start hiển thị ô checkbox không thể sửa -->
             <div v-if="field.checkBox == true || field.checkBoxDisable == true">
               <base-input-checkbox
-              :id="data[nameId]"
+                :id="data[nameId]"
                 :value="data[nameId]"
                 :checked="
                   field.checkBox == true
@@ -428,14 +412,39 @@
                     ? field.formatDate(data[field.fieldName])
                     : field.formatGender
                     ? field.formatGender(data[field.fieldName])
+                    : field.FormatCash
+                    ? field.FormatCash(data[field.fieldName])
+                    : field.Decimal
+                    ? field.Decimal(data[field.fieldName])
                     : data[field.fieldName]
                   : ""
               }}
             </div>
+
+            <base-button
+              v-if="field.button == 'Sửa'"
+              @clickButton="handlerUpdate(data)"
+              listClass="background-unset"
+              :text="field.button"
+            ></base-button>
+            
+            <base-combobox
+              v-if="!!field.combobox"
+              :listValues="field.combobox"
+              :input="field.inputCombobox"
+              :icon="field.iconCombobox"
+              :position="field.positionCombobox"
+              :width="120"
+              @newValueId="handlerFunctionTable($event, data)"
+            >
+            </base-combobox>
+
           </td>
         </tr>
       </tbody>
-      <tbody v-else>
+
+      <!-- hiển thị loading -->
+      <tbody v-else-if="!isNullData">
         <tr v-for="i in 10" :key="i">
           <td
             class="table-hover"
@@ -452,6 +461,9 @@
       </tbody>
       <!-- end body table -->
     </table>
+    <div v-if="isNullData" class="table-null">
+      <p>Không có dữ liệu</p>
+    </div>
   </div>
 </template>
 
@@ -507,6 +519,9 @@ export default {
   },
   data() {
     return {
+      // kiểm tra null dữ liệu
+      isNullData: false,
+
       // kiểm tra đang
       currentShowFormLoad: false,
 
@@ -566,7 +581,6 @@ export default {
      */
     handlerChecked(value, data) {
       try {
-
         if (value) {
           // xử lý thêm dữ liệu vào mảng
           for (let i = 0; i < data.length; i++) {
@@ -789,10 +803,10 @@ export default {
             elClick?.getAttribute("id") == "app" &&
             !elClick?.classList.contains("el-popper is-pure")
           ) &&
-          !elClick?.classList.contains("filter-content-bottom")
-          && !elClick?.classList.contains("main-container")
-          && !elClick?.classList.contains("main")
-          && !elClick?.classList.contains("menu")
+          !elClick?.classList.contains("filter-content-bottom") &&
+          !elClick?.classList.contains("main-container") &&
+          !elClick?.classList.contains("main") &&
+          !elClick?.classList.contains("menu")
         ) {
           elClick = elClick.parentNode;
         }
@@ -892,6 +906,7 @@ export default {
     },
   },
   watch: {
+
     /**
      * Author: Phạm Văn Đạt(22/11/2022)
      * Function: Xử lý lấy id khách hàng
@@ -939,7 +954,7 @@ export default {
       } catch (e) {
         console.log(e);
       }
-    },
+  },
 
     /**
      * Author: Phạm Văn Đạt(08/11/2022)
@@ -947,22 +962,24 @@ export default {
      * @param {*} value : mảng data gửi vào
      */
     modelValue(value) {
-      this.listData = value;
-      console.log(value);
-      if (value.length > 0) {
-        if (this.listIdData) {
-          if (
-            this.listIdData.indexOf(value[0].id) > -1 &&
-            this.listIdData.length == value.length
-          ) {
-            this.isCheckedCheckboxHeader = true;
-          } else {
-            this.isCheckedCheckboxHeader = false;
-          }
+      this.listData = [...value];
+
+      if (this.listData.length > 0) {
+        if (
+          this.listIdData.indexOf(value[0]?.id) > -1 &&
+          this.listIdData.length == value.length
+        ) {
+          this.isCheckedCheckboxHeader = true;
+        } else {
+          this.isCheckedCheckboxHeader = false;
         }
+        this.isNullData = false;
       } else {
         this.isCheckedCheckboxHeader = false;
+        this.isNullData = true;
       }
+
+      console.log(this.isNullData);
     },
 
     /**
@@ -971,6 +988,9 @@ export default {
      */
     showFormLoad(value) {
       this.currentShowFormLoad = value;
+
+      // ẩn không có dữ liệu
+      this.isNullData = false;
     },
   },
 };

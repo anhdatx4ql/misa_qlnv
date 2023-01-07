@@ -118,7 +118,7 @@ export class Employees {
     currentPageNumber = 1,
     pageSize = 10,
     totalCount = 0,
-    countLoadData= 0
+    countLoadData = 0
   ) {
     this.data = data;
     this.keyword = keyword;
@@ -136,7 +136,7 @@ export class Employees {
    * @param {*} currentPageNumber : số trang hiện tại: mặc định là 1
    * @param {*} pageSize : số bản ghi trên trang
    */
-  async pagingEmployee(data) {
+  async pagingEmployee(data,checkLoadCurentPage) {
     let dataKeyword = [];
 
     // nếu tồn tại keyword thì tìm kiếm theo keyword với 3 trường: tên, mã , sđt
@@ -164,6 +164,7 @@ export class Employees {
           stringConcatenation: "like",
         }
       );
+
     }
 
     let newData = [...data];
@@ -173,13 +174,18 @@ export class Employees {
     }
 
     let lengthCurrentData = this.currentData ? this.currentData.length : -1;
-    
+
     if (this.countLoadData > 0) {
       this.currentPageNumber = this.currentPageNumber+1;
     }
 
+    // nếu keywword thay đổi, load lại từ trang 1
+    if(checkLoadCurentPage){
+      this.currentPageNumber = 1;
+    }
+
     // nếu số bản ghi hiện tại <= tổng số bản ghi => tăng số trang hiện tại lên 1 và load lại. Nếu không thì thôi
-    if (lengthCurrentData != this.totalCount) {
+    if (lengthCurrentData != this.totalCount || this.keyword || this.totalCount == 0) {
       // tăng số lần load lên 1
       this.countLoadData++;
 
@@ -193,7 +199,6 @@ export class Employees {
 
       // kiểm tra data trả về
       if (res.statusCode == STATUS_CODES.Code200) {
-
         this.data = res.data.data;
 
         // nếu load dữ liệu thành công
@@ -203,8 +208,10 @@ export class Employees {
           } else {
             this.currentData = [...this.currentData, ...res.data.data];
           }
-          // load thành công
-        }else{
+
+          // lấy data
+          this.data = (res.data.data.length > 0)?[...res.data.data]:[];
+        } else {
           // không có dữ liệu
           this.currentPageNumber--;
         }
@@ -214,7 +221,6 @@ export class Employees {
         console.log(res);
       }
     }
-
   }
 
   /**
@@ -309,39 +315,102 @@ export let employees = new Employees();
  */
 export async function resetEmployeeDetail(object, employees) {
   try {
+
+    object = {
+      // id Tài khoản công nợ phải trả
+      accountPayableId: null,
+
+      // id Tài khoản công nợ phải thu
+      AccountReceivableId: null,
+
+      // Hệ số lương
+      coefficientSalary: 0,
+
+      // người tạo
+      createdBy: null,
+
+      // id đơn vị
+      departmentId: null,
+
+      // tên đơn vị
+      departmentName: null,
+
+      // Địa chỉ
+      employeeAddress: null,
+
+      // ngày sinh
+      employeeBirthDay: null,
+
+      // mã nhân viên
+      employeeCode: null,
+
+      // số điện thoại bàn
+      employeeDeskPhone: null,
+
+      // email
+      employeeEmail: null,
+
+      // giới tính mặc định là nam
+      employeeGender: 0,
+
+      // id
+      employeeID: null,
+
+      // tên nhân viên
+      employeeName: null,
+
+      // số điện thoại di động
+      employeeNumberPhone: null,
+
+      // Số chứng minh nhân dân
+      idNo: null,
+
+      // kiểm tra xóa hay chưa
+      isDelete: false,
+
+      // là KH
+      isEmployee: false,
+
+      // là nhà cung cấp
+      isSuppiler: false,
+
+      // ngày cấp
+      issuaOn: null,
+
+      // số người phụ thuộc
+      numberOfDependent: 0,
+
+      // nơi cấp
+      placeOfIssue: null,
+
+      // id chức vụ
+      positionId: null,
+
+      // tên chức vụ
+      positionName: null,
+
+      // lương đóng bảo hiểm
+      premiumSalary: 0,
+
+      // mã số thuế
+      taxCode: null,
+
+      // loại hợp đồng - không được để trống
+      typeOfContract: null,
+
+      // người cập nhật
+      updatedBy: null,
+
+      // lương thỏa thuận
+      wageAgreement: 0,
+    };
+
     let newCode = await employees.getMaxCode();
     if (newCode) {
       object.employeeCode = newCode;
     }
 
-    // lưu giá trị object null
-    Object.keys(object).forEach((key) => {
-      // nếu key khác id thì xóa giá trị cũ đi
-      if (key != "employeeID" && key != "employeeCode") {
-        // giới tính mặc định là nam
-        if (
-          key == "employeeGender" ||
-          key == "wageAgreement" ||
-          key == "coefficientSalary" ||
-          key == "premiumSalary" ||
-          key == "numberOfDependent"
-        ) {
-          object[key] = 0;
-        } else if (
-          key == "isDelete" ||
-          key == "isEmployee" ||
-          key == "isSuppiler"
-        ) {
-          // các giá trị boolean trả về false
-          object[key] = false;
-        } else {
-          // các thuộc tính khác trả về null
-          object[key] = null;
-        }
-      }
-    });
-
-    console.log(object);
+   
 
     return object;
   } catch (e) {

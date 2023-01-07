@@ -26,9 +26,9 @@
 
     <div v-if="listDropDown.length > 0" v-show="checkShowDropDown">
       <button
-        @click="$emit('clickButtonDropDown', item.name)"
         v-for="item in listDropDown"
         :key="item"
+        @click="clickButtonDropDown(item)"
       >
         {{ item.text }}
       </button>
@@ -105,6 +105,21 @@ export default {
   created() {},
   mounted() {},
   methods: {
+
+    /**
+     * Author: Phạm Văn Đạt(07/01/2022)
+     * Function: XỬ lý click button Dropdown
+     */
+    clickButtonDropDown(item){
+      try{
+        this.checkShowDropDown =  false;
+
+        this.$emit('clickButtonDropDown', item.name)
+        console.log("click")
+      }catch(e){
+        console.log(e);
+      }
+    },
 
     /**
      * Author: Phạm Văn Đạt(23/12/2022)

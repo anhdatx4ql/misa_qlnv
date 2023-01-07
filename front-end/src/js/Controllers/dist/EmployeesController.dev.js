@@ -133,7 +133,7 @@ function () {
 
   _createClass(Employees, [{
     key: "pagingEmployee",
-    value: function pagingEmployee(data) {
+    value: function pagingEmployee(data, checkLoadCurentPage) {
       var dataKeyword, newData, lengthCurrentData, res;
       return regeneratorRuntime.async(function pagingEmployee$(_context) {
         while (1) {
@@ -173,21 +173,26 @@ function () {
 
               if (this.countLoadData > 0) {
                 this.currentPageNumber = this.currentPageNumber + 1;
+              } // nếu keywword thay đổi, load lại từ trang 1
+
+
+              if (checkLoadCurentPage) {
+                this.currentPageNumber = 1;
               } // nếu số bản ghi hiện tại <= tổng số bản ghi => tăng số trang hiện tại lên 1 và load lại. Nếu không thì thôi
 
 
-              if (!(lengthCurrentData != this.totalCount)) {
-                _context.next = 12;
+              if (!(lengthCurrentData != this.totalCount || this.keyword || this.totalCount == 0)) {
+                _context.next = 13;
                 break;
               }
 
               // tăng số lần load lên 1
               this.countLoadData++; // gọi đến paging basecontroler
 
-              _context.next = 10;
+              _context.next = 11;
               return regeneratorRuntime.awrap((0, _BaseController.paging)(_endPoint.END_POINTS.PagingEmployee, this.currentPageNumber, this.pageSize, newData));
 
-            case 10:
+            case 11:
               res = _context.sent;
 
               // kiểm tra data trả về
@@ -199,8 +204,10 @@ function () {
                     this.currentData = _toConsumableArray(res.data.data);
                   } else {
                     this.currentData = [].concat(_toConsumableArray(this.currentData), _toConsumableArray(res.data.data));
-                  } // load thành công
+                  } // lấy data
 
+
+                  this.data = res.data.data.length > 0 ? _toConsumableArray(res.data.data) : [];
                 } else {
                   // không có dữ liệu
                   this.currentPageNumber--;
@@ -211,7 +218,7 @@ function () {
                 console.log(res);
               }
 
-            case 12:
+            case 13:
             case "end":
               return _context.stop();
           }
@@ -431,44 +438,87 @@ function resetEmployeeDetail(object, employees) {
       switch (_context7.prev = _context7.next) {
         case 0:
           _context7.prev = 0;
-          _context7.next = 3;
+          object = {
+            // id Tài khoản công nợ phải trả
+            accountPayableId: null,
+            // id Tài khoản công nợ phải thu
+            AccountReceivableId: null,
+            // Hệ số lương
+            coefficientSalary: 0,
+            // người tạo
+            createdBy: null,
+            // id đơn vị
+            departmentId: null,
+            // tên đơn vị
+            departmentName: null,
+            // Địa chỉ
+            employeeAddress: null,
+            // ngày sinh
+            employeeBirthDay: null,
+            // mã nhân viên
+            employeeCode: null,
+            // số điện thoại bàn
+            employeeDeskPhone: null,
+            // email
+            employeeEmail: null,
+            // giới tính mặc định là nam
+            employeeGender: 0,
+            // id
+            employeeID: null,
+            // tên nhân viên
+            employeeName: null,
+            // số điện thoại di động
+            employeeNumberPhone: null,
+            // Số chứng minh nhân dân
+            idNo: null,
+            // kiểm tra xóa hay chưa
+            isDelete: false,
+            // là KH
+            isEmployee: false,
+            // là nhà cung cấp
+            isSuppiler: false,
+            // ngày cấp
+            issuaOn: null,
+            // số người phụ thuộc
+            numberOfDependent: 0,
+            // nơi cấp
+            placeOfIssue: null,
+            // id chức vụ
+            positionId: null,
+            // tên chức vụ
+            positionName: null,
+            // lương đóng bảo hiểm
+            premiumSalary: 0,
+            // mã số thuế
+            taxCode: null,
+            // loại hợp đồng - không được để trống
+            typeOfContract: null,
+            // người cập nhật
+            updatedBy: null,
+            // lương thỏa thuận
+            wageAgreement: 0
+          };
+          _context7.next = 4;
           return regeneratorRuntime.awrap(employees.getMaxCode());
 
-        case 3:
+        case 4:
           newCode = _context7.sent;
 
           if (newCode) {
             object.employeeCode = newCode;
-          } // lưu giá trị object null
+          }
 
-
-          Object.keys(object).forEach(function (key) {
-            // nếu key khác id thì xóa giá trị cũ đi
-            if (key != "employeeID" && key != "employeeCode") {
-              // giới tính mặc định là nam
-              if (key == "employeeGender" || key == "wageAgreement" || key == "coefficientSalary" || key == "premiumSalary" || key == "numberOfDependent") {
-                object[key] = 0;
-              } else if (key == "isDelete" || key == "isEmployee" || key == "isSuppiler") {
-                // các giá trị boolean trả về false
-                object[key] = false;
-              } else {
-                // các thuộc tính khác trả về null
-                object[key] = null;
-              }
-            }
-          });
-          console.log(object);
           return _context7.abrupt("return", object);
 
-        case 10:
-          _context7.prev = 10;
+        case 9:
+          _context7.prev = 9;
           _context7.t0 = _context7["catch"](0);
           console.log(_context7.t0);
 
-        case 13:
+        case 12:
         case "end":
           return _context7.stop();
       }
     }
-  }, null, null, [[0, 10]]);
+  }, null, null, [[0, 9]]);
 }

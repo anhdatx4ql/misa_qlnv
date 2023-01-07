@@ -3,14 +3,22 @@
   Function: Base input field
  -->
 <template>
-  <div class="input-container">
+  <div class="input-container" :class="{ 'input-taxcode': isTaxCode }">
     <div
       class="input-container-field-label"
       v-if="fieldLabel != null ? true : false"
     >
-      <span v-if="tooltip == null">{{ fieldLabel }}</span>
-      <span v-else v-tooltip="`${tooltip}`">{{ fieldLabel }}</span>
-      <span v-show="iconRed" style="color: red"> *</span>
+      <div>
+        <span v-if="tooltip == null">{{ fieldLabel }}</span>
+        <span v-else v-tooltip="`${tooltip}`">{{ fieldLabel }}</span>
+        <span v-show="iconRed" style="color: red"> *</span>
+      </div>
+
+      <span
+        class="background-icon-warning"
+        v-tooltip="`${currentErrorText}`"
+        v-show="currentErrorText != null && isTaxCode"
+      ></span>
     </div>
 
     <div
@@ -27,6 +35,7 @@
         ref="input"
         :min="type == 'number' ? 0 : ''"
         :style="'height: ' + height"
+        :max="99999999999999"
         :placeholder="placeholder"
         :name="name"
         @keypress="isNumber ? isNumberKey($event) : ''"
@@ -79,12 +88,18 @@ import _ from "lodash";
 
 import { NOTIFY_TEXT, RULE_FORMAT_DATA } from "../../js/constants";
 
-import { titleCase, decimal } from "../../js/FomatData";
+import {FormatCash, TitleCase, Decimal } from "../../js/FomatData";
 
 export default {
   name: "BaseInput",
 
   props: {
+    // format tiền tệ
+    isCash: {
+      Type: Boolean,
+      default: false
+    },
+
     // kiểm tra input có được nhập không
     disabled: {
       Type: Boolean,
@@ -149,6 +164,12 @@ export default {
       default: false,
     },
 
+    // check mã số thuế
+    isTaxCode: {
+      Type: Boolean,
+      default: false,
+    },
+
     // text lỗi
     errorText: String,
 
@@ -193,8 +214,9 @@ export default {
   },
   created() {
     this.currentValue =
-      this.isFormatNumber == true ? decimal(this.modelValue) : this.modelValue;
-  },
+      this.isFormatNumber == true ? Decimal(this.modelValue) : (this.isCash)? FormatCash(this.modelValue):this.modelValue;
+
+    },
   mounted() {
     /**
      * Author: Phạm Văn Đạt(25/10/2022)
@@ -203,6 +225,7 @@ export default {
     if (this.checkFocus == true) {
       this.handlerFocus();
     }
+
   },
   watch: {
     /**
@@ -227,7 +250,9 @@ export default {
      */
     modelValue(value) {
       if (this.isFormatNumber == true) {
-        this.currentValue = decimal(value);
+        this.currentValue = Decimal(value);
+      }else if(this.isCash == true){
+        this.currentValue = FormatCash(this.modelValue);
       } else {
         this.currentValue = value;
       }
@@ -245,10 +270,14 @@ export default {
      * Function: Xử lý focus input
      */
     checkFocus(value) {
-      console.log(value);
-      if (value == true) {
-        this.handlerFocus();
+      try{
+        if (value == true) {
+          this.handlerFocus();
+        }
+      }catch(e){
+        console.log(e);
       }
+      
     },
   },
   methods: {
@@ -309,7 +338,7 @@ export default {
         this.currentValue = event.target.value;
 
         if (this.isFormatText == true) {
-          this.currentValue = titleCase(this.currentValue);
+          this.currentValue = TitleCase(this.currentValue);
         }
 
         this.handlerFormat();
@@ -331,7 +360,7 @@ export default {
      */
     handlerFormat: _.debounce(function () {
       if (this.isFormatNumber) {
-        this.currentValue = decimal(this.currentValue);
+        this.currentValue = Decimal(this.currentValue);
       }
     }, 400),
 
@@ -343,11 +372,11 @@ export default {
       try {
         let value = event.target?.value?.trim();
         // truyền lại dữ liệu cho cha gọi đến nó
-        this.$emit("update:modelValue", (value)?value:null);
+        this.$emit("update:modelValue", value ? value : null);
       } catch (e) {
         console.log(e);
       }
-    }, 200),
+    }, 500),
 
     /**
      * Author: Phạm Văn Đạt(25/10/2022)
@@ -356,7 +385,7 @@ export default {
     handlerFocus() {
       try {
         this.$refs.input?.focus();
-        this.$emit("checkFocus",false);
+        this.$emit("checkFocus", false);
       } catch (e) {
         console.log(e);
       }
@@ -368,6 +397,8 @@ export default {
      */
     handlerValidate(event) {
       try {
+
+       
         //  lấy tên hiển thị lỗi
         let nameError = this.fieldLabel
           ? this.fieldLabel
@@ -375,10 +406,11 @@ export default {
           ? this.tooltip
           : this.placeholder;
 
+        let valueInput = event.target.value;
+
         // nếu tồn tại isRequired thì xử lý validate required
         if (this.isRequired == true) {
-
-          if (!event.target.value) {
+          if (!valueInput) {
             this.currentErrorText = NOTIFY_TEXT.requiredField(nameError);
             this.$emit("errorText", this.currentErrorText);
           } else {
@@ -387,22 +419,49 @@ export default {
           }
         }
 
+        // xử lý validate phone number
         if (this.isPhoneNumber == true) {
-          this.handlerFormatData(
-            event.target.value,
-            nameError,
-            RULE_FORMAT_DATA.PhoneNumber
-          );
+          if (valueInput) {
+            this.handlerFormatData(
+              valueInput,
+              nameError,
+              RULE_FORMAT_DATA.PhoneNumber
+            );
+          } else {
+            this.currentErrorText = null;
+            this.$emit("errorText", this.currentErrorText);
+          }
+        }
+        // xử lý validate email
+        else if (this.isEmail == true) {
+          if (valueInput) {
+            this.handlerFormatData(
+              valueInput,
+              nameError,
+              RULE_FORMAT_DATA.Email
+            );
+          } else {
+            this.currentErrorText = null;
+            this.$emit("errorText", this.currentErrorText);
+          }
         }
 
-        if (this.isEmail == true && event.target.value) {
-          this.handlerFormatData(
-            event.target.value,
-            nameError,
-            RULE_FORMAT_DATA.Email
-          );
+        // xử lý validate mã số thuế
+        else if (this.isTaxCode == true) {
+          if (valueInput) {
+            this.handlerFormatData(
+              valueInput,
+              nameError,
+              RULE_FORMAT_DATA.TaxCode
+            );
+          } else {
+            this.currentErrorText = null;
+            this.$emit("errorText", this.currentErrorText);
+          }
         }
 
+        //emit giá trị ra bên ngoài
+        this.$emit("update:modelValue", this.currentValue);
       } catch (e) {
         console.log(e);
       }
@@ -413,8 +472,10 @@ export default {
      * Function: Xử lý lỗi format dữ liệu
      */
     handlerFormatData(value, textError, typeCheck) {
-      if (value) {
+      if (value != null && value != "") {
         let check;
+        let checkTaxCode = false;
+
         if (typeCheck == RULE_FORMAT_DATA.PhoneNumber) {
           check = this.checkPhoneNumber(value);
         }
@@ -422,7 +483,17 @@ export default {
         if (typeCheck == RULE_FORMAT_DATA.Email) {
           check = this.checkEmail(value);
         }
+
+        if (typeCheck == RULE_FORMAT_DATA.TaxCode) {
+          check = this.checkTaxCode(value);
+          checkTaxCode = true;
+        }
+
         if (check == false) {
+          if (checkTaxCode == true) {
+            this.currentErrorText = NOTIFY_TEXT.formatTaxCode(textError);
+          }
+
           this.currentErrorText = NOTIFY_TEXT.formatError(textError);
           this.$emit("errorText", this.currentErrorText);
         } else {
@@ -460,6 +531,16 @@ export default {
         return true;
       }
       return false;
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(29/12/2022)
+     * Function: Xử lý kiểm tra mã số thuế
+     */
+    checkTaxCode(value) {
+      const regexTaxCode = "^[0-6]{1}[0-9]{9}$|^[0-6]{1}[0-9]{9}-[0-9]{3}$";
+
+      return value.match(regexTaxCode) ? true : false;
     },
   },
 };

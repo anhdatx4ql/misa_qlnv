@@ -49,7 +49,7 @@
 
 
 .table-content .fake-cloumn {
-    z-index: 99 !important;
+    z-index: 16 !important;
     border: none;
     background: #ffffff !important;
 }
@@ -548,4 +548,21 @@ td.table-hover>.loading {
 
 .filter-content.filter-content-check-show .combobox-container-input input {
     color: #0075c0 !important;
+}
+
+.table-null {
+    padding: 0 24px 0 20px;
+    background: white;
+}
+
+.text-align-right>div {
+    text-align: right;
+}
+
+.text-align-right>div>div {
+    width: calc(100% - 24px);
+}
+
+td.table-hover.table-hover.td.table-function:focus-within {
+    z-index: 99;
 }

@@ -40,6 +40,8 @@ var _BaseTable = _interopRequireDefault(require("/src/components/table/BaseTable
 
 var _BasePaging = _interopRequireDefault(require("/src/components/paging/BasePaging.vue"));
 
+var _BaseLoading = _interopRequireDefault(require("/src/components/loading/BaseLoading.vue"));
+
 var _TheCash = _interopRequireDefault(require("/src/views/cash/TheCash.vue"));
 
 var _MSProcess = _interopRequireDefault(require("/src/views/cash/process/MSProcess.vue"));
@@ -173,6 +175,7 @@ var router = (0, _vueRouter.createRouter)({
  */
 
 app.component('BaseButton', _BaseButton["default"]);
+app.component('BaseLoading', _BaseLoading["default"]);
 app.component('BaseCombobox', _BaseCombobox["default"]);
 app.component('BaseInputText', _BaseInputText["default"]);
 app.component('BaseInputRadio', _BaseInputRadio["default"]);

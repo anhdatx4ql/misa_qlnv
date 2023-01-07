@@ -12,8 +12,8 @@ namespace MISA.AMIS.Common
     /// </summary>
     public enum Gender
     {
-        Male = 0,
-        Female = 1,
-        Other = 2
+        Male = 0, // nam
+        Female = 1, //  nữ
+        Other = 2 // khác
     }
 }

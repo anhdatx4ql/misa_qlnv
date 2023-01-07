@@ -65,7 +65,7 @@ export class RulePayments {
    * @param {*} currentPageNumber : số trang hiện tại: mặc định là 1
    * @param {*} pageSize : số bản ghi trên trang
    */
-  async pagingRulePayments(data) {
+  async pagingRulePayments(data, checkLoadCurentPage) {
     let dataKeyword = [];
 
     // tìm kiếm theo mã thanh toán, tên thanh toán
@@ -89,6 +89,15 @@ export class RulePayments {
       );
     }
 
+    if (this.countLoadData > 0) {
+      this.currentPageNumber = this.currentPageNumber + 1;
+    }
+
+    // nếu keywword thay đổi, load lại từ trang 1
+    if (checkLoadCurentPage) {
+      this.currentPageNumber = 1;
+    }
+
     let newData = [...data];
 
     if (dataKeyword != []) {
@@ -97,12 +106,12 @@ export class RulePayments {
 
     let lengthCurrentData = this.currentData ? this.currentData.length : -1;
 
-    if (this.countLoadData > 0) {
-      this.currentPageNumber++;
-    }
-
     // nếu số bản ghi hiện tại <= tổng số bản ghi => tăng số trang hiện tại lên 1 và load lại. Nếu không thì thôi
-    if (lengthCurrentData != this.totalCount) {
+    if (
+      lengthCurrentData != this.totalCount ||
+      this.keyword ||
+      this.totalCount == 0
+    ) {
       // tăng số lần load lên 1
       this.countLoadData++;
 
@@ -125,8 +134,11 @@ export class RulePayments {
           } else {
             this.currentData = [...this.currentData, ...res.data.data];
           }
+
+          // lấy data
+          this.data = res.data.data.length > 0 ? [...res.data.data] : [];
           // load thành công
-        }else{
+        } else {
           // không có dữ liệu
           this.currentPageNumber--;
         }

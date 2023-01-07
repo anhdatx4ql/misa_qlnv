@@ -70,7 +70,7 @@ export class AccountsPayable {
 
     // nếu tồn tại keyword thì tìm kiếm theo keyword với 3 trường: tên, mã , sđt
     if (this.keyword) {
-      console.log(this.keyword);
+      
       dataKeyword.push(
         {
           name: "accountPayableID",

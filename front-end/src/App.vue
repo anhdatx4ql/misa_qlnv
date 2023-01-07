@@ -41,13 +41,6 @@ export default {
     };
   },
   watch: {
-    /**
-     * Author: Phạm Văn Đạt(18/10/2022)
-     * Function: theo dõi menu co giãn
-     */
-    hideTheMenu(value) {
-      console.log(value);
-    },
   },
 };
 </script>

@@ -90,7 +90,7 @@ namespace MISA.AMIS.Common
         /// <summary>
         /// Số điện thoại người liên hệ
         /// </summary>
-        [AttributeEmail("Số điện thoại sai định dạng.")]
+        [AttributePhone("Số điện thoại sai định dạng.")]
         [AttributePost("")]
         public string SupplierPhoneNumberContact { set; get; }
 

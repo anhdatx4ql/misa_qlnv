@@ -23,6 +23,7 @@ namespace MISA.AMIS.Common
         /// Mã điều khoản thanh toán
         /// </summary>
         [AttributeRequired("Mã điều khoản thanh toán không được bỏ trống!")]
+        [AttributeExists("Mã điều khoản thanh toán ")]
         [AttributePost("")]
         public string RulePaymentCode { set; get; }
 
@@ -49,7 +50,7 @@ namespace MISA.AMIS.Common
         /// Tỉ lệ chiết khấu
         /// </summary>
         [AttributePost("")]
-        public decimal DepreciationRate { set; get; }
+        public decimal? DepreciationRate { set; get; }
         #endregion
     }
 }

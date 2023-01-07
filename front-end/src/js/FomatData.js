@@ -15,6 +15,28 @@ export function formatDate(value, type = "YYYY-MM-DD") {
 }
 
 /**
+ * Author: Phạm Văn Đạt(29/12/2022)
+ * Function: Xử lý format tiền tiệ
+ */
+export function FormatCash(str) {
+  if(!str){
+    return str;
+  }
+  // chuyển về string
+  str = str.toString();
+
+  // xóa bỏ dấu .
+  str = str.replace(/\./g, '');
+
+  // ép kiểu thành số nguyên
+  str = parseInt(str);
+
+  return str.toString().split('').reverse().reduce((prev, next, index) => {
+    return ((index % 3) ? next : (next + '.')) + prev
+  })
+}
+
+/**
  * Author: Phạm Văn Đạt(03/11/2022)
  * Function: Xử lý chuyển chữ đầu thành chữ thường
  * @param {*} string Chuỗi string đưa vào
@@ -28,7 +50,7 @@ export function lowerCaseFirst(string) {
  * Author: Phạm Văn Đạt(04/11/2022)
  * Function: Xử lý in hoa chữ cái đầu tiên
  */
-export function titleCase(string) {
+export function TitleCase(string) {
   if (string != null) {
     //1. Tách các từ, cụm từ trong chuỗi ban đầu
     let sentence = string.toLowerCase().split(" ");
@@ -50,14 +72,65 @@ export function titleCase(string) {
  * Author: Phạm Văn Đạt(15/12/2022)
  * Function: xử lý nhập decimal
  */
-export function decimal(value) {
+export function Decimal(value) {
 
-  // chuyển chuỗi text về dạng số
-  // let val = value.ToString().replace('.', '');
-  // val = val.replace(',', '.');
+  if(!value){
+    return "0,00";
+  }
 
-  // val = (val/1).toFixed(2).replace('.', ',')
-  // return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+  // chuyển giá trị về dạng chuỗi
+  let val = value.toString();
+  
+  // xóa ký tự . trong ký chuỗi
+  val = val.replace(/\./g, '');
 
+  val = val.replace(/,00/g, '');
+
+  // ép kiểu thành số nguyên
+  val = parseInt(val);
+
+  val = val.toString().split('').reverse().reduce((prev, next, index) => {
+    return ((index % 3) ? next : (next + '.')) + prev 
+  })
+  return val + ",00";
+}
+
+/**
+ * Author: Phạm Văn Đạt(22:46 29/12/2022)
+ * Function: Xử lý chuyển string về dạng số
+ * @param {*} value : giá trị đưa vào
+ * @returns : giá trị int
+ */
+export function ConvertToNumber(value) {
+
+  if(value == 0){
+    return 0;
+  }
+
+  value = value.replace(/\./g, '');
+
+  value = value.replace(/,00/g, '');
+
+  value = parseInt(value);
+  return value;
+}
+
+/**
+ * Author: Phạm Văn Đạt(22:46 29/12/2022)
+ * Function: Xử lý chuyển string về dạng số
+ * @param {*} value : giá trị đưa vào
+ * @returns : giá trị int
+ */
+export function ConvertTodouble(value) {
+
+  if(value == 0){
+    return 0;
+  }
+
+  value = value.replace(/\./g, '');
+
+  value = value.replace(/,/g, '.');
+
+  value = parseFloat(value);
   return value;
 }

@@ -84,7 +84,7 @@ function () {
 
   _createClass(AccountsReceivable, [{
     key: "pagingAccountsReceivable",
-    value: function pagingAccountsReceivable(data) {
+    value: function pagingAccountsReceivable(data, checkLoadCurentPage) {
       var dataKeyword, newData, lengthCurrentData, res;
       return regeneratorRuntime.async(function pagingAccountsReceivable$(_context) {
         while (1) {
@@ -115,31 +115,35 @@ function () {
                 });
               }
 
+              if (this.countLoadData > 0) {
+                this.currentPageNumber = this.currentPageNumber + 1;
+              } // nếu keywword thay đổi, load lại từ trang 1
+
+
+              if (checkLoadCurentPage) {
+                this.currentPageNumber = 1;
+              }
+
               newData = _toConsumableArray(data);
 
               if (dataKeyword != []) {
                 newData.push.apply(newData, dataKeyword);
               }
 
-              lengthCurrentData = this.currentData ? this.currentData.length : -1;
+              lengthCurrentData = this.currentData ? this.currentData.length : -1; // nếu số bản ghi hiện tại <= tổng số bản ghi => tăng số trang hiện tại lên 1 và load lại. Nếu không thì thôi
 
-              if (this.countLoadData > 0) {
-                this.currentPageNumber++;
-              } // nếu số bản ghi hiện tại <= tổng số bản ghi => tăng số trang hiện tại lên 1 và load lại. Nếu không thì thôi
-
-
-              if (!(lengthCurrentData != this.totalCount)) {
-                _context.next = 12;
+              if (!(lengthCurrentData != this.totalCount || this.keyword || this.totalCount == 0)) {
+                _context.next = 13;
                 break;
               }
 
               // tăng số lần load lên 1
               this.countLoadData++; // gọi đến paging basecontroler
 
-              _context.next = 10;
+              _context.next = 11;
               return regeneratorRuntime.awrap((0, _BaseController.paging)(_endPoint.END_POINTS.PagingAccountsReceivable, this.currentPageNumber, this.pageSize, newData));
 
-            case 10:
+            case 11:
               res = _context.sent;
 
               // kiểm tra data trả về
@@ -151,65 +155,26 @@ function () {
                     this.currentData = _toConsumableArray(res.data.data);
                   } else {
                     this.currentData = [].concat(_toConsumableArray(this.currentData), _toConsumableArray(res.data.data));
-                  } // load thành công
+                  } // lấy data
 
+
+                  this.data = res.data.data.length > 0 ? _toConsumableArray(res.data.data) : [];
                 } else {
                   // không có dữ liệu
                   this.currentPageNumber--;
                 }
 
-                console.log(this.currentData);
-                console.log(res.data.data);
                 this.totalCount = res.data.totalCount;
-                console.log(this.currentPageNumber);
               } else {
                 console.log(res);
               }
 
-            case 12:
+            case 13:
             case "end":
               return _context.stop();
           }
         }
       }, null, this);
-    }
-    /**
-     * Author: Phạm Văn Đạt(17/12/2022)
-     * Function: Thêm mới nhóm nhà cung cấp
-     * @param {*} data : Dữ liệu truyền vào
-     */
-
-  }, {
-    key: "insertAccountsReceivable",
-    value: function insertAccountsReceivable(data) {
-      var res;
-      return regeneratorRuntime.async(function insertAccountsReceivable$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.next = 2;
-              return regeneratorRuntime.awrap((0, _BaseController.insertRecord)(_endPoint.END_POINTS.AccountsReceivable, data));
-
-            case 2:
-              res = _context2.sent;
-
-              if (!(res.status == _constants.STATUS_CODES.Code200)) {
-                _context2.next = 7;
-                break;
-              }
-
-              return _context2.abrupt("return", res.data);
-
-            case 7:
-              console.log(res);
-              console.log("thêm mới thất bại");
-
-            case 9:
-            case "end":
-              return _context2.stop();
-          }
-        }
-      });
     }
   }]);
 

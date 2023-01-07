@@ -136,8 +136,7 @@
       <base-table
         @dataDetail="
           (supplierDetail = $event),
-            (titleForm = RULE_FORM_SUPPLIER_DETAIL.View),
-            isUpdate=true
+            (titleForm = RULE_FORM_SUPPLIER_DETAIL.View)
         "
         @checkShowForm="checkShowForm = $event"
         :fieldsTHead="fieldsTHead"
@@ -162,6 +161,7 @@
     <div class="content-bottom">
       <!-- start paging -->
       <base-paging
+        v-show="showPaging"
         :totalCount="totalCount"
         @pageSize="pageSize = $event"
         @currentPage="currentPage = $event"
@@ -174,12 +174,11 @@
     <supplier-detail
       v-if="checkShowForm"
       :title="titleForm"
-      :isUpdate="isUpdate"
-      @isUpdate="isUpdate = $event"
       @closeForm="checkShowForm = $event"
       :supplierDetail="supplierDetail"
       @textToastMessage="textToastMessage = $event"
       @typeToastMessage="typeToastMessage = $event"
+      @loadData="loadSuppliers"
     ></supplier-detail>
     <!-- end thông tin chi tiết nhà cung cấp -->
 
@@ -190,7 +189,7 @@
       v-if="checkNotify.isShow"
       :type="checkNotify.type"
       :text="checkNotify.text"
-      @sayYes="$event == true ? handlerDeleteEmployee() : ''"
+      @sayYes="$event == true ? handlerDeleteSuppliers() : ''"
     ></base-notify>
     <!-- end thông báo -->
 
@@ -201,6 +200,11 @@
       @textToastMessage="textToastMessage = $event"
     ></base-toast-message>
     <!-- end toast message -->
+
+    <!-- start loading -->
+    <base-loading v-show="isLoading"></base-loading>
+    <!-- end loading -->
+
   </div>
 </template>
 
@@ -214,7 +218,9 @@ import {
   TEXT_TOAST_MESSAGE,
   FUNCTION_TABLE,
   RULE_HANDLER_DATA,
-  STATUS_CODES
+  STATUS_CODES,
+  NOTIFY_LIST,
+  TEXT_DELETE_ITEM
 } from "../../../js/constants.js";
 
 import {
@@ -233,9 +239,15 @@ export default {
   data() {
     return {
 
-      // kiểm tra cập nhật hay thêm
-      isUpdate: false,
+      // hiển thị loading
+      isLoading: false,
 
+      //  hiển thị paging
+      showPaging: true,
+
+      NOTIFY_LIST,
+
+      TEXT_DELETE_ITEM,
       RULE_HANDLER_DATA,
       // các chức năng trong table
       FUNCTION_TABLE,
@@ -308,40 +320,62 @@ export default {
       listDeleteFilterData: [],
     };
   },
-  created() {
+  async created() {
     // lấy thông tin paging trong constants
     this.pagingItems = PAGING_ITEMS;
     console.log(this.tableField);
 
     /**
-     * Author: Phạm Văn Đạt(21/10/2022)
      * Function: load dữ liệu
      */
-    this.loadSuppliers();
+    await this.loadSuppliers();
   },
   methods: {
+
+    /**
+     * Author: Phạm Văn Đạt(29/12/2022)
+     * Function: xử lý xóa nhà cung cấp
+     */
+    async handlerDeleteSuppliers(){
+      try{
+
+        // hiển thị loading
+        this.isLoading = true;
+        let result = await suppliers.delete(this.listIdSuppliers);
+
+        // ẩn loading
+        this.isLoading = false;
+
+        if (result.statusCode == STATUS_CODES.Code200) {
+          // hiển thị toast message xóa thành công
+          this.textToastMessage = result.message[0];
+          this.typeToastMessage = TEXT_TOAST_MESSAGE.CreateSuccess.type;
+
+          // load lại dữ liệu
+          await this.loadSuppliers();
+        }
+      }catch(e){
+        console.log(e);
+      }
+    },
+
     /**
      * Author: Phạm Văn Đạt(25/12/2022)
      * Function: Xử lý xóa, gộp
      * @param {*} item : item xóa, hoặc gộp
      */
-    async handlerMultiple(item) {
+    handlerMultiple() {
       try {
         
-        //  hỏi xem có chắc chắn muốn xóa hay không
-        
-        if (item == RULE_HANDLER_DATA[0].name) {
-          let result = await suppliers.delete(this.listIdSuppliers);
-
-          if (result.statusCode == STATUS_CODES.Code200) {
-            // hiển thị toast message xóa thành công
-            this.textToastMessage = result.message[0];
-            this.typeToastMessage = "success";
-
-            // load lại dữ liệu
-            await this.loadSuppliers();
+        if(this.listIdSuppliers.length >0){
+          //  hỏi xem có chắc chắn muốn xóa hay không
+          this.checkNotify = {
+            isShow: true,
+            type: NOTIFY_LIST.Warning.type,
+            text: NOTIFY_LIST.Warning.text(TEXT_DELETE_ITEM(this.listIdSuppliers.length)),
           }
-        }
+        } 
+        
       } catch (e) {
         console.log(e);
         this.textToastMessage = TEXT_TOAST_MESSAGE.Error.text;
@@ -381,15 +415,27 @@ export default {
       // hiển thị form loadding
       this.checkFormLoad = true;
 
+      //  hiển thị paging
+      this.showPaging = true;
+
       // disable nút reload dữ liệu khi chưa load dữ liệu xong để trách db click
       this.disableButtonResetData = true;
+
+      // hiển thị loading
+      this.isLoading = true;
 
       // gọi api phân trang
       await suppliers.pagingSuppliers(this.arrFilter);
 
+      // ẩn loading
+      this.isLoading = false;
+
       // khởi tạo giá trị list dữ liệu
       this.listData = suppliers.data;
       this.totalCount = suppliers.totalCount;
+      if(this.listData.length == 0){
+        this.showPaging = false;
+      }
 
       // khi load dữ liệu xong thì trả về nút láy lại dữ liệu ở trang thái bình thường
       this.disableButtonResetData = false;

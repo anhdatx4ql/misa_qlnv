@@ -12,10 +12,13 @@ namespace MISA.AMIS.Common
     /// </summary>
     public class CheckDupcatyModel
     {
+        #region Fields
         public List<string> Message { set; get; }
 
         public List<Dictionary<string,string>> FieldsDupcaty { set; get; }
+        #endregion
 
+        #region constructor
         public CheckDupcatyModel(List<string> message, List<Dictionary<string, string>> fieldsDupcaty)
         {
             this.Message = message;
@@ -26,5 +29,6 @@ namespace MISA.AMIS.Common
         {
            
         }
+        #endregion
     }
 }

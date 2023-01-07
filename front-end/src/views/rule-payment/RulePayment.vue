@@ -139,7 +139,11 @@
         </div>
 
         <div class="form-buttom-left">
-          <base-button classButton="button-white" text="Hủy"> </base-button>
+          <base-button classButton="button-white"
+           text="Hủy"
+           @clickButton="$emit('closeForm', false)"
+           @keydown.tab.prevent="fieldFocusValidate.rulePaymentCode = true"
+           > </base-button>
         </div>
       </div>
       <!-- end bottom -->
@@ -157,6 +161,11 @@
       @sayYes="$event == true ? handlerUpdateData(FUNCTION_UPLOAD.Save) : ''"
     ></base-notify>
     <!-- end thông báo -->
+
+     <!-- start loading -->
+  <base-loading v-show="isLoading"></base-loading>
+  <!-- end loading -->
+
   </div>
 </template>
 
@@ -190,6 +199,10 @@ export default {
   },
   data() {
     return {
+
+      //hiển thị loading
+      isLoading: false,
+
       // lấy tên trường đầu tiên có lỗi
       firstFocus: null,
 
@@ -259,10 +272,16 @@ export default {
           // không có lỗi
           this.currentRulePayment.rulePaymentID = createGuid();
 
+          // hiển thị loading
+          this.isLoading = true;
+
           //gọi api thêm dữ liệu
           const result = await reluPayments.insertRulePayments(
             this.currentRulePayment
           );
+
+          // ẩn loading
+          this.isLoading = false;
 
           // thêm mới || cập nhật thất bại
           if (result?.statusCode == STATUS_CODES.Code400) {
@@ -271,8 +290,6 @@ export default {
             }
           } else if (result?.statusCode == STATUS_CODES.Code201) {
             // hiển thị loading
-            console.log(this.currentRulePayment)
-
             // thêm phần tử vào đầu mảng
             reluPayments.currentData = [
               this.currentRulePayment,

@@ -9,7 +9,7 @@
     </div>
     <div class="paging-right">
       <div class="paging-right-combobox">
-        <base-combobox :value="pagingItems[0]" 
+        <base-combobox :value="pagingItems[1]" 
         :listValues="pagingItems" :disabled="true" position="bottom"
         @newValueId="pageSize = $event">
         </base-combobox>
@@ -68,7 +68,7 @@ export default {
       total: 0,
 
       // số bản ghi trên trang
-      pageSize:10,
+      pageSize:20,
 
       // các trang có thể có
       totalPageSize: 0,

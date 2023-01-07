@@ -13,9 +13,9 @@ export class Address {
   async getAllProvince() {
     try {
       return await axios
-        .get("https://provinces.open-api.vn/api/")
+        .get("https://vn-public-apis.fpo.vn/provinces/getAll?limit=-1")
         .then((res) => {
-          return res;
+          return res.data;
         })
         .catch((e) => {
           console.log(e);
@@ -32,9 +32,9 @@ export class Address {
   async getAllDistricts(code) {
     try {
       return await axios
-        .get("https://provinces.open-api.vn/api/p/" + code + "?depth=2")
+        .get("https://vn-public-apis.fpo.vn/districts/getByProvince?provinceCode="+code+"&limit=-1")
         .then((res) => {
-          return res;
+          return res.data;
         })
         .catch((e) => {
           console.log(e);
@@ -51,9 +51,9 @@ export class Address {
   async getAllWards(code) {
     try {
       return await axios
-        .get("https://provinces.open-api.vn/api/d/" + code + "?depth=2")
+        .get("https://vn-public-apis.fpo.vn/wards/getByDistrict?districtCode="+code+"&limit=-1")
         .then((res) => {
-          return res;
+          return res.data;
         })
         .catch((e) => {
           console.log(e);

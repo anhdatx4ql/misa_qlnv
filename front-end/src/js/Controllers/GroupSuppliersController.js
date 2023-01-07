@@ -59,12 +59,11 @@ export class GroupSuppliers {
    * @param {*} currentPageNumber : số trang hiện tại: mặc định là 1
    * @param {*} pageSize : số bản ghi trên trang
    */
-  async pagingGroupSupplier(data) {
+  async pagingGroupSupplier(data,checkLoadCurentPage) {
     let dataKeyword = [];
 
     // nếu tồn tại keyword thì tìm kiếm theo keyword với 3 trường: tên, mã , sđt
     if (this.keyword) {
-      console.log(this.keyword);
       dataKeyword.push(
         {
           name: "groupSupplierCode",
@@ -83,6 +82,11 @@ export class GroupSuppliers {
       );
     }
 
+    // nếu không phải load lần đầu thì tăng số lượng trang lên 1
+    if (this.countLoadData > 0) {
+      this.currentPageNumber = this.currentPageNumber + 1;
+    }
+
     let newData = [...data];
 
     if (dataKeyword != []) {
@@ -95,8 +99,13 @@ export class GroupSuppliers {
       this.currentPageNumber = this.currentPageNumber+1;
     }
 
+    // nếu keywword thay đổi, load lại từ trang 1
+    if(checkLoadCurentPage){
+      this.currentPageNumber = 1;
+    }
+
     // nếu số bản ghi hiện tại <= tổng số bản ghi => tăng số trang hiện tại lên 1 và load lại. Nếu không thì thôi
-    if (lengthCurrentData != this.totalCount) {
+    if (lengthCurrentData != this.totalCount || this.keyword || this.totalCount == 0) {
       // tăng số lần load lên 1
       this.countLoadData++;
 
@@ -119,7 +128,10 @@ export class GroupSuppliers {
           } else {
             this.currentData = [...this.currentData, ...res.data.data];
           }
-          // load thành công
+          
+          // lấy data
+          this.data = (res.data.data.length > 0)?[...res.data.data]:[];
+
         }else{
           // không có dữ liệu
           this.currentPageNumber--;

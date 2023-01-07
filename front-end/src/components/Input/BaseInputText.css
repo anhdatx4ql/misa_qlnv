@@ -3,6 +3,8 @@
     padding-bottom: 4px;
     font-weight: 700;
     font-size: 12px;
+    display: flex;
+    justify-content: space-between;
 }
 
 input[type="text"] {
@@ -195,4 +197,12 @@ input[type=number]
 
 .input-container input{
   flex:1;
+}
+
+.input-taxcode .input-container-content-error {
+    border-color: #ffb900 !important;
+}
+
+.input-taxcode .input-container-error {
+    display: none !important;
 }

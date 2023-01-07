@@ -238,6 +238,12 @@ div#app {
     background: url('/src/assets/img/Sprites.64af8f61.svg') no-repeat -872px -202px;
 }
 
+.background-icon-warning{
+    background: url('/src/assets/img/Sprites.64af8f61.svg') no-repeat -1088px -312px;
+	width: 16px;
+	height: 16px;
+}
+
 .background-icon-customer{
     background: url('/src/assets/img/Sprites.64af8f61.svg') no-repeat -876px -202px;
 }
@@ -313,4 +319,22 @@ div#app {
 
 .p-t-30{
     padding-top:30px;
+}
+
+.input-date-container:hover>.input-container-error {
+    display: inline-block;
+    transform: translateY(3px);
+}
+
+.input-date-container {
+    position: relative;
+}
+
+span.el-input__prefix:hover {
+    cursor: pointer;
+}
+
+.tab-content .combobox-multiple-container-content .input-container {
+    padding-bottom: 0;
+    flex-grow: 1;
 }

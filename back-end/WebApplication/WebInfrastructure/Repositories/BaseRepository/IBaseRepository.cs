@@ -32,7 +32,7 @@ namespace MISA.AMIS.DL
         /// <param name="id"></param>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        Task<T> GetById(Guid id, string tableName = null);
+        Task<T> GetById(Guid id, string keyName = null, string tableName = null);
 
         /// <summary>
         /// Author: Phạm Văn Đạt

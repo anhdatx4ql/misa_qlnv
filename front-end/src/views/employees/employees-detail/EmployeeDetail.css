@@ -125,7 +125,7 @@ input {
 }
 
 .form-gender {
-    padding: 5px 0px 6px 10px;
+    padding: 0px 0px 6px 10px !important;
 }
 
 .form-gender-title {

@@ -4,9 +4,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.formatDate = formatDate;
+exports.FormatCash = FormatCash;
 exports.lowerCaseFirst = lowerCaseFirst;
-exports.titleCase = titleCase;
-exports.decimal = decimal;
+exports.TitleCase = TitleCase;
+exports.Decimal = Decimal;
+exports.ConvertToNumber = ConvertToNumber;
+exports.ConvertTodouble = ConvertTodouble;
 
 var _moment = _interopRequireDefault(require("moment"));
 
@@ -28,6 +31,27 @@ function formatDate(value) {
   return (0, _moment["default"])(value).format(type);
 }
 /**
+ * Author: Phạm Văn Đạt(29/12/2022)
+ * Function: Xử lý format tiền tiệ
+ */
+
+
+function FormatCash(str) {
+  if (!str) {
+    return str;
+  } // chuyển về string
+
+
+  str = str.toString(); // xóa bỏ dấu .
+
+  str = str.replace(/\./g, ''); // ép kiểu thành số nguyên
+
+  str = parseInt(str);
+  return str.toString().split('').reverse().reduce(function (prev, next, index) {
+    return (index % 3 ? next : next + '.') + prev;
+  });
+}
+/**
  * Author: Phạm Văn Đạt(03/11/2022)
  * Function: Xử lý chuyển chữ đầu thành chữ thường
  * @param {*} string Chuỗi string đưa vào
@@ -44,7 +68,7 @@ function lowerCaseFirst(string) {
  */
 
 
-function titleCase(string) {
+function TitleCase(string) {
   if (string != null) {
     //1. Tách các từ, cụm từ trong chuỗi ban đầu
     var sentence = string.toLowerCase().split(" "); //2. Tạo vòng lặp và viết hoa chữ cái đầu tiên của các từ, cụm từ trên
@@ -67,11 +91,57 @@ function titleCase(string) {
  */
 
 
-function decimal(value) {
-  // chuyển chuỗi text về dạng số
-  // let val = value.ToString().replace('.', '');
-  // val = val.replace(',', '.');
-  // val = (val/1).toFixed(2).replace('.', ',')
-  // return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+function Decimal(value) {
+  if (!value) {
+    return "0,00";
+  } // chuyển giá trị về dạng chuỗi
+
+
+  var val = value.toString(); // xóa ký tự . trong ký chuỗi
+
+  val = val.replace(/\./g, '');
+  val = val.replace(/,00/g, ''); // ép kiểu thành số nguyên
+
+  val = parseInt(val);
+  console.log(value);
+  val = val.toString().split('').reverse().reduce(function (prev, next, index) {
+    return (index % 3 ? next : next + '.') + prev;
+  });
+  return val + ",00";
+}
+/**
+ * Author: Phạm Văn Đạt(22:46 29/12/2022)
+ * Function: Xử lý chuyển string về dạng số
+ * @param {*} value : giá trị đưa vào
+ * @returns : giá trị int
+ */
+
+
+function ConvertToNumber(value) {
+  if (value == 0) {
+    return 0;
+  }
+
+  value = value.replace(/\./g, '');
+  value = value.replace(/,00/g, '');
+  value = parseInt(value);
+  return value;
+}
+/**
+ * Author: Phạm Văn Đạt(22:46 29/12/2022)
+ * Function: Xử lý chuyển string về dạng số
+ * @param {*} value : giá trị đưa vào
+ * @returns : giá trị int
+ */
+
+
+function ConvertTodouble(value) {
+  if (value == 0) {
+    return 0;
+  }
+
+  value = value.replace(/\./g, '');
+  value = value.replace(/,/g, '.');
+  value = parseFloat(value);
   return value;
 }

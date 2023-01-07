@@ -3,7 +3,7 @@
  * Function: controller xử lý nghiệp vụ tài khoản công nợ phải thu
  */
 import { END_POINTS } from "../axios/endPoint";
-import { insertRecord, paging } from "../Controllers/BaseController";
+import { paging } from "../Controllers/BaseController";
 import { STATUS_CODES } from "../constants";
 
 /**
@@ -64,7 +64,7 @@ export class AccountsReceivable {
    * @param {*} currentPageNumber : số trang hiện tại: mặc định là 1
    * @param {*} pageSize : số bản ghi trên trang
    */
-  async pagingAccountsReceivable(data) {
+  async pagingAccountsReceivable(data,checkLoadCurentPage) {
     let dataKeyword = [];
 
     // nếu tồn tại keyword thì tìm kiếm theo keyword với 3 trường: tên, mã , sđt
@@ -96,6 +96,15 @@ export class AccountsReceivable {
       );
     }
 
+    if (this.countLoadData > 0) {
+      this.currentPageNumber = this.currentPageNumber + 1;
+    }
+
+    // nếu keywword thay đổi, load lại từ trang 1
+    if(checkLoadCurentPage){
+      this.currentPageNumber = 1;
+    }
+
     let newData = [...data];
 
     if (dataKeyword != []) {
@@ -104,12 +113,9 @@ export class AccountsReceivable {
 
     let lengthCurrentData = this.currentData ? this.currentData.length : -1;
 
-    if (this.countLoadData > 0) {
-      this.currentPageNumber++;
-    }
 
     // nếu số bản ghi hiện tại <= tổng số bản ghi => tăng số trang hiện tại lên 1 và load lại. Nếu không thì thôi
-    if (lengthCurrentData != this.totalCount) {
+    if (lengthCurrentData != this.totalCount || this.keyword || this.totalCount == 0) {
       // tăng số lần load lên 1
       this.countLoadData++;
 
@@ -132,37 +138,18 @@ export class AccountsReceivable {
           } else {
             this.currentData = [...this.currentData, ...res.data.data];
           }
-          // load thành công
+
+          // lấy data
+          this.data = (res.data.data.length > 0)?[...res.data.data]:[];
         }else{
           // không có dữ liệu
           this.currentPageNumber--;
         }
-
-        console.log(this.currentData);
-        console.log(res.data.data);
-
         this.totalCount = res.data.totalCount;
-        console.log(this.currentPageNumber);
       } else {
         console.log(res);
       }
     } 
-  }
-
-  /**
-   * Author: Phạm Văn Đạt(17/12/2022)
-   * Function: Thêm mới nhóm nhà cung cấp
-   * @param {*} data : Dữ liệu truyền vào
-   */
-  async insertAccountsReceivable(data) {
-    let res = await insertRecord(END_POINTS.AccountsReceivable, data);
-
-    if (res.status == STATUS_CODES.Code200) {
-      return res.data;
-    } else {
-      console.log(res);
-      console.log("thêm mới thất bại");
-    }
   }
 }
 

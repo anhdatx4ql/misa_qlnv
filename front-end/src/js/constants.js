@@ -3,7 +3,7 @@
  * Function: Các biến, hằng số dùng chung
  */
 
-import { formatDate } from "/src/js/FomatData";
+import { formatDate, FormatCash, Decimal } from "/src/js/FomatData";
 
 /**
  * Author: Phạm Văn Đạt(18/10/2022)
@@ -491,6 +491,11 @@ export const NOTIFY_TEXT = {
     return text + " không được để trống.";
   },
 
+  // mã số thuế không hợp lệ
+  formatTaxCode: function(text){
+    return text + " không hợp lệ.";
+  },
+
   // hiển thị lỗi trùng dữ liệu
   duplicateField: (text) => {
     return text + " đã tồn tại.";
@@ -521,6 +526,15 @@ export const STATUS_CODES = {
   Code201: "201", // thêm thành công
   Code400: "400", // lỗi dữ liệu không đúng
   Code500: "500", // lỗi server
+};
+
+
+/**
+ * Author: Phạm Văn Đạt(21/10/2022)
+ * Function: Các statusCode so sánh với db trả về
+ */
+export const STATUS_CODES_ADDRESS = {
+  Code1: 1, // lấy dữ liệu thành công
 };
 
 /**
@@ -572,6 +586,7 @@ export const FUNCTION_TABLE = {
 export const RULE_FORMAT_DATA = {
   PhoneNumber: 1,
   Email: 2,
+  TaxCode: 3
 };
 
 /**
@@ -1071,11 +1086,15 @@ export let SUPPLIER_FIELDS = [
     width: 250,
     isRequired: true,
     nameFilter: "Ngày cấp",
+    class: "text-align-center",
     typeFilter: "Text",
     isField: true,
     filter: {
       operator: "like",
       value: null,
+    },
+    formatDate: function (value) {
+      return formatDate(value, "DD/MM/YYYY");
     },
   },
   {
@@ -1198,14 +1217,18 @@ export let SUPPLIER_FIELDS = [
   {
     name: "SỐ NGÀY ĐƯỢC NỢ",
     fieldName: "dayOwed",
-    width: 150,
+    width: 170,
     isRequired: true,
+    class: "text-align-right",
     nameFilter: "Điều khoản thanh toán",
     typeFilter: "DateTime",
     isField: true,
     filter: {
       operator: "=",
       value: null,
+    },
+    FormatCash: function (value) {
+      return FormatCash(value);
     },
   },
   {
@@ -1214,11 +1237,15 @@ export let SUPPLIER_FIELDS = [
     width: 150,
     isRequired: true,
     nameFilter: "Số nợ tối đa",
+    class: "text-align-right",
     typeFilter: "DateTime",
     isField: true,
     filter: {
       operator: "=",
       value: null,
+    },
+    Decimal: function (value) {
+      return Decimal(value);
     },
   },
   {
@@ -1227,11 +1254,15 @@ export let SUPPLIER_FIELDS = [
     width: 150,
     isRequired: true,
     nameFilter: "Công nợ",
-    typeFilter: "DateTime",
+    typeFilter: "Text",
+    class: "text-align-right",
     isField: true,
     filter: {
       operator: "=",
       value: null,
+    },
+    Decimal: function (value) {
+      return Decimal(value);
     },
   },
   {
@@ -1459,10 +1490,6 @@ export const BatchExecution = [
     name: "Delete",
     text: "Xóa",
   },
-  {
-    name: "Sum",
-    text: "Gộp",
-  },
 ];
 
 /**
@@ -1654,7 +1681,7 @@ export const FIELDS_TABLE_COMBOBOX_CONTRACT = [
     view: true,
     model: true,
     fieldName: "name",
-    width: 100,
+    width: 365,
   },
 ];
 
@@ -1960,3 +1987,12 @@ export const FIELDS_TABLE_POSITIONS = [
     width: 349,
   },
 ];
+
+/**
+ * Author: Phạm Văn Đạt(29/12/2022)
+ * Function: chuỗi hiển thị khi xóa item
+ * @param {*} text : chuỗi truyền vào
+ */
+export const TEXT_DELETE_ITEM = function(text){
+  return "Bạn có muốn xóa "+text+" danh mục này không?"
+} 

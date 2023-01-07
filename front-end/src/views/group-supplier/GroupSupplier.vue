@@ -83,6 +83,8 @@
           classText="input-container-field-label"
           fieldName="Thuộc"
           :iconSum="false"
+          :deleteValueInput="deleteValueInput"
+          @deleteValueInput="deleteValueInput = $event"
           :isMultiple="false"
           :listField="FIELDS_TABLE_COMBOBOX_SUPPLIERS_ONE"
           :listData="dataGroupSuppliers"
@@ -142,7 +144,7 @@
           <base-button
             classButton="button-white"
             text="Hủy"
-            @focusout="handlerFocusForm()"
+            @keydown.tab.prevent="fieldFocusValidate.groupSupplierCode = true"
           >
           </base-button>
         </div>
@@ -162,6 +164,11 @@
       @sayYes="$event == true ? handlerUpdateData(FUNCTION_UPLOAD.Save) : ''"
     ></base-notify>
     <!-- end thông báo -->
+
+      <!-- start loading -->
+  <base-loading v-show="isLoading"></base-loading>
+  <!-- end loading -->
+
   </div>
 </template>
 
@@ -201,6 +208,8 @@ export default {
   },
   data() {
     return {
+      deleteValueInput: false,
+      isLoading: false,
       FIELDS_TABLE_COMBOBOX_SUPPLIERS_ONE,
       FUNCTION_UPLOAD,
 
@@ -265,7 +274,8 @@ export default {
 
           console.log("load nhóm khách hàng");
 
-          if (this.dataGroupSuppliers.length <= groupSuppliers.totalCount) {
+          if (this.dataGroupSuppliers.length <= groupSuppliers.totalCount) { 
+
             await groupSuppliers.pagingGroupSupplier([]);
 
             if (groupSuppliers.currentData) {
@@ -307,18 +317,6 @@ export default {
 
       // chuyển trạng thái focus true ở lỗi đầu tiên
       this.fieldFocusValidate[value] = true;
-    },
-
-    /**
-     * Author: Phạm Văn Đạt(23/12/2022)
-     * Function: Xử lý focus out button hủy xoay vòng
-     */
-    handlerFocusForm() {
-      try {
-        this.fieldFocusValidate.groupSupplierCode = true;
-      } catch (e) {
-        console.log(e);
-      }
     },
 
     /**
@@ -367,10 +365,16 @@ export default {
           // lấy guid mới
           this.currentGroupSupplier.groupSupplierID = createGuid();
 
+          // hiển thị loading
+          this.isLoading = true;
+
           //gọi api thêm dữ liệu
           const result = await groupSuppliers.insertGroupSuppliers(
             this.currentGroupSupplier
           );
+
+          // hiển thị loading
+          this.isLoading = false;
 
           // thêm mới || cập nhật thất bại
           if (result?.statusCode == STATUS_CODES.Code400) {
@@ -444,6 +448,9 @@ export default {
         parentGroupSupplierId: null,
         groupSupplierDescription: null,
       };
+
+      this.deleteValueInput = true;
+
     },
 
     /**

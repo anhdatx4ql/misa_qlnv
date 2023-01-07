@@ -81,7 +81,7 @@ function () {
 
   _createClass(GroupSuppliers, [{
     key: "pagingGroupSupplier",
-    value: function pagingGroupSupplier(data) {
+    value: function pagingGroupSupplier(data, checkLoadCurentPage) {
       var dataKeyword, newData, lengthCurrentData, res;
       return regeneratorRuntime.async(function pagingGroupSupplier$(_context) {
         while (1) {
@@ -90,7 +90,6 @@ function () {
               dataKeyword = []; // nếu tồn tại keyword thì tìm kiếm theo keyword với 3 trường: tên, mã , sđt
 
               if (this.keyword) {
-                console.log(this.keyword);
                 dataKeyword.push({
                   name: "groupSupplierCode",
                   operator: "like",
@@ -104,6 +103,11 @@ function () {
                   typeOperator: "like",
                   stringConcatenation: "OR"
                 });
+              } // nếu không phải load lần đầu thì tăng số lượng trang lên 1
+
+
+              if (this.countLoadData > 0) {
+                this.currentPageNumber = this.currentPageNumber + 1;
               }
 
               newData = _toConsumableArray(data);
@@ -116,21 +120,26 @@ function () {
 
               if (this.countLoadData > 0) {
                 this.currentPageNumber = this.currentPageNumber + 1;
+              } // nếu keywword thay đổi, load lại từ trang 1
+
+
+              if (checkLoadCurentPage) {
+                this.currentPageNumber = 1;
               } // nếu số bản ghi hiện tại <= tổng số bản ghi => tăng số trang hiện tại lên 1 và load lại. Nếu không thì thôi
 
 
-              if (!(lengthCurrentData != this.totalCount)) {
-                _context.next = 12;
+              if (!(lengthCurrentData != this.totalCount || this.keyword || this.totalCount == 0)) {
+                _context.next = 14;
                 break;
               }
 
               // tăng số lần load lên 1
               this.countLoadData++; // gọi đến paging basecontroler
 
-              _context.next = 10;
+              _context.next = 12;
               return regeneratorRuntime.awrap((0, _BaseController.paging)(_endPoint.END_POINTS.PagingGroupSuppliers, this.currentPageNumber, this.pageSize, newData));
 
-            case 10:
+            case 12:
               res = _context.sent;
 
               // kiểm tra data trả về
@@ -142,8 +151,10 @@ function () {
                     this.currentData = _toConsumableArray(res.data.data);
                   } else {
                     this.currentData = [].concat(_toConsumableArray(this.currentData), _toConsumableArray(res.data.data));
-                  } // load thành công
+                  } // lấy data
 
+
+                  this.data = res.data.data.length > 0 ? _toConsumableArray(res.data.data) : [];
                 } else {
                   // không có dữ liệu
                   this.currentPageNumber--;
@@ -154,7 +165,7 @@ function () {
                 console.log(res);
               }
 
-            case 12:
+            case 14:
             case "end":
               return _context.stop();
           }

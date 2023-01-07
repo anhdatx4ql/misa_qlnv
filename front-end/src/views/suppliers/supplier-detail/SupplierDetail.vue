@@ -90,8 +90,18 @@
               :class="{ 'p-r-12': !currentSupplier.isOrganization }"
               fieldLabel="Mã số thuế"
               v-model="currentSupplier.taxCode"
-              :isFormatText="false"
+              :isTaxCode="true"
               :width="140"
+              :errorText="
+                listErrors.has('taxCode') ? listErrors.get('taxCode') : null
+              "
+              @errorText="
+                $event
+                  ? !listErrors.has('taxCode')
+                    ? listErrors.set('taxCode', $event)
+                    : ''
+                  : listErrors.delete('taxCode')
+              "
               :checkFocus="fieldFocusValidate.taxCode"
               @checkFocus="fieldFocusValidate.taxCode = false"
             ></base-input-text>
@@ -227,6 +237,20 @@
               :isMultiple="true"
               @clickIconSum="showGroupSupplier = true"
               @loadData="loadGroupSupplier($event)"
+              :errorText="
+                listErrors.has('listDataGroupSupplier')
+                  ? listErrors.get('listDataGroupSupplier')
+                  : null
+              "
+              @errorText="
+                $event
+                  ? !listErrors.has('listDataGroupSupplier')
+                    ? listErrors.set('listDataGroupSupplier', $event)
+                    : ''
+                  : listErrors.delete('listDataGroupSupplier')
+              "
+              :checkFocus="fieldFocusValidate.listDataGroupSupplier"
+              @checkFocus="fieldFocusValidate.listDataGroupSupplier = false"
             >
             </base-combobox-multiple>
             <!-- end nhóm nhà cung cấp -->
@@ -243,6 +267,20 @@
               :isMultiple="false"
               v-model="currentSupplier.employeeId"
               @loadData="loadEmployees($event)"
+              :errorText="
+                listErrors.has('employeeId')
+                  ? listErrors.get('employeeId')
+                  : null
+              "
+              @errorText="
+                $event
+                  ? !listErrors.has('employeeId')
+                    ? listErrors.set('employeeId', $event)
+                    : ''
+                  : listErrors.delete('employeeId')
+              "
+              :checkFocus="fieldFocusValidate.employeeId"
+              @checkFocus="fieldFocusValidate.employeeId = false"
             >
             </base-combobox-multiple>
             <!-- end nhân viên -->
@@ -456,13 +494,28 @@
                     ></base-input-text>
                   </div>
 
-                  <div class="w-1/2 p-r-6-5 p-b-6-5">
+                  <div class="w-1/2 p-r-6-5 p-b-6-5 input-date-container">
                     <el-date-picker
+                      :class="{
+                        'input-error': listErrors.has('issueOn'),
+                      }"
                       type="date"
                       v-model="currentSupplier.issueOn"
+                      @change="handlerDateTime('issueOn', 'Ngày cấp', $event)"
                       placeholder="Ngày cấp"
                       format="DD/MM/YYYY"
                     />
+                    <!-- start hiển thị lỗi nếu có -->
+                    <div
+                      class="input-container-error"
+                      v-if="listErrors.has('issueOn')"
+                    >
+                      <div></div>
+                      <div>
+                        <span>{{ listErrors.get("issueOn") }}</span>
+                      </div>
+                    </div>
+                    <!-- end hiển thị lỗi nếu có -->
                   </div>
 
                   <div class="w-100">
@@ -536,13 +589,27 @@
                 <base-combobox-multiple
                   fieldName="Điều khoản thanh toán"
                   :iconSum="true"
-                  :isMultiple="false"
                   :position="FIELDS_POSITION.Top"
+                  :isMultiple="false"
                   :listData="dataRulePayments"
                   v-model="currentSupplier.rulePaymentId"
                   :listField="FIELDS_TABLE_COMBOBOX_RULE_PAYMENTS"
                   @clickIconSum="showRulePay = true"
                   @loadData="loadRulePayments($event)"
+                  :errorText="
+                    listErrors.has('rulePaymentId')
+                      ? listErrors.get('rulePaymentId')
+                      : null
+                  "
+                  @errorText="
+                    $event
+                      ? !listErrors.has('rulePaymentId')
+                        ? listErrors.set('rulePaymentId', $event)
+                        : ''
+                      : listErrors.delete('rulePaymentId')
+                  "
+                  :checkFocus="fieldFocusValidate.rulePaymentId"
+                  @checkFocus="fieldFocusValidate.rulePaymentId = false"
                 >
                 </base-combobox-multiple>
               </div>
@@ -554,6 +621,7 @@
                   :isNumber="true"
                   v-model="currentSupplier.dayOwed"
                   fieldLabel="Số ngày được nợ"
+                  :maxlength="15"
                 ></base-input-text>
               </div>
               <!-- end số ngày được nợ -->
@@ -562,7 +630,9 @@
               <div class="w-200 p-r-12">
                 <base-input-text
                   :isNumber="true"
+                  :isCash="true"
                   v-model="currentSupplier.debitAmountMax"
+                  :maxlength="15"
                   fieldLabel="Số nợ tối đa"
                 ></base-input-text>
               </div>
@@ -579,6 +649,20 @@
                   :listData="dataAccountsReceiable"
                   v-model="currentSupplier.accountReceivableId"
                   @loadData="loadAccountsReceiable($event)"
+                  :errorText="
+                    listErrors.has('accountReceivableId')
+                      ? listErrors.get('accountReceivableId')
+                      : null
+                  "
+                  @errorText="
+                    $event
+                      ? !listErrors.has('accountReceivableId')
+                        ? listErrors.set('accountReceivableId', $event)
+                        : ''
+                      : listErrors.delete('accountReceivableId')
+                  "
+                  :checkFocus="fieldFocusValidate.accountReceivableId"
+                  @checkFocus="fieldFocusValidate.accountReceivableId = false"
                 >
                 </base-combobox-multiple>
               </div>
@@ -627,6 +711,7 @@
                       :iconSum="false"
                       :isTHead="false"
                       :isMultiple="false"
+                      :position="FIELDS_POSITION.Top"
                       placeholder="Quốc gia"
                       :listField="FIELDS_TABLE_COMBOBOX_ADDRESS"
                       :listData="LIST_COUNTRY"
@@ -642,6 +727,7 @@
                       :iconSum="false"
                       :isTHead="false"
                       :isMultiple="false"
+                      :position="FIELDS_POSITION.Top"
                       :listField="FIELDS_TABLE_COMBOBOX_ADDRESS_TWO"
                       :listData="dataProvince"
                       v-model="currentSupplier.supplierCity"
@@ -659,6 +745,7 @@
                       :iconSum="false"
                       :isTHead="false"
                       :isMultiple="false"
+                      :position="FIELDS_POSITION.Top"
                       :listField="FIELDS_TABLE_COMBOBOX_ADDRESS"
                       :listData="dataDistricts"
                       v-model="currentSupplier.supplierDistrict"
@@ -674,6 +761,7 @@
                       :iconSum="false"
                       :isTHead="false"
                       :isMultiple="false"
+                      :position="FIELDS_POSITION.Top"
                       :listField="FIELDS_TABLE_COMBOBOX_ADDRESS_TWO"
                       :listData="dataWards"
                       v-model="currentSupplier.supplierWard"
@@ -692,6 +780,8 @@
                     <base-input-checkbox
                       text="Giống địa chỉ nhà cung cấp"
                       id="supplier-address"
+                      :checked="checkedDeliveryAddress"
+                      @checked="checkedDeliveryAddress = $event"
                     >
                     </base-input-checkbox>
                   </div>
@@ -703,7 +793,7 @@
                     <tr v-for="i in rowDeliveryAddress" :key="i">
                       <td style="width: 350px">
                         <base-textarea
-                          v-model="litsDeliveryAddress[i]"
+                          v-model="litsDeliveryAddress[i - 1]"
                           :height="31"
                         ></base-textarea>
                       </td>
@@ -719,7 +809,9 @@
                             classButtonIcon="background-icon background-position-delete w-h-16 d-flex"
                             v-tooltip="'Ctrl + Delete'"
                             @clickButton="
-                              deleteItemDeliveryAddress(litsDeliveryAddress[i])
+                              deleteItemDeliveryAddress(
+                                litsDeliveryAddress[i - 1]
+                              )
                             "
                           ></base-button>
                         </div>
@@ -788,6 +880,11 @@
             classButton="button-white"
             @clickButton="$emit('closeForm', false)"
             text="Hủy"
+            @keydown.tab.prevent="
+              currentSupplier.isOrganization
+                ? (fieldFocusValidate.supplierCode = true)
+                : (fieldFocusValidate.taxCode = true)
+            "
           >
           </base-button>
         </div>
@@ -837,19 +934,25 @@
     ></base-notify>
     <!-- end thông báo -->
 
+    <!-- start loading -->
+    <base-loading v-show="isLoading"></base-loading>
+    <!-- end loading -->
+
     <!-- end content -->
   </div>
 </template>
 
 <script>
+import { createKeybindingsHandler } from "tinykeys";
+
 import {
+  RULE_FORM_SUPPLIER_DETAIL,
   TITLES_FORM,
   FIELDS_POSITION,
   FIELDS_TABLE_COMBOBOX_EMPLOYEE,
   LIST_TABS_SUPPLIERS,
   FIELDS_HEADER_LEFT_SUPPLIER_DETAIL,
   FIELDS_BACKACCOUNT,
-  RULE_FORM_SUPPLIER_DETAIL,
   LIST_VOCATIVE,
   FIELDS_TABLE_COMBOBOX_VOCATIVE,
   FIELDS_TABLE_COMBOBOX_SUPPLIERS,
@@ -865,9 +968,14 @@ import {
   NOTIFY_LIST,
   NOTIFY_TEXT,
   FIELDS_SUPPLIERS_REQUIRED,
+  STATUS_CODES_ADDRESS,
 } from "../../../js/constants.js";
 
-import { formatDate, lowerCaseFirst } from "../../../js/FomatData.js";
+import {
+  ConvertToNumber,
+  formatDate,
+  lowerCaseFirst,
+} from "../../../js/FomatData.js";
 
 import { createGuid } from "../../../js/GuidId.js";
 
@@ -912,12 +1020,6 @@ export default {
   setup() {},
 
   props: {
-    // kiểm tra xem cập nhật hay thêm
-    isUpdate: {
-      Type: Boolean,
-      default: false,
-    },
-
     // title form
     title: {
       Type: String,
@@ -932,6 +1034,15 @@ export default {
   },
   data() {
     return {
+
+      checkedDeliveryAddress:  false,
+
+      // cho phep load dia chi
+      isLoadAddress: false,
+
+      // hiển thị loading
+      isLoading: false,
+
       // title form thêm nhân viên
       titleCreateEmployee: TITLES_FORM.Create,
 
@@ -1041,7 +1152,7 @@ export default {
       rowDeliveryAddress: 0,
 
       // dữ liệu mới của tài khoản ngân hàng
-      dataBankAccount: null,
+      dataBankAccount: [],
 
       // check là cá nhân hay không
       isPersonal: FIELDS_HEADER_LEFT_SUPPLIER_DETAIL,
@@ -1151,22 +1262,106 @@ export default {
     //lấy thông tin chi tiết khách hàng
     await this.selectInfoSupplierDetail();
   },
-  methods: {
 
-     /**
+  mounted() {
+    // xử lý phím tắt
+    let handler = createKeybindingsHandler({
+      "$mod+S": (event) => {
+        event.preventDefault();
+        this.handlerUpdateData(FUNCTION_UPLOAD.SaveAndInsert);
+      },
+      "$mod+Shift+S": (event) => {
+        event.preventDefault();
+        this.handlerUpdateData(FUNCTION_UPLOAD.SaveAndInsert);
+      },
+      Escape: (event) => {
+        event.preventDefault();
+        this.handlerCloseForm();
+      },
+    });
+
+    this.$refs.form.addEventListener("keydown", handler);
+  },
+  methods: {
+    /**
+     * Author: Phạm Văn Đạt(05/11/2022)
+     * Function: Xử lý ẩn form
+     * @param {*} value : bắt sự kiện form
+     */
+    handlerCloseNotifi(value) {
+      if (value == true) {
+        this.$emit("closeForm", false);
+
+        if (this.checkLoadData == true) {
+          this.$emit("loadData");
+
+          this.checkLoadData = false;
+        }
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(26/12/2022)
+     * Function: Lấy dữ liệu sau khi thêm mới nhóm nhà cung cấp
+     * @param {*} item : item sau khi thêm vào trong dữ liệu
+     */
+    selectNewEmployee(item) {
+      try {
+        console.log(item);
+
+        // cập nhật lại danh sách hiển thị
+        this.dataEmployees = employees.currentData;
+
+        // lấy ra item thêm vào danh sách nhóm nhà cung cấp
+        this.currentSupplier.employeeId = item;
+      } catch (e) {
+        console.log(e);
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
+      }
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(28/12/2022)
+     * Function: Xử lý ngày tháng vượt quá ngày tháng hiện tại
+     */
+    handlerDateTime(fieldName, textFieldName, event) {
+      try {
+        let today = new Date();
+
+        if (event.getTime() > today.getTime()) {
+          // lưu vào map lỗi nếu giá trị đó có lỗi
+
+          this.listErrors.set(
+            fieldName,
+            NOTIFY_TEXT.dateTimeError(textFieldName)
+          );
+        } else {
+          // xóa lỗi đi nếu giá trị đó thỏa mãn
+          if (this.listErrors.has(fieldName) == true) {
+            this.listErrors.delete(fieldName);
+          }
+        }
+
+        console.log(this.listErrors);
+      } catch (e) {
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
+      }
+    },
+
+    /**
      * Author: Phạm Văn Đạt(26/12/2022)
      * Function: Xử lý click thêm nhân viên
      */
-    async clickIconSumEmployee(){
-      try{
-
-        if(this.dataEmployees.length == 0){
+    async clickIconSumEmployee() {
+      try {
+        if (this.dataEmployees.length == 0) {
           await this.loadEmployees(true);
         }
 
-        this.showEmployee = true
-
-      }catch(e){
+        this.showEmployee = true;
+      } catch (e) {
         console.log(e);
       }
     },
@@ -1183,29 +1378,6 @@ export default {
 
         // lấy ra item thêm vào danh sách nhóm nhà cung cấp
         this.currentSupplier.rulePaymentId = item;
-
-        console.log(groupSuppliers.currentData);
-      } catch (e) {
-        console.log(e);
-        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
-        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
-      }
-    },
-    
-    /**
-     * Author: Phạm Văn Đạt(26/12/2022)
-     * Function: Lấy dữ liệu sau khi thêm mới nhóm nhà cung cấp
-     * @param {*} item : item sau khi thêm vào trong dữ liệu
-     */
-     selectNewEmployee(item) {
-      try {
-        // cập nhật lại danh sách hiển thị
-        this.dataEmployees = employees.currentData;
-
-        // lấy ra item thêm vào danh sách nhóm nhà cung cấp
-        this.currentSupplier.employeeId = item;
-
-        console.log(employees.currentData);
       } catch (e) {
         console.log(e);
         this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
@@ -1376,82 +1548,120 @@ export default {
 
         console.log(this.listErrors);
 
-        console.log(this.isUpdate);
-
         // nếu không có lỗi => thực hiện thêm hoặc update
         if (this.listErrors.size == 0) {
+          // xóa phần tử null trong địa chỉ giao hàng
+          this.litsDeliveryAddress = this.litsDeliveryAddress.filter((n) => n);
+
+          // lấy danh sách địa chỉ giao hàng chuyển thành chuỗi
+          this.currentSupplier.deliveryAddress =
+            this.litsDeliveryAddress.length > 0
+              ? this.litsDeliveryAddress.join(";")
+              : null;
+
+          // chuyển string về number
+          if (typeof this.currentSupplier.dayOwed != "number") {
+            this.currentSupplier.dayOwed = ConvertToNumber(
+              this.currentSupplier.dayOwed
+            );
+          }
+
+          // chuyển string về number
+          if (typeof this.currentSupplier.debitAmountMax != "number") {
+            this.currentSupplier.debitAmountMax = ConvertToNumber(
+              this.currentSupplier.debitAmountMax
+            );
+          }
+
           let result;
 
-          // kiểm tra xem gọi api thêm | sửa
-          // gọi api thêm mới dữ liệu
-          this.currentSupplier.supplierID = createGuid();
-          result = await suppliers.insertSupplier(this.currentSupplier);
+          // hiển thị loading
+          this.isLoading = true;
 
-          // gọi api sửa
-          // result = await suppliers.updateSupplier(this.currentSupplier);
+          if (this.title == RULE_FORM_SUPPLIER_DETAIL.Create) {
+            // gọi api thêm
+            // gọi api thêm mới dữ liệu
+            this.currentSupplier.supplierID = createGuid();
+            result = await suppliers.insertSupplier(this.currentSupplier);
+            this.checkLoadData = true;
+          } else {
+            // gọi api sửa
+            result = await suppliers.updateSupplier(this.currentSupplier);
 
-          let checkInsertSupplier = false;
-          console.log(result);
+            this.checkLoadData = true;
+          }
 
-          // thêm mới || cập nhật thất bại
-          if (result?.statusCode == STATUS_CODES.Code400) {
-            if (result?.data) {
-              this.handlerErrorUploadForm(result.data);
+          //  kiểm tra nếu gọi đến api thì mới xử lý tiếp
+          if (result != undefined) {
+            let checkInsertSupplier = false;
+
+            // thêm mới || cập nhật thất bại
+            if (
+              result?.statusCode == STATUS_CODES.Code400 ||
+              result?.statusCode == STATUS_CODES.Code500
+            ) {
+              if (result?.data) {
+                this.handlerErrorUploadForm(result.data);
+              }
+            } else if (
+              result?.statusCode == STATUS_CODES.Code201 ||
+              result?.statusCode == STATUS_CODES.Code200
+            ) {
+              checkInsertSupplier = true;
             }
-          } else if (
-            result?.statusCode == STATUS_CODES.Code201 ||
-            result?.statusCode == STATUS_CODES.Code200
-          ) {
-            checkInsertSupplier = true;
-          }
-          console.log(result.data);
 
-          // nếu thêm mới hoặc cập nhật thành công
-          if (checkInsertSupplier == true) {
-            // xử lý thêm mới nhóm nhà cung cấp_nhà cung cấp
-            await this.insertGroupSupplier();
+            // nếu thêm mới hoặc cập nhật thành công
+            if (checkInsertSupplier == true) {
+              // xử lý thêm mới nhóm nhà cung cấp_nhà cung cấp
+              await this.insertGroupSupplier();
 
-            // xử lý thêm mới tài khoản ngân hàng
-            await this.insertBankAccounts();
-          }
+              // xử lý thêm mới tài khoản ngân hàng
+              await this.insertBankAccounts();
+            }
 
-          // nếu không có lỗi
-          if (this.listErrors.size == 0) {
-            // hiển thị thông báo thêm mới thành công| cập nhật thành công
-            if (functionUpload == FUNCTION_UPLOAD.Save) {
-              // thêm mới thành công
-              this.$emit(
-                "textToastMessage",
-                TEXT_TOAST_MESSAGE.CreateSuccess.text
-              );
-              this.$emit(
-                "typeToastMessage",
-                TEXT_TOAST_MESSAGE.CreateSuccess.type
-              );
+            // ẩn loading
+            this.isLoading = false;
 
-              // ẩn form
-              this.$emit("closeForm", false);
-            } else if (functionUpload == FUNCTION_UPLOAD.SaveAndInsert) {
-              // cập nhật thành công
-              this.$emit(
-                "textToastMessage",
-                TEXT_TOAST_MESSAGE.UpdateSuccess.text
-              );
-              this.$emit(
-                "typeToastMessage",
-                TEXT_TOAST_MESSAGE.UpdateSuccess.type
-              );
+            // nếu không có lỗi
+            if (this.listErrors.size == 0) {
+              // hiển thị thông báo thêm mới thành công| cập nhật thành công
+              if (this.title == RULE_FORM_SUPPLIER_DETAIL.Create) {
+                // thêm mới thành công thành công
+                this.$emit(
+                  "textToastMessage",
+                  TEXT_TOAST_MESSAGE.CreateSuccess.text
+                );
+                this.$emit(
+                  "typeToastMessage",
+                  TEXT_TOAST_MESSAGE.CreateSuccess.type
+                );
+              } else {
+                // cập nhật thành công
+                this.$emit(
+                  "textToastMessage",
+                  TEXT_TOAST_MESSAGE.UpdateSuccess.text
+                );
+                this.$emit(
+                  "typeToastMessage",
+                  TEXT_TOAST_MESSAGE.UpdateSuccess.type
+                );
+              }
 
-              // reset dữ liệu
+              // ẩn form nếu như đó là thêm
+              if (functionUpload == FUNCTION_UPLOAD.Save) {
+                this.$emit("loadData");
+
+                // ẩn form
+                this.$emit("closeForm", false);
+              }
             }
           }
-
-          console.log(this.currentSupplier);
         } else {
           // nếu có lỗi => xử lý hiển thị lỗi
 
           // chuyển map về dạng value, lấy phân tử đầu tiên hiển thị lên thông báo
           let valueText = this.selectErrorTextFirst();
+
           // hiển thị lỗi đầu tiên lên thông báo lỗi
           // gán lại giá trị notifi
           if (valueText != null) {
@@ -1464,7 +1674,6 @@ export default {
         }
 
         this.listDataGroupSupplier = [];
-        this.$emit("isUpdate", false);
       } catch (e) {
         console.log(e);
         this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
@@ -1480,6 +1689,7 @@ export default {
       // xử lý thêm mới tài khoản ngân hàng
       // lấy thông tin tài khoản ngân hàng => thêm riêng
       let modelBankAccount = [];
+
       // lấy id nhóm nhà cung cấp => thêm riêng
       this.dataBankAccount.forEach((item) => {
         if (
@@ -1525,6 +1735,9 @@ export default {
           groupSupplierId: item,
         });
       });
+
+      console.log(modelGroupSupplier);
+      // xóa bỏ các giá trị trùng
 
       if (modelGroupSupplier.length > 0) {
         let result = await supplierGroupSuppliers.insert(modelGroupSupplier);
@@ -1588,19 +1801,43 @@ export default {
     /**
      * Author: Phạm Văn Đạt(19/12/2022)
      * Function: Xử lý load lại dữ liệu nhóm nhà cung cấp
-     * @param {*} checkLoad : true | false
+     * @param {*} item : checkLoad: false| true; keyword: giá trị tìm kiếm
      */
-    async loadGroupSupplier(checkLoad) {
+    async loadGroupSupplier(item) {
       try {
-        if (checkLoad) {
-          console.log("load nhóm khách hàng");
+        if (item.checkLoad) {
+          let checkLoad = false;
+          if (item?.keyword != groupSuppliers.keyword) {
+            checkLoad = true;
+          }
 
-          if (this.dataGroupSuppliers.length <= groupSuppliers.totalCount) {
-            await groupSuppliers.pagingGroupSupplier([]);
+          console.log(checkLoad);
 
-            if (groupSuppliers.currentData) {
+          if (
+            this.dataGroupSuppliers.length <= employees.totalCount ||
+            checkLoad
+          ) {
+            // lấy keyword
+            groupSuppliers.keyword = item.keyword;
+
+            // lấy dữ liệu ở trang đầu tiên khi tìm kiếm
+            if (item?.keyword) {
+              groupSuppliers.currentPageNumber = 1;
+            }
+
+            await groupSuppliers.pagingGroupSupplier([], checkLoad);
+
+            // nếu có keyword lấy theo kết quả tìm kiếm
+            if (item?.keyword) {
+              this.dataGroupSuppliers = [...groupSuppliers.data];
+            } else {
               this.dataGroupSuppliers = [...groupSuppliers.currentData];
             }
+
+            console.log(groupSuppliers.currentData);
+
+            // xóa các phần tử trùng lặp
+            this.dataGroupSuppliers = [...new Set(this.dataGroupSuppliers)];
           }
         }
       } catch (e) {
@@ -1611,23 +1848,42 @@ export default {
     /**
      * Author: Phạm Văn Đạt(19/12/2022)
      * Function: Xử lý load lại dữ liệu nhân viên
-     * @param {*} checkLoad : true | false
+     * @param {*} item : checkLoad: false| true; keyword: giá trị tìm kiếm
      */
-    async loadEmployees(checkLoad) {
+    async loadEmployees(item) {
       try {
-        if (checkLoad) {
-          if (this.dataEmployees.length > 0) {
-            groupSuppliers.currentPageNumber++;
+        if (item?.checkLoad) {
+          let checkLoad = false;
+          if (item?.keyword != employees.keyword) {
+            checkLoad = true;
           }
 
-          if (this.dataEmployees.length <= employees.totalCount) {
-            console.log("load nhân viên");
+          // nếu không chỉ gọi api
+          if (this.dataEmployees.length <= employees.totalCount || checkLoad) {
+            // lấy keyword
+            employees.keyword = item?.keyword;
 
-            await employees.pagingEmployee([]);
-
-            if (employees.currentData) {
-              this.dataEmployees = [...employees.currentData];
+            // lấy dữ liệu ở trang đầu tiên khi tìm kiếm
+            if (item?.keyword) {
+              employees.currentPageNumber = 1;
             }
+
+            console.log(employees.currentPageNumber);
+
+            await employees.pagingEmployee([], checkLoad);
+
+            // nếu có keyword lấy theo kết quả tìm kiếm
+            if (item?.keyword) {
+              this.dataEmployees = [...employees.data];
+            } else {
+              this.dataEmployees = [
+                ...employees.data,
+                ...employees.currentData,
+              ];
+            }
+
+            // xóa các phần tử trùng lặp
+            this.dataEmployees = [...new Set(this.dataEmployees)];
           }
         }
       } catch (e) {
@@ -1638,23 +1894,41 @@ export default {
     /**
      * Author: Phạm Văn Đạt(20/12/2022)
      * Function: Xử lý load lại dữ liệu tài khoản công nợ phải trả
-     * @param {*} checkLoad : true | false
+     * @param {*} item : checkLoad: false| true; keyword: giá trị tìm kiếm
      */
-    async loadAccountsPayable(checkLoad) {
+    async loadAccountsPayable(item) {
       try {
-        if (checkLoad) {
-          if (this.dataAccountsPayable.length > 0) {
-            accountsPayable.currentPageNumber++;
+        if (item?.checkLoad) {
+          let checkLoad = false;
+          if (item?.keyword != accountsPayable.keyword) {
+            checkLoad = true;
           }
 
-          if (this.dataAccountsPayable.length <= accountsPayable.totalCount) {
-            console.log("load nhân viên");
+          if (
+            this.dataAccountsPayable.length <= accountsPayable.totalCount ||
+            checkLoad
+          ) {
+            accountsPayable.keyword = item?.keyword;
 
-            await accountsPayable.pagingAccountsPayable([]);
-
-            if (accountsPayable.currentData) {
-              this.dataAccountsPayable = [...accountsPayable.currentData];
+            // lấy dữ liệu ở trang đầu tiên khi tìm kiếm
+            if (item?.keyword) {
+              employees.currentPageNumber = 1;
             }
+
+            await accountsPayable.pagingAccountsPayable([], checkLoad);
+
+            // nếu có keyword lấy theo kết quả tìm kiếm
+            if (item?.keyword) {
+              this.dataAccountsPayable = [...accountsPayable.data];
+            } else {
+              this.dataAccountsPayable = [
+                ...accountsPayable.data,
+                ...accountsPayable.currentData,
+              ];
+            }
+
+            // xóa các phần tử trùng lặp
+            this.dataAccountsPayable = [...new Set(this.dataAccountsPayable)];
           }
         }
       } catch (e) {
@@ -1665,24 +1939,37 @@ export default {
     /**
      * Author: Phạm Văn Đạt(20/12/2022)
      * Function: Xử lý load lại dữ liệu tài khoản công nợ phải thu
-     * @param {*} checkLoad : true | false
+     * @param {*} item : checkLoad: false| true; keyword: giá trị tìm kiếm
      */
-    async loadAccountsReceiable(checkLoad) {
+    async loadAccountsReceiable(item) {
       try {
-        if (checkLoad) {
-          if (this.dataAccountsReceiable.length > 0) {
-            accountsReceivable.currentPageNumber++;
+        if (item?.checkLoad) {
+          let checkLoad = false;
+          if (item?.keyword != accountsPayable.keyword) {
+            checkLoad = true;
           }
 
           if (
-            this.dataAccountsReceiable.length <= accountsReceivable.totalCount
+            this.dataAccountsReceiable.length <= accountsPayable.totalCount ||
+            checkLoad
           ) {
-            console.log("load nhân viên");
+            accountsPayable.keyword = item?.keyword;
 
-            await accountsReceivable.pagingAccountsReceivable([]);
+            // lấy dữ liệu ở trang đầu tiên khi tìm kiếm
+            if (item?.keyword) {
+              accountsPayable.currentPageNumber = 1;
+            }
 
-            if (accountsReceivable.currentData) {
-              this.dataAccountsReceiable = [...accountsReceivable.currentData];
+            await accountsReceivable.pagingAccountsReceivable([], checkLoad);
+
+            // nếu có keyword lấy theo kết quả tìm kiếm
+            if (item?.keyword) {
+              this.dataAccountsReceiable = [...accountsReceivable.data];
+            } else {
+              this.dataAccountsReceiable = [
+                ...accountsReceivable.data,
+                ...accountsReceivable.currentData,
+              ];
             }
           }
         }
@@ -1694,23 +1981,41 @@ export default {
     /**
      * Author: Phạm Văn Đạt(19/12/2022)
      * Function: Xử lý load lại dữ liệu điều khoản thanh toán
-     * @param {*} checkLoad : true | false
+     * @param {*} item : checkLoad: false| true; keyword: giá trị tìm kiếm
      */
-    async loadRulePayments(checkLoad) {
+    async loadRulePayments(item) {
       try {
-        if (checkLoad) {
-          if (this.dataRulePayments.length > 0) {
-            reluPayments.currentPageNumber++;
+        if (item?.checkLoad) {
+          let checkLoad = false;
+          if (item?.keyword != reluPayments.keyword) {
+            checkLoad = true;
           }
 
-          if (this.dataRulePayments.length <= reluPayments.totalCount) {
-            console.log("load điều khoản thanh toán");
+          if (
+            this.dataRulePayments.length <= reluPayments.totalCount ||
+            checkLoad
+          ) {
+            reluPayments.keyword = item?.keyword;
 
-            await reluPayments.pagingRulePayments([]);
-
-            if (reluPayments.currentData) {
-              this.dataRulePayments = [...reluPayments.currentData];
+            // lấy dữ liệu ở trang đầu tiên khi tìm kiếm
+            if (item?.keyword) {
+              reluPayments.currentPageNumber = 1;
             }
+
+            await reluPayments.pagingRulePayments([], checkLoad);
+
+            // nếu có keyword lấy theo kết quả tìm kiếm
+            if (item?.keyword) {
+              this.dataRulePayments = [...reluPayments.data];
+            } else {
+              this.dataRulePayments = [
+                ...reluPayments.data,
+                ...reluPayments.currentData,
+              ];
+            }
+
+            // xóa các phần tử trùng lặp
+            this.dataRulePayments = [...new Set(this.dataRulePayments)];
           }
         }
       } catch (e) {
@@ -1725,27 +2030,28 @@ export default {
      */
     async selectInfoSupplierDetail() {
       try {
+        // hiển thị loading
+        this.isLoading = true;
         if (this.supplierDetail == null) {
           // khởi tạo lại giá trị nhóm nhà cung cấp
           this.resetSupplier();
 
-          // hiển thị loading
-          console.log("hiển thị loading");
           let result = await suppliers.getMaxCode();
-
-          // ẩn loading
-          console.log("ẩn loading");
 
           this.currentSupplier.supplierCode = result;
         } else {
           this.currentSupplier = this.supplierDetail;
         }
 
+        console.log(this.supplierDetail);
+
         // lấy danh sách địa chỉ giao hàng
         this.litsDeliveryAddress =
           this.currentSupplier.deliveryAddress != null
             ? this.currentSupplier.deliveryAddress.split(";")
             : [];
+
+        console.log(this.litsDeliveryAddress);
 
         //  lấy số cột hiển thị địa chỉ giao hàng
         this.rowDeliveryAddress = this.litsDeliveryAddress.length;
@@ -1757,13 +2063,37 @@ export default {
             ? this.currentSupplier.groupSupplierIds.split(";")
             : [];
 
-        // nếu có id thì phải lấy item để so sánh
-        if (this.currentSupplier.groupSupplierIds) {
-          console.log("load nhóm nhà cung cấp");
-          this.loadGroupSupplier(true);
+        console.log(this.listDataGroupSupplier);
+
+        // nếu tồn tại địa chỉ=> lấy địa chỉ
+        if(this.currentSupplier.supplierCountry && this.dataProvince.length == 0){
+          // load tinh/tp
+          await this.getProvince(this.currentSupplier.supplierCountry);
+
+          if(this.currentSupplier.supplierCity && this.dataDistricts.length == 0){
+            await this.getDistricts(this.currentSupplier.supplierCity);
+          }
+
+          if(this.currentSupplier.supplierDistrict && this.dataWards.length == 0){
+            await this.getWards(this.currentSupplier.supplierDistrict);
+          }
+
+          this.isLoadAddress=true;
+
         }
+
+
+        // nếu có id thì phải lấy item để so sánh để tý nữa so sánh
+        if (this.currentSupplier.groupSupplierIds) {
+          await this.loadGroupSupplier(true);
+        }
+
+        // ẩn loading
+        this.isLoading = false;
       } catch (e) {
         console.log(e);
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
       }
     },
 
@@ -1771,57 +2101,57 @@ export default {
      * Author: Phạm Văn Đạt(28/12/2022)
      * Function: Reset lại giá trị nhà cung cấp
      */
-    resetSupplier(){
+    resetSupplier() {
       this.currentSupplier = {
-            supplierID: null,
-            supplierCode: null,
-            supplierName: null,
-            taxCode: null,
-            supplierAddress: null,
-            supplierMobile: null,
-            website: null,
-            employeeId: null,
-            supplierVocativeName: null,
-            supplierNameContact: null,
-            supplierEmailContact: null,
-            supplierPhoneNumberContact: null,
-            legaRrepresentative: null,
-            rulePaymentId: null,
-            dayOwed: 0,
-            debitAmountMax: 0,
-            debt: 0,
-            accountPayableId: null,
-            supplierDescription: null,
-            supplierCountry: null,
-            supplierCity: null,
-            supplierDistrict: null,
-            supplierWard: null,
-            isActive: false,
-            isCustomer: false,
-            isOrganization: false,
-            bankAccountIds: null,
-            deliveryAddress: null,
-            paid: 0,
-            idNo: null,
-            issueOn: null,
-            placeOfIssue: null,
-            userNameElectronicBill: null,
-            userEmailElectronicBill: null,
-            userMobileElectronicBill: null,
-            accountReceivableId: null,
-            accountReceivableName: null,
-            accountReceivableNumber: null,
-            rulePaymentName: null,
-            accountPayableName: null,
-            accountPayableNumber: null,
-            employeeName: null,
-            groupSupplierIds: null,
-            groupSupplierNames: null,
-            backAccountNumbers: null,
-            bankAccountNames: null,
-            bankAccountBranchs: null,
-            bankAccountCitys: null,
-          };
+        supplierID: null,
+        supplierCode: null,
+        supplierName: null,
+        taxCode: null,
+        supplierAddress: null,
+        supplierMobile: null,
+        website: null,
+        employeeId: null,
+        supplierVocativeName: null,
+        supplierNameContact: null,
+        supplierEmailContact: null,
+        supplierPhoneNumberContact: null,
+        legaRrepresentative: null,
+        rulePaymentId: null,
+        dayOwed: 0,
+        debitAmountMax: 0,
+        debt: 0,
+        accountPayableId: null,
+        supplierDescription: null,
+        supplierCountry: null,
+        supplierCity: null,
+        supplierDistrict: null,
+        supplierWard: null,
+        isActive: false,
+        isCustomer: false,
+        isOrganization: false,
+        bankAccountIds: null,
+        deliveryAddress: null,
+        paid: 0,
+        idNo: null,
+        issueOn: null,
+        placeOfIssue: null,
+        userNameElectronicBill: null,
+        userEmailElectronicBill: null,
+        userMobileElectronicBill: null,
+        accountReceivableId: null,
+        accountReceivableName: null,
+        accountReceivableNumber: null,
+        rulePaymentName: null,
+        accountPayableName: null,
+        accountPayableNumber: null,
+        employeeName: null,
+        groupSupplierIds: null,
+        groupSupplierNames: null,
+        backAccountNumbers: null,
+        bankAccountNames: null,
+        bankAccountBranchs: null,
+        bankAccountCitys: null,
+      };
     },
 
     /**
@@ -1830,19 +2160,125 @@ export default {
      */
     handlerCloseForm() {
       try {
-        this.$emit("closeForm", false);
+        // gán lại giá trị notifi
+        this.checkNotify = {
+          isShow: true,
+          type: NOTIFY_LIST.Question.type,
+          text: NOTIFY_LIST.Question.text(NOTIFY_TEXT?.changeData),
+        };
       } catch (e) {
         console.log(e);
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
       }
     },
+
+    /**
+     * Author: Pham Van Dat(07/01/2022)
+     * Function: lay danh sach cac phuong
+     * @param {*} value: ten phuong
+     */
+    async getWards(value) {
+      let arrItem = this.dataDistricts.filter((item) => item.name == value);
+
+      if (arrItem.length > 0) {
+        // lấy danh sách tỉnh/ thành phố
+        let result = await address.getAllWards(arrItem[0].code);
+
+        console.log(result);
+        if (result.exitcode != STATUS_CODES_ADDRESS.Code1) {
+          this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+          this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
+        } else {
+          this.dataWards = result?.data.data;
+        }
+      }
+    },
+    /**
+     * Author: Pham Van Dat(07/01/2022)
+     * Function: lay danh sach cac quan/huyen
+     * @param {*} value: ten quan/huyen
+     */
+    async getDistricts(value) {
+      let arrItem = this.dataProvince.filter((item) => item.name == value);
+
+      if (arrItem.length > 0) {
+        console.log(value);
+
+        // lấy danh sách tỉnh/ thành phố
+        let result = await address.getAllDistricts(arrItem[0].code);
+
+        console.log(result);
+        if (result.exitcode != STATUS_CODES_ADDRESS.Code1) {
+          this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+          this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
+        } else {
+          this.dataDistricts = result?.data.data;
+        }
+      } else {
+        this.dataDistricts = [];
+        this.dataWards = [];
+      }
+    },
+
+    /**
+     * Author: Pham Van Dat(07/01/2022)
+     * Function: lay danh sach tinhr/tp
+     * @param {*} value: ten tinh/tp
+     */
+    async getProvince(value){
+      let arrItem = LIST_COUNTRY.filter((item) => item.name == value);
+
+          if (arrItem.length > 0) {
+            console.log(value);
+
+            // lấy danh sách tỉnh/ thành phố
+            let result = await address.getAllProvince();
+            console.log(result);
+
+            if (result.exitcode != STATUS_CODES_ADDRESS.Code1) {
+              this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+              this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
+            } else {
+              this.dataProvince = result?.data.data;
+            }
+            console.log(this.dataProvince);
+          } else {
+            this.dataProvince = [];
+            this.dataDistricts = [];
+            this.dataWards = [];
+          }
+    }
   },
   watch: {
-    supplierDetail(value) {
+    listErrors: {
+      handler(newValue) {
+        console.log(newValue);
+      },
+      deep: true,
+    },
+
+    /**
+     * Author: Phạm Văn Đạt(07/01/2022)
+     * Function: kiểm tra checked giống địa chỉ nhà cung cấp
+     * @param {*} value: true| false
+     */
+    checkedDeliveryAddress(value) {
+      if(value){
+        this.litsDeliveryAddress.unshift(this.currentSupplier.supplierAddress);
+        this.rowDeliveryAddress++;
+      }else{
+        this.litsDeliveryAddress.shift();
+        this.rowDeliveryAddress--;
+      }
       console.log(value);
     },
 
     listDataGroupSupplier: {
       handler(newValue) {
+        // xóa bỏ các phần tử giống nhau
+        // this.listDataGroupSupplier = [...new Set(newValue)];
+
         console.log(newValue);
       },
       deep: true,
@@ -1865,6 +2301,8 @@ export default {
         }
       } catch (e) {
         console.log(e);
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
       }
     },
 
@@ -1875,25 +2313,12 @@ export default {
      */
     async "currentSupplier.supplierCountry"(value) {
       try {
-        let arrItem = LIST_COUNTRY.filter((item) => item.name == value);
-
-        if (arrItem.length > 0) {
-          console.log(value);
-
-          // lấy danh sách tỉnh/ thành phố
-          let result = await address.getAllProvince();
-
-          if (result?.status == STATUS_CODES.Code200) {
-            this.dataProvince = result?.data;
-          }
-          console.log(this.dataProvince);
-        } else {
-          this.dataProvince = [];
-          this.dataDistricts = [];
-          this.dataWards = [];
+        if (this.isLoadAddress) {
+          await this.getProvince(value);
         }
       } catch (e) {
-        console.log(e);
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
       }
     },
 
@@ -1904,31 +2329,16 @@ export default {
      */
     async "currentSupplier.supplierCity"(value) {
       try {
-        if (value != []) {
-          let arrItem = this.dataProvince.filter((item) => item.name == value);
-
-          console.log(arrItem[0].code);
-
-          if (arrItem.length > 0) {
-            console.log(value);
-
-            // lấy danh sách tỉnh/ thành phố
-            let result = await address.getAllDistricts(arrItem[0].code);
-
-            console.log(result);
-
-            if (result?.status == STATUS_CODES.Code200) {
-              this.dataDistricts = result?.data.districts;
-            }
+        if (this.isLoadAddress) {
+          if (value) {
+            await this.getDistricts(value);
 
             console.log(this.dataDistricts);
           }
-        } else {
-          this.dataDistricts = [];
-          this.dataWards = [];
         }
       } catch (e) {
-        console.log(e);
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
       }
     },
 
@@ -1939,28 +2349,17 @@ export default {
      */
     async "currentSupplier.supplierDistrict"(value) {
       try {
-        if (value != []) {
-          let arrItem = this.dataDistricts.filter((item) => item.name == value);
-
-          console.log(arrItem[0].code);
-
-          if (arrItem.length > 0) {
-            console.log(value);
-
-            // lấy danh sách tỉnh/ thành phố
-            let result = await address.getAllWards(arrItem[0].code);
-
-            console.log(result);
-
-            if (result?.status == STATUS_CODES.Code200) {
-              this.dataWards = result?.data.wards;
-            }
+        if (this.isLoadAddress) {
+          if (value != []) {
+            await this.getWards(value);
 
             console.log(this.dataWards);
           }
         }
       } catch (e) {
         console.log(e);
+        this.$emit("textToastMessage", TEXT_TOAST_MESSAGE.Error.text);
+        this.$emit("typeToastMessage", TEXT_TOAST_MESSAGE.Error.type);
       }
     },
   },

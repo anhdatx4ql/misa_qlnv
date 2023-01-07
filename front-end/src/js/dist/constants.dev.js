@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.FIELDS_TABLE_POSITIONS = exports.FIELDS_TABLE_DEPARTMENTS = exports.FIELDS_POSITION = exports.BANK_ACCOUNTS_MODEL = exports.FIELDS_GROUP_SUPPLIERS_REQUIRED = exports.FIELDS_RULE_PAYMENTS_REQUIRED = exports.FIELDS_SUPPLIERS_REQUIRED = exports.LIST_COUNTRY = exports.FIELDS_TABLE_COMBOBOX_ADDRESS_TWO = exports.FIELDS_TABLE_COMBOBOX_ADDRESS = exports.FIELDS_TABLE_COMBOBOX_VOCATIVE = exports.LIST_VOCATIVE = exports.LIST_CONTRACT = exports.FIELDS_BACKACCOUNT = exports.FIELDS_HEADER_LEFT_SUPPLIER_DETAIL = exports.LIST_TABS_SUPPLIERS = exports.FIELDS_TABLE_ACCOUNTS_RECEIVABLE = exports.FIELDS_TABLE_COMBOBOX_CONTRACT = exports.FIELDS_TABLE_ACCOUNTS_PAYABLE = exports.FIELDS_TABLE_COMBOBOX_SUPPLIERS_ONE = exports.FIELDS_TABLE_COMBOBOX_SUPPLIERS = exports.FIELDS_TABLE_COMBOBOX_RULE_PAYMENTS = exports.FIELDS_TABLE_COMBOBOX_ACCOUNTS_RECEIABLE = exports.FIELDS_TABLE_COMBOBOX_ACCOUNTS_PAYABLE = exports.FIELDS_TABLE_COMBOBOX_EMPLOYEE = exports.RULE_FORM_SUPPLIER_DETAIL = exports.BatchExecution = exports.SUPPLIER_FIELDS = exports.LIST_MENU_PROCESS_BOTTOM = exports.LIST_REPORTS_PROCESS = exports.LIST_CASH_TAB = exports.TITLES_FORM = exports.TEXT_TOAST_MESSAGE = exports.RULE_HANDLER_DATA = exports.TYPE_FILTER = exports.FIELDS_FILTER_NOT_VALUE = exports.FIELDS_FILTER = exports.RULE_FORMAT_DATA = exports.FUNCTION_TABLE = exports.FUNCTION_UPLOAD = exports.FIELDS_REQUIRED = exports.STATUS_CODES = exports.NOTIFY_TEXT = exports.NOTIFY_LIST = exports.GENDERS = exports.PAGING_ITEMS = exports.TABLE_FIELDS = exports.COMPANIES = exports.MENU_ITEMS = void 0;
+exports.TEXT_DELETE_ITEM = exports.FIELDS_TABLE_POSITIONS = exports.FIELDS_TABLE_DEPARTMENTS = exports.FIELDS_POSITION = exports.BANK_ACCOUNTS_MODEL = exports.FIELDS_GROUP_SUPPLIERS_REQUIRED = exports.FIELDS_RULE_PAYMENTS_REQUIRED = exports.FIELDS_SUPPLIERS_REQUIRED = exports.LIST_COUNTRY = exports.FIELDS_TABLE_COMBOBOX_ADDRESS_TWO = exports.FIELDS_TABLE_COMBOBOX_ADDRESS = exports.FIELDS_TABLE_COMBOBOX_VOCATIVE = exports.LIST_VOCATIVE = exports.LIST_CONTRACT = exports.FIELDS_BACKACCOUNT = exports.FIELDS_HEADER_LEFT_SUPPLIER_DETAIL = exports.LIST_TABS_SUPPLIERS = exports.FIELDS_TABLE_ACCOUNTS_RECEIVABLE = exports.FIELDS_TABLE_COMBOBOX_CONTRACT = exports.FIELDS_TABLE_ACCOUNTS_PAYABLE = exports.FIELDS_TABLE_COMBOBOX_SUPPLIERS_ONE = exports.FIELDS_TABLE_COMBOBOX_SUPPLIERS = exports.FIELDS_TABLE_COMBOBOX_RULE_PAYMENTS = exports.FIELDS_TABLE_COMBOBOX_ACCOUNTS_RECEIABLE = exports.FIELDS_TABLE_COMBOBOX_ACCOUNTS_PAYABLE = exports.FIELDS_TABLE_COMBOBOX_EMPLOYEE = exports.RULE_FORM_SUPPLIER_DETAIL = exports.BatchExecution = exports.SUPPLIER_FIELDS = exports.LIST_MENU_PROCESS_BOTTOM = exports.LIST_REPORTS_PROCESS = exports.LIST_CASH_TAB = exports.TITLES_FORM = exports.TEXT_TOAST_MESSAGE = exports.RULE_HANDLER_DATA = exports.TYPE_FILTER = exports.FIELDS_FILTER_NOT_VALUE = exports.FIELDS_FILTER = exports.RULE_FORMAT_DATA = exports.FUNCTION_TABLE = exports.FUNCTION_UPLOAD = exports.FIELDS_REQUIRED = exports.STATUS_CODES_ADDRESS = exports.STATUS_CODES = exports.NOTIFY_TEXT = exports.NOTIFY_LIST = exports.GENDERS = exports.PAGING_ITEMS = exports.TABLE_FIELDS = exports.COMPANIES = exports.MENU_ITEMS = void 0;
 
 var _FomatData = require("/src/js/FomatData");
 
@@ -445,6 +445,10 @@ var NOTIFY_TEXT = {
   requiredField: function requiredField(text) {
     return text + " không được để trống.";
   },
+  // mã số thuế không hợp lệ
+  formatTaxCode: function formatTaxCode(text) {
+    return text + " không hợp lệ.";
+  },
   // hiển thị lỗi trùng dữ liệu
   duplicateField: function duplicateField(text) {
     return text + " đã tồn tại.";
@@ -479,11 +483,21 @@ var STATUS_CODES = {
 
 };
 /**
+ * Author: Phạm Văn Đạt(21/10/2022)
+ * Function: Các statusCode so sánh với db trả về
+ */
+
+exports.STATUS_CODES = STATUS_CODES;
+var STATUS_CODES_ADDRESS = {
+  Code1: 1 // lấy dữ liệu thành công
+
+};
+/**
  * Author: Phạm Văn Đạt(30/10/2022)
  * Function: Các trường xử lý required
  */
 
-exports.STATUS_CODES = STATUS_CODES;
+exports.STATUS_CODES_ADDRESS = STATUS_CODES_ADDRESS;
 var FIELDS_REQUIRED = [{
   fielName: "employeeCode",
   fieldText: "Mã"
@@ -526,7 +540,8 @@ var FUNCTION_TABLE = {
 exports.FUNCTION_TABLE = FUNCTION_TABLE;
 var RULE_FORMAT_DATA = {
   PhoneNumber: 1,
-  Email: 2
+  Email: 2,
+  TaxCode: 3
 };
 /**
  * AUthor: Phạm Văn Đạt(11/11/2022)
@@ -969,11 +984,15 @@ var SUPPLIER_FIELDS = [{
   width: 250,
   isRequired: true,
   nameFilter: "Ngày cấp",
+  "class": "text-align-center",
   typeFilter: "Text",
   isField: true,
   filter: {
     operator: "like",
     value: null
+  },
+  formatDate: function formatDate(value) {
+    return (0, _FomatData.formatDate)(value, "DD/MM/YYYY");
   }
 }, {
   name: "NƠI CẤP",
@@ -1086,14 +1105,18 @@ var SUPPLIER_FIELDS = [{
 }, {
   name: "SỐ NGÀY ĐƯỢC NỢ",
   fieldName: "dayOwed",
-  width: 150,
+  width: 170,
   isRequired: true,
+  "class": "text-align-right",
   nameFilter: "Điều khoản thanh toán",
   typeFilter: "DateTime",
   isField: true,
   filter: {
     operator: "=",
     value: null
+  },
+  FormatCash: function FormatCash(value) {
+    return (0, _FomatData.FormatCash)(value);
   }
 }, {
   name: "SỐ NỢ TỐI ĐA",
@@ -1101,11 +1124,15 @@ var SUPPLIER_FIELDS = [{
   width: 150,
   isRequired: true,
   nameFilter: "Số nợ tối đa",
+  "class": "text-align-right",
   typeFilter: "DateTime",
   isField: true,
   filter: {
     operator: "=",
     value: null
+  },
+  Decimal: function Decimal(value) {
+    return (0, _FomatData.Decimal)(value);
   }
 }, {
   name: "CÔNG NỢ",
@@ -1113,11 +1140,15 @@ var SUPPLIER_FIELDS = [{
   width: 150,
   isRequired: true,
   nameFilter: "Công nợ",
-  typeFilter: "DateTime",
+  typeFilter: "Text",
+  "class": "text-align-right",
   isField: true,
   filter: {
     operator: "=",
     value: null
+  },
+  Decimal: function Decimal(value) {
+    return (0, _FomatData.Decimal)(value);
   }
 }, {
   name: "TK CÔNG NỢ PHẢI TRẢ",
@@ -1322,9 +1353,6 @@ exports.SUPPLIER_FIELDS = SUPPLIER_FIELDS;
 var BatchExecution = [{
   name: "Delete",
   text: "Xóa"
-}, {
-  name: "Sum",
-  text: "Gộp"
 }];
 /**
  * Author: Phạm Văn Đạt(12/12/2022)
@@ -1494,7 +1522,7 @@ var FIELDS_TABLE_COMBOBOX_CONTRACT = [{
   view: true,
   model: true,
   fieldName: "name",
-  width: 100
+  width: 365
 }];
 /**
  * Author: Phạm Văn Đạt(13/12/2022)
@@ -1759,4 +1787,16 @@ var FIELDS_TABLE_POSITIONS = [{
   fieldName: "positionName",
   width: 349
 }];
+/**
+ * Author: Phạm Văn Đạt(29/12/2022)
+ * Function: chuỗi hiển thị khi xóa item
+ * @param {*} text : chuỗi truyền vào
+ */
+
 exports.FIELDS_TABLE_POSITIONS = FIELDS_TABLE_POSITIONS;
+
+var TEXT_DELETE_ITEM = function TEXT_DELETE_ITEM(text) {
+  return "Bạn có muốn xóa " + text + " danh mục này không?";
+};
+
+exports.TEXT_DELETE_ITEM = TEXT_DELETE_ITEM;
